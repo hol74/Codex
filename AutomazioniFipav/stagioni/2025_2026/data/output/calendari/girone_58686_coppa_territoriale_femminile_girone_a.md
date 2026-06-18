@@ -1,0 +1,46 @@
+# Coppa Territoriale Femminile  - Girone A
+
+- Campionato: Coppa Territoriale Femminile
+- Girone: Girone A
+- Numero girone: 58686
+- Fonte: https://fipavonline.it/gironi/stampa_calendario/58686
+
+## Giornata 1
+
+| Codice gara | Giorno | Data | Ora | Impianto | Comune | Squadra casa | Squadra ospite |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 9000 | Sab | 13/09/2025 | 16.30 | PALESTRA S.E.SANTA M.GORETTI - VIA DELLA MURATA | CORINALDO | ASD PALLAVOLO AVIS CORINALDO | US PALLAVOLO SENIGALLIA |
+| 9001 | Gio | 18/09/2025 | 20.00 | PALASPORT - VIA TOBAGI | CASTELBELLINO | CLEMENTINA VOLLEY 2020 PRIMA DIV. | PCQ PALLAVOLO COLLEMARINO |
+| 9002 | Ven | 12/09/2025 | 20.30 | PAL. MARCHETTI  VIA ROVERETO | SENIGALLIA | SI CON TE' SENIGALLIA SENIGALLIA | INCOM |
+
+## Giornata 2
+
+| Codice gara | Giorno | Data | Ora | Impianto | Comune | Squadra casa | Squadra ospite |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 9003 | Sab | 20/09/2025 | 20.30 | PAL. COMUNALE VIA. CAMPO BOARIO | SENIGALLIA | US PALLAVOLO SENIGALLIA | SI CON TE' SENIGALLIA SENIGALLIA |
+| 9004 | Lun | 22/09/2025 | 20.30 | PALASPORT FLAVIO BRASILI - VIA CINGOLANI 1 - COLLEMARINO | ANCONA | PCQ PALLAVOLO COLLEMARINO | ASD PALLAVOLO AVIS CORINALDO |
+| 9005 | Sab | 20/09/2025 | 21.00 | PALASPORT FILONZI DUCCI - VIA EURO TARSILLI | BELVEDERE OSTRENSE | INCOM | CLEMENTINA VOLLEY 2020 PRIMA DIV. |
+
+## Giornata 3
+
+| Codice gara | Giorno | Data | Ora | Impianto | Comune | Squadra casa | Squadra ospite |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 9006 | Mer | 24/09/2025 | 20.30 | PALESTRA S.E.SANTA M.GORETTI - VIA DELLA MURATA | CORINALDO | ASD PALLAVOLO AVIS CORINALDO | INCOM |
+| 9007 | Mer | 24/09/2025 | 20.30 | PAL. MARCHETTI  VIA ROVERETO | SENIGALLIA | SI CON TE' SENIGALLIA SENIGALLIA | CLEMENTINA VOLLEY 2020 PRIMA DIV. |
+| 9008 | Lun | 29/09/2025 | 19.45 | PALASPORT FLAVIO BRASILI - VIA CINGOLANI 1 - COLLEMARINO | ANCONA | PCQ PALLAVOLO COLLEMARINO | US PALLAVOLO SENIGALLIA |
+
+## Giornata 4
+
+| Codice gara | Giorno | Data | Ora | Impianto | Comune | Squadra casa | Squadra ospite |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 9009 | Lun | 29/09/2025 | 20.30 | PALASPORT - VIA TOBAGI | CASTELBELLINO | CLEMENTINA VOLLEY 2020 PRIMA DIV. | ASD PALLAVOLO AVIS CORINALDO |
+| 9010 | Mer | 01/10/2025 | 20.30 | PAL. MARCHETTI  VIA ROVERETO | SENIGALLIA | SI CON TE' SENIGALLIA SENIGALLIA | PCQ PALLAVOLO COLLEMARINO |
+| 9011 | Sab | 27/09/2025 | 17.00 | PALASPORT FILONZI DUCCI - VIA EURO TARSILLI | BELVEDERE OSTRENSE | INCOM | US PALLAVOLO SENIGALLIA |
+
+## Giornata 5
+
+| Codice gara | Giorno | Data | Ora | Impianto | Comune | Squadra casa | Squadra ospite |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 9012 | Mer | 08/10/2025 | 20.30 | PALESTRA S.E.SANTA M.GORETTI - VIA DELLA MURATA | CORINALDO | ASD PALLAVOLO AVIS CORINALDO | SI CON TE' SENIGALLIA SENIGALLIA |
+| 9013 | Gio | 02/10/2025 | 21.00 | PAL. COMUNALE VIA. CAMPO BOARIO | SENIGALLIA | US PALLAVOLO SENIGALLIA | CLEMENTINA VOLLEY 2020 PRIMA DIV. |
+| 9014 | Lun | 06/10/2025 | 19.45 | PALASPORT FLAVIO BRASILI - VIA CINGOLANI 1 - COLLEMARINO | ANCONA | PCQ PALLAVOLO COLLEMARINO | INCOM |

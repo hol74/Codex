@@ -1,0 +1,24 @@
+# Under 18 Femminile  - Girone F QUARTI
+
+- Campionato: Under 18 Femminile
+- Girone: Girone F QUARTI
+- Numero girone: 60224
+- Fonte: https://fipavonline.it/gironi/stampa_calendario/60224
+
+## Giornata 1
+
+| Codice gara | Giorno | Data | Ora | Impianto | Comune | Squadra casa | Squadra ospite |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 8060 | Mar | 13/01/2026 | 20.45 | PAL. DAVID CARDINALI VIA BUFFOLARECCIA | LORETO | NOVA VOLLEY PINK | C P N  PALLAVOLO COLLEMARINO |
+| 8061 | Gio | 15/01/2026 | 21.00 | PAL. COMUNALE VIA. CAMPO BOARIO | SENIGALLIA | US PALLAVOLO SENIGALLIA AZZURRA | WEPLAN ANCONA VOLLEY |
+| 8062 | Gio | 15/01/2026 | 20.45 | PALASPORT VIA BAGACCIANO, 4 | CAMERANO | BFTM UNIQA | PIERALISI VOLLEY |
+| 8063 | Mer | 14/01/2026 | 21.15 | CENTRO SPORTIVO ROBERTO SABBATINI - PIAZZA A. MORO 1 | ANCONA | LAB ANCONA TEAM VOLLEY | G.S. JUNORS ANCONA - SW PROJECT SRL |
+
+## Giornata 2
+
+| Codice gara | Giorno | Data | Ora | Impianto | Comune | Squadra casa | Squadra ospite |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 8064 | Mer | 28/01/2026 | 21.00 | PALASPORT FLAVIO BRASILI - VIA CINGOLANI 1 - COLLEMARINO | ANCONA | C P N  PALLAVOLO COLLEMARINO | NOVA VOLLEY PINK |
+| 8065 | Mer | 28/01/2026 | 20.00 | PALAROSSINI PAL. 2 PASSO VARANO   - VIA CAMERANENSE | ANCONA | WEPLAN ANCONA VOLLEY | US PALLAVOLO SENIGALLIA AZZURRA |
+| 8066 | Mar | 27/01/2026 | 20.00 | PAL. C.S. PIERALISI PAL. 2  - VIA ANCONA 96 | JESI | PIERALISI VOLLEY | BFTM UNIQA |
+| 8067 | Gio | 29/01/2026 | 20.30 | PAL. GEODETICO C. CERIONI  - VIA PETRARCA | ANCONA | G.S. JUNORS ANCONA - SW PROJECT SRL | LAB ANCONA TEAM VOLLEY |

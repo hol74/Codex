@@ -1,0 +1,51 @@
+# Under 13 Femminile  - Girone B
+
+- Campionato: Under 13 Femminile
+- Girone: Girone B
+- Numero girone: 59131
+- Fonte: https://fipavonline.it/gironi/stampa_calendario/59131
+
+## Giornata 1
+
+| Codice gara | Giorno | Data | Ora | Impianto | Comune | Squadra casa | Squadra ospite |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 5020 | Dom | 26/10/2025 | 09.30 | PALAZZETTO DELLO SPORT - PIAZZALE BELLINI 5 | OSIMO | LA NEF OSIMO | AMARENE PALL.FIDARDENSE |
+| 5021 | Dom | 26/10/2025 | 10.30 | PALAZZETTO DELLO SPORT - PIAZZALE BELLINI 5 | OSIMO | AMARENE PALL.FIDARDENSE | LARDINI FILOTTRANO |
+| 5022 | Dom | 26/10/2025 | 11.30 | PALAZZETTO DELLO SPORT - PIAZZALE BELLINI 5 | OSIMO | LA NEF OSIMO | LARDINI FILOTTRANO |
+| 5023 | Dom | 26/10/2025 | 10.00 | PALLONE  - VIA FONTE ANTICA MARCELLI | NUMANA | D GROUP CAMERANO | NOVA VOLLEY LORETO |
+
+## Giornata 2
+
+| Codice gara | Giorno | Data | Ora | Impianto | Comune | Squadra casa | Squadra ospite |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 5024 | Dom | 09/11/2025 | 09.30 | PALAS VIA RAVAGLI | SANTA MARIA NUOVA | LARDINI FILOTTRANO | NOVA VOLLEY LORETO |
+| 5025 | Dom | 09/11/2025 | 10.30 | PALAS VIA RAVAGLI | SANTA MARIA NUOVA | NOVA VOLLEY LORETO | D GROUP CAMERANO |
+| 5026 | Dom | 09/11/2025 | 11.30 | PALAS VIA RAVAGLI | SANTA MARIA NUOVA | LARDINI FILOTTRANO | D GROUP CAMERANO |
+| 5027 | Dom | 09/11/2025 | 10.00 | PAL. S.E. MAZZINI  - VIA OBERDAN | CASTELFIDARDO | AMARENE PALL.FIDARDENSE | LA NEF OSIMO |
+
+## Giornata 3
+
+| Codice gara | Giorno | Data | Ora | Impianto | Comune | Squadra casa | Squadra ospite |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 5028 | Dom | 23/11/2025 | 10.00 | PALLONE  - VIA FONTE ANTICA MARCELLI | NUMANA | AMARENE PALL.FIDARDENSE | D GROUP CAMERANO |
+| 5029 | Dom | 23/11/2025 | 11.00 | PALLONE  - VIA FONTE ANTICA MARCELLI | NUMANA | D GROUP CAMERANO | AMARENE PALL.FIDARDENSE |
+| 5030 | Dom | 23/11/2025 | 09.30 | PAL. DAVID CARDINALI VIA BUFFOLARECCIA | LORETO | NOVA VOLLEY LORETO | LA NEF OSIMO |
+| 5031 | Dom | 23/11/2025 | 10.30 | PAL. DAVID CARDINALI VIA BUFFOLARECCIA | LORETO | LA NEF OSIMO | NOVA VOLLEY LORETO |
+
+## Giornata 4
+
+| Codice gara | Giorno | Data | Ora | Impianto | Comune | Squadra casa | Squadra ospite |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 5032 | Dom | 07/12/2025 | 09.30 | PALASPORT VIA BAGACCIANO, 4 | CAMERANO | D GROUP CAMERANO | LA NEF OSIMO |
+| 5033 | Dom | 07/12/2025 | 10.30 | PALASPORT VIA BAGACCIANO, 4 | CAMERANO | LA NEF OSIMO | LARDINI FILOTTRANO |
+| 5034 | Dom | 07/12/2025 | 11.30 | PALASPORT VIA BAGACCIANO, 4 | CAMERANO | D GROUP CAMERANO | LARDINI FILOTTRANO |
+| 5035 | Dom | 07/12/2025 | 10.00 | PAL. DAVID CARDINALI VIA BUFFOLARECCIA | LORETO | NOVA VOLLEY LORETO | AMARENE PALL.FIDARDENSE |
+
+## Giornata 5
+
+| Codice gara | Giorno | Data | Ora | Impianto | Comune | Squadra casa | Squadra ospite |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 5036 | Dom | 21/12/2025 | 09.30 | PALASPORT  - VIA GEMME 13 | FILOTTRANO | LARDINI FILOTTRANO | AMARENE PALL.FIDARDENSE |
+| 5037 | Dom | 21/12/2025 | 10.30 | PALASPORT  - VIA GEMME 13 | FILOTTRANO | AMARENE PALL.FIDARDENSE | NOVA VOLLEY LORETO |
+| 5038 | Dom | 21/12/2025 | 11.30 | PALASPORT  - VIA GEMME 13 | FILOTTRANO | LARDINI FILOTTRANO | NOVA VOLLEY LORETO |
+| 5039 | Dom | 21/12/2025 | 10.00 | PALAZZETTO DELLO SPORT - PIAZZALE BELLINI 5 | OSIMO | LA NEF OSIMO | D GROUP CAMERANO |

@@ -1,0 +1,46 @@
+# Torneo Under 15 Maschile OVER  - Girone A unico
+
+- Campionato: Torneo Under 15 Maschile OVER
+- Girone: Girone A unico
+- Numero girone: 62236
+- Fonte: https://fipavonline.it/gironi/stampa_calendario/62236
+
+## Giornata 1
+
+| Codice gara | Giorno | Data | Ora | Impianto | Comune | Squadra casa | Squadra ospite |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 6580 | Mer | 15/04/2026 | 20.30 | PAL. G. LEOPARDI VIA GOLA DELLA ROSSA | JESI | MONDO INFISSI VOLLEY JESI BLU | US PALLAVOLO SENIGALLIA |
+| 6581 | Mar | 14/04/2026 | 20.00 | PALESTRA  - VIA SANDRO PERTINI, 14 | PASSATEMPO | LA NEF RE SALMONE | VOLLEY GAME ADRIATICA COPERTURE |
+| 6582 | Mer | 15/04/2026 | 18.00 | PALASPORT COMUNALE  - VICOLO MARTIN LUTHER KING, 2 | AGUGLIANO | TERRA DEI CASTELLI VOLLEY | MONDO INFISSI VOLLEY JESI VERDE |
+
+## Giornata 2
+
+| Codice gara | Giorno | Data | Ora | Impianto | Comune | Squadra casa | Squadra ospite |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 6583 | Dom | 26/04/2026 | 10.30 | PAL. COMUNALE VIA. CAMPO BOARIO | SENIGALLIA | US PALLAVOLO SENIGALLIA | TERRA DEI CASTELLI VOLLEY |
+| 6584 | Gio | 23/04/2026 | 20.30 | PAL. D.ALIGHIERI VIA PALERMO | FALCONARA MARITTIMA | VOLLEY GAME ADRIATICA COPERTURE | MONDO INFISSI VOLLEY JESI BLU |
+| 6585 | Mar | 21/04/2026 | 21.00 | PAL. G. LEOPARDI VIA GOLA DELLA ROSSA | JESI | MONDO INFISSI VOLLEY JESI VERDE | LA NEF RE SALMONE |
+
+## Giornata 3
+
+| Codice gara | Giorno | Data | Ora | Impianto | Comune | Squadra casa | Squadra ospite |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 6586 | Mar | 05/05/2026 | 21.00 | PAL. G. LEOPARDI VIA GOLA DELLA ROSSA | JESI | MONDO INFISSI VOLLEY JESI BLU | MONDO INFISSI VOLLEY JESI VERDE |
+| 6587 | Mer | 06/05/2026 | 18.00 | PALASPORT COMUNALE  - VICOLO MARTIN LUTHER KING, 2 | AGUGLIANO | TERRA DEI CASTELLI VOLLEY | LA NEF RE SALMONE |
+| 6588 | Lun | 11/05/2026 | 20.00 | PAL. S.E.  - VIA REPUBBLICA | FALCONARA MARITTIMA | VOLLEY GAME ADRIATICA COPERTURE | US PALLAVOLO SENIGALLIA |
+
+## Giornata 4
+
+| Codice gara | Giorno | Data | Ora | Impianto | Comune | Squadra casa | Squadra ospite |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 6589 | Mar | 19/05/2026 | 20.00 | PALESTRA  - VIA SANDRO PERTINI, 14 | PASSATEMPO | LA NEF RE SALMONE | MONDO INFISSI VOLLEY JESI BLU |
+| 6590 | Mer | 13/05/2026 | 18.00 | PALASPORT COMUNALE  - VICOLO MARTIN LUTHER KING, 2 | AGUGLIANO | TERRA DEI CASTELLI VOLLEY | VOLLEY GAME ADRIATICA COPERTURE |
+| 6591 | Mer | 13/05/2026 | 21.00 | PAL. G. LEOPARDI VIA GOLA DELLA ROSSA | JESI | MONDO INFISSI VOLLEY JESI VERDE | US PALLAVOLO SENIGALLIA |
+
+## Giornata 5
+
+| Codice gara | Giorno | Data | Ora | Impianto | Comune | Squadra casa | Squadra ospite |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 6592 | Mer | 20/05/2026 | 20.30 | PAL. G. LEOPARDI VIA GOLA DELLA ROSSA | JESI | MONDO INFISSI VOLLEY JESI BLU | TERRA DEI CASTELLI VOLLEY |
+| 6593 | Dom | 24/05/2026 | 10.30 | PAL. COMUNALE VIA. CAMPO BOARIO | SENIGALLIA | US PALLAVOLO SENIGALLIA | LA NEF RE SALMONE |
+| 6594 | Gio | 21/05/2026 | 20.00 | PAL. S.E.  - VIA REPUBBLICA | FALCONARA MARITTIMA | VOLLEY GAME ADRIATICA COPERTURE | MONDO INFISSI VOLLEY JESI VERDE |

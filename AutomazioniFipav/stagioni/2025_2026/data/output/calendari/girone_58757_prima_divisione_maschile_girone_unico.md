@@ -1,0 +1,118 @@
+# Prima Divisione Maschile  - Girone UNICO
+
+- Campionato: Prima Divisione Maschile
+- Girone: Girone UNICO
+- Numero girone: 58757
+- Fonte: https://fipavonline.it/gironi/stampa_calendario/58757
+
+## Giornata 1
+
+| Codice gara | Giorno | Data | Ora | Impianto | Comune | Squadra casa | Squadra ospite |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 500 | Sab | 11/10/2025 | 21.00 | PALASPORT FILONZI DUCCI - VIA EURO TARSILLI | BELVEDERE OSTRENSE | OSTRA VOLLEY3 | LA NEF RE SALMONE |
+| 501 | Sab | 11/10/2025 | 16.00 | PAL. LOMBARDI VIA MARZABOTTO 1 | CASTELFERRETTI | SABINI CASTELFERRETTI | VOLLEY GAME HOTEL TOURING |
+| 502 | Mar | 14/10/2025 | 21.00 | PAL. G. LEOPARDI VIA GOLA DELLA ROSSA | JESI | CIRO & PIO VOLLEY JESI | US PALLAVOLO SENIGALLIA |
+
+## Giornata 2
+
+| Codice gara | Giorno | Data | Ora | Impianto | Comune | Squadra casa | Squadra ospite |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 503 | Sab | 18/10/2025 | 16.00 | PAL. LOMBARDI VIA MARZABOTTO 1 | CASTELFERRETTI | VOLLEY GAME HOTEL TOURING | OSTRA VOLLEY3 |
+| 504 | Ven | 17/10/2025 | 20.30 | PAL. S.E. LEOPARDI VIA BARI | SENIGALLIA | US PALLAVOLO SENIGALLIA | SABINI CASTELFERRETTI |
+| 505 | Sab | 18/10/2025 | 16.00 | PALASPORT COMUNALE  - VICOLO MARTIN LUTHER KING, 2 | AGUGLIANO | TERRA DEI CASTELLI VOLLEY | CIRO & PIO VOLLEY JESI |
+
+## Giornata 3
+
+| Codice gara | Giorno | Data | Ora | Impianto | Comune | Squadra casa | Squadra ospite |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 506 | Sab | 25/10/2025 | 21.00 | PALASPORT FILONZI DUCCI - VIA EURO TARSILLI | BELVEDERE OSTRENSE | OSTRA VOLLEY3 | US PALLAVOLO SENIGALLIA |
+| 507 | Sab | 25/10/2025 | 21.00 | PALAZZETTO DELLO SPORT - PIAZZALE BELLINI 5 | OSIMO | LA NEF RE SALMONE | VOLLEY GAME HOTEL TOURING |
+| 508 | Sab | 25/10/2025 | 16.00 | PAL. LOMBARDI VIA MARZABOTTO 1 | CASTELFERRETTI | SABINI CASTELFERRETTI | TERRA DEI CASTELLI VOLLEY |
+
+## Giornata 4
+
+| Codice gara | Giorno | Data | Ora | Impianto | Comune | Squadra casa | Squadra ospite |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 509 | Sab | 01/11/2025 | 16.00 | PALASPORT COMUNALE  - VICOLO MARTIN LUTHER KING, 2 | AGUGLIANO | TERRA DEI CASTELLI VOLLEY | OSTRA VOLLEY3 |
+| 510 | Mer | 12/11/2025 | 20.30 | PAL. S.E. LEOPARDI VIA BARI | SENIGALLIA | US PALLAVOLO SENIGALLIA | LA NEF RE SALMONE |
+| 511 | Sab | 01/11/2025 | 16.30 | PAL. G. LEOPARDI VIA GOLA DELLA ROSSA | JESI | CIRO & PIO VOLLEY JESI | SABINI CASTELFERRETTI |
+
+## Giornata 5
+
+| Codice gara | Giorno | Data | Ora | Impianto | Comune | Squadra casa | Squadra ospite |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 512 | Sab | 08/11/2025 | 21.00 | PALASPORT FILONZI DUCCI - VIA EURO TARSILLI | BELVEDERE OSTRENSE | OSTRA VOLLEY3 | CIRO & PIO VOLLEY JESI |
+| 513 | Sab | 08/11/2025 | 21.00 | PALAZZETTO DELLO SPORT - PIAZZALE BELLINI 5 | OSIMO | LA NEF RE SALMONE | TERRA DEI CASTELLI VOLLEY |
+| 514 | Sab | 08/11/2025 | 16.00 | PAL. LOMBARDI VIA MARZABOTTO 1 | CASTELFERRETTI | VOLLEY GAME HOTEL TOURING | US PALLAVOLO SENIGALLIA |
+
+## Giornata 6
+
+| Codice gara | Giorno | Data | Ora | Impianto | Comune | Squadra casa | Squadra ospite |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 515 | Sab | 15/11/2025 | 16.00 | PAL. LOMBARDI VIA MARZABOTTO 1 | CASTELFERRETTI | SABINI CASTELFERRETTI | OSTRA VOLLEY3 |
+| 516 | Sab | 15/11/2025 | 16.30 | PAL. G. LEOPARDI VIA GOLA DELLA ROSSA | JESI | CIRO & PIO VOLLEY JESI | LA NEF RE SALMONE |
+| 517 | Sab | 15/11/2025 | 16.00 | PALASPORT COMUNALE  - VICOLO MARTIN LUTHER KING, 2 | AGUGLIANO | TERRA DEI CASTELLI VOLLEY | VOLLEY GAME HOTEL TOURING |
+
+## Giornata 7
+
+| Codice gara | Giorno | Data | Ora | Impianto | Comune | Squadra casa | Squadra ospite |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 518 | Sab | 22/11/2025 | 21.00 | PALAZZETTO DELLO SPORT - PIAZZALE BELLINI 5 | OSIMO | LA NEF RE SALMONE | SABINI CASTELFERRETTI |
+| 519 | Sab | 22/11/2025 | 16.00 | PAL. LOMBARDI VIA MARZABOTTO 1 | CASTELFERRETTI | VOLLEY GAME HOTEL TOURING | CIRO & PIO VOLLEY JESI |
+| 520 | Ven | 21/11/2025 | 20.30 | PAL. S.E. LEOPARDI VIA BARI | SENIGALLIA | US PALLAVOLO SENIGALLIA | TERRA DEI CASTELLI VOLLEY |
+
+## Giornata 8
+
+| Codice gara | Giorno | Data | Ora | Impianto | Comune | Squadra casa | Squadra ospite |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 521 | Sab | 29/11/2025 | 17.30 | PALAZZETTO DELLO SPORT - PIAZZALE BELLINI 5 | OSIMO | LA NEF RE SALMONE | OSTRA VOLLEY3 |
+| 522 | Gio | 04/12/2025 | 20.30 | PAL. LOMBARDI VIA MARZABOTTO 1 | CASTELFERRETTI | VOLLEY GAME HOTEL TOURING | SABINI CASTELFERRETTI |
+| 523 | Ven | 28/11/2025 | 20.30 | PAL. S.E. LEOPARDI VIA BARI | SENIGALLIA | US PALLAVOLO SENIGALLIA | CIRO & PIO VOLLEY JESI |
+
+## Giornata 9
+
+| Codice gara | Giorno | Data | Ora | Impianto | Comune | Squadra casa | Squadra ospite |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 524 | Mar | 09/12/2025 | 21.00 | PALASPORT FILONZI DUCCI - VIA EURO TARSILLI | BELVEDERE OSTRENSE | OSTRA VOLLEY3 | VOLLEY GAME HOTEL TOURING |
+| 525 | Sab | 06/12/2025 | 16.00 | PAL. LOMBARDI VIA MARZABOTTO 1 | CASTELFERRETTI | SABINI CASTELFERRETTI | US PALLAVOLO SENIGALLIA |
+| 526 | Sab | 06/12/2025 | 16.30 | PAL. G. LEOPARDI VIA GOLA DELLA ROSSA | JESI | CIRO & PIO VOLLEY JESI | TERRA DEI CASTELLI VOLLEY |
+
+## Giornata 10
+
+| Codice gara | Giorno | Data | Ora | Impianto | Comune | Squadra casa | Squadra ospite |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 527 | Ven | 19/12/2025 | 20.30 | PAL. S.E. LEOPARDI VIA BARI | SENIGALLIA | US PALLAVOLO SENIGALLIA | OSTRA VOLLEY3 |
+| 528 | Gio | 29/01/2026 | 20.30 | PAL. LOMBARDI VIA MARZABOTTO 1 | CASTELFERRETTI | VOLLEY GAME HOTEL TOURING | LA NEF RE SALMONE |
+| 529 | Sab | 20/12/2025 | 16.00 | PALASPORT COMUNALE  - VICOLO MARTIN LUTHER KING, 2 | AGUGLIANO | TERRA DEI CASTELLI VOLLEY | SABINI CASTELFERRETTI |
+
+## Giornata 11
+
+| Codice gara | Giorno | Data | Ora | Impianto | Comune | Squadra casa | Squadra ospite |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 530 | Mar | 13/01/2026 | 21.00 | PALASPORT FILONZI DUCCI - VIA EURO TARSILLI | BELVEDERE OSTRENSE | OSTRA VOLLEY3 | TERRA DEI CASTELLI VOLLEY |
+| 531 | Sab | 10/01/2026 | 21.00 | PALAZZETTO DELLO SPORT - PIAZZALE BELLINI 5 | OSIMO | LA NEF RE SALMONE | US PALLAVOLO SENIGALLIA |
+| 532 | Sab | 10/01/2026 | 16.00 | PAL. LOMBARDI VIA MARZABOTTO 1 | CASTELFERRETTI | SABINI CASTELFERRETTI | CIRO & PIO VOLLEY JESI |
+
+## Giornata 12
+
+| Codice gara | Giorno | Data | Ora | Impianto | Comune | Squadra casa | Squadra ospite |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 533 | Sab | 17/01/2026 | 16.30 | PAL. G. LEOPARDI VIA GOLA DELLA ROSSA | JESI | CIRO & PIO VOLLEY JESI | OSTRA VOLLEY3 |
+| 534 | Sab | 17/01/2026 | 21.00 | PALASPORT COMUNALE  - VICOLO MARTIN LUTHER KING, 2 | AGUGLIANO | TERRA DEI CASTELLI VOLLEY | LA NEF RE SALMONE |
+| 535 | Ven | 16/01/2026 | 20.30 | PAL. S.E. LEOPARDI VIA BARI | SENIGALLIA | US PALLAVOLO SENIGALLIA | VOLLEY GAME HOTEL TOURING |
+
+## Giornata 13
+
+| Codice gara | Giorno | Data | Ora | Impianto | Comune | Squadra casa | Squadra ospite |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 536 | Sab | 24/01/2026 | 21.00 | PALASPORT FILONZI DUCCI - VIA EURO TARSILLI | BELVEDERE OSTRENSE | OSTRA VOLLEY3 | SABINI CASTELFERRETTI |
+| 537 | Sab | 24/01/2026 | 21.00 | PALAZZETTO DELLO SPORT - PIAZZALE BELLINI 5 | OSIMO | LA NEF RE SALMONE | CIRO & PIO VOLLEY JESI |
+| 538 | Sab | 24/01/2026 | 16.00 | PAL. LOMBARDI VIA MARZABOTTO 1 | CASTELFERRETTI | VOLLEY GAME HOTEL TOURING | TERRA DEI CASTELLI VOLLEY |
+
+## Giornata 14
+
+| Codice gara | Giorno | Data | Ora | Impianto | Comune | Squadra casa | Squadra ospite |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 539 | Sab | 31/01/2026 | 16.00 | PAL. LOMBARDI VIA MARZABOTTO 1 | CASTELFERRETTI | SABINI CASTELFERRETTI | LA NEF RE SALMONE |
+| 540 | Sab | 31/01/2026 | 16.30 | PAL. G. LEOPARDI VIA GOLA DELLA ROSSA | JESI | CIRO & PIO VOLLEY JESI | VOLLEY GAME HOTEL TOURING |
+| 541 | Sab | 31/01/2026 | 16.00 | PALASPORT COMUNALE  - VICOLO MARTIN LUTHER KING, 2 | AGUGLIANO | TERRA DEI CASTELLI VOLLEY | US PALLAVOLO SENIGALLIA |

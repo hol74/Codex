@@ -1,0 +1,742 @@
+
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Main</title>
+                    <meta name="apple-itunes-app" content="app-id=500653920"/>
+        		<meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0001, minimum-scale=1.0001, maximum-scale=1.0001">
+
+		<!--  custom  -->
+		<style type="text/css">
+			.content .span3 {
+		    	margin-left:28px;
+		    }
+		</style>
+		<!-- Bootstrap -->
+		<link rel="stylesheet" href="/css/bootstrap.min.css">
+		<!-- Bootstrap responsive -->
+		<link href="/css/bootstrap-responsive.min.css" rel="stylesheet">
+        <link href="/css/docs.css?v=2.17062026" rel="stylesheet">
+        <link href="/css/chosen.css" rel="stylesheet" >
+        <link href="/css/sphinix.css" rel="stylesheet">
+        
+            <link href="https://fipavonline.it/live/css/copyright.css?v=2.17062026" rel="stylesheet">
+                <link href="/css/theme.css?v=2.17062026" rel="stylesheet">
+        <link href="/css/jquery.datetimepicker.css" rel="stylesheet">
+        
+        
+
+
+
+</head>
+<!--	<body>-->
+
+<body data-spy="scroll" data-offset="40" data-target="#follow-scroll" class="no-navbar">
+<!--<div class="loader"></div>-->
+        <div class="container">
+            <div class="content header-logo">
+                <div>
+                                                <a href="http://www.fipavancona.it/" target="_blank"><img src="/img/loghi/Ancona.gif" class="official-logo"></a>
+                                            <div class="desc-comitato">
+                        <p class="text-info text-right"><label><strong>COMITATO TERRITORIALE ANCONA</strong></label></p>
+                        <p class="text-info text-right mb1"><label class="mb1"><em>60131 Ancona  - S.P. Cameranense</em></label></p>
+                        <p class="text-info text-right mb1"><label class="mb1"><em>Tel. 071/2901022 - Fax. 071/2900963</em></label></p>
+                        <p class="text-info text-right mb1"><label class="mb1"><em>e-mail: ancona@federvolley.it</em></label></p>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+
+<div class="container-fluid public-nav-wrap"  data-spy="affix" data-offset-top="110">
+    <div class="barra-benvenuto no-mobile" style="margin-bottom: 0px">
+        <div class="container">
+            <span class="span4 pull-left desc-txt-comitato">COMITATO TERRITORIALE ANCONA</span>
+            <span class="span4 pull-left"><a style="color:white" href="https://corsi.fipavonline.it">CORSI ALLENATORI</a></span>
+
+<!--                    <span class="span4 pull-left"><a style="color:white" href="--><!--">CORSI ALLENATORI</a></span>-->
+
+
+
+            <span class="span3 pull-right" style="padding-right:25px !important;">
+                <a class="pull-right login-btn" href="/login/">LOGIN</a>
+<!--                <a class="pull-right login-btn" href="/home/"><span class="icon-white icon-th"></span> </a>-->
+                <a class="pull-right login-btn" href="/home.html"><span class="icon-white icon-th"></span> </a>
+            </span>
+        </div>
+    </div>
+    <div class="barra-benvenuto nav-mobile solo-mobile ">
+        <ul class="nav nav-pills" style="margin-bottom: 1px">
+            <li><a class="blue" href="/home/"><span class="glyphicon glyphicon-th"></span> </a></li>
+            <li class="dropdown pull-right" role="menu">
+                <a class="dropdown-toggle blue" data-toggle="dropdown" href="#" >
+                    1DMA <span class="caret"></span>
+                </a>
+                <ul class="dropdown-menu">
+                                        <li ><a href="/live/">Gare di oggi</a></li>
+
+                                        <li ><a href="/main/classifica/60897">Classifica</a></li>
+
+                                        <li ><a href="/gironi/stampa_calendario/60897">Stampa</a></li>
+
+                                            <li class="divider"></li>
+                                                    <li ><a href="/main/tutti_i_campionati">Tutti i campionati</a></li>
+                                            <li ><a href="https://fipavonline.it//login">LOGIN</a></li>
+                    
+                </ul>
+            </li>
+
+        </ul>
+
+    </div>
+    <div class="container barra-date-gare no-mobile" id="follow-scroll">
+        <ul class="nav nav-pills" style="padding-left:25px;padding-right: 25px !important;">
+                            <li ><a href="/live/">Gare di oggi</a></li>
+
+                            <li ><a href="/main/classifica/60897">Classifica</a></li>
+
+                            <li ><a href="/gironi/stampa_calendario/60897">Stampa</a></li>
+
+                            <li class="pull-right"><a href="/main/tutti_i_campionati">Tutti i campionati</a></li>
+                    </ul>
+
+    </div>
+
+</div>
+
+
+<div class="container calendario-grafico" style="padding-bottom: 130px">
+<input type="hidden" id="scroll_to" value="g_1">
+<!--<input type="hidden" id="last_ts" name="last_ts" value="--><!--">-->
+<input type="hidden" id="next_result" name="next_result" value="60000">
+
+            <div class="gare-wrap" id="g_1">
+            <h3>
+                <span class="h3-wrap">Prima Divisione Maschile  - Girone A / Giornata 1</span>
+            </h3>
+            <div class="gara-big-wrap">
+
+    <div class="risultati" id="gara_12835512">
+        <a href="#" class="risultati risultati-r-link">
+            <div class="info-gara">
+                <div class="info-gara-data">Sab 07/02/2026 17.00</div>
+                                <div class="info-gara-giornata">Gara 542</div>
+                <div class="info-gara-campo">
+                    <div class="info-gara-campo-desc">PAL. LOMBARDI VIA MARZABOTTO 1</div>
+                    <div class="info-gara-campo-loc">CASTELFERRETTI</div>
+                </div>
+                <div style="position: absolute; bottom: 0">
+                                    </div>
+
+            </div>
+            <div class="dati-gara">
+
+                <div class="info-gara-mobile">
+                    <div class="info-gara-data">Sab 07/02/2026 17.00<strong> Gara 542</strong>
+                                            </div>
+                    <div class="info-gara-data">PAL. LOMBARDI VIA MARZABOTTO 1 - CASTELFERRETTI</div>
+
+                </div>
+
+                <div class="sq casa" data-id_s="" >
+                    <div class="sq-i">
+                        <span class="sq-i-wrap">
+                            <img src="/img/loghi_societa/090420245/logo.jpg" alt="" class="i-sq-logo sq-logo">
+                            
+
+                        </span>
+
+                    </div>
+                    <div class="sq-n">
+                        <span class="sq-nLong">Volley Game Hotel Touring </span>
+                        <span class="sq-nShort"></span>
+                    </div>
+                </div>
+                <div class="sq fuori" data-id_s="">
+                    <div class="sq-i">
+                        <span class="sq-i-wrap">
+                            <img src="/img/loghi_societa/090420089/logo.jpg" alt="" class="i-sq-logo sq-logo">
+                                                    </span>
+                    </div>
+                    <div class="sq-n">
+                        <span class="sq-nLong">Ostra Volley3</span>
+                        <span class="sq-nShort"></span>
+                    </div>
+                </div>
+                <div class="s">
+                    <div class="s-fixture">
+                        <div class="s-status"></div>
+                        <div class="s-status-abbr"></div>
+                        <div class="s-score">
+                            <span class="s-scoreText risultato-ufficiale">3-0</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="g-parziali">
+
+                    <span class="text-parziali">
+                        25/20 25/20 25/18                    </span>
+                                        <div id="aggiornamento_in_corso" class="progress progress-striped active hidden">
+                        <div class="bar" style="width: 100%;">Aggiornamento in corso...</div>
+                    </div>
+                    
+                        <span class="text-i_arb">I Arbitro: Sartini Tania</span>
+                    <!--                    <span >-->
+<!--                        <button class="btn-mini  btn_mostra_camp3 risultato-ufficiale" type="button" data-idx="--><!--">-->
+<!--                            <i class="icon-chevron-down icon-white"></i>&nbsp;&nbsp;&nbsp;Mostra formazioni&nbsp;&nbsp;&nbsp;<i class="icon-chevron-down icon-white"></i>-->
+<!--                        </button>-->
+<!--                    </span>-->
+
+
+                </div>
+
+            </div>
+
+
+        </a>
+        <div class="dati-gara camp3 hide" id="camp3_12835512"></div>
+
+    </div>
+
+
+</div>            </div>
+                <div class="gare-wrap" id="g_2">
+            <h3>
+                <span class="h3-wrap">Prima Divisione Maschile  - Girone A / Giornata 2</span>
+            </h3>
+            <div class="gara-big-wrap">
+
+    <div class="risultati" id="gara_12835513">
+        <a href="#" class="risultati risultati-r-link">
+            <div class="info-gara">
+                <div class="info-gara-data">Sab 14/02/2026 16.30</div>
+                                <div class="info-gara-giornata">Gara 543</div>
+                <div class="info-gara-campo">
+                    <div class="info-gara-campo-desc">PAL. G. LEOPARDI VIA GOLA DELLA ROSSA</div>
+                    <div class="info-gara-campo-loc">JESI</div>
+                </div>
+                <div style="position: absolute; bottom: 0">
+                                    </div>
+
+            </div>
+            <div class="dati-gara">
+
+                <div class="info-gara-mobile">
+                    <div class="info-gara-data">Sab 14/02/2026 16.30<strong> Gara 543</strong>
+                                            </div>
+                    <div class="info-gara-data">PAL. G. LEOPARDI VIA GOLA DELLA ROSSA - JESI</div>
+
+                </div>
+
+                <div class="sq casa" data-id_s="" >
+                    <div class="sq-i">
+                        <span class="sq-i-wrap">
+                            <img src="/img/loghi_societa/090420280/logo.jpg" alt="" class="i-sq-logo sq-logo">
+                            
+
+                        </span>
+
+                    </div>
+                    <div class="sq-n">
+                        <span class="sq-nLong">Ciro & Pio Volley Jesi</span>
+                        <span class="sq-nShort"></span>
+                    </div>
+                </div>
+                <div class="sq fuori" data-id_s="">
+                    <div class="sq-i">
+                        <span class="sq-i-wrap">
+                            <img src="/img/loghi_societa/090420245/logo.jpg" alt="" class="i-sq-logo sq-logo">
+                                                    </span>
+                    </div>
+                    <div class="sq-n">
+                        <span class="sq-nLong">Volley Game Hotel Touring </span>
+                        <span class="sq-nShort"></span>
+                    </div>
+                </div>
+                <div class="s">
+                    <div class="s-fixture">
+                        <div class="s-status"></div>
+                        <div class="s-status-abbr"></div>
+                        <div class="s-score">
+                            <span class="s-scoreText risultato-ufficiale">3-0</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="g-parziali">
+
+                    <span class="text-parziali">
+                        25/11 25/20 25/18                    </span>
+                                        <div id="aggiornamento_in_corso" class="progress progress-striped active hidden">
+                        <div class="bar" style="width: 100%;">Aggiornamento in corso...</div>
+                    </div>
+                    
+                        <span class="text-i_arb">I Arbitro: Serano Gianluca</span>
+                    <!--                    <span >-->
+<!--                        <button class="btn-mini  btn_mostra_camp3 risultato-ufficiale" type="button" data-idx="--><!--">-->
+<!--                            <i class="icon-chevron-down icon-white"></i>&nbsp;&nbsp;&nbsp;Mostra formazioni&nbsp;&nbsp;&nbsp;<i class="icon-chevron-down icon-white"></i>-->
+<!--                        </button>-->
+<!--                    </span>-->
+
+
+                </div>
+
+            </div>
+
+
+        </a>
+        <div class="dati-gara camp3 hide" id="camp3_12835513"></div>
+
+    </div>
+
+
+</div>            </div>
+                <div class="gare-wrap" id="g_3">
+            <h3>
+                <span class="h3-wrap">Prima Divisione Maschile  - Girone A / Giornata 3</span>
+            </h3>
+            <div class="gara-big-wrap">
+
+    <div class="risultati" id="gara_12835514">
+        <a href="#" class="risultati risultati-r-link">
+            <div class="info-gara">
+                <div class="info-gara-data">Sab 21/02/2026 21.00</div>
+                                <div class="info-gara-giornata">Gara 544</div>
+                <div class="info-gara-campo">
+                    <div class="info-gara-campo-desc">PALASPORT FILONZI DUCCI - VIA EURO TARSILLI</div>
+                    <div class="info-gara-campo-loc">BELVEDERE OSTRENSE</div>
+                </div>
+                <div style="position: absolute; bottom: 0">
+                                    </div>
+
+            </div>
+            <div class="dati-gara">
+
+                <div class="info-gara-mobile">
+                    <div class="info-gara-data">Sab 21/02/2026 21.00<strong> Gara 544</strong>
+                                            </div>
+                    <div class="info-gara-data">PALASPORT FILONZI DUCCI - VIA EURO TARSILLI - BELVEDERE OSTRENSE</div>
+
+                </div>
+
+                <div class="sq casa" data-id_s="" >
+                    <div class="sq-i">
+                        <span class="sq-i-wrap">
+                            <img src="/img/loghi_societa/090420089/logo.jpg" alt="" class="i-sq-logo sq-logo">
+                            
+
+                        </span>
+
+                    </div>
+                    <div class="sq-n">
+                        <span class="sq-nLong">Ostra Volley3</span>
+                        <span class="sq-nShort"></span>
+                    </div>
+                </div>
+                <div class="sq fuori" data-id_s="">
+                    <div class="sq-i">
+                        <span class="sq-i-wrap">
+                            <img src="/img/loghi_societa/090420280/logo.jpg" alt="" class="i-sq-logo sq-logo">
+                                                    </span>
+                    </div>
+                    <div class="sq-n">
+                        <span class="sq-nLong">Ciro & Pio Volley Jesi</span>
+                        <span class="sq-nShort"></span>
+                    </div>
+                </div>
+                <div class="s">
+                    <div class="s-fixture">
+                        <div class="s-status"></div>
+                        <div class="s-status-abbr"></div>
+                        <div class="s-score">
+                            <span class="s-scoreText risultato-ufficiale">1-3</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="g-parziali">
+
+                    <span class="text-parziali">
+                        25/16 19/25 17/25 20/25                    </span>
+                                        <div id="aggiornamento_in_corso" class="progress progress-striped active hidden">
+                        <div class="bar" style="width: 100%;">Aggiornamento in corso...</div>
+                    </div>
+                    
+                        <span class="text-i_arb">I Arbitro: Serano Gianluca / II Arbitro: Felice Nicola</span>
+                    <!--                    <span >-->
+<!--                        <button class="btn-mini  btn_mostra_camp3 risultato-ufficiale" type="button" data-idx="--><!--">-->
+<!--                            <i class="icon-chevron-down icon-white"></i>&nbsp;&nbsp;&nbsp;Mostra formazioni&nbsp;&nbsp;&nbsp;<i class="icon-chevron-down icon-white"></i>-->
+<!--                        </button>-->
+<!--                    </span>-->
+
+
+                </div>
+
+            </div>
+
+
+        </a>
+        <div class="dati-gara camp3 hide" id="camp3_12835514"></div>
+
+    </div>
+
+
+</div>            </div>
+                <div class="gare-wrap" id="g_4">
+            <h3>
+                <span class="h3-wrap">Prima Divisione Maschile  - Girone A / Giornata 4</span>
+            </h3>
+            <div class="gara-big-wrap">
+
+    <div class="risultati" id="gara_12835515">
+        <a href="#" class="risultati risultati-r-link">
+            <div class="info-gara">
+                <div class="info-gara-data">Sab 28/02/2026 17.00</div>
+                                <div class="info-gara-giornata">Gara 545</div>
+                <div class="info-gara-campo">
+                    <div class="info-gara-campo-desc">PALASPORT FILONZI DUCCI - VIA EURO TARSILLI</div>
+                    <div class="info-gara-campo-loc">BELVEDERE OSTRENSE</div>
+                </div>
+                <div style="position: absolute; bottom: 0">
+                                    </div>
+
+            </div>
+            <div class="dati-gara">
+
+                <div class="info-gara-mobile">
+                    <div class="info-gara-data">Sab 28/02/2026 17.00<strong> Gara 545</strong>
+                                            </div>
+                    <div class="info-gara-data">PALASPORT FILONZI DUCCI - VIA EURO TARSILLI - BELVEDERE OSTRENSE</div>
+
+                </div>
+
+                <div class="sq casa" data-id_s="" >
+                    <div class="sq-i">
+                        <span class="sq-i-wrap">
+                            <img src="/img/loghi_societa/090420089/logo.jpg" alt="" class="i-sq-logo sq-logo">
+                            
+
+                        </span>
+
+                    </div>
+                    <div class="sq-n">
+                        <span class="sq-nLong">Ostra Volley3</span>
+                        <span class="sq-nShort"></span>
+                    </div>
+                </div>
+                <div class="sq fuori" data-id_s="">
+                    <div class="sq-i">
+                        <span class="sq-i-wrap">
+                            <img src="/img/loghi_societa/090420245/logo.jpg" alt="" class="i-sq-logo sq-logo">
+                                                    </span>
+                    </div>
+                    <div class="sq-n">
+                        <span class="sq-nLong">Volley Game Hotel Touring </span>
+                        <span class="sq-nShort"></span>
+                    </div>
+                </div>
+                <div class="s">
+                    <div class="s-fixture">
+                        <div class="s-status"></div>
+                        <div class="s-status-abbr"></div>
+                        <div class="s-score">
+                            <span class="s-scoreText risultato-ufficiale">3-0</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="g-parziali">
+
+                    <span class="text-parziali">
+                        25/22 25/17 25/22                    </span>
+                                        <div id="aggiornamento_in_corso" class="progress progress-striped active hidden">
+                        <div class="bar" style="width: 100%;">Aggiornamento in corso...</div>
+                    </div>
+                    
+                        <span class="text-i_arb">I Arbitro: Duro Fabio</span>
+                    <!--                    <span >-->
+<!--                        <button class="btn-mini  btn_mostra_camp3 risultato-ufficiale" type="button" data-idx="--><!--">-->
+<!--                            <i class="icon-chevron-down icon-white"></i>&nbsp;&nbsp;&nbsp;Mostra formazioni&nbsp;&nbsp;&nbsp;<i class="icon-chevron-down icon-white"></i>-->
+<!--                        </button>-->
+<!--                    </span>-->
+
+
+                </div>
+
+            </div>
+
+
+        </a>
+        <div class="dati-gara camp3 hide" id="camp3_12835515"></div>
+
+    </div>
+
+
+</div>            </div>
+                <div class="gare-wrap" id="g_5">
+            <h3>
+                <span class="h3-wrap">Prima Divisione Maschile  - Girone A / Giornata 5</span>
+            </h3>
+            <div class="gara-big-wrap">
+
+    <div class="risultati" id="gara_12835516">
+        <a href="#" class="risultati risultati-r-link">
+            <div class="info-gara">
+                <div class="info-gara-data">Gio 12/03/2026 21.00</div>
+                                <div class="info-gara-giornata">Gara 546</div>
+                <div class="info-gara-campo">
+                    <div class="info-gara-campo-desc">PAL. LOMBARDI VIA MARZABOTTO 1</div>
+                    <div class="info-gara-campo-loc">CASTELFERRETTI</div>
+                </div>
+                <div style="position: absolute; bottom: 0">
+                                    </div>
+
+            </div>
+            <div class="dati-gara">
+
+                <div class="info-gara-mobile">
+                    <div class="info-gara-data">Gio 12/03/2026 21.00<strong> Gara 546</strong>
+                                            </div>
+                    <div class="info-gara-data">PAL. LOMBARDI VIA MARZABOTTO 1 - CASTELFERRETTI</div>
+
+                </div>
+
+                <div class="sq casa" data-id_s="" >
+                    <div class="sq-i">
+                        <span class="sq-i-wrap">
+                            <img src="/img/loghi_societa/090420245/logo.jpg" alt="" class="i-sq-logo sq-logo">
+                            
+
+                        </span>
+
+                    </div>
+                    <div class="sq-n">
+                        <span class="sq-nLong">Volley Game Hotel Touring </span>
+                        <span class="sq-nShort"></span>
+                    </div>
+                </div>
+                <div class="sq fuori" data-id_s="">
+                    <div class="sq-i">
+                        <span class="sq-i-wrap">
+                            <img src="/img/loghi_societa/090420280/logo.jpg" alt="" class="i-sq-logo sq-logo">
+                                                    </span>
+                    </div>
+                    <div class="sq-n">
+                        <span class="sq-nLong">Ciro & Pio Volley Jesi</span>
+                        <span class="sq-nShort"></span>
+                    </div>
+                </div>
+                <div class="s">
+                    <div class="s-fixture">
+                        <div class="s-status"></div>
+                        <div class="s-status-abbr"></div>
+                        <div class="s-score">
+                            <span class="s-scoreText risultato-ufficiale">0-3</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="g-parziali">
+
+                    <span class="text-parziali">
+                        16/25 25/27 24/26                    </span>
+                                        <div id="aggiornamento_in_corso" class="progress progress-striped active hidden">
+                        <div class="bar" style="width: 100%;">Aggiornamento in corso...</div>
+                    </div>
+                    
+                        <span class="text-i_arb">I Arbitro: Mariotti Roberto / II Arbitro: Felice Nicola</span>
+                    <!--                    <span >-->
+<!--                        <button class="btn-mini  btn_mostra_camp3 risultato-ufficiale" type="button" data-idx="--><!--">-->
+<!--                            <i class="icon-chevron-down icon-white"></i>&nbsp;&nbsp;&nbsp;Mostra formazioni&nbsp;&nbsp;&nbsp;<i class="icon-chevron-down icon-white"></i>-->
+<!--                        </button>-->
+<!--                    </span>-->
+
+
+                </div>
+
+            </div>
+
+
+        </a>
+        <div class="dati-gara camp3 hide" id="camp3_12835516"></div>
+
+    </div>
+
+
+</div>            </div>
+                <div class="gare-wrap" id="g_6">
+            <h3>
+                <span class="h3-wrap">Prima Divisione Maschile  - Girone A / Giornata 6</span>
+            </h3>
+            <div class="gara-big-wrap">
+
+    <div class="risultati" id="gara_12835517">
+        <a href="#" class="risultati risultati-r-link">
+            <div class="info-gara">
+                <div class="info-gara-data">Sab 14/03/2026 16.30</div>
+                                <div class="info-gara-giornata">Gara 547</div>
+                <div class="info-gara-campo">
+                    <div class="info-gara-campo-desc">PAL. G. LEOPARDI VIA GOLA DELLA ROSSA</div>
+                    <div class="info-gara-campo-loc">JESI</div>
+                </div>
+                <div style="position: absolute; bottom: 0">
+                                    </div>
+
+            </div>
+            <div class="dati-gara">
+
+                <div class="info-gara-mobile">
+                    <div class="info-gara-data">Sab 14/03/2026 16.30<strong> Gara 547</strong>
+                                            </div>
+                    <div class="info-gara-data">PAL. G. LEOPARDI VIA GOLA DELLA ROSSA - JESI</div>
+
+                </div>
+
+                <div class="sq casa" data-id_s="" >
+                    <div class="sq-i">
+                        <span class="sq-i-wrap">
+                            <img src="/img/loghi_societa/090420280/logo.jpg" alt="" class="i-sq-logo sq-logo">
+                            
+
+                        </span>
+
+                    </div>
+                    <div class="sq-n">
+                        <span class="sq-nLong">Ciro & Pio Volley Jesi</span>
+                        <span class="sq-nShort"></span>
+                    </div>
+                </div>
+                <div class="sq fuori" data-id_s="">
+                    <div class="sq-i">
+                        <span class="sq-i-wrap">
+                            <img src="/img/loghi_societa/090420089/logo.jpg" alt="" class="i-sq-logo sq-logo">
+                                                    </span>
+                    </div>
+                    <div class="sq-n">
+                        <span class="sq-nLong">Ostra Volley3</span>
+                        <span class="sq-nShort"></span>
+                    </div>
+                </div>
+                <div class="s">
+                    <div class="s-fixture">
+                        <div class="s-status"></div>
+                        <div class="s-status-abbr"></div>
+                        <div class="s-score">
+                            <span class="s-scoreText risultato-ufficiale">3-0</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="g-parziali">
+
+                    <span class="text-parziali">
+                        25/19 25/22 25/13                    </span>
+                                        <div id="aggiornamento_in_corso" class="progress progress-striped active hidden">
+                        <div class="bar" style="width: 100%;">Aggiornamento in corso...</div>
+                    </div>
+                    
+                        <span class="text-i_arb">I Arbitro: Amadio Luca</span>
+                    <!--                    <span >-->
+<!--                        <button class="btn-mini  btn_mostra_camp3 risultato-ufficiale" type="button" data-idx="--><!--">-->
+<!--                            <i class="icon-chevron-down icon-white"></i>&nbsp;&nbsp;&nbsp;Mostra formazioni&nbsp;&nbsp;&nbsp;<i class="icon-chevron-down icon-white"></i>-->
+<!--                        </button>-->
+<!--                    </span>-->
+
+
+                </div>
+
+            </div>
+
+
+        </a>
+        <div class="dati-gara camp3 hide" id="camp3_12835517"></div>
+
+    </div>
+
+
+</div>            </div>
+    
+</div>
+<!--<div class="container calendario-grafico">-->
+
+
+<!-- loading dialog -->
+<div id="alert_loading" class="modal hide " tabindex="-1" role="dialog" aria-hidden="true" >
+
+    <div class="modal-body">
+        <div id="alert_loading_label"></div>
+        <div class="progress progress-striped active">
+            <div class="bar" style="width: 100%;"></div>
+        </div>
+    </div>
+
+</div>
+
+<div id="modal_edit" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="me_lbl_intesta" aria-hidden="true" >
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h4 id="me_lbl_intesta"></h4>
+    </div>
+    <div class="modal-body">
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-danger hidden" >Elimina</button>
+        <button class="btn pull-left" data-dismiss="modal" aria-hidden="true">Chiudi</button>
+        <button class="btn btn-primary" >Applica</button>
+    </div>
+</div>
+
+
+<div id="alert_modal" class="modal hide " tabindex="-1" role="dialog" aria-labelledby="ma_lbl_intesta" aria-hidden="true" >
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3 id="ma_lbl_intesta">ATTENZIONE</h3>
+    </div>
+    <div class="modal-body">
+        <p></p>
+    </div>
+    <div class="modal-footer">
+        <input type="hidden" id="url_ok">
+        <input type="hidden" id="url_annulla">
+        <button id="btn_dismiss_modal" class="btn pull-left" data-dismiss="modal" aria-hidden="true">Annulla</button>
+        <button id="btn_url_annulla" class="btn btn-primary">Avanti</button>
+
+        <button id="btn_forza_elaborazione" class="btn btn-danger" >Elabora</button>
+    </div>
+</div>
+
+
+    <div class="wrapper">
+
+
+        <footer>
+            <div class="footer-content">
+                <div class="text">
+                    <p style="margin-bottom: 0px;">&copy; Copyright Manufacturing Point Software s.r.l. PIVA: 02888940786 - tutti i diritti riservati  -  <strong><a target="_blank" href="/infoPrivacy.html">Privacy & Cookie</a></strong></p>
+                    <p style="margin-bottom: 0px;">Manufacturing Point software e la Federazione Italiana Pallavolo si impegnano attivamente a proteggere i propri dati dall'accesso non autorizzato attraverso il web scraping. </p>
+                    <p style="margin-bottom: 0px;">Qualsiasi tentativo di acquisire informazioni senza autorizzazione sarà considerato una violazione delle politiche di tutela dei dati e dei dati personali e sarà perseguito legalmente.</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.js"></script>
+
+
+        <script src="/js/bootstrap.min.js"></script>
+
+        <script type="text/javascript">
+                        var base_url    = 'https://fipavonline.it/';
+            var userToken   = '';
+            sessionStorage.userToken = userToken;
+                    </script>
+
+        <script src="/js/common.js?v=2.17062026"></script>
+        <script src="/js/GMapsObj.js?v=2.17062026"></script>
+        
+                    <script src="/js/main_view.js?v=2.17062026"></script>
+                    <script src="/js/bootstrap.file-input.js?v=2.17062026"></script>
+        
+
+
+
+	</body>
+</html>

@@ -1,0 +1,118 @@
+# Terza Divisione Femminile  - Girone B
+
+- Campionato: Terza Divisione Femminile
+- Girone: Girone B
+- Numero girone: 59821
+- Fonte: https://fipavonline.it/gironi/stampa_calendario/59821
+
+## Giornata 1
+
+| Codice gara | Giorno | Data | Ora | Impianto | Comune | Squadra casa | Squadra ospite |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 2042 | Mar | 02/12/2025 | 21.00 | PALESTRA CROCETTE VIA GANDHI | CASTELFIDARDO | VOLLEY CASTELFIDARDO | US PALLAVOLO SENIGALLIA ROSSA |
+| 2043 | Gio | 22/01/2026 | 19.30 | PAL.COM. VIA S.STEFANO | OFFAGNA | A.D. PALLAVOLO OFFAGNA | LARDINI FILOTTRANO |
+| 2044 | Mar | 02/12/2025 | 19.00 | PALASPORT VIA D. ALIGHIERI | CASTELPLANIO | VALVOLLEY BOLLE DI SAPONE | TRIS BEAUTY |
+
+## Giornata 2
+
+| Codice gara | Giorno | Data | Ora | Impianto | Comune | Squadra casa | Squadra ospite |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 2045 | Ven | 05/12/2025 | 19.00 | PAL. I.C. FILOTTRANO PIAZZA L. KING 1 | FILOTTRANO | LARDINI FILOTTRANO | VOLLEY CASTELFIDARDO |
+| 2046 | Gio | 04/12/2025 | 21.00 | PALASIGE ALESSIO PERGOLESI - VIA circonvallazione | POLVERIGI | TRIS BEAUTY | A.D. PALLAVOLO OFFAGNA |
+| 2047 | Sab | 06/12/2025 | 16.30 | PALASPORT COMUNALE VIA B.MARTORELLO | SERRA DE' CONTI | MONSERRA VOLLEY/AVIS OSTRA VETERE | VALVOLLEY BOLLE DI SAPONE |
+
+## Giornata 3
+
+| Codice gara | Giorno | Data | Ora | Impianto | Comune | Squadra casa | Squadra ospite |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 2048 | Mar | 27/01/2026 | 21.00 | PALESTRA CROCETTE VIA GANDHI | CASTELFIDARDO | VOLLEY CASTELFIDARDO | TRIS BEAUTY |
+| 2049 | Sab | 13/12/2025 | 17.00 | PAL. LICEO CLASSICO - VIA ROSSINI | SENIGALLIA | US PALLAVOLO SENIGALLIA ROSSA | LARDINI FILOTTRANO |
+| 2050 | Gio | 11/12/2025 | 19.30 | PAL.COM. VIA S.STEFANO | OFFAGNA | A.D. PALLAVOLO OFFAGNA | MONSERRA VOLLEY/AVIS OSTRA VETERE |
+
+## Giornata 4
+
+| Codice gara | Giorno | Data | Ora | Impianto | Comune | Squadra casa | Squadra ospite |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 2051 | Sab | 21/02/2026 | 16.30 | PALASPORT COMUNALE VIA B.MARTORELLO | SERRA DE' CONTI | MONSERRA VOLLEY/AVIS OSTRA VETERE | VOLLEY CASTELFIDARDO |
+| 2052 | Dom | 21/12/2025 | 10.00 | PALASIGE ALESSIO PERGOLESI - VIA circonvallazione | POLVERIGI | TRIS BEAUTY | US PALLAVOLO SENIGALLIA ROSSA |
+| 2053 | Mar | 23/12/2025 | 19.00 | PALASPORT VIA D. ALIGHIERI | CASTELPLANIO | VALVOLLEY BOLLE DI SAPONE | A.D. PALLAVOLO OFFAGNA |
+
+## Giornata 5
+
+| Codice gara | Giorno | Data | Ora | Impianto | Comune | Squadra casa | Squadra ospite |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 2054 | Mar | 13/01/2026 | 21.00 | PALESTRA CROCETTE VIA GANDHI | CASTELFIDARDO | VOLLEY CASTELFIDARDO | VALVOLLEY BOLLE DI SAPONE |
+| 2055 | Sab | 10/01/2026 | 17.00 | PAL. LICEO CLASSICO - VIA ROSSINI | SENIGALLIA | US PALLAVOLO SENIGALLIA ROSSA | MONSERRA VOLLEY/AVIS OSTRA VETERE |
+| 2056 | Ven | 09/01/2026 | 19.00 | PAL. I.C. FILOTTRANO PIAZZA L. KING 1 | FILOTTRANO | LARDINI FILOTTRANO | TRIS BEAUTY |
+
+## Giornata 6
+
+| Codice gara | Giorno | Data | Ora | Impianto | Comune | Squadra casa | Squadra ospite |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 2057 | Gio | 15/01/2026 | 19.30 | PAL.COM. VIA S.STEFANO | OFFAGNA | A.D. PALLAVOLO OFFAGNA | VOLLEY CASTELFIDARDO |
+| 2058 | Mar | 20/01/2026 | 19.00 | PALASPORT VIA D. ALIGHIERI | CASTELPLANIO | VALVOLLEY BOLLE DI SAPONE | US PALLAVOLO SENIGALLIA ROSSA |
+| 2059 | Sab | 17/01/2026 | 16.30 | PALASPORT COMUNALE VIA B.MARTORELLO | SERRA DE' CONTI | MONSERRA VOLLEY/AVIS OSTRA VETERE | LARDINI FILOTTRANO |
+
+## Giornata 7
+
+| Codice gara | Giorno | Data | Ora | Impianto | Comune | Squadra casa | Squadra ospite |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 2060 | Sab | 07/02/2026 | 17.00 | PAL. LICEO CLASSICO - VIA ROSSINI | SENIGALLIA | US PALLAVOLO SENIGALLIA ROSSA | A.D. PALLAVOLO OFFAGNA |
+| 2061 | Ven | 23/01/2026 | 19.00 | PAL. I.C. FILOTTRANO PIAZZA L. KING 1 | FILOTTRANO | LARDINI FILOTTRANO | VALVOLLEY BOLLE DI SAPONE |
+| 2062 | Dom | 25/01/2026 | 10.00 | PALASIGE ALESSIO PERGOLESI - VIA circonvallazione | POLVERIGI | TRIS BEAUTY | MONSERRA VOLLEY/AVIS OSTRA VETERE |
+
+## Giornata 8
+
+| Codice gara | Giorno | Data | Ora | Impianto | Comune | Squadra casa | Squadra ospite |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 2063 | Sab | 31/01/2026 | 17.00 | PAL. LICEO CLASSICO - VIA ROSSINI | SENIGALLIA | US PALLAVOLO SENIGALLIA ROSSA | VOLLEY CASTELFIDARDO |
+| 2064 | Ven | 30/01/2026 | 19.00 | PAL. I.C. FILOTTRANO PIAZZA L. KING 1 | FILOTTRANO | LARDINI FILOTTRANO | A.D. PALLAVOLO OFFAGNA |
+| 2065 | Gio | 05/03/2026 | 20.45 | PALASIGE ALESSIO PERGOLESI - VIA circonvallazione | POLVERIGI | TRIS BEAUTY | VALVOLLEY BOLLE DI SAPONE |
+
+## Giornata 9
+
+| Codice gara | Giorno | Data | Ora | Impianto | Comune | Squadra casa | Squadra ospite |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 2066 | Ven | 06/02/2026 | 21.00 | PALESTRA CROCETTE VIA GANDHI | CASTELFIDARDO | VOLLEY CASTELFIDARDO | LARDINI FILOTTRANO |
+| 2067 | Gio | 05/02/2026 | 19.30 | PAL.COM. VIA S.STEFANO | OFFAGNA | A.D. PALLAVOLO OFFAGNA | TRIS BEAUTY |
+| 2068 | Mar | 10/02/2026 | 19.00 | PALASPORT VIA D. ALIGHIERI | CASTELPLANIO | VALVOLLEY BOLLE DI SAPONE | MONSERRA VOLLEY/AVIS OSTRA VETERE |
+
+## Giornata 10
+
+| Codice gara | Giorno | Data | Ora | Impianto | Comune | Squadra casa | Squadra ospite |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 2069 | Dom | 15/02/2026 | 10.00 | PAL. S.M.  VIA SANTA CATERINA | POLVERIGI | TRIS BEAUTY | VOLLEY CASTELFIDARDO |
+| 2070 | Ven | 13/02/2026 | 19.00 | PAL. I.C. FILOTTRANO PIAZZA L. KING 1 | FILOTTRANO | LARDINI FILOTTRANO | US PALLAVOLO SENIGALLIA ROSSA |
+| 2071 | Lun | 02/02/2026 | 19.30 | PALASPORT COMUNALE VIA B.MARTORELLO | SERRA DE' CONTI | MONSERRA VOLLEY/AVIS OSTRA VETERE | A.D. PALLAVOLO OFFAGNA |
+
+## Giornata 11
+
+| Codice gara | Giorno | Data | Ora | Impianto | Comune | Squadra casa | Squadra ospite |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 2072 | Mar | 09/12/2025 | 21.00 | PALESTRA CROCETTE VIA GANDHI | CASTELFIDARDO | VOLLEY CASTELFIDARDO | MONSERRA VOLLEY/AVIS OSTRA VETERE |
+| 2073 | Lun | 09/03/2026 | 21.15 | PAL. LICEO CLASSICO - VIA ROSSINI | SENIGALLIA | US PALLAVOLO SENIGALLIA ROSSA | TRIS BEAUTY |
+| 2074 | Gio | 19/02/2026 | 19.30 | PAL.COM. VIA S.STEFANO | OFFAGNA | A.D. PALLAVOLO OFFAGNA | VALVOLLEY BOLLE DI SAPONE |
+
+## Giornata 12
+
+| Codice gara | Giorno | Data | Ora | Impianto | Comune | Squadra casa | Squadra ospite |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 2075 | Mar | 03/03/2026 | 19.00 | PALASPORT VIA D. ALIGHIERI | CASTELPLANIO | VALVOLLEY BOLLE DI SAPONE | VOLLEY CASTELFIDARDO |
+| 2076 | Sab | 28/02/2026 | 16.30 | PALASPORT COMUNALE VIA B.MARTORELLO | SERRA DE' CONTI | MONSERRA VOLLEY/AVIS OSTRA VETERE | US PALLAVOLO SENIGALLIA ROSSA |
+| 2077 | Dom | 01/03/2026 | 10.00 | PALASIGE ALESSIO PERGOLESI - VIA circonvallazione | POLVERIGI | TRIS BEAUTY | LARDINI FILOTTRANO |
+
+## Giornata 13
+
+| Codice gara | Giorno | Data | Ora | Impianto | Comune | Squadra casa | Squadra ospite |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 2078 | Mar | 10/03/2026 | 21.00 | PALESTRA CROCETTE VIA GANDHI | CASTELFIDARDO | VOLLEY CASTELFIDARDO | A.D. PALLAVOLO OFFAGNA |
+| 2079 | Sab | 07/03/2026 | 17.00 | PAL. LICEO CLASSICO - VIA ROSSINI | SENIGALLIA | US PALLAVOLO SENIGALLIA ROSSA | VALVOLLEY BOLLE DI SAPONE |
+| 2080 | Ven | 06/03/2026 | 19.00 | PAL. I.C. FILOTTRANO PIAZZA L. KING 1 | FILOTTRANO | LARDINI FILOTTRANO | MONSERRA VOLLEY/AVIS OSTRA VETERE |
+
+## Giornata 14
+
+| Codice gara | Giorno | Data | Ora | Impianto | Comune | Squadra casa | Squadra ospite |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 2081 | Gio | 12/03/2026 | 19.30 | PAL.COM. VIA S.STEFANO | OFFAGNA | A.D. PALLAVOLO OFFAGNA | US PALLAVOLO SENIGALLIA ROSSA |
+| 2082 | Mar | 17/03/2026 | 19.00 | PALASPORT VIA D. ALIGHIERI | CASTELPLANIO | VALVOLLEY BOLLE DI SAPONE | LARDINI FILOTTRANO |
+| 2083 | Sab | 14/03/2026 | 16.30 | PALASPORT COMUNALE VIA B.MARTORELLO | SERRA DE' CONTI | MONSERRA VOLLEY/AVIS OSTRA VETERE | TRIS BEAUTY |

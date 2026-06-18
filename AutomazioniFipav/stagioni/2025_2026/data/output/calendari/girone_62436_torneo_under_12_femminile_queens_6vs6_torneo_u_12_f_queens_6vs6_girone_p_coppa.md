@@ -1,0 +1,51 @@
+# Torneo U 12 F QUEENS 6vs6  - Girone P - COPPA
+
+- Campionato: Torneo Under 12 Femminile QUEENS 6vs6
+- Girone: Torneo U 12 F QUEENS 6vs6 - Girone P - COPPA
+- Numero girone: 62436
+- Fonte: https://fipavonline.it/gironi/stampa_calendario/62436
+
+## Giornata 1
+
+| Codice gara | Giorno | Data | Ora | Impianto | Comune | Squadra casa | Squadra ospite |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 4308 | Dom | 26/04/2026 | 10.00 | PAL. COM. S.D ACQUISTO VIA RIDOLFI | CUPRAMONTANA | ASD VIRTUS CUPRA | UPR VOLLEY DUE |
+| 4309 | Dom | 26/04/2026 | 11.00 | PAL. COM. S.D ACQUISTO VIA RIDOLFI | CUPRAMONTANA | UPR VOLLEY DUE | ASD VIRTUS CUPRA |
+| 4310 | Dom | 26/04/2026 | 10.00 | PAL. D.ALIGHIERI VIA PALERMO | FALCONARA MARITTIMA | ESINO VOLLEY 2014 | ANCONA TEAM VOLLEY |
+| 4311 | Dom | 26/04/2026 | 11.00 | PAL. D.ALIGHIERI VIA PALERMO | FALCONARA MARITTIMA | ANCONA TEAM VOLLEY | ESINO VOLLEY 2014 |
+
+## Giornata 2
+
+| Codice gara | Giorno | Data | Ora | Impianto | Comune | Squadra casa | Squadra ospite |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 4312 | Dom | 03/05/2026 | 10.00 | PALASPORT VIA BAGACCIANO, 4 | CAMERANO | BFTM CAMERANO | ASD VIRTUS CUPRA |
+| 4313 | Dom | 03/05/2026 | 11.00 | PALASPORT VIA BAGACCIANO, 4 | CAMERANO | ASD VIRTUS CUPRA | BFTM CAMERANO |
+| 4314 | Dom | 03/05/2026 | 10.00 | PAL.MAROTTI VIA G.B. MAROTTI,26 | MONTEMARCIANO | UPR VOLLEY DUE | ANCONA TEAM VOLLEY |
+| 4315 | Dom | 03/05/2026 | 11.00 | PAL.MAROTTI VIA G.B. MAROTTI,26 | MONTEMARCIANO | ANCONA TEAM VOLLEY | UPR VOLLEY DUE |
+
+## Giornata 3
+
+| Codice gara | Giorno | Data | Ora | Impianto | Comune | Squadra casa | Squadra ospite |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 4316 | Dom | 10/05/2026 | 10.00 | CENTRO SPORTIVO ROBERTO SABBATINI - PIAZZA A. MORO 1 | ANCONA | ANCONA TEAM VOLLEY | BFTM CAMERANO |
+| 4317 | Dom | 10/05/2026 | 11.00 | CENTRO SPORTIVO ROBERTO SABBATINI - PIAZZA A. MORO 1 | ANCONA | BFTM CAMERANO | ANCONA TEAM VOLLEY |
+| 4318 | Dom | 10/05/2026 | 10.00 | PAL.MAROTTI VIA G.B. MAROTTI,26 | MONTEMARCIANO | UPR VOLLEY DUE | ESINO VOLLEY 2014 |
+| 4319 | Dom | 10/05/2026 | 11.00 | PAL.MAROTTI VIA G.B. MAROTTI,26 | MONTEMARCIANO | ESINO VOLLEY 2014 | UPR VOLLEY DUE |
+
+## Giornata 4
+
+| Codice gara | Giorno | Data | Ora | Impianto | Comune | Squadra casa | Squadra ospite |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 4320 | Dom | 17/05/2026 | 16.30 | PAL.MAROTTI VIA G.B. MAROTTI,26 | MONTEMARCIANO | UPR VOLLEY DUE | BFTM CAMERANO |
+| 4321 | Dom | 17/05/2026 | 17.30 | PAL.MAROTTI VIA G.B. MAROTTI,26 | MONTEMARCIANO | BFTM CAMERANO | UPR VOLLEY DUE |
+| 4322 | Lun | 18/05/2026 | 18.00 | PAL. COM. S.D ACQUISTO VIA RIDOLFI | CUPRAMONTANA | ASD VIRTUS CUPRA | ESINO VOLLEY 2014 |
+| 4323 | Lun | 18/05/2026 | 19.00 | PAL. COM. S.D ACQUISTO VIA RIDOLFI | CUPRAMONTANA | ESINO VOLLEY 2014 | ASD VIRTUS CUPRA |
+
+## Giornata 5
+
+| Codice gara | Giorno | Data | Ora | Impianto | Comune | Squadra casa | Squadra ospite |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 4324 | Gio | 21/05/2026 | 17.30 | IIS PODESTI CALZECCHI ONESTI - strada passo varano 17 | ANCONA | ANCONA TEAM VOLLEY | ASD VIRTUS CUPRA |
+| 4325 | Gio | 21/05/2026 | 18.30 | CENTRO SPORTIVO ROBERTO SABBATINI - PIAZZA A. MORO 1 | ANCONA | ASD VIRTUS CUPRA | ANCONA TEAM VOLLEY |
+| 4326 | Dom | 24/05/2026 | 10.00 | PAL. D.ALIGHIERI VIA PALERMO | FALCONARA MARITTIMA | ESINO VOLLEY 2014 | BFTM CAMERANO |
+| 4327 | Dom | 24/05/2026 | 11.00 | PAL. D.ALIGHIERI VIA PALERMO | FALCONARA MARITTIMA | BFTM CAMERANO | ESINO VOLLEY 2014 |
