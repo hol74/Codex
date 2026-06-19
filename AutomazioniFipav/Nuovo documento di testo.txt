@@ -1,0 +1,9 @@
+
+Workflow "ingest"
+
+Ingestione email con collegamento a casella di posta via IMAP di aruba con utente gare@fipavancona.it e password FipavAncona2024!
+Salva utente e password in un opportuno file in modo tale da garantire la sicurezza (.env)
+Lettura delle email non elaborate e salvataggio ID email per evitare doppioni.
+per le email provenienti dall'indirizzo ancona@federvolley.it, salviamo tutti gli allegati pdf in input secondo le cartelle proposte: Norme, Calendari, Indirizzi, Comunicati. Esistono nella cartella Sample degli esempi che puoi processare
+convertire gli allegati pdf in md e salvarli nelle apposite cartelle output
+per ogni email letta crea un file md con i seguenti dati: mittente, oggetto, data ora, testo email, tipologia e compila un file .md con l'indice delle email lette.
