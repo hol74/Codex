@@ -1,0 +1,156 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\ProgettiAzure\\Codex\\Macro\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{FD1234C4-ADD1-CB83-BE29-6994EF86DC13}|src\\MacroRegime.Domain\\MacroRegime.Domain.csproj|c:\\progettiazure\\codex\\macro\\src\\macroregime.domain\\common\\regimeconfidence.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FD1234C4-ADD1-CB83-BE29-6994EF86DC13}|src\\MacroRegime.Domain\\MacroRegime.Domain.csproj|solutionrelative:src\\macroregime.domain\\common\\regimeconfidence.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FD1234C4-ADD1-CB83-BE29-6994EF86DC13}|src\\MacroRegime.Domain\\MacroRegime.Domain.csproj|c:\\progettiazure\\codex\\macro\\src\\macroregime.domain\\common\\probability.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FD1234C4-ADD1-CB83-BE29-6994EF86DC13}|src\\MacroRegime.Domain\\MacroRegime.Domain.csproj|solutionrelative:src\\macroregime.domain\\common\\probability.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FD1234C4-ADD1-CB83-BE29-6994EF86DC13}|src\\MacroRegime.Domain\\MacroRegime.Domain.csproj|c:\\progettiazure\\codex\\macro\\src\\macroregime.domain\\common\\normalizedscore.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FD1234C4-ADD1-CB83-BE29-6994EF86DC13}|src\\MacroRegime.Domain\\MacroRegime.Domain.csproj|solutionrelative:src\\macroregime.domain\\common\\normalizedscore.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FD1234C4-ADD1-CB83-BE29-6994EF86DC13}|src\\MacroRegime.Domain\\MacroRegime.Domain.csproj|c:\\progettiazure\\codex\\macro\\src\\macroregime.domain\\common\\featureweight.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FD1234C4-ADD1-CB83-BE29-6994EF86DC13}|src\\MacroRegime.Domain\\MacroRegime.Domain.csproj|solutionrelative:src\\macroregime.domain\\common\\featureweight.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FD1234C4-ADD1-CB83-BE29-6994EF86DC13}|src\\MacroRegime.Domain\\MacroRegime.Domain.csproj|c:\\progettiazure\\codex\\macro\\src\\macroregime.domain\\time\\publicationdate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FD1234C4-ADD1-CB83-BE29-6994EF86DC13}|src\\MacroRegime.Domain\\MacroRegime.Domain.csproj|solutionrelative:src\\macroregime.domain\\time\\publicationdate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FD1234C4-ADD1-CB83-BE29-6994EF86DC13}|src\\MacroRegime.Domain\\MacroRegime.Domain.csproj|c:\\progettiazure\\codex\\macro\\src\\macroregime.domain\\time\\observationdate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FD1234C4-ADD1-CB83-BE29-6994EF86DC13}|src\\MacroRegime.Domain\\MacroRegime.Domain.csproj|solutionrelative:src\\macroregime.domain\\time\\observationdate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FD1234C4-ADD1-CB83-BE29-6994EF86DC13}|src\\MacroRegime.Domain\\MacroRegime.Domain.csproj|c:\\progettiazure\\codex\\macro\\src\\macroregime.domain\\time\\availabilitydate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FD1234C4-ADD1-CB83-BE29-6994EF86DC13}|src\\MacroRegime.Domain\\MacroRegime.Domain.csproj|solutionrelative:src\\macroregime.domain\\time\\availabilitydate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FD1234C4-ADD1-CB83-BE29-6994EF86DC13}|src\\MacroRegime.Domain\\MacroRegime.Domain.csproj|c:\\progettiazure\\codex\\macro\\src\\macroregime.domain\\time\\asofdate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FD1234C4-ADD1-CB83-BE29-6994EF86DC13}|src\\MacroRegime.Domain\\MacroRegime.Domain.csproj|solutionrelative:src\\macroregime.domain\\time\\asofdate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "RegimeConfidence.cs",
+              "DocumentMoniker": "C:\\ProgettiAzure\\Codex\\Macro\\src\\MacroRegime.Domain\\Common\\RegimeConfidence.cs",
+              "RelativeDocumentMoniker": "src\\MacroRegime.Domain\\Common\\RegimeConfidence.cs",
+              "ToolTip": "C:\\ProgettiAzure\\Codex\\Macro\\src\\MacroRegime.Domain\\Common\\RegimeConfidence.cs",
+              "RelativeToolTip": "src\\MacroRegime.Domain\\Common\\RegimeConfidence.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-02T08:02:32.535Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Probability.cs",
+              "DocumentMoniker": "C:\\ProgettiAzure\\Codex\\Macro\\src\\MacroRegime.Domain\\Common\\Probability.cs",
+              "RelativeDocumentMoniker": "src\\MacroRegime.Domain\\Common\\Probability.cs",
+              "ToolTip": "C:\\ProgettiAzure\\Codex\\Macro\\src\\MacroRegime.Domain\\Common\\Probability.cs",
+              "RelativeToolTip": "src\\MacroRegime.Domain\\Common\\Probability.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-02T08:02:29.39Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "NormalizedScore.cs",
+              "DocumentMoniker": "C:\\ProgettiAzure\\Codex\\Macro\\src\\MacroRegime.Domain\\Common\\NormalizedScore.cs",
+              "RelativeDocumentMoniker": "src\\MacroRegime.Domain\\Common\\NormalizedScore.cs",
+              "ToolTip": "C:\\ProgettiAzure\\Codex\\Macro\\src\\MacroRegime.Domain\\Common\\NormalizedScore.cs",
+              "RelativeToolTip": "src\\MacroRegime.Domain\\Common\\NormalizedScore.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-02T08:02:22.727Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "FeatureWeight.cs",
+              "DocumentMoniker": "C:\\ProgettiAzure\\Codex\\Macro\\src\\MacroRegime.Domain\\Common\\FeatureWeight.cs",
+              "RelativeDocumentMoniker": "src\\MacroRegime.Domain\\Common\\FeatureWeight.cs",
+              "ToolTip": "C:\\ProgettiAzure\\Codex\\Macro\\src\\MacroRegime.Domain\\Common\\FeatureWeight.cs",
+              "RelativeToolTip": "src\\MacroRegime.Domain\\Common\\FeatureWeight.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-02T08:02:18.008Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "PublicationDate.cs",
+              "DocumentMoniker": "C:\\ProgettiAzure\\Codex\\Macro\\src\\MacroRegime.Domain\\Time\\PublicationDate.cs",
+              "RelativeDocumentMoniker": "src\\MacroRegime.Domain\\Time\\PublicationDate.cs",
+              "ToolTip": "C:\\ProgettiAzure\\Codex\\Macro\\src\\MacroRegime.Domain\\Time\\PublicationDate.cs",
+              "RelativeToolTip": "src\\MacroRegime.Domain\\Time\\PublicationDate.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-02T08:02:15.455Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "ObservationDate.cs",
+              "DocumentMoniker": "C:\\ProgettiAzure\\Codex\\Macro\\src\\MacroRegime.Domain\\Time\\ObservationDate.cs",
+              "RelativeDocumentMoniker": "src\\MacroRegime.Domain\\Time\\ObservationDate.cs",
+              "ToolTip": "C:\\ProgettiAzure\\Codex\\Macro\\src\\MacroRegime.Domain\\Time\\ObservationDate.cs",
+              "RelativeToolTip": "src\\MacroRegime.Domain\\Time\\ObservationDate.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-02T08:02:13.67Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "AvailabilityDate.cs",
+              "DocumentMoniker": "C:\\ProgettiAzure\\Codex\\Macro\\src\\MacroRegime.Domain\\Time\\AvailabilityDate.cs",
+              "RelativeDocumentMoniker": "src\\MacroRegime.Domain\\Time\\AvailabilityDate.cs",
+              "ToolTip": "C:\\ProgettiAzure\\Codex\\Macro\\src\\MacroRegime.Domain\\Time\\AvailabilityDate.cs",
+              "RelativeToolTip": "src\\MacroRegime.Domain\\Time\\AvailabilityDate.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-02T08:02:09.174Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "AsOfDate.cs",
+              "DocumentMoniker": "C:\\ProgettiAzure\\Codex\\Macro\\src\\MacroRegime.Domain\\Time\\AsOfDate.cs",
+              "RelativeDocumentMoniker": "src\\MacroRegime.Domain\\Time\\AsOfDate.cs",
+              "ToolTip": "C:\\ProgettiAzure\\Codex\\Macro\\src\\MacroRegime.Domain\\Time\\AsOfDate.cs",
+              "RelativeToolTip": "src\\MacroRegime.Domain\\Time\\AsOfDate.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-02T08:01:52.345Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,34 @@
+@model Finance.Application.Ledger.InstrumentEditModel
+
+@{
+    ViewData["Title"] = "Elimina strumento";
+}
+
+<section class="page-heading">
+    <div>
+        <p class="eyebrow">Anagrafica</p>
+        <h1>Elimina strumento</h1>
+    </div>
+</section>
+
+<section class="data-panel">
+    <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+    <dl class="detail-list">
+        <dt>Simbolo</dt>
+        <dd>@Model.Symbol</dd>
+        <dt>Nome</dt>
+        <dd>@Model.Name</dd>
+        <dt>Tipo</dt>
+        <dd>@Model.Type</dd>
+        <dt>Exchange</dt>
+        <dd>@(Model.Exchange ?? "-")</dd>
+        <dt>ISIN</dt>
+        <dd>@(Model.Isin ?? "-")</dd>
+    </dl>
+
+    <form asp-action="Delete" asp-route-id="@Model.Id" method="post" class="form-actions">
+        <button type="submit" class="btn btn-danger">Elimina</button>
+        <a class="btn btn-outline-secondary" asp-action="Index">Annulla</a>
+    </form>
+</section>

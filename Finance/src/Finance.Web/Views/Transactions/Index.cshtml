@@ -1,0 +1,68 @@
+@model IReadOnlyList<Finance.Application.Ledger.LedgerTransactionListItem>
+
+@{
+    var heading = ViewData["TransactionHeading"]?.ToString() ?? "Transazioni";
+    var eyebrow = ViewData["TransactionEyebrow"]?.ToString() ?? "Ledger";
+    var createAction = ViewData["CreateAction"]?.ToString() ?? "Create";
+    ViewData["Title"] = heading;
+}
+
+<section class="page-heading">
+    <div>
+        <p class="eyebrow">@eyebrow</p>
+        <h1>@heading</h1>
+    </div>
+    <div class="page-actions">
+        <span class="page-count">@Model.Count record</span>
+        <a class="btn btn-primary btn-sm" asp-action="@createAction">Nuovo</a>
+    </div>
+</section>
+
+<section class="quick-actions">
+    <a asp-action="Deposits">Depositi</a>
+    <a asp-action="Withdrawals">Prelievi</a>
+    <a asp-action="Buys">Acquisti</a>
+    <a asp-action="Sells">Vendite</a>
+    <a asp-action="Index">Tutte</a>
+</section>
+
+<section class="data-panel">
+    <div class="table-responsive">
+        <table class="table align-middle data-table">
+            <thead>
+            <tr>
+                <th>Data</th>
+                <th>Tipo</th>
+                <th>Portafoglio</th>
+                <th>Strumento</th>
+                <th class="text-end">Quantita</th>
+                <th class="text-end">Prezzo</th>
+                <th class="text-end">Lordo</th>
+                <th class="text-end">Costi</th>
+                <th>Valuta</th>
+                <th class="text-end">Azioni</th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (var transaction in Model)
+            {
+                <tr>
+                    <td>@transaction.TradeDate.ToString("yyyy-MM-dd")</td>
+                    <td>@transaction.Type</td>
+                    <td>@transaction.PortfolioName</td>
+                    <td>@(transaction.InstrumentSymbol ?? "-")</td>
+                    <td class="text-end">@transaction.Quantity.ToString("N4")</td>
+                    <td class="text-end">@transaction.Price.ToString("N2")</td>
+                    <td class="text-end">@transaction.GrossAmount.ToString("N2")</td>
+                    <td class="text-end">@((transaction.Fees + transaction.Taxes).ToString("N2"))</td>
+                    <td>@transaction.CurrencyCode</td>
+                    <td class="text-end table-actions">
+                        <a asp-action="Edit" asp-route-id="@transaction.Id">Modifica</a>
+                        <a asp-action="Delete" asp-route-id="@transaction.Id">Elimina</a>
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+</section>

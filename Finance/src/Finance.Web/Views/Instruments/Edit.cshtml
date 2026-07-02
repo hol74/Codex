@@ -1,0 +1,22 @@
+@model Finance.Application.Ledger.InstrumentFormPage
+
+@{
+    ViewData["Title"] = "Modifica strumento";
+}
+
+<section class="page-heading">
+    <div>
+        <p class="eyebrow">Anagrafica</p>
+        <h1>Modifica strumento</h1>
+    </div>
+</section>
+
+<section class="data-panel">
+    <form asp-action="Edit" asp-route-id="@Model.Instrument.Id" method="post">
+        @await Html.PartialAsync("_Form", Model)
+    </form>
+</section>
+
+@section Scripts {
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+}

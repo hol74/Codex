@@ -1,0 +1,1661 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Framework Regime Detection — Guida Operativa</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,300;0,400;0,500;0,700;1,400&family=Syne:wght@400;600;700;800&family=Lora:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0d0f12;
+  --bg2: #13161b;
+  --bg3: #1a1e26;
+  --bg4: #222733;
+  --border: rgba(255,255,255,0.07);
+  --border2: rgba(255,255,255,0.13);
+  --text: #e8eaf0;
+  --text2: #9ba3b8;
+  --text3: #5c6480;
+  --gold: #e8b84b;
+  --gold2: #f5d080;
+  --gold-bg: rgba(232,184,75,0.08);
+  --teal: #3ecfcc;
+  --teal2: #7ae8e5;
+  --teal-bg: rgba(62,207,204,0.08);
+  --rust: #e86b47;
+  --rust2: #f59070;
+  --rust-bg: rgba(232,107,71,0.08);
+  --green: #4ecb71;
+  --green2: #80e09a;
+  --green-bg: rgba(78,203,113,0.08);
+  --violet: #9b7de8;
+  --violet2: #c0aaff;
+  --violet-bg: rgba(155,125,232,0.08);
+  --blue: #4d90e8;
+  --blue2: #80b4f5;
+  --blue-bg: rgba(77,144,232,0.08);
+  --pink: #e86baa;
+  --pink-bg: rgba(232,107,170,0.08);
+  --mono: 'JetBrains Mono', 'Courier New', monospace;
+  --sans: 'Syne', system-ui, sans-serif;
+  --serif: 'Lora', Georgia, serif;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--serif);
+  font-size: 15px;
+  line-height: 1.75;
+}
+
+/* HEADER */
+.hero {
+  padding: 80px 80px 60px;
+  border-bottom: 1px solid var(--border);
+  position: relative;
+  overflow: hidden;
+}
+
+.hero::before {
+  content: 'REGIME';
+  position: absolute;
+  right: -20px;
+  top: 10px;
+  font-family: var(--sans);
+  font-size: 160px;
+  font-weight: 800;
+  color: rgba(255,255,255,0.018);
+  letter-spacing: -8px;
+  pointer-events: none;
+  user-select: none;
+}
+
+.hero-badge {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  color: var(--teal);
+  text-transform: uppercase;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.hero-badge::before {
+  content: '';
+  width: 24px;
+  height: 1px;
+  background: var(--teal);
+}
+
+.hero h1 {
+  font-family: var(--sans);
+  font-size: clamp(32px, 4vw, 58px);
+  font-weight: 800;
+  line-height: 1.0;
+  color: var(--text);
+  margin-bottom: 20px;
+  letter-spacing: -1px;
+}
+
+.hero h1 span { color: var(--gold); }
+
+.hero-desc {
+  font-family: var(--serif);
+  font-size: 16px;
+  color: var(--text2);
+  max-width: 640px;
+  line-height: 1.7;
+  font-style: italic;
+}
+
+.hero-meta {
+  display: flex;
+  gap: 32px;
+  margin-top: 36px;
+  flex-wrap: wrap;
+}
+
+.hero-meta-item {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--text3);
+  letter-spacing: 0.1em;
+}
+
+.hero-meta-item span {
+  color: var(--text2);
+}
+
+/* NAVIGATION */
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(13,15,18,0.95);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  padding: 0 80px;
+  display: flex;
+  gap: 0;
+  overflow-x: auto;
+}
+
+.nav a {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  color: var(--text3);
+  text-decoration: none;
+  padding: 14px 20px;
+  border-bottom: 2px solid transparent;
+  transition: all 0.2s;
+  white-space: nowrap;
+  text-transform: uppercase;
+}
+
+.nav a:hover { color: var(--text); border-bottom-color: var(--gold); }
+
+/* MAIN LAYOUT */
+.main {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 80px;
+}
+
+/* SECTION */
+.section {
+  padding: 72px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.section:last-child { border-bottom: none; }
+
+.section-label {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.25em;
+  color: var(--teal);
+  text-transform: uppercase;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.section-label::before {
+  content: '';
+  width: 16px;
+  height: 1px;
+  background: var(--teal);
+}
+
+.section h2 {
+  font-family: var(--sans);
+  font-size: clamp(24px, 3vw, 38px);
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 16px;
+  letter-spacing: -0.5px;
+  line-height: 1.15;
+}
+
+.section-intro {
+  font-size: 16px;
+  color: var(--text2);
+  max-width: 680px;
+  font-style: italic;
+  margin-bottom: 48px;
+  line-height: 1.7;
+}
+
+/* FORMULA BOX */
+.formula-box {
+  background: var(--bg2);
+  border: 1px solid var(--border2);
+  border-left: 3px solid var(--gold);
+  border-radius: 6px;
+  padding: 24px 28px;
+  margin: 28px 0;
+}
+
+.formula-label {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  color: var(--gold);
+  text-transform: uppercase;
+  margin-bottom: 14px;
+}
+
+.formula {
+  font-family: var(--mono);
+  font-size: 15px;
+  color: var(--text);
+  line-height: 2;
+  padding: 12px 0;
+}
+
+.formula .var { color: var(--teal2); }
+.formula .op { color: var(--text3); }
+.formula .comment { color: var(--text3); font-style: italic; font-size: 12px; }
+
+.formula-note {
+  font-family: var(--serif);
+  font-size: 13px;
+  color: var(--text2);
+  margin-top: 12px;
+  line-height: 1.6;
+  font-style: italic;
+}
+
+/* INDICATOR TABLE */
+.ind-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 32px 0;
+  font-size: 13px;
+}
+
+.ind-table thead tr {
+  border-bottom: 1px solid var(--border2);
+}
+
+.ind-table th {
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text3);
+  padding: 10px 14px;
+  text-align: left;
+  font-weight: 500;
+}
+
+.ind-table tbody tr {
+  border-bottom: 1px solid var(--border);
+  transition: background 0.15s;
+}
+
+.ind-table tbody tr:hover { background: var(--bg2); }
+
+.ind-table td {
+  padding: 14px 14px;
+  vertical-align: top;
+  color: var(--text2);
+  line-height: 1.5;
+}
+
+.ind-table td:first-child {
+  color: var(--text);
+  font-family: var(--mono);
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.ind-table td .ind-name {
+  font-family: var(--serif);
+  font-size: 14px;
+  color: var(--text);
+  font-style: normal;
+  display: block;
+  font-weight: 500;
+}
+
+.ind-table td .ind-ticker {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--text3);
+  letter-spacing: 0.05em;
+}
+
+.ind-table td .ind-formula {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--teal);
+  margin-top: 4px;
+  display: block;
+  white-space: nowrap;
+}
+
+/* REGIME SIGNAL PILL */
+.pill {
+  display: inline-block;
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border-radius: 3px;
+}
+
+.pill-gold { background: var(--gold-bg); color: var(--gold2); border: 1px solid rgba(232,184,75,0.2); }
+.pill-teal { background: var(--teal-bg); color: var(--teal2); border: 1px solid rgba(62,207,204,0.2); }
+.pill-rust { background: var(--rust-bg); color: var(--rust2); border: 1px solid rgba(232,107,71,0.2); }
+.pill-green { background: var(--green-bg); color: var(--green2); border: 1px solid rgba(78,203,113,0.2); }
+.pill-violet { background: var(--violet-bg); color: var(--violet2); border: 1px solid rgba(155,125,232,0.2); }
+.pill-blue { background: var(--blue-bg); color: var(--blue2); border: 1px solid rgba(77,144,232,0.2); }
+.pill-pink { background: var(--pink-bg); color: #f0a0cc; border: 1px solid rgba(232,107,170,0.2); }
+.pill-gray { background: rgba(255,255,255,0.05); color: var(--text3); border: 1px solid var(--border); }
+
+/* LEAD TIME BADGE */
+.lead {
+  display: inline-block;
+  font-family: var(--mono);
+  font-size: 9px;
+  color: var(--text3);
+  border: 1px solid var(--border);
+  padding: 2px 7px;
+  border-radius: 2px;
+}
+
+/* RANK BAR */
+.rank-demo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--text3);
+}
+
+.rank-bar {
+  flex: 1;
+  height: 6px;
+  background: var(--bg4);
+  border-radius: 3px;
+  position: relative;
+  min-width: 80px;
+}
+
+.rank-fill {
+  height: 100%;
+  border-radius: 3px;
+  transition: width 0.3s;
+}
+
+.rank-value {
+  min-width: 36px;
+  text-align: right;
+  color: var(--text);
+  font-size: 10px;
+}
+
+/* CATEGORY HEADER */
+.cat-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 20px 0 12px;
+  margin-top: 40px;
+  border-top: 1px solid var(--border);
+}
+
+.cat-header:first-child { margin-top: 0; border-top: none; }
+
+.cat-num {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--text3);
+  min-width: 24px;
+}
+
+.cat-title {
+  font-family: var(--sans);
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.cat-desc {
+  font-family: var(--serif);
+  font-size: 13px;
+  color: var(--text2);
+  font-style: italic;
+  margin-left: auto;
+  max-width: 360px;
+  text-align: right;
+}
+
+/* PROCEDURE STEPS */
+.steps {
+  display: grid;
+  gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+  margin: 32px 0;
+}
+
+.step {
+  background: var(--bg2);
+  padding: 28px 32px;
+  display: grid;
+  grid-template-columns: 48px 1fr;
+  gap: 20px;
+  align-items: start;
+}
+
+.step-num {
+  font-family: var(--mono);
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--border2);
+  line-height: 1;
+  margin-top: 4px;
+}
+
+.step-content h4 {
+  font-family: var(--sans);
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 8px;
+}
+
+.step-content p {
+  font-size: 14px;
+  color: var(--text2);
+  line-height: 1.7;
+}
+
+.step-content .step-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 12px;
+}
+
+/* COMPOSITE SCORE SECTION */
+.score-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  background: var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  margin: 32px 0;
+}
+
+.score-card {
+  background: var(--bg2);
+  padding: 28px;
+}
+
+.score-card-label {
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  color: var(--text3);
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+
+.score-card h4 {
+  font-family: var(--sans);
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 10px;
+}
+
+.score-card p {
+  font-size: 13px;
+  color: var(--text2);
+  line-height: 1.65;
+}
+
+/* REGIME MAPPING TABLE */
+.regime-map {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+  margin: 32px 0;
+}
+
+.regime-map-header {
+  display: grid;
+  grid-template-columns: 180px 1fr 1fr 1fr 1fr 1fr;
+  padding: 12px 20px;
+  background: var(--bg3);
+  border-bottom: 1px solid var(--border);
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.15em;
+  color: var(--text3);
+  text-transform: uppercase;
+  gap: 8px;
+}
+
+.regime-map-row {
+  display: grid;
+  grid-template-columns: 180px 1fr 1fr 1fr 1fr 1fr;
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--border);
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+}
+
+.regime-map-row:last-child { border-bottom: none; }
+
+.regime-map-name {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--text);
+}
+
+.regime-map-cell {
+  text-align: center;
+}
+
+/* HIGHLIGHT */
+.highlight {
+  background: var(--gold-bg);
+  border: 1px solid rgba(232,184,75,0.15);
+  border-left: 3px solid var(--gold);
+  border-radius: 4px;
+  padding: 18px 22px;
+  margin: 24px 0;
+  font-size: 14px;
+  color: var(--text2);
+  line-height: 1.7;
+}
+
+.highlight strong {
+  color: var(--gold2);
+}
+
+/* ALERT BOX */
+.alert {
+  background: var(--rust-bg);
+  border: 1px solid rgba(232,107,71,0.15);
+  border-left: 3px solid var(--rust);
+  border-radius: 4px;
+  padding: 18px 22px;
+  margin: 24px 0;
+  font-size: 14px;
+  color: var(--text2);
+  line-height: 1.7;
+}
+
+.alert strong { color: var(--rust2); }
+
+/* FOOTER */
+.footer {
+  border-top: 1px solid var(--border);
+  padding: 32px 80px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--text3);
+  letter-spacing: 0.1em;
+}
+
+/* TWO COL */
+.two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+  margin: 24px 0;
+}
+
+/* BODY TEXT */
+.body-text {
+  max-width: 740px;
+}
+
+.body-text p {
+  margin-bottom: 18px;
+  font-size: 15px;
+  color: var(--text2);
+  line-height: 1.8;
+}
+
+.body-text h4 {
+  font-family: var(--sans);
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text);
+  margin: 32px 0 10px;
+}
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+  .hero, .main, .footer { padding-left: 24px; padding-right: 24px; }
+  .nav { padding: 0 24px; }
+  .score-grid { grid-template-columns: 1fr; }
+  .two-col { grid-template-columns: 1fr; }
+  .regime-map-header, .regime-map-row { grid-template-columns: 130px repeat(5, 1fr); font-size: 9px; }
+  .ind-table th:nth-child(4), .ind-table td:nth-child(4) { display: none; }
+  .hero::before { display: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-badge">Framework Operativo · Regime Detection System</div>
+  <h1>Identificare il Cambio<br>di Regime <span>in Tempo Reale</span></h1>
+  <p class="hero-desc">Un sistema completo di indicatori macro e cross-asset con formule di ranking analogico (0–1) per costruire un Composite Regime Score continuo, aggiornabile settimanalmente.</p>
+  <div class="hero-meta">
+    <div class="hero-meta-item">INDICATORI TOTALI <span>38</span></div>
+    <div class="hero-meta-item">CATEGORIE <span>6</span></div>
+    <div class="hero-meta-item">FORMULA RANK <span>min-max normalizzazione</span></div>
+    <div class="hero-meta-item">AGGIORNAMENTO <span>settimanale / mensile</span></div>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav class="nav">
+  <a href="#formula">Formula Base</a>
+  <a href="#macro">Indicatori Macro</a>
+  <a href="#crossasset">Cross-Asset Ratios</a>
+  <a href="#credit">Credito & Spread</a>
+  <a href="#monetary">Politica Monetaria</a>
+  <a href="#sentiment">Sentiment & Posiz.</a>
+  <a href="#composite">Score Composito</a>
+  <a href="#mapping">Mapping dei Regimi</a>
+  <a href="#procedura">Procedura</a>
+</nav>
+
+<div class="main">
+
+<!-- SEZIONE 0: FORMULA BASE -->
+<div id="formula" class="section">
+  <div class="section-label">Sezione 0 · Fondamento matematico</div>
+  <h2>La Formula di Ranking Analogico</h2>
+  <p class="section-intro">Ogni indicatore viene trasformato in un punteggio normalizzato tra 0 e 1 tramite min-max rescaling su una finestra storica mobile. Zero indica il minimo storico (massima pressione deflazionistica / recessiva), 1 il massimo (massima pressione inflazionistica / espansiva).</p>
+
+  <div class="formula-box">
+    <div class="formula-label">Formula universale — Min-Max Normalizzazione</div>
+    <div class="formula">
+      <span class="var">Rank(x)</span> <span class="op"> = </span>
+      <span class="op">( </span><span class="var">x</span><sub>t</sub> <span class="op">−</span> <span class="var">x</span><sub>min</sub><span class="op"> ) </span>
+      <span class="op">÷</span>
+      <span class="op">( </span><span class="var">x</span><sub>max</sub> <span class="op">−</span> <span class="var">x</span><sub>min</sub><span class="op"> )</span>
+      <br>
+      <span class="comment">// dove x_min e x_max sono calcolati sulla finestra lookback (es. 5 anni = 260 settimane)</span>
+    </div>
+    <div class="formula-note">
+      Risultato: ∈ [0, 1]. Per indicatori che segnalano rischio con valori <em>alti</em> (es. VIX, spread HY), applicare <strong>1 − Rank(x)</strong> per mantenere la convenzione: 0 = risk-off/recessivo, 1 = risk-on/espansivo.
+    </div>
+  </div>
+
+  <div class="formula-box" style="border-left-color: var(--teal);">
+    <div class="formula-label" style="color: var(--teal);">Variante — Momentum / Variazione su finestra N</div>
+    <div class="formula">
+      <span class="var">Rank_Δ(x, N)</span> <span class="op"> = Rank( </span><span class="var">x</span><sub>t</sub> <span class="op">−</span> <span class="var">x</span><sub>t-N</sub><span class="op"> )</span>
+      <br>
+      <span class="comment">// Utile per indicatori di velocità di cambiamento (es. ΔYield Spread, ΔPMi)</span>
+    </div>
+    <div class="formula-note">
+      Il momentum è spesso più predittivo del livello assoluto per anticipare le transizioni. Si calcola il rank della variazione, non del valore grezzo.
+    </div>
+  </div>
+
+  <div class="formula-box" style="border-left-color: var(--violet);">
+    <div class="formula-label" style="color: var(--violet);">Variante — Z-Score su media mobile</div>
+    <div class="formula">
+      <span class="var">Z(x)</span> <span class="op"> = ( </span><span class="var">x</span><sub>t</sub> <span class="op">−</span> <span class="var">μ</span><sub>N</sub><span class="op"> ) ÷ </span><span class="var">σ</span><sub>N</sub>
+      <br>
+      <span class="var">Rank_Z(x)</span> <span class="op"> = Φ( Z(x) )</span>
+      <br>
+      <span class="comment">// Φ = CDF normale standard → trasforma lo z-score in percentile [0,1]</span>
+    </div>
+    <div class="formula-note">
+      Alternativa robusta alla min-max: meno sensibile agli outlier estremi. Φ si approssima con la funzione NORM.S.DIST() in Excel o <code>scipy.stats.norm.cdf(z)</code> in Python.
+    </div>
+  </div>
+
+  <div class="highlight">
+    <strong>Convenzione di lettura:</strong> In tutto questo documento, un rank vicino a <strong>1.0</strong> segnala condizioni espansive / inflazionistiche / risk-on. Un rank vicino a <strong>0.0</strong> segnala condizioni recessivo / deflazionistiche / risk-off. La soglia di allerta per potenziale cambio di regime è il superamento di <strong>0.20</strong> o <strong>0.80</strong> da parte del Composite Score.
+  </div>
+</div>
+
+<!-- SEZIONE 1: INDICATORI MACRO -->
+<div id="macro" class="section">
+  <div class="section-label">Sezione 1 · Ciclo economico reale</div>
+  <h2>Indicatori Macroeconomici</h2>
+  <p class="section-intro">Gli indicatori del ciclo reale catturano l'attività economica con lead time variabili. Aggregano segnali di produzione, lavoro, consumi e credito — le quattro dimensioni del ciclo.</p>
+
+  <!-- CAT A: ATTIVITÀ E PRODUZIONE -->
+  <div class="cat-header">
+    <div class="cat-num">A</div>
+    <div class="cat-title">Attività e Produzione</div>
+    <div class="cat-desc">Lead time 2–6 mesi. Misurano la salute del settore reale con anticipo sul PIL.</div>
+  </div>
+
+  <table class="ind-table">
+    <thead>
+      <tr>
+        <th style="min-width:180px">Indicatore</th>
+        <th>Formula rank</th>
+        <th>Lookback</th>
+        <th>Lead time</th>
+        <th>Polarità</th>
+        <th>Note operative</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>
+          <span class="ind-name">ISM Manufacturing PMI</span>
+          <span class="ind-ticker">Mensile — ISM</span>
+        </td>
+        <td><span class="ind-formula">Rank(PMI_t)</span><br><span style="font-family:var(--mono);font-size:10px;color:var(--text3)">Soglia critica: 50</span></td>
+        <td><span class="lead">5 anni</span></td>
+        <td><span class="lead">2–4 mesi</span></td>
+        <td><span class="pill pill-green">Diretta</span></td>
+        <td style="font-size:12px;color:var(--text2)">Rank sotto 0.30 con trend calante → segnale recessivo. Complementare con PMI Services per divergenze settoriali.</td>
+      </tr>
+      <tr>
+        <td>
+          <span class="ind-name">ISM New Orders − Inventories</span>
+          <span class="ind-ticker">Spread ISM interno</span>
+        </td>
+        <td><span class="ind-formula">Rank(NOrders − Inv)</span></td>
+        <td><span class="lead">5 anni</span></td>
+        <td><span class="lead">3–5 mesi</span></td>
+        <td><span class="pill pill-green">Diretta</span></td>
+        <td style="font-size:12px;color:var(--text2)">Spread positivo (ordini > inventari) → espansione futura. Più predittivo del PMI headline.</td>
+      </tr>
+      <tr>
+        <td>
+          <span class="ind-name">Conference Board LEI</span>
+          <span class="ind-ticker">Mensile — CB</span>
+        </td>
+        <td><span class="ind-formula">Rank(ΔLEI_6m)</span></td>
+        <td><span class="lead">5 anni</span></td>
+        <td><span class="lead">6–9 mesi</span></td>
+        <td><span class="pill pill-green">Diretta</span></td>
+        <td style="font-size:12px;color:var(--text2)">Usare la variazione a 6 mesi, non il livello. Rank della Δ < 0.25 → alta probabilità di recessione entro 9 mesi.</td>
+      </tr>
+      <tr>
+        <td>
+          <span class="ind-name">Produzione Industriale YoY%</span>
+          <span class="ind-ticker">Mensile — Fed / Eurostat</span>
+        </td>
+        <td><span class="ind-formula">Rank(IP_YoY_t)</span></td>
+        <td><span class="lead">10 anni</span></td>
+        <td><span class="lead">Contemporaneo</span></td>
+        <td><span class="pill pill-green">Diretta</span></td>
+        <td style="font-size:12px;color:var(--text2)">Lagga il ciclo ma conferma. Usare come validazione degli indicatori leading, non come trigger primario.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- CAT B: MERCATO DEL LAVORO -->
+  <div class="cat-header">
+    <div class="cat-num">B</div>
+    <div class="cat-title">Mercato del Lavoro</div>
+    <div class="cat-desc">Indicatori lagging ma fondamentali per stimare la fase del ciclo e il livello di output gap.</div>
+  </div>
+
+  <table class="ind-table">
+    <thead>
+      <tr>
+        <th>Indicatore</th>
+        <th>Formula rank</th>
+        <th>Lookback</th>
+        <th>Lead time</th>
+        <th>Polarità</th>
+        <th>Note operative</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>
+          <span class="ind-name">Initial Jobless Claims (4w MA)</span>
+          <span class="ind-ticker">Settimanale — DOL</span>
+        </td>
+        <td><span class="ind-formula">1 − Rank(Claims_4wMA)</span></td>
+        <td><span class="lead">5 anni</span></td>
+        <td><span class="lead">Leading ~4 sett.</span></td>
+        <td><span class="pill pill-rust">Inversa</span></td>
+        <td style="font-size:12px;color:var(--text2)">Claims alti = rank basso (inverso). Indicatore ad alta frequenza — aggiornabile settimanalmente. Soglia storica allerta: 300k+.</td>
+      </tr>
+      <tr>
+        <td>
+          <span class="ind-name">Sahm Rule Indicator</span>
+          <span class="ind-ticker">Mensile — BLS/Fed</span>
+        </td>
+        <td><span class="ind-formula">1 − Rank(Sahm_t)</span></td>
+        <td><span class="lead">10 anni</span></td>
+        <td><span class="lead">Contemp.</span></td>
+        <td><span class="pill pill-rust">Inversa</span></td>
+        <td style="font-size:12px;color:var(--text2)">Sahm = U3_3mMA − U3_min_12m. Valore ≥ 0.50 ha segnalato ogni recessione USA dal 1970 con 100% accuracy.</td>
+      </tr>
+      <tr>
+        <td>
+          <span class="ind-name">Nonfarm Payrolls 3m Media</span>
+          <span class="ind-ticker">Mensile — BLS</span>
+        </td>
+        <td><span class="ind-formula">Rank(NFP_3mMA)</span></td>
+        <td><span class="lead">5 anni</span></td>
+        <td><span class="lead">Lagging</span></td>
+        <td><span class="pill pill-green">Diretta</span></td>
+        <td style="font-size:12px;color:var(--text2)">Usare la media mobile a 3 mesi per ridurre il rumore. Scendere sotto 100k/mese è storicamente soglia di allerta recessiva.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- CAT C: CREDITO BANCARIO -->
+  <div class="cat-header">
+    <div class="cat-num">C</div>
+    <div class="cat-title">Credit Impulse e Credito Bancario</div>
+    <div class="cat-desc">Il flusso del credito come motore del ciclo: anticipa l'attività reale di 6–18 mesi.</div>
+  </div>
+
+  <table class="ind-table">
+    <thead>
+      <tr>
+        <th>Indicatore</th>
+        <th>Formula rank</th>
+        <th>Lookback</th>
+        <th>Lead time</th>
+        <th>Polarità</th>
+        <th>Note operative</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>
+          <span class="ind-name">Credit Impulse USA</span>
+          <span class="ind-ticker">Mensile — Fed H.8</span>
+        </td>
+        <td><span class="ind-formula">Rank(ΔCredit/PILt − ΔCredit/PILt-12)</span></td>
+        <td><span class="lead">10 anni</span></td>
+        <td><span class="lead">6–18 mesi</span></td>
+        <td><span class="pill pill-green">Diretta</span></td>
+        <td style="font-size:12px;color:var(--text2)">Biggs (2010): il più potente leading indicator del ciclo globale. Rank < 0.30 dopo picco → segnale di rallentamento. Calcolare anche per Cina.</td>
+      </tr>
+      <tr>
+        <td>
+          <span class="ind-name">Senior Loan Officer Survey</span>
+          <span class="ind-ticker">Trimestrale — Fed</span>
+        </td>
+        <td><span class="ind-formula">1 − Rank(% che irrigidisce standard)</span></td>
+        <td><span class="lead">5 anni</span></td>
+        <td><span class="lead">2–3 trim.</span></td>
+        <td><span class="pill pill-rust">Inversa</span></td>
+        <td style="font-size:12px;color:var(--text2)">Banche che irrigidiscono i criteri di prestito = credit crunch imminente. Coincide storicamente con picco del ciclo del credito.</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- SEZIONE 2: CROSS-ASSET RATIOS -->
+<div id="crossasset" class="section">
+  <div class="section-label">Sezione 2 · Rapporti cross-asset e indicatori di mercato</div>
+  <h2>Cross-Asset Ratios & Market Signals</h2>
+  <p class="section-intro">I rapporti tra security codificano l'informazione del mercato in modo continuo e ad alta frequenza — spesso con anticipo sugli indicatori macro ufficiali che escono con ritardo.</p>
+
+  <div class="cat-header">
+    <div class="cat-num">D</div>
+    <div class="cat-title">Rapporti Commodities</div>
+    <div class="cat-desc">Le materie prime prezzano il ciclo economico globale in tempo reale.</div>
+  </div>
+
+  <table class="ind-table">
+    <thead>
+      <tr>
+        <th>Ratio / Indicatore</th>
+        <th>Formula rank</th>
+        <th>Lookback</th>
+        <th>Lead time</th>
+        <th>Segnale</th>
+        <th>Interpretazione</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>
+          <span class="ind-name">Copper / Gold Ratio</span>
+          <span class="ind-ticker">HG1 ÷ GC1 (futures)</span>
+          <span class="ind-formula">Rank(HG / GC)</span>
+        </td>
+        <td><span class="ind-formula">Rank(Cu_t / Au_t)</span></td>
+        <td><span class="lead">5 anni</span></td>
+        <td><span class="lead">3–6 mesi</span></td>
+        <td><span class="pill pill-green">Diretta</span></td>
+        <td style="font-size:12px;color:var(--text2)">Il ratio più citato: il rame è pro-ciclico (domanda industriale), l'oro è anticiclico (safe haven). Rank alto = reflazione / crescita globale. Correlazione con rendimento US 10Y molto elevata — usare come leading del ciclo dei tassi.</td>
+      </tr>
+      <tr>
+        <td>
+          <span class="ind-name">Oil / Gold Ratio</span>
+          <span class="ind-ticker">CL1 ÷ GC1</span>
+          <span class="ind-formula">Rank(CL / GC)</span>
+        </td>
+        <td><span class="ind-formula">Rank(Oil_t / Au_t)</span></td>
+        <td><span class="lead">5 anni</span></td>
+        <td><span class="lead">Contemp.</span></td>
+        <td><span class="pill pill-green">Diretta</span></td>
+        <td style="font-size:12px;color:var(--text2)">Petrolio = domanda reale + geopolitica. Oro = avversione al rischio. Ratio alto → regime di reflazione o stagflazione. Rank alto con Copper/Gold basso → possibile stagflazione (shock offerta).</td>
+      </tr>
+      <tr>
+        <td>
+          <span class="ind-name">Copper / CRB Index Ratio</span>
+          <span class="ind-ticker">HG1 ÷ $CRB</span>
+          <span class="ind-formula">Rank(Cu / CRB)</span>
+        </td>
+        <td><span class="ind-formula">Rank(Cu_t / CRB_t)</span></td>
+        <td><span class="lead">5 anni</span></td>
+        <td><span class="lead">2–4 mesi</span></td>
+        <td><span class="pill pill-green">Diretta</span></td>
+        <td style="font-size:12px;color:var(--text2)">Il rame normalizzato sull'indice commodity generale misura la forza relativa della domanda industriale vs. pressioni inflazionistiche generali. Distingue deflazione da boom manifatturiero.</td>
+      </tr>
+      <tr>
+        <td>
+          <span class="ind-name">Gold in Termini Reali</span>
+          <span class="ind-ticker">GC1 ÷ CPI (deflato)</span>
+          <span class="ind-formula">1 − Rank(Au_real)</span>
+        </td>
+        <td><span class="ind-formula">1 − Rank(Au_t / CPI_t)</span></td>
+        <td><span class="lead">10 anni</span></td>
+        <td><span class="lead">Contemp.</span></td>
+        <td><span class="pill pill-rust">Inversa</span></td>
+        <td style="font-size:12px;color:var(--text2)">Oro reale alto → tassi reali negativi, incertezza sistemica, regime di repressione finanziaria. Rank basso (inverso) del gold reale = buone condizioni finanziarie.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="cat-header">
+    <div class="cat-num">E</div>
+    <div class="cat-title">Rapporti Azionari Cross-Settoriali</div>
+    <div class="cat-desc">La rotazione settoriale precede i cambi di regime — i mercati azionari sono forward-looking.</div>
+  </div>
+
+  <table class="ind-table">
+    <thead>
+      <tr>
+        <th>Ratio / Indicatore</th>
+        <th>Formula rank</th>
+        <th>Lookback</th>
+        <th>Lead time</th>
+        <th>Segnale</span></th>
+        <th>Interpretazione</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>
+          <span class="ind-name">XLY / XLP Ratio</span>
+          <span class="ind-ticker">Cons. Discret. ÷ Cons. Staples</span>
+          <span class="ind-formula">Rank(XLY / XLP)</span>
+        </td>
+        <td><span class="ind-formula">Rank(XLY_t / XLP_t)</span></td>
+        <td><span class="lead">3 anni</span></td>
+        <td><span class="lead">1–3 mesi</span></td>
+        <td><span class="pill pill-green">Diretta</span></td>
+        <td style="font-size:12px;color:var(--text2)">Il "risk appetite barometer" per eccellenza. Rank alto = consumatori forti, aspettative di crescita robuste. Divergenza prolungata dal ciclo macro → possibile inversione imminente.</td>
+      </tr>
+      <tr>
+        <td>
+          <span class="ind-name">XLK / XLU Ratio</span>
+          <span class="ind-ticker">Technology ÷ Utilities</span>
+          <span class="ind-formula">Rank(XLK / XLU)</span>
+        </td>
+        <td><span class="ind-formula">Rank(XLK_t / XLU_t)</span></td>
+        <td><span class="lead">3 anni</span></td>
+        <td><span class="lead">1–3 mesi</span></td>
+        <td><span class="pill pill-green">Diretta</span></td>
+        <td style="font-size:12px;color:var(--text2)">Growth vs. defensive. Rank alto = regime ZIRP/Goldilocks favorevole al growth. Crollo verso 0 = flight to defensives, regime di stress. Alta correlazione con durations e tassi reali.</td>
+      </tr>
+      <tr>
+        <td>
+          <span class="ind-name">XLF / SPY Ratio</span>
+          <span class="ind-ticker">Financials ÷ S&amp;P500</span>
+          <span class="ind-formula">Rank(XLF / SPY)</span>
+        </td>
+        <td><span class="ind-formula">Rank(XLF_t / SPY_t)</span></td>
+        <td><span class="lead">3 anni</span></td>
+        <td><span class="lead">1–2 mesi</span></td>
+        <td><span class="pill pill-green">Diretta</span></td>
+        <td style="font-size:12px;color:var(--text2)">I finanziari outperformano in regimi reflattivi con curva dei rendimenti in irripidimento. Sottoperformano in ZIRP e crisi. Indicatore di salute del ciclo del credito bancario.</td>
+      </tr>
+      <tr>
+        <td>
+          <span class="ind-name">XLE / SPY Ratio</span>
+          <span class="ind-ticker">Energy ÷ S&amp;P500</span>
+          <span class="ind-formula">Rank(XLE / SPY)</span>
+        </td>
+        <td><span class="ind-formula">Rank(XLE_t / SPY_t)</span></td>
+        <td><span class="lead">3 anni</span></td>
+        <td><span class="lead">Contemp.</span></td>
+        <td><span class="pill pill-green">Diretta</span></td>
+        <td style="font-size:12px;color:var(--text2)">Energy outperforma in stagflazione e reflazione. Rank molto alto con XLK/XLU basso → possibile regime stagflattivo. Usare in combinazione con Oil/Gold per conferma.</td>
+      </tr>
+      <tr>
+        <td>
+          <span class="ind-name">Small Cap / Large Cap (IWM/SPY)</span>
+          <span class="ind-ticker">Russell 2000 ÷ S&amp;P 500</span>
+          <span class="ind-formula">Rank(IWM / SPY)</span>
+        </td>
+        <td><span class="ind-formula">Rank(IWM_t / SPY_t)</span></td>
+        <td><span class="lead">3 anni</span></td>
+        <td><span class="lead">2–4 mesi</span></td>
+        <td><span class="pill pill-green">Diretta</span></td>
+        <td style="font-size:12px;color:var(--text2)">Small cap più domestiche e più sensibili al ciclo creditizio locale. Outperformano in regime reflattivo / early cycle. Sottoperformano in ZIRP con QE (favore al growth globale).</td>
+      </tr>
+      <tr>
+        <td>
+          <span class="ind-name">EM / DM Ratio (EEM/SPY)</span>
+          <span class="ind-ticker">EM ETF ÷ S&amp;P 500</span>
+          <span class="ind-formula">Rank(EEM / SPY)</span>
+        </td>
+        <td><span class="ind-formula">Rank(EEM_t / SPY_t)</span></td>
+        <td><span class="lead">5 anni</span></td>
+        <td><span class="lead">2–4 mesi</span></td>
+        <td><span class="pill pill-green">Diretta</span></td>
+        <td style="font-size:12px;color:var(--text2)">EM outperforma quando dollaro debole + crescita globale robusta. Rank alto → regime favorevole agli emergenti (commodity, reflazione). Rank basso → USD strength, risk-off globale.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="cat-header">
+    <div class="cat-num">F</div>
+    <div class="cat-title">Rapporti Fixed Income e Curva dei Rendimenti</div>
+    <div class="cat-desc">La struttura dei tassi è il leading indicator più affidabile per i cambi di regime ciclici.</div>
+  </div>
+
+  <table class="ind-table">
+    <thead>
+      <tr>
+        <th>Ratio / Indicatore</th>
+        <th>Formula rank</th>
+        <th>Lookback</th>
+        <th>Lead time</th>
+        <th>Segnale</th>
+        <th>Interpretazione</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>
+          <span class="ind-name">Yield Spread 10Y − 2Y</span>
+          <span class="ind-ticker">US Treasuries</span>
+          <span class="ind-formula">Rank(UST10Y − UST2Y)</span>
+        </td>
+        <td><span class="ind-formula">Rank(Y10_t − Y2_t)</span></td>
+        <td><span class="lead">10 anni</span></td>
+        <td><span class="lead">12–18 mesi</span></td>
+        <td><span class="pill pill-green">Diretta</span></td>
+        <td style="font-size:12px;color:var(--text2)">Il singolo miglior predictor di recessione. Rank < 0.25 (spread invertito) → alta probabilità di recessione entro 12–18 mesi. Rank > 0.75 → early/mid cycle espansivo.</td>
+      </tr>
+      <tr>
+        <td>
+          <span class="ind-name">Yield Spread 10Y − 3M</span>
+          <span class="ind-ticker">US Treasuries (Alt. Fed NY)</span>
+          <span class="ind-formula">Rank(Y10 − Y3m)</span>
+        </td>
+        <td><span class="ind-formula">Rank(Y10_t − Y3m_t)</span></td>
+        <td><span class="lead">10 anni</span></td>
+        <td><span class="lead">12–18 mesi</span></td>
+        <td><span class="pill pill-green">Diretta</span></td>
+        <td style="font-size:12px;color:var(--text2)">La versione preferita dalla Fed di New York per i modelli di probabilità recessiva. Usare come verifica del 2Y-10Y — se entrambi invertiti, segnale molto robusto.</td>
+      </tr>
+      <tr>
+        <td>
+          <span class="ind-name">TIP / IEF Ratio (Break-even inflaz.)</span>
+          <span class="ind-ticker">TIPS ETF ÷ 7-10Y Treasury</span>
+          <span class="ind-formula">Rank(TIP / IEF)</span>
+        </td>
+        <td><span class="ind-formula">Rank(TIP_t / IEF_t)</span></td>
+        <td><span class="lead">5 anni</span></td>
+        <td><span class="lead">3–6 mesi</span></td>
+        <td><span class="pill pill-green">Diretta</span></td>
+        <td style="font-size:12px;color:var(--text2)">Proxy del breakeven di inflazione a 10 anni. Rank alto → mercato prezza inflazione strutturale alta. Usare come discriminante tra Goldilocks (rank basso) e Reflazione/Stagflazione (rank alto).</td>
+      </tr>
+      <tr>
+        <td>
+          <span class="ind-name">LQD / IEF Ratio (Credit vs. Govt)</span>
+          <span class="ind-ticker">IG Corp Bond ÷ 7-10Y Treasury</span>
+          <span class="ind-formula">Rank(LQD / IEF)</span>
+        </td>
+        <td><span class="ind-formula">Rank(LQD_t / IEF_t)</span></td>
+        <td><span class="lead">5 anni</span></td>
+        <td><span class="lead">1–3 mesi</span></td>
+        <td><span class="pill pill-green">Diretta</span></td>
+        <td style="font-size:12px;color:var(--text2)">Misura la propensione al rischio nel fixed income. Rank alto = compressione degli spread, regime risk-on. Crollo → allargamento spread, deterioramento condizioni creditizie.</td>
+      </tr>
+      <tr>
+        <td>
+          <span class="ind-name">JNK / LQD Ratio (HY vs. IG)</span>
+          <span class="ind-ticker">HY ETF ÷ IG ETF</span>
+          <span class="ind-formula">Rank(JNK / LQD)</span>
+        </td>
+        <td><span class="ind-formula">Rank(JNK_t / LQD_t)</span></td>
+        <td><span class="lead">5 anni</span></td>
+        <td><span class="lead">1–2 mesi</span></td>
+        <td><span class="pill pill-green">Diretta</span></td>
+        <td style="font-size:12px;color:var(--text2)">Misura la propensione al rischio di credito puro. Rank > 0.70 → ciclo del credito maturo/espansivo. Rank < 0.30 in rapida discesa → possibile Minsky moment imminente.</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- SEZIONE 3: CREDITO E SPREAD -->
+<div id="credit" class="section">
+  <div class="section-label">Sezione 3 · Condizioni finanziarie e spread creditizi</div>
+  <h2>Credito, Spread e Condizioni Finanziarie</h2>
+  <p class="section-intro">Gli spread creditizi e gli indici di condizioni finanziarie misurano direttamente il "prezzo" del rischio nell'economia — il fattore di sconto che separa valore fondamentale da valore di mercato.</p>
+
+  <table class="ind-table">
+    <thead>
+      <tr>
+        <th>Indicatore</th>
+        <th>Formula rank</th>
+        <th>Lookback</th>
+        <th>Lead time</th>
+        <th>Segnale</th>
+        <th>Note operative</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>
+          <span class="ind-name">HY OAS Spread</span>
+          <span class="ind-ticker">ICE BofA HY Index (FRED: BAMLH0A0HYM2)</span>
+          <span class="ind-formula">1 − Rank(HY_OAS)</span>
+        </td>
+        <td><span class="ind-formula">1 − Rank(HY_spread_t)</span></td>
+        <td><span class="lead">10 anni</span></td>
+        <td><span class="lead">Contemp.–1 trim.</span></td>
+        <td><span class="pill pill-rust">Inversa</span></td>
+        <td style="font-size:12px;color:var(--text2)">Spread HY = termometro del ciclo creditizio. &lt;300bp: boom. 300–600bp: late cycle stress. &gt;700bp: regime di distress/bust. Rank invertito: rank basso = spread alti = risk-off.</td>
+      </tr>
+      <tr>
+        <td>
+          <span class="ind-name">IG OAS Spread</span>
+          <span class="ind-ticker">ICE BofA IG (FRED: BAMLC0A0CM)</span>
+          <span class="ind-formula">1 − Rank(IG_OAS)</span>
+        </td>
+        <td><span class="ind-formula">1 − Rank(IG_spread_t)</span></td>
+        <td><span class="lead">10 anni</span></td>
+        <td><span class="lead">Contemp.</span></td>
+        <td><span class="pill pill-rust">Inversa</span></td>
+        <td style="font-size:12px;color:var(--text2)">Più stabile dell'HY ma reagisce in anticipo rispetto all'equity nelle crisi sistemiche. Un allargamento di IG con spread HY stabili può segnalare deterioramento della qualità del credito mid-grade.</td>
+      </tr>
+      <tr>
+        <td>
+          <span class="ind-name">Chicago Fed NFCI</span>
+          <span class="ind-ticker">National Financial Conditions Index</span>
+          <span class="ind-formula">1 − Rank(NFCI_t)</span>
+        </td>
+        <td><span class="ind-formula">1 − Rank(NFCI_t)</span></td>
+        <td><span class="lead">5 anni</span></td>
+        <td><span class="lead">1–3 mesi</span></td>
+        <td><span class="pill pill-rust">Inversa</span></td>
+        <td style="font-size:12px;color:var(--text2)">Composito di 105 indicatori finanziari. Valori positivi = condizioni restrittive. Media zero = condizioni neutre. Usare sia il livello che il trend (momentum) della variazione settimanale.</td>
+      </tr>
+      <tr>
+        <td>
+          <span class="ind-name">Bloomberg US FCI</span>
+          <span class="ind-ticker">Financial Conditions Index</span>
+          <span class="ind-formula">Rank(FCI_t)</span>
+        </td>
+        <td><span class="ind-formula">Rank(FCI_t)</span></td>
+        <td><span class="lead">5 anni</span></td>
+        <td><span class="lead">1–3 mesi</span></td>
+        <td><span class="pill pill-green">Diretta</span></td>
+        <td style="font-size:12px;color:var(--text2)">Il Bloomberg FCI è costruito in modo che valori alti = condizioni accomodanti. Diretta convenzione opposta all'NFCI. Sempre verificare la polarità dell'indice usato.</td>
+      </tr>
+      <tr>
+        <td>
+          <span class="ind-name">TED Spread (3m LIBOR − T-Bill)</span>
+          <span class="ind-ticker">Proxy: SOFR spread o BSBY</span>
+          <span class="ind-formula">1 − Rank(TED_t)</span>
+        </td>
+        <td><span class="ind-formula">1 − Rank(TED_t)</span></td>
+        <td><span class="lead">5 anni</span></td>
+        <td><span class="lead">Contemp.</span></td>
+        <td><span class="pill pill-rust">Inversa</span></td>
+        <td style="font-size:12px;color:var(--text2)">Misura il rischio di controparte interbancario. Esplosione storica a 450bp nel 2008. Nota: il LIBOR è stato sostituito dal SOFR — costruire spread equivalente con strumenti disponibili.</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- SEZIONE 4: POLITICA MONETARIA -->
+<div id="monetary" class="section">
+  <div class="section-label">Sezione 4 · Stance della politica monetaria</div>
+  <h2>Indicatori di Politica Monetaria</h2>
+  <p class="section-intro">Le aspettative sul ciclo dei tassi — più che il livello corrente — determinano i premi di rischio e le valutazioni degli asset. Il mercato anticipa la Fed, non viceversa.</p>
+
+  <table class="ind-table">
+    <thead>
+      <tr>
+        <th>Indicatore</th>
+        <th>Formula rank</th>
+        <th>Lookback</th>
+        <th>Lead time</th>
+        <th>Segnale</th>
+        <th>Note operative</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>
+          <span class="ind-name">Fed Funds Rate vs. Taylor Rule</span>
+          <span class="ind-ticker">FFR vs. stima Taylor Rate</span>
+          <span class="ind-formula">Rank(FFR − TaylorRate)</span>
+        </td>
+        <td><span class="ind-formula">1 − Rank(FFR_t − TaylorR_t)</span></td>
+        <td><span class="lead">10 anni</span></td>
+        <td><span class="lead">6–12 mesi</span></td>
+        <td><span class="pill pill-rust">Inversa</span></td>
+        <td style="font-size:12px;color:var(--text2)">Taylor Rule: r* = π + 0.5(π − π*) + 0.5(output gap) + r_neutral. Se FFR molto sopra Taylor Rate → politica eccessivamente restrittiva → rischio recessione indotta. Rank basso = condizioni accomodanti.</td>
+      </tr>
+      <tr>
+        <td>
+          <span class="ind-name">Fed Fund Futures — Implied Rate 12m</span>
+          <span class="ind-ticker">CME FedWatch / FF futures</span>
+          <span class="ind-formula">1 − Rank(Implied_12m)</span>
+        </td>
+        <td><span class="ind-formula">1 − Rank(FF12m_implied)</span></td>
+        <td><span class="lead">3 anni</span></td>
+        <td><span class="lead">Leading market</span></td>
+        <td><span class="pill pill-rust">Inversa</span></td>
+        <td style="font-size:12px;color:var(--text2)">Il mercato dei futures prezza le aspettative future — il vero leading indicator della stance monetaria. Rank basso (alti tassi impliciti) → condizioni restrittive attese. Aggiornabile giornalmente.</td>
+      </tr>
+      <tr>
+        <td>
+          <span class="ind-name">M2 Money Supply YoY%</span>
+          <span class="ind-ticker">Fed H.6 — Mensile</span>
+          <span class="ind-formula">Rank(ΔM2_YoY)</span>
+        </td>
+        <td><span class="ind-formula">Rank(M2_yoy_t)</span></td>
+        <td><span class="lead">5 anni</span></td>
+        <td><span class="lead">6–12 mesi</span></td>
+        <td><span class="pill pill-green">Diretta</span></td>
+        <td style="font-size:12px;color:var(--text2)">La variazione della massa monetaria anticipa sia l'inflazione che il ciclo economico. Contrazione di M2 (come 2022-2023) è evento raro con implicazioni deflazionistiche nel medio termine.</td>
+      </tr>
+      <tr>
+        <td>
+          <span class="ind-name">DXY (Dollaro) — Inverso</span>
+          <span class="ind-ticker">US Dollar Index</span>
+          <span class="ind-formula">1 − Rank(DXY_t)</span>
+        </td>
+        <td><span class="ind-formula">1 − Rank(DXY_t)</span></td>
+        <td><span class="lead">5 anni</span></td>
+        <td><span class="lead">Contemp.</span></td>
+        <td><span class="pill pill-rust">Inversa</span></td>
+        <td style="font-size:12px;color:var(--text2)">Dollaro forte → condizioni finanziarie globali restrittive (asset prezzati in USD diventano più cari per il resto del mondo). Rank basso (USD forte) = stress per EM, commodity e credito globale.</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- SEZIONE 5: SENTIMENT E POSIZIONAMENTO -->
+<div id="sentiment" class="section">
+  <div class="section-label">Sezione 5 · Sentiment, volatilità e posizionamento</div>
+  <h2>Sentiment & Posizionamento degli Investitori</h2>
+  <p class="section-intro">Il posizionamento estremo degli investitori e la volatilità strutturale sono indicatori contrarian ad alta frequenza — spesso i migliori segnali ai punti di svolta di regime.</p>
+
+  <table class="ind-table">
+    <thead>
+      <tr>
+        <th>Indicatore</th>
+        <th>Formula rank</th>
+        <th>Lookback</th>
+        <th>Lead time</th>
+        <th>Segnale</th>
+        <th>Note operative</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>
+          <span class="ind-name">VIX — Inverso</span>
+          <span class="ind-ticker">CBOE Volatility Index</span>
+          <span class="ind-formula">1 − Rank(VIX_t)</span>
+        </td>
+        <td><span class="ind-formula">1 − Rank(VIX_t)</span></td>
+        <td><span class="lead">5 anni</span></td>
+        <td><span class="lead">Contemp.</span></td>
+        <td><span class="pill pill-rust">Inversa</span></td>
+        <td style="font-size:12px;color:var(--text2)">VIX: 10–15 = compressione estrema (regime ZIRP). 20–30 = stress moderato. &gt;40 = crisi acuta. Rank alto (VIX basso) = soppressione della vol, regime di quiete artificiale. Precede spesso Minsky moment.</td>
+      </tr>
+      <tr>
+        <td>
+          <span class="ind-name">VIX Term Structure — Contango/Backwardation</span>
+          <span class="ind-ticker">VIX3M ÷ VIX — Ratio</span>
+          <span class="ind-formula">Rank(VIX3M / VIX)</span>
+        </td>
+        <td><span class="ind-formula">Rank(VIX3m_t / VIX_t)</span></td>
+        <td><span class="lead">3 anni</span></td>
+        <td><span class="lead">Contemp.</span></td>
+        <td><span class="pill pill-green">Diretta</span></td>
+        <td style="font-size:12px;color:var(--text2)">Ratio &gt; 1 (contango) = calma attesa. Ratio &lt; 1 (backwardation) = mercato teme più il breve che il lungo → segnale di stress acuto imminente. Cruciale ai punti di svolta.</td>
+      </tr>
+      <tr>
+        <td>
+          <span class="ind-name">AAII Bull-Bear Spread</span>
+          <span class="ind-ticker">Settimanale — AAII Survey</span>
+          <span class="ind-formula">Rank(Bulls% − Bears%)</span>
+        </td>
+        <td><span class="ind-formula">Rank(Bull_t − Bear_t)</span></td>
+        <td><span class="lead">5 anni</span></td>
+        <td><span class="lead">Contrarian</span></td>
+        <td><span class="pill pill-blue">Contrarian</span></td>
+        <td style="font-size:12px;color:var(--text2)">Indicatore contrarian: rank molto alto = euforia retail → segnale bearish di medio termine. Rank molto basso = pessimismo estremo → opportunità contrarian. Usare come overlay, non come segnale primario.</td>
+      </tr>
+      <tr>
+        <td>
+          <span class="ind-name">COT Net Positioning (Asset Manager)</span>
+          <span class="ind-ticker">CFTC Commitment of Traders</span>
+          <span class="ind-formula">Rank(Net_Long_AM)</span>
+        </td>
+        <td><span class="ind-formula">Rank(Net_AM_t)</span></td>
+        <td><span class="lead">3 anni</span></td>
+        <td><span class="lead">Contrarian</span></td>
+        <td><span class="pill pill-blue">Contrarian</span></td>
+        <td style="font-size:12px;color:var(--text2)">Il posizionamento netto degli asset manager nei futures equity e obbligazionari. Posizionamento estremo (rank vicino a 0 o 1) storicamente precede inversioni. Disponibile settimanalmente via CFTC.gov.</td>
+      </tr>
+      <tr>
+        <td>
+          <span class="ind-name">Put/Call Ratio (Total Market)</span>
+          <span class="ind-ticker">CBOE Total P/C Ratio</span>
+          <span class="ind-formula">1 − Rank(PC_Ratio_21dMA)</span>
+        </td>
+        <td><span class="ind-formula">1 − Rank(PC_21d_t)</span></td>
+        <td><span class="lead">3 anni</span></td>
+        <td><span class="lead">Contrarian</span></td>
+        <td><span class="pill pill-blue">Contrarian</span></td>
+        <td style="font-size:12px;color:var(--text2)">P/C alto = protezione/pessimismo estremo → contrarian bullish. P/C basso = compiacenza → precede correzioni. Usare media a 21 giorni per ridurre rumore. Invertire per allineare con rank espansivo.</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- SEZIONE 6: SCORE COMPOSITO -->
+<div id="composite" class="section">
+  <div class="section-label">Sezione 6 · Aggregazione e scoring</div>
+  <h2>Il Composite Regime Score (CRS)</h2>
+  <p class="section-intro">Il CRS aggrega tutti gli indicatori in un unico numero continuo tra 0 e 1 tramite media ponderata. Non è un segnale binario: è una misura analogica della posizione nel ciclo macroeconomico.</p>
+
+  <div class="formula-box">
+    <div class="formula-label">Formula — Composite Regime Score con pesi differenziati</div>
+    <div class="formula">
+      <span class="var">CRS</span><sub>t</sub> <span class="op"> = Σ</span> <span class="var">w</span><sub>i</sub> <span class="op">·</span> <span class="var">Rank</span><sub>i,t</sub>
+      <br><br>
+      <span class="comment">// Pesi raccomandati (somma = 1.00):</span><br>
+      <span class="var">w</span><sub>Macro</sub> <span class="op">= 0.30</span> <span class="comment">// ISM PMI, LEI, Credit Impulse, Lavoro</span><br>
+      <span class="var">w</span><sub>Cross-Asset</sub> <span class="op">= 0.25</span> <span class="comment">// Cu/Au, XLY/XLP, Settoriali</span><br>
+      <span class="var">w</span><sub>Fixed Income</sub> <span class="op">= 0.25</span> <span class="comment">// Yield curve, TIP/IEF, LQD/IEF</span><br>
+      <span class="var">w</span><sub>Credito/FCI</sub> <span class="op">= 0.15</span> <span class="comment">// HY spread, NFCI, TED</span><br>
+      <span class="var">w</span><sub>Sentiment</sub> <span class="op">= 0.05</span> <span class="comment">// VIX, P/C ratio (contrarian, peso ridotto)</span>
+    </div>
+    <div class="formula-note">
+      I pesi possono essere calibrati su dati storici tramite regressione logistica ordinale (predittore: CRS → variabile dipendente: regime ex post identificato). La struttura di pesi sopra è una raccomandazione basata sulla letteratura empirica; testare sempre su dati out-of-sample.
+    </div>
+  </div>
+
+  <div class="formula-box" style="border-left-color: var(--violet);">
+    <div class="formula-label" style="color: var(--violet);">Formula avanzata — Sub-indici per dimensione</div>
+    <div class="formula">
+      <span class="var">GrowthScore</span> <span class="op"> = Rank(ISM) · 0.30 + Rank(LEI_Δ) · 0.25 + Rank(CreditImpulse) · 0.25 + Rank(NFP) · 0.20</span><br>
+      <span class="var">InflationScore</span> <span class="op"> = Rank(TIP/IEF) · 0.30 + Rank(Oil/Au) · 0.25 + Rank(M2_yoy) · 0.25 + Rank(Cu/Au) · 0.20</span><br>
+      <span class="var">RiskScore</span> <span class="op"> = (1−Rank(HY_spread)) · 0.30 + Rank(XLY/XLP) · 0.25 + Rank(JNK/LQD) · 0.25 + (1−Rank(VIX)) · 0.20</span><br>
+      <span class="var">MonetaryScore</span> <span class="op"> = (1−Rank(FFR−Taylor)) · 0.40 + (1−Rank(DXY)) · 0.30 + Rank(Yield_Spread_10-2) · 0.30</span>
+    </div>
+    <div class="formula-note">
+      I quattro sub-indici (Growth, Inflation, Risk, Monetary) definiscono le coordinate nello spazio dei regimi. Il CRS aggregato è utile per una vista unica; i sub-indici sono essenziali per classificare il regime specifico (Goldilocks vs. Stagflazione vs. Reflazione etc.).
+    </div>
+  </div>
+
+  <div class="score-grid">
+    <div class="score-card">
+      <div class="score-card-label">Interpretazione CRS</div>
+      <h4>Lettura del punteggio aggregato</h4>
+      <p>
+        <strong style="color:var(--rust2)">0.00 – 0.25</strong> → Regime recessivo/deflazionistico. Fly-to-quality. Sovrappeso cash e governativi lunghi.<br><br>
+        <strong style="color:var(--gold2)">0.25 – 0.45</strong> → Transizione recessione→ripresa. Accumulare ciclici e credito selettivamente.<br><br>
+        <strong style="color:var(--green2)">0.45 – 0.65</strong> → Goldilocks / Mid-cycle. Portafoglio bilanciato, massima diversificazione.<br><br>
+        <strong style="color:var(--gold2)">0.65 – 0.80</strong> → Late cycle / Reflazione. Commodity, finanziari, duration corta.<br><br>
+        <strong style="color:var(--rust2)">0.80 – 1.00</strong> → Surriscaldamento / Pre-bust. Ridurre rischio, aumentare hedging.
+      </p>
+    </div>
+    <div class="score-card">
+      <div class="score-card-label">Segnali di transizione</div>
+      <h4>Quando il CRS segnala cambio di regime</h4>
+      <p>
+        <strong style="color:var(--teal2)">Segnale primario:</strong> CRS attraversa soglie critiche (0.25, 0.45, 0.65, 0.80) con momentum sostenuto per 4+ settimane.<br><br>
+        <strong style="color:var(--teal2)">Segnale di divergenza:</strong> GrowthScore e InflationScore si muovono in direzioni opposte → potenziale stagflazione in formazione.<br><br>
+        <strong style="color:var(--teal2)">Segnale di velocità:</strong> Variazione di CRS &gt; 0.15 in 4 settimane → transizione accelerata, ribilanciare immediatamente.<br><br>
+        <strong style="color:var(--teal2)">Segnale di conferma:</strong> CRS concorda con almeno 3 dei 4 sub-indici → affidabilità elevata del segnale.
+      </p>
+    </div>
+  </div>
+</div>
+
+<!-- SEZIONE 7: MAPPING DEI REGIMI -->
+<div id="mapping" class="section">
+  <div class="section-label">Sezione 7 · Classificazione del regime</div>
+  <h2>Mapping dei Regimi via Sub-Indici</h2>
+  <p class="section-intro">Il regime specifico si identifica combinando GrowthScore e InflationScore con RiskScore e MonetaryScore. La matrice seguente mappa le combinazioni di sub-indici ai regimi macroeconomici.</p>
+
+  <div class="regime-map">
+    <div class="regime-map-header">
+      <span>Regime</span>
+      <span style="text-align:center">Growth Score</span>
+      <span style="text-align:center">Inflation Score</span>
+      <span style="text-align:center">Risk Score</span>
+      <span style="text-align:center">Monetary Score</span>
+      <span style="text-align:center">CRS Tipico</span>
+    </div>
+    <div class="regime-map-row">
+      <span class="regime-map-name"><span class="pill pill-blue">Goldilocks</span></span>
+      <span class="regime-map-cell"><span class="pill pill-green">&gt; 0.60</span></span>
+      <span class="regime-map-cell"><span class="pill pill-teal">0.30 – 0.55</span></span>
+      <span class="regime-map-cell"><span class="pill pill-green">&gt; 0.65</span></span>
+      <span class="regime-map-cell"><span class="pill pill-green">&gt; 0.55</span></span>
+      <span class="regime-map-cell"><span class="pill pill-green">0.55 – 0.70</span></span>
+    </div>
+    <div class="regime-map-row">
+      <span class="regime-map-name"><span class="pill pill-gold">Reflazione</span></span>
+      <span class="regime-map-cell"><span class="pill pill-green">&gt; 0.55</span></span>
+      <span class="regime-map-cell"><span class="pill pill-gold">&gt; 0.60</span></span>
+      <span class="regime-map-cell"><span class="pill pill-green">&gt; 0.55</span></span>
+      <span class="regime-map-cell"><span class="pill pill-teal">0.40 – 0.65</span></span>
+      <span class="regime-map-cell"><span class="pill pill-gold">0.65 – 0.82</span></span>
+    </div>
+    <div class="regime-map-row">
+      <span class="regime-map-name"><span class="pill pill-rust">Stagflazione</span></span>
+      <span class="regime-map-cell"><span class="pill pill-rust">&lt; 0.45</span></span>
+      <span class="regime-map-cell"><span class="pill pill-gold">&gt; 0.65</span></span>
+      <span class="regime-map-cell"><span class="pill pill-rust">&lt; 0.40</span></span>
+      <span class="regime-map-cell"><span class="pill pill-rust">&lt; 0.40</span></span>
+      <span class="regime-map-cell"><span class="pill pill-rust">0.40 – 0.60</span></span>
+    </div>
+    <div class="regime-map-row">
+      <span class="regime-map-name"><span class="pill pill-violet">Deflazione / Bust</span></span>
+      <span class="regime-map-cell"><span class="pill pill-rust">&lt; 0.30</span></span>
+      <span class="regime-map-cell"><span class="pill pill-rust">&lt; 0.35</span></span>
+      <span class="regime-map-cell"><span class="pill pill-rust">&lt; 0.25</span></span>
+      <span class="regime-map-cell"><span class="pill pill-teal">variabile</span></span>
+      <span class="regime-map-cell"><span class="pill pill-violet">0.05 – 0.30</span></span>
+    </div>
+    <div class="regime-map-row">
+      <span class="regime-map-name"><span class="pill pill-teal">ZIRP / QE</span></span>
+      <span class="regime-map-cell"><span class="pill pill-teal">0.30 – 0.55</span></span>
+      <span class="regime-map-cell"><span class="pill pill-rust">&lt; 0.35</span></span>
+      <span class="regime-map-cell"><span class="pill pill-green">&gt; 0.70</span></span>
+      <span class="regime-map-cell"><span class="pill pill-rust">&lt; 0.30</span></span>
+      <span class="regime-map-cell"><span class="pill pill-teal">0.45 – 0.65</span></span>
+    </div>
+    <div class="regime-map-row">
+      <span class="regime-map-name"><span class="pill pill-pink">Repressione Finanziaria</span></span>
+      <span class="regime-map-cell"><span class="pill pill-teal">0.40 – 0.60</span></span>
+      <span class="regime-map-cell"><span class="pill pill-gold">&gt; 0.55</span></span>
+      <span class="regime-map-cell"><span class="pill pill-green">&gt; 0.60</span></span>
+      <span class="regime-map-cell"><span class="pill pill-rust">&lt; 0.25</span></span>
+      <span class="regime-map-cell"><span class="pill pill-pink">0.50 – 0.70</span></span>
+    </div>
+  </div>
+
+  <div class="alert">
+    <strong>Nota metodologica:</strong> I confini del mapping sono orientativi, non rigidi. Nella pratica, i regimi non sono punti discreti ma zone di densità probabilistica. Un sistema robusto dovrebbe calcolare la <em>probabilità di appartenenza a ciascun regime</em> (mixture model) piuttosto che classificare binariamente. Il CRS è uno strumento di navigazione continua, non una macchina di classificazione a scatti.
+  </div>
+</div>
+
+<!-- SEZIONE 8: PROCEDURA OPERATIVA -->
+<div id="procedura" class="section">
+  <div class="section-label">Sezione 8 · Workflow operativo</div>
+  <h2>Procedura di Monitoraggio Settimanale</h2>
+  <p class="section-intro">Un processo strutturato in 6 fasi, eseguibile in 60–90 minuti ogni lunedì mattina prima dell'apertura dei mercati, per aggiornare il CRS e identificare segnali di transizione.</p>
+
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">01</div>
+      <div class="step-content">
+        <h4>Raccolta dati ad alta frequenza (aggiornamento settimanale)</h4>
+        <p>Aggiornare ogni lunedì: VIX (venerdì close), VIX Term Structure (VIX3M/VIX), Put/Call Ratio 21dMA, Initial Jobless Claims (giovedì precedente, 4wMA), COT Net Positioning (venerdì CFTC), tutti i ratio cross-asset calcolati sulle chiusure di venerdì (Cu/Au, XLY/XLP, XLK/XLU, JNK/LQD, LQD/IEF, Yield Spread 2-10, DXY, Fed Funds Futures 12m impliciti).</p>
+        <div class="step-pills">
+          <span class="pill pill-teal">Frequenza: settimanale</span>
+          <span class="pill pill-gray">Fonte: Bloomberg / Yahoo Finance / FRED</span>
+          <span class="pill pill-gray">Tempo: 20 min</span>
+        </div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">02</div>
+      <div class="step-content">
+        <h4>Aggiornamento dati macro (mensile / trimestrale)</h4>
+        <p>Ad ogni uscita dati (primo venerdì del mese per NFP, prima settimana per ISM, metà mese per CPI/PPI, fine mese per LEI): aggiornare il dataset storico e ricalcolare tutti i rank su finestra mobile. Verificare se l'ultimo dato supera il minimo o massimo storico del periodo lookback — se sì, i range si espandono e tutti i rank precedenti cambiano proporzionalmente. Tenere log delle date di revisione.</p>
+        <div class="step-pills">
+          <span class="pill pill-gold">Frequenza: mensile</span>
+          <span class="pill pill-gray">Fonte: BLS, ISM, Conference Board, FRED</span>
+          <span class="pill pill-gray">Tempo: 30 min</span>
+        </div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">03</div>
+      <div class="step-content">
+        <h4>Calcolo dei sub-indici e del CRS</h4>
+        <p>Applicare la formula min-max a ogni indicatore sulla finestra lookback prescritta. Calcolare i quattro sub-indici (GrowthScore, InflationScore, RiskScore, MonetaryScore) come medie ponderate degli indicatori di competenza. Calcolare il CRS aggregato. Registrare il valore settimanale in un time series storico — il CRS è tanto più utile quanto più è lungo il suo storico.</p>
+        <div class="formula-box" style="margin: 16px 0 0; padding: 16px 20px;">
+          <div class="formula" style="font-size: 13px;">
+            <span class="comment">// Checklist di validazione del calcolo</span><br>
+            <span class="var">assert</span> 0 ≤ Rank(x) ≤ 1 <span class="comment">per ogni indicatore</span><br>
+            <span class="var">assert</span> 0 ≤ CRS ≤ 1<br>
+            <span class="var">if</span> Rank(x) = 0 <span class="op">or</span> 1 <span class="comment">→ nuovo min/max storico, verificare outlier</span><br>
+            <span class="var">assert</span> Σ w<sub>i</sub> = 1.00 <span class="comment">→ i pesi devono sommare a 1</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">04</div>
+      <div class="step-content">
+        <h4>Analisi del momentum e segnali di transizione</h4>
+        <p>Calcolare la variazione del CRS rispetto a 4, 8 e 13 settimane fa (Δ4w, Δ8w, Δ13w). Un Δ4w superiore a 0.10 in valore assoluto indica transizione accelerata. Verificare la convergenza/divergenza tra sub-indici: GrowthScore in calo + InflationScore in rialzo → possibile stagflazione. GrowthScore in calo + InflationScore in calo → deflazione in formazione. Documentare la narrativa macroeconomica coerente con i numeri.</p>
+        <div class="step-pills">
+          <span class="pill pill-rust">Segnale primario: Δ4w &gt; 0.10</span>
+          <span class="pill pill-gold">Segnale di allerta: attraversamento soglie 0.25/0.45/0.65/0.80</span>
+        </div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">05</div>
+      <div class="step-content">
+        <h4>Confronto con posizionamento del portafoglio corrente</h4>
+        <p>Mappare il CRS corrente e il regime identificato alle allocazioni target raccomandate (vedi tabella asset class nel report precedente). Calcolare il deviation score: quanto si discosta il portafoglio corrente dall'allocazione ottimale per il regime corrente? Se la deviazione supera una soglia prestabilita (es. &gt;5% su qualsiasi asset class), pianificare il ribilanciamento. Tenere conto dei costi di transazione e dell'incertezza residua sul regime.</p>
+        <div class="step-pills">
+          <span class="pill pill-violet">Output: deviation score per asset class</span>
+          <span class="pill pill-gray">Soglia ribilanciamento: &gt; 5%</span>
+        </div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">06</div>
+      <div class="step-content">
+        <h4>Scenario planning e definizione dei trigger</h4>
+        <p>Ogni mese identificare le 3 possibili traiettorie del CRS nelle successive 8-12 settimane: scenario base (probabilità 50-60%), scenario alternativo ottimista (20-25%), scenario alternativo pessimista (15-25%). Per ogni scenario definire in anticipo: quale sarebbe il CRS atteso, quale il regime, quale la risposta di portafoglio. Definire i trigger osservabili che farebbero scattare una revisione di scenario — questo elimina il bias di ancoraggio al regime corrente al momento della transizione.</p>
+        <div class="step-pills">
+          <span class="pill pill-teal">Output: scenario tree con trigger predefiniti</span>
+          <span class="pill pill-gray">Frequenza: mensile</span>
+          <span class="pill pill-gray">Review: al superamento di qualsiasi trigger</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="highlight">
+    <strong>Principio di robustezza:</strong> Un buon sistema di regime detection non è un oracolo — è un <em>sistema di organizzazione dell'incertezza</em>. Il suo valore non è prevedere il futuro con certezza, ma costruire un processo disciplinato che riduce l'impatto dei bias cognitivi (anchoring, availability heuristic, narrativa post-hoc) nei momenti di massima pressione emotiva — ovvero proprio quando i regimi stanno cambiando.
+  </div>
+
+  <div class="two-col" style="margin-top: 40px;">
+    <div>
+      <h4 style="font-family: var(--sans); font-size: 15px; font-weight: 700; color: var(--text); margin-bottom: 12px;">Stack tecnologico minimo</h4>
+      <table class="ind-table">
+        <thead>
+          <tr>
+            <th>Strumento</th>
+            <th>Utilizzo</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="font-family:var(--mono);font-size:11px;color:var(--teal)">FRED API</td>
+            <td style="font-size:12px;color:var(--text2)">Dati macro gratuiti (Fed, BLS, ISM, Treasury)</td>
+          </tr>
+          <tr>
+            <td style="font-family:var(--mono);font-size:11px;color:var(--teal)">Yahoo Finance / yfinance</td>
+            <td style="font-size:12px;color:var(--text2)">Dati di mercato giornalieri (ETF, futures)</td>
+          </tr>
+          <tr>
+            <td style="font-family:var(--mono);font-size:11px;color:var(--teal)">Python / Pandas</td>
+            <td style="font-size:12px;color:var(--text2)">Calcolo rank, sub-indici, CRS, visualizzazioni</td>
+          </tr>
+          <tr>
+            <td style="font-family:var(--mono);font-size:11px;color:var(--teal)">Google Sheets / Excel</td>
+            <td style="font-size:12px;color:var(--text2)">Dashboard manuale con formule MINIFS/MAXIFS</td>
+          </tr>
+          <tr>
+            <td style="font-family:var(--mono);font-size:11px;color:var(--teal)">CFTC.gov</td>
+            <td style="font-size:12px;color:var(--text2)">COT Report gratuito (ogni venerdì)</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div>
+      <h4 style="font-family: var(--sans); font-size: 15px; font-weight: 700; color: var(--text); margin-bottom: 12px;">Formula Excel per min-max rank</h4>
+      <div class="formula-box" style="margin: 0;">
+        <div class="formula-label">Excel / Google Sheets</div>
+        <div class="formula" style="font-size: 12px; line-height: 2;">
+          <span class="comment">// Rank diretto (crescente = espansivo)</span><br>
+          <span class="op">=(</span><span class="var">B2</span><span class="op">-MINIFS(B:B,A:A,"&gt;="&amp;</span><span class="var">A2</span><span class="op">-1825))</span><br>
+          <span class="op">/(MAXIFS(B:B,A:A,"&gt;="&amp;</span><span class="var">A2</span><span class="op">-1825)</span><br>
+          <span class="op">-MINIFS(B:B,A:A,"&gt;="&amp;</span><span class="var">A2</span><span class="op">-1825))</span><br><br>
+          <span class="comment">// 1825 giorni = 5 anni lookback</span><br>
+          <span class="comment">// Inverso: 1 − formula sopra</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div><!-- /main -->
+
+<!-- FOOTER -->
+<div class="footer">
+  <span>Framework Regime Detection System · Guida Operativa 2025</span>
+  <span>38 indicatori · 6 categorie · 4 sub-indici · 1 CRS</span>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,80 @@
+@model Finance.Application.Ledger.CurrentPositionsSnapshot
+
+@{
+    ViewData["Title"] = "Posizioni";
+}
+
+<section class="page-heading">
+    <div>
+        <p class="eyebrow">Ledger</p>
+        <h1>Posizioni correnti</h1>
+    </div>
+    <div class="page-actions">
+        <span class="page-count">Valore strumenti @Model.TotalMarketValueBase.ToString("N2")</span>
+        <span class="page-count">Cash @Model.TotalCashBalance.ToString("N2")</span>
+    </div>
+</section>
+
+<section class="content-grid">
+    <div>
+        <div class="section-heading">
+            <h2>Strumenti</h2>
+        </div>
+        <div class="table-responsive">
+            <table class="table align-middle data-table">
+                <thead>
+                <tr>
+                    <th>Simbolo</th>
+                    <th>Nome</th>
+                    <th>Asset class</th>
+                    <th class="text-end">Quantita</th>
+                    <th class="text-end">Ultimo prezzo</th>
+                    <th class="text-end">Valore</th>
+                    <th class="text-end">P&L non realizzato</th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach (var position in Model.Instruments)
+                {
+                    <tr>
+                        <td class="fw-semibold">@position.Symbol</td>
+                        <td>@position.Name</td>
+                        <td>@position.AssetClass</td>
+                        <td class="text-end">@position.Quantity.ToString("N4")</td>
+                        <td class="text-end">@position.LastPrice.ToString("N2")</td>
+                        <td class="text-end">@position.MarketValueBase.ToString("N2")</td>
+                        <td class="text-end">@position.UnrealizedProfitLossBase.ToString("N2")</td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div>
+        <div class="section-heading">
+            <h2>Cash</h2>
+        </div>
+        <div class="table-responsive">
+            <table class="table align-middle data-table">
+                <thead>
+                <tr>
+                    <th>Conto</th>
+                    <th>Valuta</th>
+                    <th class="text-end">Saldo</th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach (var balance in Model.CashBalances)
+                {
+                    <tr>
+                        <td>@balance.AccountName</td>
+                        <td>@balance.CurrencyCode</td>
+                        <td class="text-end">@balance.Balance.ToString("N2")</td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,283 @@
+@model Finance.Application.MacroRegime.MacroDataFoundationDashboard
+
+@{
+    ViewData["Title"] = "Macro Data";
+}
+
+<section class="page-heading">
+    <div>
+        <p class="eyebrow">Macro Data Foundation</p>
+        <h1>Import e snapshot as-of</h1>
+    </div>
+    <div class="page-actions">
+        <span class="page-count">As-of @Model.SnapshotDate.ToString("yyyy-MM-dd")</span>
+        <span class="page-count">@Model.DataSources.Count fonti</span>
+    </div>
+</section>
+
+@if (TempData["MacroDataMessage"] is string message)
+{
+    <div class="alert alert-info">@message</div>
+}
+
+<section class="data-panel macro-data-snapshot">
+    <div class="section-heading">
+        <h2>Snapshot ricostruibile</h2>
+    </div>
+    <form asp-action="Index" method="get" class="inline-form">
+        <div>
+            <label class="form-label" for="asOfDate">Data as-of</label>
+            <input class="form-control" id="asOfDate" name="asOfDate" type="date" value="@Model.SnapshotDate.ToString("yyyy-MM-dd")" />
+        </div>
+        <button class="btn btn-outline-primary" type="submit">Ricostruisci</button>
+    </form>
+    <div class="table-responsive mt-3">
+        <table class="table align-middle data-table">
+            <thead>
+            <tr>
+                <th>Serie</th>
+                <th>Tipo</th>
+                <th>Osservazione</th>
+                <th>Disponibile</th>
+                <th>Fonte</th>
+                <th class="text-end">Valore</th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (var item in Model.Snapshot.MacroObservations)
+            {
+                <tr>
+                    <td>
+                        <strong>@item.SeriesCode</strong>
+                        <span class="table-note">@item.Name</span>
+                    </td>
+                    <td>@item.Category</td>
+                    <td>@item.ObservationDate.ToString("yyyy-MM-dd")</td>
+                    <td>@item.PublishedDate.ToString("yyyy-MM-dd")</td>
+                    <td>@item.SourceSystem</td>
+                    <td class="text-end">@item.Value.ToString("N2")</td>
+                </tr>
+            }
+            @foreach (var item in Model.Snapshot.MarketObservations)
+            {
+                <tr>
+                    <td>
+                        <strong>@item.Symbol</strong>
+                        <span class="table-note">@item.Name</span>
+                    </td>
+                    <td>@item.Category</td>
+                    <td>@item.Date.ToString("yyyy-MM-dd")</td>
+                    <td>@item.AvailableDate.ToString("yyyy-MM-dd")</td>
+                    <td>@item.SourceSystem</td>
+                    <td class="text-end">@item.Value.ToString("N2")</td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+</section>
+
+<section class="content-grid macro-import-grid">
+    <div>
+        <div class="section-heading">
+            <h2>Import FRED / ALFRED</h2>
+        </div>
+        <form asp-action="ImportFred" method="post" class="form-grid">
+            <div class="mb-3">
+                <label class="form-label" for="SeriesCode">Serie</label>
+                <input class="form-control" id="SeriesCode" name="SeriesCode" value="T10YIE" />
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="ApiKey">API key</label>
+                <input class="form-control" id="ApiKey" name="ApiKey" autocomplete="off" />
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="ObservationStart">Osservazioni da</label>
+                <input class="form-control" id="ObservationStart" name="ObservationStart" type="date" value="@DateTime.Today.AddMonths(-3).ToString("yyyy-MM-dd")" />
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="ObservationEnd">Osservazioni a</label>
+                <input class="form-control" id="ObservationEnd" name="ObservationEnd" type="date" value="@DateTime.Today.ToString("yyyy-MM-dd")" />
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="RealtimeStart">Realtime da</label>
+                <input class="form-control" id="RealtimeStart" name="RealtimeStart" type="date" value="@DateTime.Today.ToString("yyyy-MM-dd")" />
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="RealtimeEnd">Realtime a</label>
+                <input class="form-control" id="RealtimeEnd" name="RealtimeEnd" type="date" value="@DateTime.Today.ToString("yyyy-MM-dd")" />
+            </div>
+            <div class="form-actions">
+                <button class="btn btn-primary" type="submit">Importa FRED</button>
+            </div>
+        </form>
+    </div>
+
+    <div>
+        <div class="section-heading">
+            <h2>Import FRED-MD CSV</h2>
+        </div>
+        <form asp-action="ImportFredMd" method="post">
+            <div class="form-grid">
+                <div class="mb-3">
+                    <label class="form-label" for="VintageDate">Vintage</label>
+                    <input class="form-control" id="VintageDate" name="VintageDate" type="date" value="@DateTime.Today.ToString("yyyy-MM-dd")" />
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="PublishedDate">Pubblicazione</label>
+                    <input class="form-control" id="PublishedDate" name="PublishedDate" type="date" value="@DateTime.Today.ToString("yyyy-MM-dd")" />
+                </div>
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="ColumnMapping">Mappatura colonne</label>
+                <textarea class="form-control compact-textarea" id="ColumnMapping" name="ColumnMapping">INDPRO=FREDMD_INDPRO</textarea>
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="CsvContent">CSV</label>
+                <textarea class="form-control macro-csv-textarea" id="CsvContent" name="CsvContent"></textarea>
+            </div>
+            <div class="form-actions">
+                <button class="btn btn-primary" type="submit">Importa CSV</button>
+            </div>
+        </form>
+    </div>
+</section>
+
+<section class="content-grid macro-regime-details">
+    <div>
+        <div class="section-heading">
+            <h2>Import mercato manuale</h2>
+        </div>
+        <form asp-action="ImportMarket" method="post" class="form-grid">
+            <div class="mb-3">
+                <label class="form-label" for="Symbol">Simbolo</label>
+                <input class="form-control" id="Symbol" name="Symbol" value="VWCE_PROXY" />
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="SourceSystem">Fonte</label>
+                <input class="form-control" id="SourceSystem" name="SourceSystem" value="ManualMarketData" />
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="Date">Data</label>
+                <input class="form-control" id="Date" name="Date" type="date" value="@DateTime.Today.ToString("yyyy-MM-dd")" />
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="AvailableDate">Disponibile</label>
+                <input class="form-control" id="AvailableDate" name="AvailableDate" type="date" value="@DateTime.Today.ToString("yyyy-MM-dd")" />
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="Value">Valore</label>
+                <input class="form-control" id="Value" name="Value" type="number" step="0.0001" />
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="Notes">Note</label>
+                <input class="form-control" id="Notes" name="Notes" />
+            </div>
+            <div class="form-actions">
+                <button class="btn btn-primary" type="submit">Importa mercato</button>
+            </div>
+        </form>
+    </div>
+
+    <div>
+        <div class="section-heading">
+            <h2>Ultimi import</h2>
+        </div>
+        <div class="table-responsive">
+            <table class="table align-middle data-table">
+                <thead>
+                <tr>
+                    <th>Fonte</th>
+                    <th>Data</th>
+                    <th class="text-end">OK</th>
+                    <th class="text-end">KO</th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach (var batch in Model.ImportBatches)
+                {
+                    <tr>
+                        <td>
+                            <strong>@batch.SourceName</strong>
+                            <span class="table-note">@batch.FileName</span>
+                        </td>
+                        <td>@batch.ImportedAt.ToLocalTime().ToString("yyyy-MM-dd HH:mm")</td>
+                        <td class="text-end">@batch.RecordsAccepted</td>
+                        <td class="text-end">@batch.RecordsRejected</td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+
+<section class="content-grid macro-regime-details">
+    <div>
+        <div class="section-heading">
+            <h2>Serie macro</h2>
+        </div>
+        <div class="table-responsive">
+            <table class="table align-middle data-table">
+                <thead>
+                <tr>
+                    <th>Serie</th>
+                    <th>Fonte</th>
+                    <th>Categoria</th>
+                    <th class="text-end">Obs</th>
+                    <th>Vintage</th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach (var series in Model.MacroSeries)
+                {
+                    <tr>
+                        <td>
+                            <strong>@series.Code</strong>
+                            <span class="table-note">@series.Name</span>
+                        </td>
+                        <td>@series.SourceName</td>
+                        <td>@series.Category</td>
+                        <td class="text-end">@series.ObservationCount</td>
+                        <td>@(series.LatestVintageDate?.ToString("yyyy-MM-dd") ?? "-")</td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div>
+        <div class="section-heading">
+            <h2>Serie mercato</h2>
+        </div>
+        <div class="table-responsive">
+            <table class="table align-middle data-table">
+                <thead>
+                <tr>
+                    <th>Serie</th>
+                    <th>Fonte</th>
+                    <th>Categoria</th>
+                    <th class="text-end">Obs</th>
+                    <th>Ultima</th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach (var series in Model.MarketSeries)
+                {
+                    <tr>
+                        <td>
+                            <strong>@series.Symbol</strong>
+                            <span class="table-note">@series.Name</span>
+                        </td>
+                        <td>@series.SourceName</td>
+                        <td>@series.Category</td>
+                        <td class="text-end">@series.ObservationCount</td>
+                        <td>@(series.LatestAvailableDate?.ToString("yyyy-MM-dd") ?? "-")</td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>

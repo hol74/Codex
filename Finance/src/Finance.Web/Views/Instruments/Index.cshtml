@@ -1,0 +1,53 @@
+@model IReadOnlyList<Finance.Application.PhaseOne.InstrumentListItem>
+
+@{
+    ViewData["Title"] = "Strumenti";
+}
+
+<section class="page-heading">
+    <div>
+        <p class="eyebrow">Anagrafica</p>
+        <h1>Strumenti</h1>
+    </div>
+    <div class="page-actions">
+        <span class="page-count">@Model.Count record</span>
+        <a class="btn btn-primary btn-sm" asp-action="Create">Nuovo strumento</a>
+    </div>
+</section>
+
+<section class="data-panel">
+    <div class="table-responsive">
+        <table class="table align-middle data-table">
+            <thead>
+            <tr>
+                <th>Simbolo</th>
+                <th>Nome</th>
+                <th>Tipo</th>
+                <th>Asset class</th>
+                <th>Valuta</th>
+                <th>Exchange</th>
+                <th>ISIN</th>
+                <th class="text-end">Azioni</th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (var instrument in Model)
+            {
+                <tr>
+                    <td class="fw-semibold">@instrument.Symbol</td>
+                    <td>@instrument.Name</td>
+                    <td>@instrument.Type</td>
+                    <td>@instrument.AssetClass</td>
+                    <td>@instrument.CurrencyCode</td>
+                    <td>@(instrument.Exchange ?? "-")</td>
+                    <td>@(instrument.Isin ?? "-")</td>
+                    <td class="text-end table-actions">
+                        <a asp-action="Edit" asp-route-id="@instrument.Id">Modifica</a>
+                        <a asp-action="Delete" asp-route-id="@instrument.Id">Elimina</a>
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+</section>

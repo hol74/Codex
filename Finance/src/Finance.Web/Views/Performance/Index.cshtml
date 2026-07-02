@@ -1,0 +1,136 @@
+@model Finance.Application.Performance.PerformanceDashboard
+@using System.Text.Json
+
+@{
+    ViewData["Title"] = "Performance";
+    var valueSeriesJson = JsonSerializer.Serialize(Model.ValueSeries.Select(x => new { date = x.Date.ToString("yyyy-MM-dd"), value = x.Value }));
+    var returnSeriesJson = JsonSerializer.Serialize(Model.ReturnSeries.Select(x => new { date = x.Date.ToString("yyyy-MM-dd"), value = x.Value }));
+    var allocationJson = JsonSerializer.Serialize(Model.Allocation.Select(x => new { label = x.Label, value = x.MarketValueBase, weight = x.Weight }));
+}
+
+<section class="page-heading">
+    <div>
+        <p class="eyebrow">Valutazione e performance</p>
+        <h1>@Model.PortfolioName</h1>
+    </div>
+    <div class="page-actions">
+        <span class="page-count">@Model.FromDate.ToString("yyyy-MM-dd") - @Model.ToDate.ToString("yyyy-MM-dd")</span>
+        <form asp-action="Rebuild" method="post">
+            <button class="btn btn-outline-primary btn-sm" type="submit">Rigenera snapshot</button>
+        </form>
+    </div>
+</section>
+
+<section class="metric-grid performance-metrics">
+    <div class="metric-card">
+        <span>Valore portafoglio</span>
+        <strong>@Model.MarketValueBase.ToString("N2") @Model.BaseCurrencyCode</strong>
+    </div>
+    <div class="metric-card">
+        <span>P&amp;L realizzato</span>
+        <strong class="@(Model.RealizedProfitLossBase >= 0 ? "positive-value" : "negative-value")">@Model.RealizedProfitLossBase.ToString("N2")</strong>
+    </div>
+    <div class="metric-card">
+        <span>P&amp;L non realizzato</span>
+        <strong class="@(Model.UnrealizedProfitLossBase >= 0 ? "positive-value" : "negative-value")">@Model.UnrealizedProfitLossBase.ToString("N2")</strong>
+    </div>
+    <div class="metric-card">
+        <span>Capitale netto versato</span>
+        <strong>@Model.InvestedCapitalBase.ToString("N2")</strong>
+    </div>
+    <div class="metric-card">
+        <span>TWR cumulato</span>
+        <strong class="@(Model.Twr >= 0 ? "positive-value" : "negative-value")">@Model.Twr.ToString("P2")</strong>
+    </div>
+    <div class="metric-card">
+        <span>XIRR annualizzato</span>
+        <strong class="@((Model.Xirr ?? 0m) >= 0 ? "positive-value" : "negative-value")">@(Model.Xirr?.ToString("P2") ?? "-")</strong>
+    </div>
+</section>
+
+<section class="performance-grid">
+    <div class="chart-panel chart-panel-wide">
+        <div class="section-heading">
+            <h2>Valore portafoglio</h2>
+        </div>
+        <canvas id="valueChart" height="260"></canvas>
+    </div>
+    <div class="chart-panel">
+        <div class="section-heading">
+            <h2>Allocazione corrente</h2>
+        </div>
+        <canvas id="allocationChart" height="260"></canvas>
+    </div>
+    <div class="chart-panel chart-panel-wide">
+        <div class="section-heading">
+            <h2>Rendimenti giornalieri</h2>
+        </div>
+        <canvas id="returnChart" height="220"></canvas>
+    </div>
+</section>
+
+<section class="content-grid performance-tables">
+    <div>
+        <div class="section-heading">
+            <h2>Snapshot giornalieri</h2>
+        </div>
+        <div class="table-responsive">
+            <table class="table align-middle data-table">
+                <thead>
+                <tr>
+                    <th>Data</th>
+                    <th class="text-end">Valore</th>
+                    <th class="text-end">Rendimento</th>
+                    <th class="text-end">TWR</th>
+                    <th class="text-end">Flussi</th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach (var row in Model.SnapshotRows)
+                {
+                    <tr>
+                        <td>@row.Date.ToString("yyyy-MM-dd")</td>
+                        <td class="text-end">@row.MarketValueBase.ToString("N2")</td>
+                        <td class="text-end">@row.DailyReturn.ToString("P2")</td>
+                        <td class="text-end">@row.CumulativeReturn.ToString("P2")</td>
+                        <td class="text-end">@row.ExternalCashFlowBase.ToString("N2")</td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div>
+        <div class="section-heading">
+            <h2>Prezzi e FX storici</h2>
+        </div>
+        <div class="market-data-list">
+            <h3>Prezzi</h3>
+            <ul>
+                @foreach (var price in Model.PriceHistory.OrderByDescending(x => x.Date).Take(8))
+                {
+                    <li><span>@price.Date.ToString("yyyy-MM-dd") @price.Symbol</span><strong>@price.Close.ToString("N2") @price.CurrencyCode</strong></li>
+                }
+            </ul>
+            <h3>FX</h3>
+            <ul>
+                @foreach (var fx in Model.FxHistory.OrderByDescending(x => x.Date).Take(5))
+                {
+                    <li><span>@fx.Date.ToString("yyyy-MM-dd") @fx.FromCurrencyCode/@fx.ToCurrencyCode</span><strong>@fx.Rate.ToString("N4")</strong></li>
+                }
+            </ul>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    <script>
+        window.financePerformance = {
+            valueSeries: @Html.Raw(valueSeriesJson),
+            returnSeries: @Html.Raw(returnSeriesJson),
+            allocation: @Html.Raw(allocationJson)
+        };
+    </script>
+    <script src="~/js/performance.js" asp-append-version="true"></script>
+}

@@ -1,0 +1,95 @@
+@model Finance.Application.Portfolios.DashboardSnapshot
+
+@{
+    ViewData["Title"] = "Dashboard";
+}
+
+<section class="dashboard-header">
+    <div>
+        <p class="eyebrow">Portfolio management</p>
+        <h1>@Model.PortfolioName</h1>
+        <p class="text-muted mb-0">@Model.OwnerName - valuta base @Model.BaseCurrencyCode</p>
+    </div>
+    <div class="regime-badge">
+        <span>Regime</span>
+        <strong>@Model.CurrentRegime</strong>
+        <small>@Model.RegimeProbability.ToString("P0")</small>
+    </div>
+</section>
+
+<section class="metric-grid" aria-label="Metriche principali">
+    <article class="metric-card">
+        <span>Portafogli</span>
+        <strong>@Model.PortfolioCount</strong>
+    </article>
+    <article class="metric-card">
+        <span>Conti</span>
+        <strong>@Model.AccountCount</strong>
+    </article>
+    <article class="metric-card">
+        <span>Strumenti</span>
+        <strong>@Model.InstrumentCount</strong>
+    </article>
+</section>
+
+<section class="content-grid">
+    <div>
+        <div class="section-heading">
+            <h2>Target allocation</h2>
+        </div>
+
+        <div class="table-responsive">
+            <table class="table align-middle">
+                <thead>
+                <tr>
+                    <th>Asset class</th>
+                    <th class="text-end">Min</th>
+                    <th class="text-end">Target</th>
+                    <th class="text-end">Max</th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach (var allocation in Model.TargetAllocations)
+                {
+                    <tr>
+                        <td>@allocation.AssetClass</td>
+                        <td class="text-end">@allocation.MinimumWeight.ToString("P0")</td>
+                        <td class="text-end fw-semibold">@allocation.TargetWeight.ToString("P0")</td>
+                        <td class="text-end">@allocation.MaximumWeight.ToString("P0")</td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div>
+        <div class="section-heading">
+            <h2>Ribilanciamento</h2>
+        </div>
+
+        <div class="table-responsive">
+            <table class="table align-middle">
+                <thead>
+                <tr>
+                    <th>Asset class</th>
+                    <th>Azione</th>
+                    <th class="text-end">Corrente</th>
+                    <th class="text-end">Target</th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach (var recommendation in Model.RecentRecommendations)
+                {
+                    <tr>
+                        <td>@recommendation.AssetClass</td>
+                        <td>@recommendation.Action</td>
+                        <td class="text-end">@recommendation.CurrentWeight.ToString("P0")</td>
+                        <td class="text-end fw-semibold">@recommendation.TargetWeight.ToString("P0")</td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>

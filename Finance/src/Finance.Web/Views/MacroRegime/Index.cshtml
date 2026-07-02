@@ -1,0 +1,253 @@
+@model Finance.Application.MacroRegime.MacroRegimeDashboard
+
+@{
+    ViewData["Title"] = "Macro Regime";
+}
+
+<section class="page-heading">
+    <div>
+        <p class="eyebrow">Macro-Regime Engine</p>
+        <h1>@Model.PrimaryRegime</h1>
+    </div>
+    <div class="page-actions">
+        <span class="page-count">As-of @Model.AsOfDate.ToString("yyyy-MM-dd")</span>
+        <span class="page-count">@Model.ModelName @Model.ModelVersion</span>
+    </div>
+</section>
+
+@if (TempData["MacroRegimeMessage"] is string message)
+{
+    <div class="alert alert-info">@message</div>
+}
+@if (TempData["MacroRegimeWarning"] is string warning)
+{
+    <div class="alert alert-warning">@warning</div>
+}
+
+<section class="data-panel macro-calculate-panel">
+    <div class="section-heading">
+        <h2>Calcolo manuale regime</h2>
+    </div>
+    <form asp-action="Calculate" method="post" class="inline-form">
+        <div>
+            <label class="form-label" for="asOfDate">Data as-of</label>
+            <input class="form-control" id="asOfDate" name="asOfDate" type="date" value="@Model.AsOfDate.ToString("yyyy-MM-dd")" />
+        </div>
+        <button class="btn btn-primary" type="submit">Calcola regime</button>
+    </form>
+</section>
+
+<section class="metric-grid macro-regime-metrics">
+    <div class="metric-card">
+        <span>Composite score</span>
+        <strong>@Model.CompositeScore.ToString("P0")</strong>
+    </div>
+    <div class="metric-card">
+        <span>Confidence</span>
+        <strong>@Model.Confidence.ToString("P0")</strong>
+    </div>
+    <div class="metric-card">
+        <span>Stato operativo</span>
+        <strong>@Model.Status</strong>
+    </div>
+</section>
+
+<section class="content-grid macro-regime-summary">
+    <div>
+        <div class="section-heading">
+            <h2>Sintesi</h2>
+        </div>
+        <p class="regime-summary">@Model.Summary</p>
+        @if (Model.Report is not null)
+        {
+            <div class="regime-report">
+                <h3>@Model.Report.Title</h3>
+                <p>@Model.Report.Narrative</p>
+                <strong>@Model.Report.RecommendedAction</strong>
+            </div>
+        }
+    </div>
+
+    <div>
+        <div class="section-heading">
+            <h2>Probabilita' regime</h2>
+        </div>
+        <div class="regime-probability-list">
+            @foreach (var item in Model.Probabilities)
+            {
+                <div class="regime-probability-row">
+                    <div>
+                        <span>@item.Regime</span>
+                        <strong>@item.Probability.ToString("P0")</strong>
+                    </div>
+                    <div class="progress regime-progress" role="progressbar" aria-valuenow="@((int)(item.Probability * 100))" aria-valuemin="0" aria-valuemax="100">
+                        <div class="progress-bar" style="width: @((item.Probability * 100).ToString("N0"))%"></div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</section>
+
+<section class="content-grid macro-regime-details">
+    <div>
+        <div class="section-heading">
+            <h2>Feature correnti</h2>
+        </div>
+        <div class="table-responsive">
+            <table class="table align-middle data-table">
+                <thead>
+                <tr>
+                    <th>Dimensione</th>
+                    <th>Feature</th>
+                    <th class="text-end">Peso</th>
+                    <th class="text-end">Score</th>
+                    <th class="text-end">Momentum</th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach (var feature in Model.Features)
+                {
+                    <tr>
+                        <td>@feature.Dimension</td>
+                        <td>
+                            <strong>@feature.Name</strong>
+                            <span class="table-note">@feature.Interpretation</span>
+                        </td>
+                        <td class="text-end">@feature.Weight.ToString("P0")</td>
+                        <td class="text-end">@feature.NormalizedValue.ToString("P0")</td>
+                        <td class="text-end @(feature.Momentum4Weeks >= 0 ? "positive-value" : "negative-value")">@feature.Momentum4Weeks.ToString("P0")</td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div>
+        <div class="section-heading">
+            <h2>Driver e segnali contrari</h2>
+        </div>
+        <div class="regime-driver-list">
+            @foreach (var driver in Model.Explanations)
+            {
+                <article class="regime-driver">
+                    <div>
+                        <h3>@driver.Title</h3>
+                        <span>@(driver.FeatureCode ?? "n/a")</span>
+                    </div>
+                    <strong class="@(driver.Impact >= 0 ? "positive-value" : "negative-value")">@driver.Impact.ToString("P0")</strong>
+                    <p>@driver.Detail</p>
+                </article>
+            }
+        </div>
+    </div>
+</section>
+
+<section class="content-grid macro-regime-details">
+    <div>
+        <div class="section-heading">
+            <h2>Proxy mercato</h2>
+        </div>
+        <div class="table-responsive">
+            <table class="table align-middle data-table">
+                <thead>
+                <tr>
+                    <th>Serie</th>
+                    <th>Categoria</th>
+                    <th>Ruolo</th>
+                    <th>Disponibile</th>
+                    <th class="text-end">Valore</th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach (var series in Model.MarketSeries)
+                {
+                    <tr>
+                        <td>
+                            <strong>@series.Symbol</strong>
+                            <span class="table-note">@series.Name</span>
+                        </td>
+                        <td>@series.Category</td>
+                        <td>@(series.ProxyRole ?? "-")</td>
+                        <td>@series.AvailableDate.ToString("yyyy-MM-dd")</td>
+                        <td class="text-end">@series.Value.ToString("N2") @series.Unit</td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div>
+        <div class="section-heading">
+            <h2>Calendario rilasci</h2>
+        </div>
+        <div class="table-responsive">
+            <table class="table align-middle data-table">
+                <thead>
+                <tr>
+                    <th>Release</th>
+                    <th>Fonte</th>
+                    <th>Data</th>
+                    <th>Frequenza</th>
+                    <th>Stato</th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach (var release in Model.ReleaseCalendar)
+                {
+                    <tr>
+                        <td>
+                            <strong>@release.ReleaseCode</strong>
+                            <span class="table-note">@release.Name</span>
+                        </td>
+                        <td>@release.SourceName</td>
+                        <td>@release.ReleaseDate.ToString("yyyy-MM-dd")</td>
+                        <td>@release.Frequency</td>
+                        <td>@release.Status</td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+
+<section class="data-panel macro-series-panel">
+    <div class="section-heading">
+        <h2>Ultime osservazioni macro e mercato</h2>
+    </div>
+    <div class="table-responsive">
+        <table class="table align-middle data-table">
+            <thead>
+            <tr>
+                <th>Serie</th>
+                <th>Categoria</th>
+                <th>Fonte</th>
+                <th>Osservazione</th>
+                <th>Pubblicazione</th>
+                <th class="text-end">Valore</th>
+                <th>Vintage</th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (var series in Model.Series)
+            {
+                <tr>
+                    <td>
+                        <strong>@series.Code</strong>
+                        <span class="table-note">@series.Name</span>
+                    </td>
+                    <td>@series.Category</td>
+                    <td>@series.SourceName</td>
+                    <td>@series.ObservationDate.ToString("yyyy-MM-dd")</td>
+                    <td>@series.PublishedDate.ToString("yyyy-MM-dd")</td>
+                    <td class="text-end">@series.Value.ToString("N2") @series.Unit</td>
+                    <td>@(series.Vintage ?? "-")</td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+</section>

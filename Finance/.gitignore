@@ -1,0 +1,10 @@
+bin/
+obj/
+.vs/
+.vscode/
+
+src/Finance.Web/App_Data/*.sqlite
+src/Finance.Web/App_Data/*.sqlite-shm
+src/Finance.Web/App_Data/*.sqlite-wal
+src/Finance.Web/App_Data/*.log
+src/Finance.Web/App_Data/Keys/

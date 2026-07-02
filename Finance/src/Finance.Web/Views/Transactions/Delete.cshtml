@@ -1,0 +1,32 @@
+@model Finance.Application.Ledger.LedgerTransactionListItem
+
+@{
+    ViewData["Title"] = "Elimina transazione";
+}
+
+<section class="page-heading">
+    <div>
+        <p class="eyebrow">Ledger</p>
+        <h1>Elimina transazione</h1>
+    </div>
+</section>
+
+<section class="data-panel">
+    <p class="mb-3">Confermi l'eliminazione della transazione?</p>
+
+    <dl class="detail-list">
+        <dt>Data</dt>
+        <dd>@Model.TradeDate.ToString("yyyy-MM-dd")</dd>
+        <dt>Tipo</dt>
+        <dd>@Model.Type</dd>
+        <dt>Strumento</dt>
+        <dd>@(Model.InstrumentSymbol ?? "-")</dd>
+        <dt>Importo lordo</dt>
+        <dd>@Model.GrossAmount.ToString("N2") @Model.CurrencyCode</dd>
+    </dl>
+
+    <form asp-action="Delete" asp-route-id="@Model.Id" method="post" class="form-actions">
+        <button type="submit" class="btn btn-danger">Elimina</button>
+        <a class="btn btn-outline-secondary" asp-action="Index">Annulla</a>
+    </form>
+</section>

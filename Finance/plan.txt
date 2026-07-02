@@ -1,0 +1,35 @@
+Fase 2: Ledger Portafoglio
+CRUD transazioni.
+Depositi/prelievi.
+Acquisti/vendite.
+Calcolo posizioni correnti.
+Storico operazioni e audit trail.
+Fase 3: Valutazione e Performance
+Prezzi storici.
+FX storici.
+Snapshot giornalieri.
+P&L realizzato/non realizzato.
+TWR e XIRR.
+Grafici valore portafoglio, allocazione, rendimenti.
+Fase 4: Import e Qualità Dati
+Import CSV broker.
+Mapping colonne configurabile.
+Rilevamento duplicati.
+Controlli su prezzi mancanti, FX mancanti, saldi cash e quantità.
+Fase 5: Strategia Base
+Policy strategica target per asset class.
+Bande min/max.
+Drift rispetto al target.
+Proposta di ribilanciamento semplice.
+Fase 6: Macro-Regime Engine
+Feature macro/mercato.
+Classificazione regime inizialmente rule-based.
+Stato “incerto/transizione”.
+Probabilità e motivazioni del regime.
+Report mensile regime-aware.
+Fase 7: Strategia Avanzata
+HMM/clustering.
+Scenario per regime.
+Backtest walk-forward.
+Ottimizzazione vincolata.
+Stress test e controllo turnover/costi/fiscalità.

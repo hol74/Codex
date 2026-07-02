@@ -1,0 +1,41 @@
+@model IReadOnlyList<Finance.Application.Ledger.AuditEventListItem>
+
+@{
+    ViewData["Title"] = "Audit";
+}
+
+<section class="page-heading">
+    <div>
+        <p class="eyebrow">Governance</p>
+        <h1>Audit trail</h1>
+    </div>
+    <span class="page-count">@Model.Count eventi</span>
+</section>
+
+<section class="data-panel">
+    <div class="table-responsive">
+        <table class="table align-middle data-table">
+            <thead>
+            <tr>
+                <th>Data</th>
+                <th>Area</th>
+                <th>Evento</th>
+                <th>Messaggio</th>
+                <th>Attore</th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (var auditEvent in Model)
+            {
+                <tr>
+                    <td>@auditEvent.CreatedAt.ToLocalTime().ToString("yyyy-MM-dd HH:mm:ss")</td>
+                    <td>@auditEvent.Area</td>
+                    <td>@auditEvent.EventType</td>
+                    <td>@auditEvent.Message</td>
+                    <td>@(auditEvent.Actor ?? "-")</td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+</section>

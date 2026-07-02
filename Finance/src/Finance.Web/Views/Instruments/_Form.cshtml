@@ -1,0 +1,54 @@
+@model Finance.Application.Ledger.InstrumentFormPage
+
+<div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+<input asp-for="Instrument.Id" type="hidden" />
+
+<div class="form-grid">
+    <div class="mb-3">
+        <label asp-for="Instrument.Symbol" class="form-label">Simbolo</label>
+        <input asp-for="Instrument.Symbol" class="form-control" />
+        <span asp-validation-for="Instrument.Symbol" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Instrument.Name" class="form-label">Nome</label>
+        <input asp-for="Instrument.Name" class="form-control" />
+        <span asp-validation-for="Instrument.Name" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Instrument.Type" class="form-label">Tipo</label>
+        <select asp-for="Instrument.Type" class="form-select" asp-items="@(new Microsoft.AspNetCore.Mvc.Rendering.SelectList(Model.Options.InstrumentTypes, "Value", "Label"))"></select>
+        <span asp-validation-for="Instrument.Type" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Instrument.AssetClassId" class="form-label">Asset class</label>
+        <select asp-for="Instrument.AssetClassId" class="form-select" asp-items="@(new Microsoft.AspNetCore.Mvc.Rendering.SelectList(Model.Options.AssetClasses, "Id", "Label"))"></select>
+        <span asp-validation-for="Instrument.AssetClassId" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Instrument.CurrencyId" class="form-label">Valuta</label>
+        <select asp-for="Instrument.CurrencyId" class="form-select" asp-items="@(new Microsoft.AspNetCore.Mvc.Rendering.SelectList(Model.Options.Currencies, "Id", "Label"))"></select>
+        <span asp-validation-for="Instrument.CurrencyId" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Instrument.Exchange" class="form-label">Exchange</label>
+        <input asp-for="Instrument.Exchange" class="form-control" />
+        <span asp-validation-for="Instrument.Exchange" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Instrument.Isin" class="form-label">ISIN</label>
+        <input asp-for="Instrument.Isin" class="form-control" />
+        <span asp-validation-for="Instrument.Isin" class="text-danger"></span>
+    </div>
+</div>
+
+<div class="form-actions">
+    <button type="submit" class="btn btn-primary">Salva</button>
+    <a class="btn btn-outline-secondary" asp-action="Index">Annulla</a>
+</div>

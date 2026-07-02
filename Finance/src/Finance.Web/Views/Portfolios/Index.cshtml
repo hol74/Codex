@@ -1,0 +1,41 @@
+@model IReadOnlyList<Finance.Application.PhaseOne.PortfolioListItem>
+
+@{
+    ViewData["Title"] = "Portafogli";
+}
+
+<section class="page-heading">
+    <div>
+        <p class="eyebrow">Anagrafica</p>
+        <h1>Portafogli</h1>
+    </div>
+    <span class="page-count">@Model.Count record</span>
+</section>
+
+<section class="data-panel">
+    <div class="table-responsive">
+        <table class="table align-middle data-table">
+            <thead>
+            <tr>
+                <th>Nome</th>
+                <th>Owner</th>
+                <th>Valuta base</th>
+                <th class="text-end">Conti</th>
+                <th class="text-end">Target allocation</th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (var portfolio in Model)
+            {
+                <tr>
+                    <td class="fw-semibold">@portfolio.Name</td>
+                    <td>@portfolio.OwnerName</td>
+                    <td>@portfolio.BaseCurrencyCode</td>
+                    <td class="text-end">@portfolio.AccountCount</td>
+                    <td class="text-end">@portfolio.TargetAllocationCount</td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+</section>
