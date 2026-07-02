@@ -8,24 +8,27 @@
     ".NETCoreApp,Version=v10.0": {
       "MacroRegime.Infrastructure/1.0.0": {
         "dependencies": {
-          "MacroRegime.Domain": "1.0.0",
-          "MacroRegime.Application": "1.0.0.0"
+          "MacroRegime.Application": "1.0.0",
+          "MacroRegime.Domain": "1.0.0"
         },
         "runtime": {
           "MacroRegime.Infrastructure.dll": {}
         }
       },
-      "MacroRegime.Domain/1.0.0": {
+      "MacroRegime.Application/1.0.0": {
+        "dependencies": {
+          "MacroRegime.Domain": "1.0.0"
+        },
         "runtime": {
-          "MacroRegime.Domain.dll": {
+          "MacroRegime.Application.dll": {
             "assemblyVersion": "1.0.0.0",
             "fileVersion": "1.0.0.0"
           }
         }
       },
-      "MacroRegime.Application/1.0.0.0": {
+      "MacroRegime.Domain/1.0.0": {
         "runtime": {
-          "MacroRegime.Application.dll": {
+          "MacroRegime.Domain.dll": {
             "assemblyVersion": "1.0.0.0",
             "fileVersion": "1.0.0.0"
           }
@@ -39,13 +42,13 @@
       "serviceable": false,
       "sha512": ""
     },
-    "MacroRegime.Domain/1.0.0": {
+    "MacroRegime.Application/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
     },
-    "MacroRegime.Application/1.0.0.0": {
-      "type": "reference",
+    "MacroRegime.Domain/1.0.0": {
+      "type": "project",
       "serviceable": false,
       "sha512": ""
     }

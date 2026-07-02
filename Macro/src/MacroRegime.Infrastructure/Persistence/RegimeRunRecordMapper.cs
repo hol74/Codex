@@ -4,11 +4,14 @@ namespace MacroRegime.Infrastructure.Persistence;
 
 public static class RegimeRunRecordMapper
 {
+    public const int CurrentSchemaVersion = 1;
+
     public static RegimeRunRecord FromSnapshot(RegimeSnapshot snapshot)
     {
         ArgumentNullException.ThrowIfNull(snapshot);
 
         return new RegimeRunRecord(
+            CurrentSchemaVersion,
             snapshot.AsOfDate.Value,
             snapshot.ModelVersion.Name,
             snapshot.ModelVersion.Version,

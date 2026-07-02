@@ -1,3 +1,5 @@
+using MacroRegime.Application.Reports;
+using MacroRegime.Domain.Allocations;
 using MacroRegime.Domain.Common;
 using MacroRegime.Domain.Explanations;
 using MacroRegime.Domain.Features;
@@ -15,7 +17,7 @@ public sealed class MarkdownRegimeReportRendererTests
     {
         var renderer = new MarkdownRegimeReportRenderer();
 
-        var markdown = renderer.Render(CreateSnapshot());
+        var markdown = renderer.Render(new RegimeReportContent(CreateSnapshot()));
 
         Assert.Contains("# Macro-Regime Report", markdown);
         Assert.Contains("As-of date: 2026-07-01", markdown);
@@ -25,6 +27,20 @@ public sealed class MarkdownRegimeReportRendererTests
         Assert.Contains("## Feature Scores", markdown);
         Assert.Contains("GROWTH_MOM", markdown);
         Assert.Contains("## Warnings", markdown);
+    }
+
+    [Fact]
+    public void Render_IncludesAllocationProposal_WhenAvailable()
+    {
+        var renderer = new MarkdownRegimeReportRenderer();
+
+        var markdown = renderer.Render(new RegimeReportContent(CreateSnapshot(), CreateAllocationProposal()));
+
+        Assert.Contains("## Allocation Proposal", markdown);
+        Assert.Contains("Decision suggestion: PartialRebalance", markdown);
+        Assert.Contains("| GlobalEquity | 0.6 | 0.6 | 0.65 | 0.05 | 0.45-0.75 | 0.05 |", markdown);
+        Assert.Contains("Constructive growth supports equity tilt.", markdown);
+        Assert.Contains("No allocation constraints triggered.", markdown);
     }
 
     private static RegimeSnapshot CreateSnapshot()
@@ -85,5 +101,56 @@ public sealed class MarkdownRegimeReportRendererTests
                     RegimeExplanationKind.Driver)
             },
             new[] { "Fixture warning." });
+    }
+
+    private static AllocationProposal CreateAllocationProposal()
+    {
+        return new AllocationProposal(
+            new AsOfDate(new DateOnly(2026, 7, 1)),
+            RegimeType.Goldilocks,
+            DecisionSuggestion.PartialRebalance,
+            new AllocationWeight(0.05m),
+            0.00005m,
+            new[]
+            {
+                new AllocationProposalLine(
+                    AssetClass.Cash,
+                    new AllocationWeight(0.05m),
+                    new AllocationWeight(0.05m),
+                    new AllocationWeight(0.05m),
+                    new AllocationWeight(0.02m),
+                    new AllocationWeight(0.20m),
+                    0m,
+                    0m),
+                new AllocationProposalLine(
+                    AssetClass.GlobalEquity,
+                    new AllocationWeight(0.60m),
+                    new AllocationWeight(0.60m),
+                    new AllocationWeight(0.65m),
+                    new AllocationWeight(0.45m),
+                    new AllocationWeight(0.75m),
+                    0.05m,
+                    0.05m),
+                new AllocationProposalLine(
+                    AssetClass.GovernmentBonds,
+                    new AllocationWeight(0.25m),
+                    new AllocationWeight(0.25m),
+                    new AllocationWeight(0.20m),
+                    new AllocationWeight(0.10m),
+                    new AllocationWeight(0.40m),
+                    -0.05m,
+                    -0.05m),
+                new AllocationProposalLine(
+                    AssetClass.Gold,
+                    new AllocationWeight(0.10m),
+                    new AllocationWeight(0.10m),
+                    new AllocationWeight(0.10m),
+                    new AllocationWeight(0.00m),
+                    new AllocationWeight(0.20m),
+                    0m,
+                    0m)
+            },
+            new[] { "Constructive growth supports equity tilt." },
+            Array.Empty<string>());
     }
 }

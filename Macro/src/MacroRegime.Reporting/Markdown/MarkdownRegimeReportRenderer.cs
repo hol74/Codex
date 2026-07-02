@@ -1,14 +1,19 @@
 using System.Globalization;
 using System.Text;
+using MacroRegime.Application.Ports;
+using MacroRegime.Application.Reports;
+using MacroRegime.Domain.Allocations;
 using MacroRegime.Domain.Regimes;
 
 namespace MacroRegime.Reporting.Markdown;
 
-public sealed class MarkdownRegimeReportRenderer
+public sealed class MarkdownRegimeReportRenderer : IRegimeReportRenderer
 {
-    public string Render(RegimeSnapshot snapshot)
+    public string Render(RegimeReportContent content)
     {
-        ArgumentNullException.ThrowIfNull(snapshot);
+        ArgumentNullException.ThrowIfNull(content);
+
+        var snapshot = content.Snapshot;
 
         var builder = new StringBuilder();
         builder.AppendLine("# Macro-Regime Report");
@@ -62,6 +67,8 @@ public sealed class MarkdownRegimeReportRenderer
             }
         }
 
+        AppendAllocationProposal(builder, content.AllocationProposal);
+
         builder.AppendLine();
         builder.AppendLine("## Warnings");
         builder.AppendLine();
@@ -79,6 +86,64 @@ public sealed class MarkdownRegimeReportRenderer
         }
 
         return builder.ToString();
+    }
+
+    private static void AppendAllocationProposal(StringBuilder builder, AllocationProposal? proposal)
+    {
+        builder.AppendLine();
+        builder.AppendLine("## Allocation Proposal");
+        builder.AppendLine();
+
+        if (proposal is null)
+        {
+            builder.AppendLine("No allocation proposal available.");
+            return;
+        }
+
+        builder.AppendLine($"Decision suggestion: {proposal.Suggestion}");
+        builder.AppendLine($"Turnover: {Format(proposal.Turnover.Value)}");
+        builder.AppendLine($"Estimated cost: {Format(proposal.EstimatedCost)}");
+        builder.AppendLine();
+        builder.AppendLine("| Asset class | Current | Strategic | Target | Trade | Band | Tilt |");
+        builder.AppendLine("|---|---:|---:|---:|---:|---:|---:|");
+
+        foreach (var line in proposal.Lines)
+        {
+            builder.AppendLine(
+                $"| {line.AssetClass} | {Format(line.CurrentWeight.Value)} | {Format(line.StrategicWeight.Value)} | {Format(line.TargetWeight.Value)} | {Format(line.Trade)} | {Format(line.MinimumWeight.Value)}-{Format(line.MaximumWeight.Value)} | {Format(line.AppliedTilt)} |");
+        }
+
+        builder.AppendLine();
+        builder.AppendLine("### Allocation Rationale");
+        builder.AppendLine();
+
+        if (proposal.Reasons.Count == 0)
+        {
+            builder.AppendLine("No allocation rationale available.");
+        }
+        else
+        {
+            foreach (var reason in proposal.Reasons)
+            {
+                builder.AppendLine($"- {reason}");
+            }
+        }
+
+        builder.AppendLine();
+        builder.AppendLine("### Allocation Constraints");
+        builder.AppendLine();
+
+        if (proposal.ConstraintMessages.Count == 0)
+        {
+            builder.AppendLine("No allocation constraints triggered.");
+        }
+        else
+        {
+            foreach (var message in proposal.ConstraintMessages)
+            {
+                builder.AppendLine($"- {message}");
+            }
+        }
     }
 
     private static string Format(decimal value)

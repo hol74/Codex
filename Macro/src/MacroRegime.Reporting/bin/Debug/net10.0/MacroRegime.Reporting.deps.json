@@ -8,10 +8,22 @@
     ".NETCoreApp,Version=v10.0": {
       "MacroRegime.Reporting/1.0.0": {
         "dependencies": {
+          "MacroRegime.Application": "1.0.0",
           "MacroRegime.Domain": "1.0.0"
         },
         "runtime": {
           "MacroRegime.Reporting.dll": {}
+        }
+      },
+      "MacroRegime.Application/1.0.0": {
+        "dependencies": {
+          "MacroRegime.Domain": "1.0.0"
+        },
+        "runtime": {
+          "MacroRegime.Application.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
         }
       },
       "MacroRegime.Domain/1.0.0": {
@@ -26,6 +38,11 @@
   },
   "libraries": {
     "MacroRegime.Reporting/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "MacroRegime.Application/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

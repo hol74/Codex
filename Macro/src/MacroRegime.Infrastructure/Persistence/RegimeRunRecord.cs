@@ -1,6 +1,7 @@
 namespace MacroRegime.Infrastructure.Persistence;
 
 public sealed record RegimeRunRecord(
+    int SchemaVersion,
     DateOnly AsOfDate,
     string ModelName,
     string ModelVersion,

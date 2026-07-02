@@ -1,6 +1,7 @@
 <Solution>
   <Folder Name="/src/">
     <Project Path="src/MacroRegime.Application/MacroRegime.Application.csproj" />
+    <Project Path="src/MacroRegime.Cli/MacroRegime.Cli.csproj" />
     <Project Path="src/MacroRegime.Domain/MacroRegime.Domain.csproj" />
     <Project Path="src/MacroRegime.Infrastructure/MacroRegime.Infrastructure.csproj" />
     <Project Path="src/MacroRegime.Reporting/MacroRegime.Reporting.csproj" />

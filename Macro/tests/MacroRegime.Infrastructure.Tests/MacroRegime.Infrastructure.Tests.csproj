@@ -20,6 +20,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\MacroRegime.Infrastructure\MacroRegime.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\src\MacroRegime.Reporting\MacroRegime.Reporting.csproj" />
   </ItemGroup>
 
 </Project>

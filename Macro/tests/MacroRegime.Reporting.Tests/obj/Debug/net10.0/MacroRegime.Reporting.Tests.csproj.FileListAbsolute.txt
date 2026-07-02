@@ -203,3 +203,7 @@ C:\Users\CodexSandboxOffline\.codex\.sandbox\cwd\a6899bfb4af16d25\tests\MacroReg
 C:\Users\CodexSandboxOffline\.codex\.sandbox\cwd\a6899bfb4af16d25\tests\MacroRegime.Reporting.Tests\obj\Debug\net10.0\MacroRegime.Reporting.Tests.pdb
 C:\Users\CodexSandboxOffline\.codex\.sandbox\cwd\a6899bfb4af16d25\tests\MacroRegime.Reporting.Tests\obj\Debug\net10.0\MacroRegime.Reporting.Tests.genruntimeconfig.cache
 C:\Users\CodexSandboxOffline\.codex\.sandbox\cwd\a6899bfb4af16d25\tests\MacroRegime.Reporting.Tests\obj\Debug\net10.0\ref\MacroRegime.Reporting.Tests.dll
+C:\ProgettiAzure\Codex\Macro\tests\MacroRegime.Reporting.Tests\bin\Debug\net10.0\MacroRegime.Application.dll
+C:\ProgettiAzure\Codex\Macro\tests\MacroRegime.Reporting.Tests\bin\Debug\net10.0\MacroRegime.Application.pdb
+C:\Users\CodexSandboxOffline\.codex\.sandbox\cwd\a6899bfb4af16d25\tests\MacroRegime.Reporting.Tests\bin\Debug\net10.0\MacroRegime.Application.dll
+C:\Users\CodexSandboxOffline\.codex\.sandbox\cwd\a6899bfb4af16d25\tests\MacroRegime.Reporting.Tests\bin\Debug\net10.0\MacroRegime.Application.pdb

@@ -1,6 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <ItemGroup>
+    <ProjectReference Include="..\MacroRegime.Application\MacroRegime.Application.csproj" />
     <ProjectReference Include="..\MacroRegime.Domain\MacroRegime.Domain.csproj" />
   </ItemGroup>
 

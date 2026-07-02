@@ -331,6 +331,17 @@
           }
         }
       },
+      "MacroRegime.Application/1.0.0": {
+        "dependencies": {
+          "MacroRegime.Domain": "1.0.0"
+        },
+        "runtime": {
+          "MacroRegime.Application.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      },
       "MacroRegime.Domain/1.0.0": {
         "runtime": {
           "MacroRegime.Domain.dll": {
@@ -341,6 +352,7 @@
       },
       "MacroRegime.Reporting/1.0.0": {
         "dependencies": {
+          "MacroRegime.Application": "1.0.0",
           "MacroRegime.Domain": "1.0.0"
         },
         "runtime": {
@@ -434,6 +446,11 @@
       "sha512": "sha512-yMb6vMESlSrE3Wfj7V6cjQ3S4TXdXpRqYeNEI3zsX31uTsGMJjEw6oD5F5u1cHnMptjhEECnmZSsPxB6ChZHDQ==",
       "path": "xunit.extensibility.execution/2.9.3",
       "hashPath": "xunit.extensibility.execution.2.9.3.nupkg.sha512"
+    },
+    "MacroRegime.Application/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
     },
     "MacroRegime.Domain/1.0.0": {
       "type": "project",

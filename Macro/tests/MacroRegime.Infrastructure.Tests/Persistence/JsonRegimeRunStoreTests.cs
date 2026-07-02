@@ -28,6 +28,7 @@ public sealed class JsonRegimeRunStoreTests : IDisposable
         var record = JsonSerializer.Deserialize<RegimeRunRecord>(json, new JsonSerializerOptions(JsonSerializerDefaults.Web));
 
         Assert.NotNull(record);
+        Assert.Equal(RegimeRunRecordMapper.CurrentSchemaVersion, record.SchemaVersion);
         Assert.Equal(snapshot.AsOfDate.Value, record.AsOfDate);
         Assert.Equal("Goldilocks", record.PrimaryRegime);
         Assert.Equal("Goldilocks", record.OperationalRegime);
@@ -44,6 +45,23 @@ public sealed class JsonRegimeRunStoreTests : IDisposable
         Assert.Equal("CRS Baseline", record.FeatureSetName);
         Assert.Equal(0.7m, record.Confidence);
         Assert.Contains(record.Explanations, explanation => explanation.Kind == "Driver");
+    }
+
+    [Fact]
+    public async Task SaveAsync_IsIdempotentForSameSnapshotAndAsOfDate()
+    {
+        var snapshot = CreateSnapshot();
+        var store = new JsonRegimeRunStore(directoryPath);
+
+        await store.SaveAsync(snapshot);
+        var path = store.GetPath(snapshot.AsOfDate.Value);
+        var firstContent = await File.ReadAllTextAsync(path);
+
+        await store.SaveAsync(snapshot);
+        var secondContent = await File.ReadAllTextAsync(path);
+
+        Assert.Equal(firstContent, secondContent);
+        Assert.Single(Directory.GetFiles(directoryPath, "regime-run-*.json"));
     }
 
     public void Dispose()

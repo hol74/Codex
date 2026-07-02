@@ -9,6 +9,7 @@
       "MacroRegime.Infrastructure.Tests/1.0.0": {
         "dependencies": {
           "MacroRegime.Infrastructure": "1.0.0",
+          "MacroRegime.Reporting": "1.0.0",
           "Microsoft.NET.Test.Sdk": "17.14.1",
           "xunit": "2.9.3"
         },
@@ -331,6 +332,17 @@
           }
         }
       },
+      "MacroRegime.Application/1.0.0": {
+        "dependencies": {
+          "MacroRegime.Domain": "1.0.0"
+        },
+        "runtime": {
+          "MacroRegime.Application.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      },
       "MacroRegime.Domain/1.0.0": {
         "runtime": {
           "MacroRegime.Domain.dll": {
@@ -341,6 +353,7 @@
       },
       "MacroRegime.Infrastructure/1.0.0": {
         "dependencies": {
+          "MacroRegime.Application": "1.0.0",
           "MacroRegime.Domain": "1.0.0"
         },
         "runtime": {
@@ -350,9 +363,13 @@
           }
         }
       },
-      "MacroRegime.Application/1.0.0.0": {
+      "MacroRegime.Reporting/1.0.0": {
+        "dependencies": {
+          "MacroRegime.Application": "1.0.0",
+          "MacroRegime.Domain": "1.0.0"
+        },
         "runtime": {
-          "MacroRegime.Application.dll": {
+          "MacroRegime.Reporting.dll": {
             "assemblyVersion": "1.0.0.0",
             "fileVersion": "1.0.0.0"
           }
@@ -443,6 +460,11 @@
       "path": "xunit.extensibility.execution/2.9.3",
       "hashPath": "xunit.extensibility.execution.2.9.3.nupkg.sha512"
     },
+    "MacroRegime.Application/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
     "MacroRegime.Domain/1.0.0": {
       "type": "project",
       "serviceable": false,
@@ -453,8 +475,8 @@
       "serviceable": false,
       "sha512": ""
     },
-    "MacroRegime.Application/1.0.0.0": {
-      "type": "reference",
+    "MacroRegime.Reporting/1.0.0": {
+      "type": "project",
       "serviceable": false,
       "sha512": ""
     }

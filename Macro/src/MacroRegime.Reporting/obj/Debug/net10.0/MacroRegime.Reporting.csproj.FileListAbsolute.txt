@@ -29,3 +29,7 @@ C:\Users\CodexSandboxOffline\.codex\.sandbox\cwd\a6899bfb4af16d25\src\MacroRegim
 C:\Users\CodexSandboxOffline\.codex\.sandbox\cwd\a6899bfb4af16d25\src\MacroRegime.Reporting\obj\Debug\net10.0\refint\MacroRegime.Reporting.dll
 C:\Users\CodexSandboxOffline\.codex\.sandbox\cwd\a6899bfb4af16d25\src\MacroRegime.Reporting\obj\Debug\net10.0\MacroRegime.Reporting.pdb
 C:\Users\CodexSandboxOffline\.codex\.sandbox\cwd\a6899bfb4af16d25\src\MacroRegime.Reporting\obj\Debug\net10.0\ref\MacroRegime.Reporting.dll
+C:\ProgettiAzure\Codex\Macro\src\MacroRegime.Reporting\bin\Debug\net10.0\MacroRegime.Application.dll
+C:\ProgettiAzure\Codex\Macro\src\MacroRegime.Reporting\bin\Debug\net10.0\MacroRegime.Application.pdb
+C:\Users\CodexSandboxOffline\.codex\.sandbox\cwd\a6899bfb4af16d25\src\MacroRegime.Reporting\bin\Debug\net10.0\MacroRegime.Application.dll
+C:\Users\CodexSandboxOffline\.codex\.sandbox\cwd\a6899bfb4af16d25\src\MacroRegime.Reporting\bin\Debug\net10.0\MacroRegime.Application.pdb
