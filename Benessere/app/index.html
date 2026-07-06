@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Diario Benessere</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <header class="header">
+    <h1>Diario Benessere</h1>
+    <p class="subtitle">Baseline settimanale — pasti e attività</p>
+  </header>
+
+  <main class="container">
+    <section class="date-nav card">
+      <button type="button" id="btn-prev" class="btn-icon" aria-label="Giorno precedente">←</button>
+      <div class="date-display">
+        <input type="date" id="date-picker">
+        <span id="date-label"></span>
+      </div>
+      <button type="button" id="btn-next" class="btn-icon" aria-label="Giorno successivo">→</button>
+      <button type="button" id="btn-today" class="btn-secondary">Oggi</button>
+    </section>
+
+    <section class="card">
+      <h2>Pasti</h2>
+      <div id="meals-container"></div>
+    </section>
+
+    <section class="card">
+      <div class="section-header">
+        <h2>Attività fisica</h2>
+        <button type="button" id="btn-add-activity" class="btn-secondary">+ Aggiungi</button>
+      </div>
+      <div id="activities-container"></div>
+      <p id="no-activities" class="hint">Nessuna attività registrata oggi.</p>
+    </section>
+
+    <section class="actions card">
+      <button type="button" id="btn-save" class="btn-primary">Salva giornata</button>
+      <span id="save-status" class="save-status" aria-live="polite"></span>
+    </section>
+
+    <section class="card export-section">
+      <h2>Export</h2>
+      <p class="hint">Esporta tutti i giorni registrati in un file Markdown.</p>
+      <div class="export-buttons">
+        <button type="button" id="btn-export-all" class="btn-primary">Esporta tutto (.md)</button>
+        <button type="button" id="btn-export-week" class="btn-secondary">Esporta settimana corrente (.md)</button>
+      </div>
+      <p id="stats" class="stats"></p>
+    </section>
+  </main>
+
+  <script src="js/app.js"></script>
+</body>
+</html>
