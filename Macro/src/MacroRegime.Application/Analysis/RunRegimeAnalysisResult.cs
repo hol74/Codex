@@ -1,3 +1,4 @@
+using MacroRegime.Application.Regimes;
 using MacroRegime.Domain.Allocations;
 using MacroRegime.Domain.Regimes;
 
@@ -9,6 +10,7 @@ public sealed record RunRegimeAnalysisResult
         bool isSuccess,
         RegimeSnapshot? snapshot,
         AllocationProposal? allocationProposal,
+        DataSnapshotSourceInfo dataSourceInfo,
         string? markdown,
         string? reportLocation,
         string? error)
@@ -16,6 +18,7 @@ public sealed record RunRegimeAnalysisResult
         IsSuccess = isSuccess;
         Snapshot = snapshot;
         AllocationProposal = allocationProposal;
+        DataSourceInfo = dataSourceInfo;
         Markdown = markdown;
         ReportLocation = reportLocation;
         Error = error;
@@ -27,6 +30,8 @@ public sealed record RunRegimeAnalysisResult
 
     public AllocationProposal? AllocationProposal { get; }
 
+    public DataSnapshotSourceInfo DataSourceInfo { get; }
+
     public string? Markdown { get; }
 
     public string? ReportLocation { get; }
@@ -37,7 +42,8 @@ public sealed record RunRegimeAnalysisResult
         RegimeSnapshot snapshot,
         AllocationProposal allocationProposal,
         string markdown,
-        string reportLocation)
+        string reportLocation,
+        DataSnapshotSourceInfo? dataSourceInfo = null)
     {
         ArgumentNullException.ThrowIfNull(snapshot);
         ArgumentNullException.ThrowIfNull(allocationProposal);
@@ -52,7 +58,14 @@ public sealed record RunRegimeAnalysisResult
             throw new ArgumentException("Report location is required.", nameof(reportLocation));
         }
 
-        return new RunRegimeAnalysisResult(true, snapshot, allocationProposal, markdown, reportLocation.Trim(), null);
+        return new RunRegimeAnalysisResult(
+            true,
+            snapshot,
+            allocationProposal,
+            dataSourceInfo ?? DataSnapshotSourceInfo.Unspecified(),
+            markdown,
+            reportLocation.Trim(),
+            null);
     }
 
     public static RunRegimeAnalysisResult Failure(string error)
@@ -62,6 +75,6 @@ public sealed record RunRegimeAnalysisResult
             throw new ArgumentException("Failure error is required.", nameof(error));
         }
 
-        return new RunRegimeAnalysisResult(false, null, null, null, null, error.Trim());
+        return new RunRegimeAnalysisResult(false, null, null, DataSnapshotSourceInfo.Unspecified(), null, null, error.Trim());
     }
 }

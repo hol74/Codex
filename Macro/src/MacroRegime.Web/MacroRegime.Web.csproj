@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <ItemGroup>
+    <ProjectReference Include="..\MacroRegime.Application\MacroRegime.Application.csproj" />
+    <ProjectReference Include="..\MacroRegime.Domain\MacroRegime.Domain.csproj" />
+    <ProjectReference Include="..\MacroRegime.Infrastructure\MacroRegime.Infrastructure.csproj" />
+    <ProjectReference Include="..\MacroRegime.Reporting\MacroRegime.Reporting.csproj" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+</Project>

@@ -40,6 +40,7 @@ public sealed class JsonDataSnapshotProviderTests : IDisposable
         Assert.Equal(55m, pmi);
         Assert.Equal(6, snapshot.MacroObservations.Count);
         Assert.Empty(snapshot.MarketObservations);
+        Assert.Equal(DataSnapshotSourceKind.Imported, provider.LastSourceInfo.Kind);
     }
 
     [Fact]
@@ -97,6 +98,7 @@ public sealed class JsonDataSnapshotProviderTests : IDisposable
         Assert.NotNull(snapshot);
         Assert.Equal(asOfDate.Value, snapshot.AsOfDate.Value);
         Assert.Equal(6, snapshot.MacroObservations.Count);
+        Assert.Equal(DataSnapshotSourceKind.DemoFallback, provider.LastSourceInfo.Kind);
     }
 
     [Fact]
@@ -112,6 +114,20 @@ public sealed class JsonDataSnapshotProviderTests : IDisposable
         Assert.NotNull(snapshot);
         Assert.Equal(requestedAsOfDate.Value, snapshot.AsOfDate.Value);
         Assert.Equal(6, snapshot.MacroObservations.Count);
+        Assert.Equal(DataSnapshotSourceKind.DemoFallback, provider.LastSourceInfo.Kind);
+    }
+
+    [Fact]
+    public async Task GetSnapshotAsync_Throws_WhenStrictAndImportAsOfDateDoesNotMatch()
+    {
+        var requestedAsOfDate = new AsOfDate(new DateOnly(2026, 7, 1));
+        var filePath = Path.Combine(directoryPath, "macro-data.json");
+        await WriteRecordAsync(filePath, CreateGoldilocksImportRecord(new DateOnly(2026, 6, 30)));
+        var provider = new JsonDataSnapshotProvider(filePath, new DemoDataSnapshotProvider(), strict: true);
+
+        var exception = await Assert.ThrowsAsync<InvalidDataException>(() => provider.GetSnapshotAsync(requestedAsOfDate));
+
+        Assert.Contains("expected 2026-07-01", exception.Message);
     }
 
     [Fact]

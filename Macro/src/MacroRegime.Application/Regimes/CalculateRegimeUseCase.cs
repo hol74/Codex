@@ -46,8 +46,17 @@ public sealed class CalculateRegimeUseCase
             return CalculateRegimeResult.Failure("Feature set version is missing.");
         }
 
-        var dataSnapshot = await dataSnapshotProvider.GetSnapshotAsync(asOfDate, cancellationToken).ConfigureAwait(false)
-            ?? new DataSnapshot(asOfDate, Array.Empty<MacroObservation>(), Array.Empty<MarketObservation>());
+        var dataSnapshot = await dataSnapshotProvider.GetSnapshotAsync(asOfDate, cancellationToken).ConfigureAwait(false);
+        var dataSourceInfo = GetDataSourceInfo();
+
+        if (dataSnapshot is null)
+        {
+            dataSnapshot = new DataSnapshot(asOfDate, Array.Empty<MacroObservation>(), Array.Empty<MarketObservation>());
+            if (dataSourceInfo.Kind == DataSnapshotSourceKind.Unspecified)
+            {
+                dataSourceInfo = DataSnapshotSourceInfo.EmptyFallback("Provider returned no data; empty snapshot used.");
+            }
+        }
 
         var snapshot = detector.Detect(dataSnapshot, featureSetVersion, modelVersion);
         if (regimeRunStore is not null)
@@ -55,6 +64,13 @@ public sealed class CalculateRegimeUseCase
             await regimeRunStore.SaveAsync(snapshot, cancellationToken).ConfigureAwait(false);
         }
 
-        return CalculateRegimeResult.Success(snapshot);
+        return CalculateRegimeResult.Success(snapshot, dataSourceInfo);
+    }
+
+    private DataSnapshotSourceInfo GetDataSourceInfo()
+    {
+        return dataSnapshotProvider is IDataSnapshotSourceInfoProvider sourceInfoProvider
+            ? sourceInfoProvider.LastSourceInfo
+            : DataSnapshotSourceInfo.Unspecified();
     }
 }

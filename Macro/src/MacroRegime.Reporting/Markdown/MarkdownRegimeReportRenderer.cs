@@ -21,6 +21,7 @@ public sealed class MarkdownRegimeReportRenderer : IRegimeReportRenderer
         builder.AppendLine($"As-of date: {snapshot.AsOfDate.Value:yyyy-MM-dd}");
         builder.AppendLine($"Model: {snapshot.ModelVersion.Name} v{snapshot.ModelVersion.Version}");
         builder.AppendLine($"Feature set: {snapshot.FeatureSetVersion.Name} v{snapshot.FeatureSetVersion.Version}");
+        AppendInputSummary(builder, content);
         builder.AppendLine();
         builder.AppendLine("## Regime");
         builder.AppendLine();
@@ -86,6 +87,26 @@ public sealed class MarkdownRegimeReportRenderer : IRegimeReportRenderer
         }
 
         return builder.ToString();
+    }
+
+    private static void AppendInputSummary(StringBuilder builder, RegimeReportContent content)
+    {
+        var snapshot = content.Snapshot;
+        var activeFeatureCount = snapshot.FeatureSetVersion.FeatureDefinitions.Count(definition => definition.IsActive);
+
+        builder.AppendLine();
+        builder.AppendLine("## Input Summary");
+        builder.AppendLine();
+        builder.AppendLine($"Data source: {content.DataSourceInfo.Kind}");
+        builder.AppendLine($"Data source detail: {content.DataSourceInfo.Description}");
+        if (content.DataSourceInfo.Reference is not null)
+        {
+            builder.AppendLine($"Data source reference: {content.DataSourceInfo.Reference}");
+        }
+
+        builder.AppendLine($"Active feature definitions: {activeFeatureCount}");
+        builder.AppendLine($"Feature scores produced: {snapshot.FeatureScores.Count}");
+        builder.AppendLine($"Warnings: {snapshot.Warnings.Count}");
     }
 
     private static void AppendAllocationProposal(StringBuilder builder, AllocationProposal? proposal)

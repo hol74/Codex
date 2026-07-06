@@ -1,0 +1,269 @@
+@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Macro Regime";
+    var analysis = Model.WebResult?.Analysis;
+    var snapshot = analysis?.Snapshot;
+    var allocation = analysis?.AllocationProposal;
+}
+
+<section class="toolbar" aria-label="Run controls">
+    <div>
+        <h1>Macro Regime</h1>
+        @if (snapshot is not null)
+        {
+            <p class="muted">Model @snapshot.ModelVersion.Name v@snapshot.ModelVersion.Version &middot; Feature set @snapshot.FeatureSetVersion.Name v@snapshot.FeatureSetVersion.Version</p>
+        }
+    </div>
+    <form method="post" class="run-form">
+        <label for="asOfDate">As-of</label>
+        <input id="asOfDate" name="asOfDate" type="date" value="@Model.AsOfDateInput" />
+        <button type="submit">Run</button>
+    </form>
+</section>
+
+@if (!string.IsNullOrWhiteSpace(Model.ErrorMessage))
+{
+    <section class="alert-panel" role="alert">
+        <strong>Run failed</strong>
+        <span>@Model.ErrorMessage</span>
+    </section>
+}
+
+@if (analysis?.IsSuccess == true && snapshot is not null && allocation is not null)
+{
+    <section class="summary-grid" aria-label="Regime summary">
+        <article class="metric-panel primary">
+            <span class="label">Primary regime</span>
+            <strong>@snapshot.PrimaryRegime</strong>
+            <span class="muted">Operational: @snapshot.OperationalRegime</span>
+        </article>
+        <article class="metric-panel">
+            <span class="label">Confidence</span>
+            <strong>@IndexModel.FormatPercent(snapshot.Confidence.Value)</strong>
+            <span class="muted">Composite @IndexModel.FormatRatio(snapshot.CompositeScore.Value)</span>
+        </article>
+        <article class="metric-panel">
+            <span class="label">Data source</span>
+            <strong>@analysis.DataSourceInfo.Kind</strong>
+            <span class="muted">@analysis.DataSourceInfo.Description</span>
+        </article>
+        <article class="metric-panel">
+            <span class="label">Allocation</span>
+            <strong>@allocation.Suggestion</strong>
+            <span class="muted">Turnover @IndexModel.FormatPercent(allocation.Turnover.Value)</span>
+        </article>
+    </section>
+
+    @if (!string.IsNullOrWhiteSpace(analysis.DataSourceInfo.Reference))
+    {
+        <section class="path-strip">
+            <span>Data reference</span>
+            <code>@analysis.DataSourceInfo.Reference</code>
+        </section>
+    }
+
+    <section class="content-grid">
+        <article class="panel">
+            <div class="panel-heading">
+                <h2>Regime Probabilities</h2>
+                <span>@snapshot.Probabilities.Count regimes</span>
+            </div>
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Rank</th>
+                            <th>Regime</th>
+                            <th>Probability</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var probability in snapshot.Probabilities)
+                        {
+                            <tr class="@(probability.Rank == 1 ? "selected-row" : null)">
+                                <td>@probability.Rank</td>
+                                <td>@probability.Regime</td>
+                                <td>
+                                    <div class="probability-cell">
+                                        <span>@IndexModel.FormatPercent(probability.Probability.Value)</span>
+                                        <i style="width: @IndexModel.ProbabilityWidth(probability.Probability.Value)%"></i>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </article>
+
+        <article class="panel">
+            <div class="panel-heading">
+                <h2>Explanations</h2>
+                <span>@snapshot.Explanations.Count items</span>
+            </div>
+            <ol class="explanation-list">
+                @foreach (var explanation in snapshot.Explanations.OrderByDescending(item => Math.Abs(item.Impact)))
+                {
+                    <li>
+                        <div>
+                            <strong>@explanation.Title</strong>
+                            <span>@explanation.Kind &middot; @explanation.FeatureCode</span>
+                        </div>
+                        <b>@IndexModel.FormatRatio(explanation.Impact)</b>
+                    </li>
+                }
+            </ol>
+        </article>
+    </section>
+
+    <section class="panel">
+        <div class="panel-heading">
+            <h2>Feature Scores</h2>
+            <span>@snapshot.FeatureScores.Count active</span>
+        </div>
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Code</th>
+                        <th>Name</th>
+                        <th>Dimension</th>
+                        <th>Raw</th>
+                        <th>Score</th>
+                        <th>Weight</th>
+                        <th>Interpretation</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var score in snapshot.FeatureScores)
+                    {
+                        <tr>
+                            <td><code>@score.FeatureCode</code></td>
+                            <td>@score.Name</td>
+                            <td>@score.Dimension</td>
+                            <td>@IndexModel.FormatRatio(score.RawValue)</td>
+                            <td>@IndexModel.FormatRatio(score.NormalizedScore.Value)</td>
+                            <td>@IndexModel.FormatRatio(score.Weight.Value)</td>
+                            <td>@score.Interpretation</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <section class="panel">
+        <div class="panel-heading">
+            <h2>Allocation Proposal</h2>
+            <span>Estimated cost @IndexModel.FormatPercent(allocation.EstimatedCost)</span>
+        </div>
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Asset class</th>
+                        <th>Current</th>
+                        <th>Strategic</th>
+                        <th>Target</th>
+                        <th>Trade</th>
+                        <th>Band</th>
+                        <th>Tilt</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var line in allocation.Lines)
+                    {
+                        <tr>
+                            <td>@line.AssetClass</td>
+                            <td>@IndexModel.FormatPercent(line.CurrentWeight.Value)</td>
+                            <td>@IndexModel.FormatPercent(line.StrategicWeight.Value)</td>
+                            <td>@IndexModel.FormatPercent(line.TargetWeight.Value)</td>
+                            <td>@IndexModel.FormatSignedPercent(line.Trade)</td>
+                            <td>@IndexModel.FormatPercent(line.MinimumWeight.Value)-@IndexModel.FormatPercent(line.MaximumWeight.Value)</td>
+                            <td>@IndexModel.FormatSignedPercent(line.AppliedTilt)</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div class="notes-grid">
+            <div>
+                <h3>Rationale</h3>
+                @if (allocation.Reasons.Count == 0)
+                {
+                    <p class="muted">No rationale recorded.</p>
+                }
+                else
+                {
+                    <ul>
+                        @foreach (var reason in allocation.Reasons)
+                        {
+                            <li>@reason</li>
+                        }
+                    </ul>
+                }
+            </div>
+            <div>
+                <h3>Constraints</h3>
+                @if (allocation.ConstraintMessages.Count == 0)
+                {
+                    <p class="muted">No allocation constraints triggered.</p>
+                }
+                else
+                {
+                    <ul>
+                        @foreach (var constraint in allocation.ConstraintMessages)
+                        {
+                            <li>@constraint</li>
+                        }
+                    </ul>
+                }
+            </div>
+        </div>
+    </section>
+
+    <section class="content-grid">
+        <article class="panel">
+            <div class="panel-heading">
+                <h2>Warnings</h2>
+                <span>@snapshot.Warnings.Count total</span>
+            </div>
+            @if (snapshot.Warnings.Count == 0)
+            {
+                <p class="muted">No warnings.</p>
+            }
+            else
+            {
+                <ul>
+                    @foreach (var warning in snapshot.Warnings)
+                    {
+                        <li>@warning</li>
+                    }
+                </ul>
+            }
+        </article>
+
+        <article class="panel">
+            <div class="panel-heading">
+                <h2>Artifacts</h2>
+                <span>@snapshot.AsOfDate.Value.ToString("yyyy-MM-dd")</span>
+            </div>
+            <dl class="artifact-list">
+                <dt>Run JSON</dt>
+                <dd><code>@Model.WebResult!.RunRecordPath</code></dd>
+                <dt>Report markdown</dt>
+                <dd><code>@analysis.ReportLocation</code></dd>
+                <dt>Output</dt>
+                <dd><code>@Model.WebResult.OutputDirectory</code></dd>
+            </dl>
+        </article>
+    </section>
+
+    <section class="panel">
+        <details>
+            <summary>Report markdown</summary>
+            <pre class="markdown-report">@analysis.Markdown</pre>
+        </details>
+    </section>
+}

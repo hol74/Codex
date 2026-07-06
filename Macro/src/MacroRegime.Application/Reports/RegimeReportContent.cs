@@ -1,11 +1,15 @@
 using MacroRegime.Domain.Allocations;
 using MacroRegime.Domain.Regimes;
+using MacroRegime.Application.Regimes;
 
 namespace MacroRegime.Application.Reports;
 
 public sealed record RegimeReportContent
 {
-    public RegimeReportContent(RegimeSnapshot snapshot, AllocationProposal? allocationProposal = null)
+    public RegimeReportContent(
+        RegimeSnapshot snapshot,
+        AllocationProposal? allocationProposal = null,
+        DataSnapshotSourceInfo? dataSourceInfo = null)
     {
         Snapshot = snapshot ?? throw new ArgumentNullException(nameof(snapshot));
 
@@ -15,9 +19,12 @@ public sealed record RegimeReportContent
         }
 
         AllocationProposal = allocationProposal;
+        DataSourceInfo = dataSourceInfo ?? DataSnapshotSourceInfo.Unspecified();
     }
 
     public RegimeSnapshot Snapshot { get; }
 
     public AllocationProposal? AllocationProposal { get; }
+
+    public DataSnapshotSourceInfo DataSourceInfo { get; }
 }

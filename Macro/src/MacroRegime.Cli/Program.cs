@@ -28,21 +28,26 @@ internal static class MacroRegimeCli
             }
 
             var outputDirectory = Path.GetFullPath(options.OutputDirectory);
-            var dataSnapshotProvider = CreateDataSnapshotProvider(options.DataFilePath);
+            var dataSnapshotProvider = CreateDataSnapshotProvider(options.DataFilePath, options.StrictData);
+            var modelVersionProvider = CreateModelVersionProvider(options.ModelFilePath, options.StrictConfig);
+            var featureSetProvider = CreateFeatureSetProvider(options.FeatureSetFilePath, options.StrictConfig);
+            var allocationPolicyProvider = CreateStrategicAllocationPolicyProvider(options.PolicyFilePath, options.StrictConfig);
+            var currentPortfolioProvider = CreateCurrentPortfolioProvider(options.PortfolioFilePath, options.StrictConfig);
+            var tiltRuleProvider = CreateRegimeTiltRuleProvider(options.TiltsFilePath, options.StrictConfig);
             var runStore = new JsonRegimeRunStore(Path.Combine(outputDirectory, "runs"));
             var reportStore = new FileRegimeReportStore(Path.Combine(outputDirectory, "reports"));
 
             var useCase = new RunRegimeAnalysisUseCase(
                 new CalculateRegimeUseCase(
                     dataSnapshotProvider,
-                    new DemoModelVersionProvider(),
-                    new DemoFeatureSetProvider(),
+                    modelVersionProvider,
+                    featureSetProvider,
                     new BaselineRegimeDetector(),
                     runStore),
                 new GenerateAllocationProposalUseCase(
-                    new DemoStrategicAllocationPolicyProvider(),
-                    new DemoCurrentPortfolioProvider(),
-                    new DemoRegimeTiltRuleProvider(),
+                    allocationPolicyProvider,
+                    currentPortfolioProvider,
+                    tiltRuleProvider,
                     new AllocationProposalService()),
                 new GenerateRegimeReportUseCase(new MarkdownRegimeReportRenderer(), reportStore));
 
@@ -60,6 +65,7 @@ internal static class MacroRegimeCli
             Console.WriteLine($"As-of date: {result.Snapshot.AsOfDate.Value:yyyy-MM-dd}");
             Console.WriteLine($"Primary regime: {result.Snapshot.PrimaryRegime}");
             Console.WriteLine($"Operational regime: {result.Snapshot.OperationalRegime}");
+            Console.WriteLine($"Data source: {result.DataSourceInfo.Kind}");
             Console.WriteLine($"Allocation suggestion: {result.AllocationProposal.Suggestion}");
             Console.WriteLine($"Run JSON: {runStore.GetPath(options.AsOfDate)}");
             Console.WriteLine($"Report markdown: {result.ReportLocation}");
@@ -80,31 +86,85 @@ internal static class MacroRegimeCli
         }
     }
 
-    private static IDataSnapshotProvider CreateDataSnapshotProvider(string? dataFilePath)
+    private static IDataSnapshotProvider CreateDataSnapshotProvider(string? dataFilePath, bool strictData)
     {
         var demoProvider = new DemoDataSnapshotProvider();
         return string.IsNullOrWhiteSpace(dataFilePath)
             ? demoProvider
-            : new JsonDataSnapshotProvider(Path.GetFullPath(dataFilePath), demoProvider);
+            : new JsonDataSnapshotProvider(Path.GetFullPath(dataFilePath), demoProvider, strictData);
+    }
+
+    private static IModelVersionProvider CreateModelVersionProvider(string? filePath, bool strictConfig)
+    {
+        var demoProvider = new DemoModelVersionProvider();
+        return string.IsNullOrWhiteSpace(filePath)
+            ? demoProvider
+            : new JsonModelVersionProvider(Path.GetFullPath(filePath), demoProvider, strictConfig);
+    }
+
+    private static IFeatureSetProvider CreateFeatureSetProvider(string? filePath, bool strictConfig)
+    {
+        var demoProvider = new DemoFeatureSetProvider();
+        return string.IsNullOrWhiteSpace(filePath)
+            ? demoProvider
+            : new JsonFeatureSetProvider(Path.GetFullPath(filePath), demoProvider, strictConfig);
+    }
+
+    private static IStrategicAllocationPolicyProvider CreateStrategicAllocationPolicyProvider(string? filePath, bool strictConfig)
+    {
+        var demoProvider = new DemoStrategicAllocationPolicyProvider();
+        return string.IsNullOrWhiteSpace(filePath)
+            ? demoProvider
+            : new JsonStrategicAllocationPolicyProvider(Path.GetFullPath(filePath), demoProvider, strictConfig);
+    }
+
+    private static ICurrentPortfolioProvider CreateCurrentPortfolioProvider(string? filePath, bool strictConfig)
+    {
+        var demoProvider = new DemoCurrentPortfolioProvider();
+        return string.IsNullOrWhiteSpace(filePath)
+            ? demoProvider
+            : new JsonCurrentPortfolioProvider(Path.GetFullPath(filePath), demoProvider, strictConfig);
+    }
+
+    private static IRegimeTiltRuleProvider CreateRegimeTiltRuleProvider(string? filePath, bool strictConfig)
+    {
+        var demoProvider = new DemoRegimeTiltRuleProvider();
+        return string.IsNullOrWhiteSpace(filePath)
+            ? demoProvider
+            : new JsonRegimeTiltRuleProvider(Path.GetFullPath(filePath), demoProvider, strictConfig);
     }
 }
 
 internal sealed record CliOptions(
     DateOnly AsOfDate,
     string? DataFilePath,
+    string? ModelFilePath,
+    string? FeatureSetFilePath,
+    string? PolicyFilePath,
+    string? PortfolioFilePath,
+    string? TiltsFilePath,
     string OutputDirectory,
     decimal EstimatedCostPerTurnover,
+    bool StrictData,
+    bool StrictConfig,
     bool ShowHelp)
 {
     public const string HelpText = """
 MacroRegime.Cli
 
 Usage:
-  dotnet run --project src/MacroRegime.Cli -- --as-of yyyy-MM-dd [--data path] [--output-dir path] [--cost-per-turnover decimal]
+  dotnet run --project src/MacroRegime.Cli -- --as-of yyyy-MM-dd [--data path] [--model path] [--feature-set path] [--policy path] [--portfolio path] [--tilts path] [--strict-data] [--strict-config] [--output-dir path] [--cost-per-turnover decimal]
 
 Options:
   --as-of yyyy-MM-dd             Required analysis date.
   --data path                    Optional JSON data import file. Uses deterministic demo data as fallback.
+  --model path                   Optional JSON model version file. Uses deterministic demo config as fallback.
+  --feature-set path             Optional JSON feature set file. Uses deterministic demo config as fallback.
+  --policy path                  Optional JSON strategic allocation policy file. Uses deterministic demo config as fallback.
+  --portfolio path               Optional JSON current portfolio file. Uses deterministic demo config as fallback.
+  --tilts path                   Optional JSON regime tilt rules file. Uses deterministic demo config as fallback.
+  --strict-data                  Fail if --data is missing, absent on disk, or has a different as-of date.
+  --strict-config                Fail if a provided config file is absent or not effective for --as-of.
   --output-dir path              Output directory for runs and reports. Default: macro-regime-output.
   --cost-per-turnover decimal    Estimated cost per turnover unit. Default: 0.001.
   --help                         Show help.
@@ -114,13 +174,32 @@ Options:
     {
         if (args.Any(arg => arg is "--help" or "-h"))
         {
-            return new CliOptions(DateOnly.FromDateTime(DateTime.MinValue), null, "macro-regime-output", 0.001m, true);
+            return new CliOptions(
+                DateOnly.FromDateTime(DateTime.MinValue),
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                "macro-regime-output",
+                0.001m,
+                false,
+                false,
+                true);
         }
 
         DateOnly? asOfDate = null;
         string? dataFilePath = null;
+        string? modelFilePath = null;
+        string? featureSetFilePath = null;
+        string? policyFilePath = null;
+        string? portfolioFilePath = null;
+        string? tiltsFilePath = null;
         var outputDirectory = "macro-regime-output";
         var estimatedCostPerTurnover = 0.001m;
+        var strictData = false;
+        var strictConfig = false;
 
         for (var index = 0; index < args.Count; index++)
         {
@@ -133,11 +212,32 @@ Options:
                 case "--data":
                     dataFilePath = NextValue(args, ref index, "--data");
                     break;
+                case "--model":
+                    modelFilePath = NextValue(args, ref index, "--model");
+                    break;
+                case "--feature-set":
+                    featureSetFilePath = NextValue(args, ref index, "--feature-set");
+                    break;
+                case "--policy":
+                    policyFilePath = NextValue(args, ref index, "--policy");
+                    break;
+                case "--portfolio":
+                    portfolioFilePath = NextValue(args, ref index, "--portfolio");
+                    break;
+                case "--tilts":
+                    tiltsFilePath = NextValue(args, ref index, "--tilts");
+                    break;
                 case "--output-dir":
                     outputDirectory = NextValue(args, ref index, "--output-dir");
                     break;
                 case "--cost-per-turnover":
                     estimatedCostPerTurnover = ParseDecimal(NextValue(args, ref index, "--cost-per-turnover"), "--cost-per-turnover");
+                    break;
+                case "--strict-data":
+                    strictData = true;
+                    break;
+                case "--strict-config":
+                    strictConfig = true;
                     break;
                 default:
                     throw new CliUsageException($"Unknown argument '{arg}'.");
@@ -154,7 +254,24 @@ Options:
             throw new CliUsageException("--cost-per-turnover cannot be negative.");
         }
 
-        return new CliOptions(asOfDate.Value, dataFilePath, outputDirectory, estimatedCostPerTurnover, false);
+        if (strictData && string.IsNullOrWhiteSpace(dataFilePath))
+        {
+            throw new CliUsageException("--strict-data requires --data.");
+        }
+
+        return new CliOptions(
+            asOfDate.Value,
+            dataFilePath,
+            modelFilePath,
+            featureSetFilePath,
+            policyFilePath,
+            portfolioFilePath,
+            tiltsFilePath,
+            outputDirectory,
+            estimatedCostPerTurnover,
+            strictData,
+            strictConfig,
+            false);
     }
 
     private static string NextValue(IReadOnlyList<string> args, ref int index, string optionName)

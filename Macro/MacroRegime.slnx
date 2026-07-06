@@ -5,9 +5,11 @@
     <Project Path="src/MacroRegime.Domain/MacroRegime.Domain.csproj" />
     <Project Path="src/MacroRegime.Infrastructure/MacroRegime.Infrastructure.csproj" />
     <Project Path="src/MacroRegime.Reporting/MacroRegime.Reporting.csproj" />
+    <Project Path="src/MacroRegime.Web/MacroRegime.Web.csproj" />
   </Folder>
   <Folder Name="/tests/">
     <Project Path="tests/MacroRegime.Application.Tests/MacroRegime.Application.Tests.csproj" />
+    <Project Path="tests/MacroRegime.Cli.Tests/MacroRegime.Cli.Tests.csproj" />
     <Project Path="tests/MacroRegime.Domain.Tests/MacroRegime.Domain.Tests.csproj" />
     <Project Path="tests/MacroRegime.Infrastructure.Tests/MacroRegime.Infrastructure.Tests.csproj" />
     <Project Path="tests/MacroRegime.Reporting.Tests/MacroRegime.Reporting.Tests.csproj" />

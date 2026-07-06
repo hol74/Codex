@@ -1,0 +1,133 @@
+{
+  "schemaVersion": 1,
+  "asOfDate": "2026-07-01",
+  "modelName": "CRS Rule-Based Engine",
+  "modelVersion": "0.1-local",
+  "featureSetName": "CRS Baseline",
+  "featureSetVersion": "0.1-local",
+  "primaryRegime": "Goldilocks",
+  "operationalRegime": "Goldilocks",
+  "confidence": 0.6266984484850570954056914699,
+  "compositeScore": 0.7907142857142857142857142857,
+  "status": "Confirmed",
+  "probabilities": [
+    {
+      "regime": "Goldilocks",
+      "probability": 0.3481658047139206085587174833,
+      "rank": 1
+    },
+    {
+      "regime": "Reflation",
+      "probability": 0.2617267165193745751189666893,
+      "rank": 2
+    },
+    {
+      "regime": "LateCycleOverheating",
+      "probability": 0.1913707199958695109673089003,
+      "rank": 3
+    },
+    {
+      "regime": "Stagflation",
+      "probability": 0.0801142768632377870905007357,
+      "rank": 4
+    },
+    {
+      "regime": "DeflationBust",
+      "probability": 0.0755965544837318968410364085,
+      "rank": 5
+    },
+    {
+      "regime": "UncertainTransition",
+      "probability": 0.0430259274238656214234697829,
+      "rank": 6
+    }
+  ],
+  "featureScores": [
+    {
+      "featureCode": "GROWTH_MOM",
+      "name": "Growth momentum",
+      "dimension": "Growth",
+      "weight": 1.0,
+      "rawValue": 0.975,
+      "normalizedScore": 0.975,
+      "zScore": null,
+      "momentum": null,
+      "interpretation": "Growth momentum normalized from PMI and Sahm rule."
+    },
+    {
+      "featureCode": "INFL_PRESS",
+      "name": "Inflation pressure",
+      "dimension": "Inflation",
+      "weight": 1.0,
+      "rawValue": 2.0,
+      "normalizedScore": 0.4,
+      "zScore": null,
+      "momentum": null,
+      "interpretation": "Inflation pressure normalized from breakeven inflation."
+    },
+    {
+      "featureCode": "RISK_APPETITE",
+      "name": "Risk appetite",
+      "dimension": "Risk",
+      "weight": 1.0,
+      "rawValue": 14.0,
+      "normalizedScore": 0.9285714285714285714285714286,
+      "zScore": null,
+      "momentum": null,
+      "interpretation": "Risk appetite normalized inversely from VIX."
+    },
+    {
+      "featureCode": "MONETARY_COND",
+      "name": "Monetary conditions",
+      "dimension": "Monetary",
+      "weight": 1.0,
+      "rawValue": 0.5,
+      "normalizedScore": 0.75,
+      "zScore": null,
+      "momentum": null,
+      "interpretation": "Monetary conditions normalized from 10Y-2Y curve slope."
+    },
+    {
+      "featureCode": "CREDIT_STRESS",
+      "name": "Credit stress",
+      "dimension": "Credit",
+      "weight": 1.0,
+      "rawValue": 300.0,
+      "normalizedScore": 0.9,
+      "zScore": null,
+      "momentum": null,
+      "interpretation": "Credit stress normalized inversely from high-yield spread."
+    }
+  ],
+  "explanations": [
+    {
+      "title": "Growth momentum is a driver",
+      "detail": "Normalized score 0,975 with weight 1.",
+      "impact": 0.4750,
+      "featureCode": "GROWTH_MOM",
+      "kind": "Driver"
+    },
+    {
+      "title": "Risk appetite is a driver",
+      "detail": "Normalized score 0,9286 with weight 1.",
+      "impact": 0.4285714285714285714285714286,
+      "featureCode": "RISK_APPETITE",
+      "kind": "Driver"
+    },
+    {
+      "title": "Credit stress is a driver",
+      "detail": "Normalized score 0,9 with weight 1.",
+      "impact": 0.40,
+      "featureCode": "CREDIT_STRESS",
+      "kind": "Driver"
+    },
+    {
+      "title": "Inflation pressure is a contrary signal",
+      "detail": "Normalized score 0,4 with weight 1.",
+      "impact": 0.10,
+      "featureCode": "INFL_PRESS",
+      "kind": "ContrarySignal"
+    }
+  ],
+  "warnings": []
+}

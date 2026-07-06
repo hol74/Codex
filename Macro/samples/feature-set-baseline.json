@@ -1,0 +1,57 @@
+{
+  "schemaVersion": 1,
+  "name": "CRS Baseline",
+  "version": "0.1-local",
+  "featureDefinitions": [
+    {
+      "code": "GROWTH_MOM",
+      "name": "Growth momentum",
+      "dimension": "Growth",
+      "formulaDescription": "PMI and Sahm-rule composite.",
+      "weight": 1.0,
+      "polarity": "HigherIsRiskOn",
+      "lookbackMonths": 6,
+      "isActive": true
+    },
+    {
+      "code": "INFL_PRESS",
+      "name": "Inflation pressure",
+      "dimension": "Inflation",
+      "formulaDescription": "10-year breakeven inflation pressure.",
+      "weight": 1.0,
+      "polarity": "HigherIsRiskOff",
+      "lookbackMonths": 6,
+      "isActive": true
+    },
+    {
+      "code": "RISK_APPETITE",
+      "name": "Risk appetite",
+      "dimension": "Risk",
+      "formulaDescription": "Inverse VIX risk appetite signal.",
+      "weight": 1.0,
+      "polarity": "HigherIsRiskOn",
+      "lookbackMonths": 3,
+      "isActive": true
+    },
+    {
+      "code": "MONETARY_COND",
+      "name": "Monetary conditions",
+      "dimension": "Monetary",
+      "formulaDescription": "10Y-2Y curve slope signal.",
+      "weight": 1.0,
+      "polarity": "HigherIsRiskOn",
+      "lookbackMonths": 6,
+      "isActive": true
+    },
+    {
+      "code": "CREDIT_STRESS",
+      "name": "Credit stress",
+      "dimension": "Credit",
+      "formulaDescription": "Inverse high-yield OAS stress signal.",
+      "weight": 1.0,
+      "polarity": "HigherIsRiskOff",
+      "lookbackMonths": 3,
+      "isActive": true
+    }
+  ]
+}

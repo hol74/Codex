@@ -1,0 +1,41 @@
+{
+  "schemaVersion": 1,
+  "rules": [
+    {
+      "regime": "Goldilocks",
+      "assetClass": "GlobalEquity",
+      "tilt": 0.08,
+      "reason": "Constructive growth supports equity tilt."
+    },
+    {
+      "regime": "Goldilocks",
+      "assetClass": "GovernmentBonds",
+      "tilt": -0.05,
+      "reason": "Duration can be reduced in risk-on regimes."
+    },
+    {
+      "regime": "Goldilocks",
+      "assetClass": "Cash",
+      "tilt": -0.03,
+      "reason": "Cash drag can be reduced while risk appetite is strong."
+    },
+    {
+      "regime": "RecessionStress",
+      "assetClass": "GlobalEquity",
+      "tilt": -0.10,
+      "reason": "Recession stress reduces equity risk."
+    },
+    {
+      "regime": "RecessionStress",
+      "assetClass": "GovernmentBonds",
+      "tilt": 0.08,
+      "reason": "Duration can diversify recession stress."
+    },
+    {
+      "regime": "RecessionStress",
+      "assetClass": "Cash",
+      "tilt": 0.02,
+      "reason": "Cash buffer supports optionality in stress regimes."
+    }
+  ]
+}

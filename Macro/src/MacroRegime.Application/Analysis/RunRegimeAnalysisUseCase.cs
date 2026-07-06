@@ -45,13 +45,14 @@ public sealed class RunRegimeAnalysisUseCase
         }
 
         var reportResult = await generateRegimeReportUseCase
-            .ExecuteAsync(new GenerateRegimeReportCommand(regimeResult.Snapshot, allocationResult.Proposal), cancellationToken)
+            .ExecuteAsync(new GenerateRegimeReportCommand(regimeResult.Snapshot, allocationResult.Proposal, regimeResult.DataSourceInfo), cancellationToken)
             .ConfigureAwait(false);
 
         return RunRegimeAnalysisResult.Success(
             regimeResult.Snapshot,
             allocationResult.Proposal,
             reportResult.Markdown,
-            reportResult.Location);
+            reportResult.Location,
+            regimeResult.DataSourceInfo);
     }
 }

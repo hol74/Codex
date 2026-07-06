@@ -1,4 +1,5 @@
 using MacroRegime.Application.Reports;
+using MacroRegime.Application.Regimes;
 using MacroRegime.Domain.Allocations;
 using MacroRegime.Domain.Common;
 using MacroRegime.Domain.Explanations;
@@ -22,6 +23,8 @@ public sealed class MarkdownRegimeReportRendererTests
         Assert.Contains("# Macro-Regime Report", markdown);
         Assert.Contains("As-of date: 2026-07-01", markdown);
         Assert.Contains("Primary regime: Goldilocks", markdown);
+        Assert.Contains("## Input Summary", markdown);
+        Assert.Contains("Data source: Unspecified", markdown);
         Assert.Contains("## Probabilities", markdown);
         Assert.Contains("| 1 | Goldilocks | 0.7 |", markdown);
         Assert.Contains("## Feature Scores", markdown);
@@ -34,9 +37,13 @@ public sealed class MarkdownRegimeReportRendererTests
     {
         var renderer = new MarkdownRegimeReportRenderer();
 
-        var markdown = renderer.Render(new RegimeReportContent(CreateSnapshot(), CreateAllocationProposal()));
+        var markdown = renderer.Render(new RegimeReportContent(
+            CreateSnapshot(),
+            CreateAllocationProposal(),
+            DataSnapshotSourceInfo.Imported("sample.json")));
 
         Assert.Contains("## Allocation Proposal", markdown);
+        Assert.Contains("Data source: Imported", markdown);
         Assert.Contains("Decision suggestion: PartialRebalance", markdown);
         Assert.Contains("| GlobalEquity | 0.6 | 0.6 | 0.65 | 0.05 | 0.45-0.75 | 0.05 |", markdown);
         Assert.Contains("Constructive growth supports equity tilt.", markdown);
