@@ -59,12 +59,13 @@ public sealed class CalculateRegimeUseCase
         }
 
         var snapshot = detector.Detect(dataSnapshot, featureSetVersion, modelVersion);
+        string? runLocation = null;
         if (regimeRunStore is not null)
         {
-            await regimeRunStore.SaveAsync(snapshot, cancellationToken).ConfigureAwait(false);
+            runLocation = await regimeRunStore.SaveAsync(snapshot, cancellationToken).ConfigureAwait(false);
         }
 
-        return CalculateRegimeResult.Success(snapshot, dataSourceInfo);
+        return CalculateRegimeResult.Success(snapshot, dataSourceInfo, runLocation);
     }
 
     private DataSnapshotSourceInfo GetDataSourceInfo()

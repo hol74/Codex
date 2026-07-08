@@ -23,7 +23,7 @@ public sealed class JsonRegimeRunStore : IRegimeRunStore
         this.directoryPath = directoryPath;
     }
 
-    public async Task SaveAsync(RegimeSnapshot snapshot, CancellationToken cancellationToken = default)
+    public async Task<string> SaveAsync(RegimeSnapshot snapshot, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(snapshot);
 
@@ -33,6 +33,8 @@ public sealed class JsonRegimeRunStore : IRegimeRunStore
         var path = GetPath(snapshot.AsOfDate.Value);
         await using var stream = File.Create(path);
         await JsonSerializer.SerializeAsync(stream, record, SerializerOptions, cancellationToken).ConfigureAwait(false);
+
+        return path;
     }
 
     public string GetPath(DateOnly asOfDate)

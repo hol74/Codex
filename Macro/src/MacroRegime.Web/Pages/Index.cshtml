@@ -30,6 +30,75 @@
     </section>
 }
 
+<section class="panel">
+    <details>
+        <summary>Active configuration</summary>
+        <div class="configuration-grid">
+            <dl class="artifact-list">
+                <dt>Default as-of</dt>
+                <dd>@Model.ActiveConfiguration.DefaultAsOfDate.ToString("yyyy-MM-dd")</dd>
+                <dt>Cost per turnover</dt>
+                <dd>@IndexModel.FormatPercent(Model.ActiveConfiguration.EstimatedCostPerTurnover)</dd>
+                <dt>Strict data</dt>
+                <dd>@Model.ActiveConfiguration.StrictData</dd>
+                <dt>Strict config</dt>
+                <dd>@Model.ActiveConfiguration.StrictConfig</dd>
+                <dt>Output</dt>
+                <dd><code>@Model.ActiveConfiguration.OutputDirectory</code></dd>
+                <dt>Manifest</dt>
+                <dd><code>@Model.ActiveConfiguration.ManifestPath</code></dd>
+            </dl>
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Input</th>
+                            <th>Mode</th>
+                            <th>Strict</th>
+                            <th>Status</th>
+                            <th>Path</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var input in Model.ActiveConfiguration.Inputs)
+                        {
+                            <tr>
+                                <td>@input.Name</td>
+                                <td>@input.Mode</td>
+                                <td>@input.Strict</td>
+                                <td>
+                                    @if (input.FilePath is null)
+                                    {
+                                        <span class="status-pill neutral">Fallback</span>
+                                    }
+                                    else if (input.Exists)
+                                    {
+                                        <span class="status-pill ok">Found</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="status-pill warn">Missing</span>
+                                    }
+                                </td>
+                                <td>
+                                    @if (input.FilePath is null)
+                                    {
+                                        <span class="muted">No local file configured.</span>
+                                    }
+                                    else
+                                    {
+                                        <code>@input.FilePath</code>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </details>
+</section>
+
 @if (analysis?.IsSuccess == true && snapshot is not null && allocation is not null)
 {
     <section class="summary-grid" aria-label="Regime summary">
@@ -62,6 +131,49 @@
             <code>@analysis.DataSourceInfo.Reference</code>
         </section>
     }
+
+    <section class="panel">
+        <div class="panel-heading">
+            <h2>Run History</h2>
+            <span>@Model.WebResult!.RunHistory.Count indexed</span>
+        </div>
+        @if (Model.WebResult.RunHistory.Count == 0)
+        {
+            <p class="empty-state">No indexed runs.</p>
+        }
+        else
+        {
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>As-of</th>
+                            <th>Primary</th>
+                            <th>Operational</th>
+                            <th>Confidence</th>
+                            <th>Allocation</th>
+                            <th>Source</th>
+                            <th>Open</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var entry in Model.WebResult.RunHistory)
+                        {
+                            <tr class="@(entry.AsOfDate == snapshot.AsOfDate.Value ? "selected-row" : null)">
+                                <td>@entry.AsOfDate.ToString("yyyy-MM-dd")</td>
+                                <td>@entry.PrimaryRegime</td>
+                                <td>@entry.OperationalRegime</td>
+                                <td>@IndexModel.FormatPercent(entry.Confidence)</td>
+                                <td>@entry.AllocationSuggestion</td>
+                                <td>@entry.DataSourceKind</td>
+                                <td><a class="table-action" href="/?asOfDate=@entry.AsOfDate.ToString("yyyy-MM-dd")">Open</a></td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+    </section>
 
     <section class="content-grid">
         <article class="panel">
@@ -256,6 +368,8 @@
                 <dd><code>@analysis.ReportLocation</code></dd>
                 <dt>Output</dt>
                 <dd><code>@Model.WebResult.OutputDirectory</code></dd>
+                <dt>Manifest</dt>
+                <dd><code>@Model.WebResult.ManifestPath</code></dd>
             </dl>
         </article>
     </section>

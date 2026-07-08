@@ -41,6 +41,42 @@ public sealed class RunRegimeAnalysisUseCaseTests
     }
 
     [Fact]
+    public async Task ExecuteAsync_UpsertsRunManifest_WhenManifestStoreIsProvided()
+    {
+        var asOfDate = new DateOnly(2026, 7, 1);
+        var manifestStore = new FakeManifestStore();
+        var reportStore = new FakeReportStore("memory://macro-regime-report.md");
+        var calculateRegime = new CalculateRegimeUseCase(
+            new FakeDataSnapshotProvider(CreateGoldilocksDataSnapshot(new AsOfDate(asOfDate))),
+            new FakeModelVersionProvider(CreateModelVersion()),
+            new FakeFeatureSetProvider(CreateFeatureSetVersion()),
+            new BaselineRegimeDetector(),
+            new FakeRegimeRunStore("memory://regime-run.json"));
+
+        var useCase = new RunRegimeAnalysisUseCase(
+            calculateRegime,
+            new GenerateAllocationProposalUseCase(
+                new FakePolicyProvider(AllocationProposalTestFixtures.CreatePolicy()),
+                new FakePortfolioProvider(AllocationProposalTestFixtures.CreatePortfolio()),
+                new FakeTiltRuleProvider(AllocationProposalTestFixtures.CreateTiltRules()),
+                new AllocationProposalService()),
+            new GenerateRegimeReportUseCase(new FakeReportRenderer(), reportStore),
+            manifestStore);
+
+        var result = await useCase.ExecuteAsync(new RunRegimeAnalysisCommand(asOfDate));
+
+        Assert.True(result.IsSuccess);
+        Assert.Equal("memory://regime-run.json", result.RunLocation);
+
+        var entry = Assert.Single(manifestStore.Entries);
+        Assert.Equal(asOfDate, entry.AsOfDate);
+        Assert.Equal("memory://regime-run.json", entry.RunLocation);
+        Assert.Equal("memory://macro-regime-report.md", entry.ReportLocation);
+        Assert.Equal("Goldilocks", entry.PrimaryRegime);
+        Assert.Equal("PartialRebalance", entry.AllocationSuggestion);
+    }
+
+    [Fact]
     public async Task ExecuteAsync_ReturnsFailure_WhenRegimeCalculationFails()
     {
         var reportStore = new FakeReportStore("memory://macro-regime-report.md");
@@ -246,6 +282,33 @@ public sealed class RunRegimeAnalysisUseCaseTests
         {
             Markdown = markdown;
             return Task.FromResult(location);
+        }
+    }
+
+    private sealed class FakeRegimeRunStore(string location) : IRegimeRunStore
+    {
+        public Task<string> SaveAsync(RegimeSnapshot snapshot, CancellationToken cancellationToken = default)
+        {
+            return Task.FromResult(location);
+        }
+    }
+
+    private sealed class FakeManifestStore : IRegimeRunManifestStore
+    {
+        private readonly List<RegimeRunManifestEntry> entries = new();
+
+        public IReadOnlyList<RegimeRunManifestEntry> Entries => entries;
+
+        public Task UpsertAsync(RegimeRunManifestEntry entry, CancellationToken cancellationToken = default)
+        {
+            entries.RemoveAll(existing => existing.AsOfDate == entry.AsOfDate);
+            entries.Add(entry);
+            return Task.CompletedTask;
+        }
+
+        public Task<IReadOnlyList<RegimeRunManifestEntry>> ListAsync(CancellationToken cancellationToken = default)
+        {
+            return Task.FromResult<IReadOnlyList<RegimeRunManifestEntry>>(entries);
         }
     }
 }

@@ -19,6 +19,7 @@ public sealed class MacroRegimeCliTests : IDisposable
 
         Assert.Equal(0, exitCode);
         Assert.True(File.Exists(Path.Combine(outputDirectory, "runs", "regime-run-2026-07-01.json")));
+        Assert.True(File.Exists(Path.Combine(outputDirectory, "runs", "manifest.json")));
         Assert.True(File.Exists(Path.Combine(outputDirectory, "reports", "macro-regime-report-2026-07-01.md")));
     }
 

@@ -272,6 +272,52 @@ tbody tr:last-child td {
   background: #f2f7f6;
 }
 
+.empty-state {
+  padding: 14px;
+  color: var(--muted);
+}
+
+.table-action {
+  color: var(--blue);
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.configuration-grid {
+  display: grid;
+  gap: 14px;
+  padding-top: 12px;
+}
+
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  min-height: 24px;
+  padding: 0 8px;
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.status-pill.ok {
+  border-color: #b6d2c6;
+  color: var(--green);
+  background: #f2f7f6;
+}
+
+.status-pill.warn {
+  border-color: #dfc995;
+  color: var(--amber);
+  background: #fbf7ea;
+}
+
+.status-pill.neutral {
+  color: var(--muted);
+  background: #f8fafb;
+}
+
 .probability-cell {
   display: grid;
   grid-template-columns: 66px minmax(0, 1fr);

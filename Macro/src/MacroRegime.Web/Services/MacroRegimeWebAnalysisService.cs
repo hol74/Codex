@@ -27,8 +27,10 @@ public sealed class MacroRegimeWebAnalysisService
 
     public async Task<WebAnalysisResult> RunAsync(DateOnly asOfDate, CancellationToken cancellationToken = default)
     {
-        var outputDirectory = ResolvePath(options.OutputDirectory);
+        var configuration = GetConfiguration();
+        var outputDirectory = configuration.OutputDirectory;
         var runStore = new JsonRegimeRunStore(Path.Combine(outputDirectory, "runs"));
+        var manifestStore = new JsonRegimeRunManifestStore(Path.Combine(outputDirectory, "runs", "manifest.json"));
         var reportStore = new FileRegimeReportStore(Path.Combine(outputDirectory, "reports"));
 
         var useCase = new RunRegimeAnalysisUseCase(
@@ -43,13 +45,48 @@ public sealed class MacroRegimeWebAnalysisService
                 CreateCurrentPortfolioProvider(),
                 CreateRegimeTiltRuleProvider(),
                 new AllocationProposalService()),
-            new GenerateRegimeReportUseCase(new MarkdownRegimeReportRenderer(), reportStore));
+            new GenerateRegimeReportUseCase(new MarkdownRegimeReportRenderer(), reportStore),
+            manifestStore);
 
         var result = await useCase
             .ExecuteAsync(new RunRegimeAnalysisCommand(asOfDate, options.EstimatedCostPerTurnover), cancellationToken)
             .ConfigureAwait(false);
 
-        return new WebAnalysisResult(result, runStore.GetPath(asOfDate), outputDirectory);
+        var runHistory = await manifestStore.ListAsync(cancellationToken).ConfigureAwait(false);
+
+        return new WebAnalysisResult(
+            result,
+            result.RunLocation ?? runStore.GetPath(asOfDate),
+            outputDirectory,
+            manifestStore.FilePath,
+            runHistory,
+            configuration);
+    }
+
+    public WebConfigurationSummary GetConfiguration()
+    {
+        var outputDirectory = ResolvePath(options.OutputDirectory);
+        var runDirectory = Path.Combine(outputDirectory, "runs");
+        var reportDirectory = Path.Combine(outputDirectory, "reports");
+
+        return new WebConfigurationSummary(
+            options.DefaultAsOfDate,
+            options.EstimatedCostPerTurnover,
+            options.StrictData,
+            options.StrictConfig,
+            outputDirectory,
+            runDirectory,
+            reportDirectory,
+            Path.Combine(runDirectory, "manifest.json"),
+            new[]
+            {
+                CreateConfiguredFile("Macro data", options.DataFilePath, "Demo data", options.StrictData),
+                CreateConfiguredFile("Model version", options.ModelFilePath, "Demo model", options.StrictConfig),
+                CreateConfiguredFile("Feature set", options.FeatureSetFilePath, "Demo feature set", options.StrictConfig),
+                CreateConfiguredFile("Allocation policy", options.PolicyFilePath, "Demo policy", options.StrictConfig),
+                CreateConfiguredFile("Current portfolio", options.PortfolioFilePath, "Demo portfolio", options.StrictConfig),
+                CreateConfiguredFile("Tilt rules", options.TiltsFilePath, "Demo tilt rules", options.StrictConfig)
+            });
     }
 
     private IDataSnapshotProvider CreateDataSnapshotProvider()
@@ -104,9 +141,41 @@ public sealed class MacroRegimeWebAnalysisService
     {
         return Path.GetFullPath(Path.IsPathRooted(path) ? path : Path.Combine(environment.ContentRootPath, path));
     }
+
+    private WebConfiguredFile CreateConfiguredFile(string name, string? path, string fallbackMode, bool strict)
+    {
+        if (string.IsNullOrWhiteSpace(path))
+        {
+            return new WebConfiguredFile(name, fallbackMode, null, false, strict);
+        }
+
+        var resolvedPath = ResolvePath(path);
+        return new WebConfiguredFile(name, "Local JSON", resolvedPath, File.Exists(resolvedPath), strict);
+    }
 }
 
 public sealed record WebAnalysisResult(
     RunRegimeAnalysisResult Analysis,
     string RunRecordPath,
-    string OutputDirectory);
+    string OutputDirectory,
+    string ManifestPath,
+    IReadOnlyList<RegimeRunManifestEntry> RunHistory,
+    WebConfigurationSummary Configuration);
+
+public sealed record WebConfigurationSummary(
+    DateOnly DefaultAsOfDate,
+    decimal EstimatedCostPerTurnover,
+    bool StrictData,
+    bool StrictConfig,
+    string OutputDirectory,
+    string RunDirectory,
+    string ReportDirectory,
+    string ManifestPath,
+    IReadOnlyList<WebConfiguredFile> Inputs);
+
+public sealed record WebConfiguredFile(
+    string Name,
+    string Mode,
+    string? FilePath,
+    bool Exists,
+    bool Strict);

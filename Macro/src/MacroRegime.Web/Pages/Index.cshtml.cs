@@ -16,12 +16,15 @@ public class IndexModel : PageModel
         this.analysisService = analysisService ?? throw new ArgumentNullException(nameof(analysisService));
         this.options = options?.Value ?? throw new ArgumentNullException(nameof(options));
         AsOfDateInput = this.options.DefaultAsOfDate.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
+        ActiveConfiguration = this.analysisService.GetConfiguration();
     }
 
     [BindProperty(SupportsGet = true, Name = "asOfDate")]
     public string AsOfDateInput { get; set; }
 
     public WebAnalysisResult? WebResult { get; private set; }
+
+    public WebConfigurationSummary ActiveConfiguration { get; private set; }
 
     public string? ErrorMessage { get; private set; }
 
@@ -62,6 +65,8 @@ public class IndexModel : PageModel
 
     private async Task RunAsync(CancellationToken cancellationToken)
     {
+        ActiveConfiguration = analysisService.GetConfiguration();
+
         if (!DateOnly.TryParseExact(AsOfDateInput, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out var asOfDate))
         {
             ErrorMessage = "As-of date must use yyyy-MM-dd format.";
@@ -73,12 +78,24 @@ public class IndexModel : PageModel
             WebResult = await analysisService.RunAsync(asOfDate, cancellationToken).ConfigureAwait(false);
             if (!WebResult.Analysis.IsSuccess)
             {
-                ErrorMessage = WebResult.Analysis.Error ?? "Macro-regime analysis failed.";
+                ErrorMessage = $"Pipeline failed: {WebResult.Analysis.Error ?? "Macro-regime analysis failed."}";
             }
         }
         catch (Exception exception) when (exception is IOException or InvalidDataException or UnauthorizedAccessException or ArgumentException)
         {
-            ErrorMessage = exception.Message;
+            ErrorMessage = DescribeOperationalError(exception);
         }
+    }
+
+    private static string DescribeOperationalError(Exception exception)
+    {
+        return exception switch
+        {
+            InvalidDataException => $"Input/configuration data error: {exception.Message}",
+            IOException => $"Input/output error: {exception.Message}",
+            UnauthorizedAccessException => $"Access error: {exception.Message}",
+            ArgumentException => $"Configuration error: {exception.Message}",
+            _ => exception.Message
+        };
     }
 }

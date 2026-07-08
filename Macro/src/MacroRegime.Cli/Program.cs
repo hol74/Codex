@@ -35,6 +35,7 @@ internal static class MacroRegimeCli
             var currentPortfolioProvider = CreateCurrentPortfolioProvider(options.PortfolioFilePath, options.StrictConfig);
             var tiltRuleProvider = CreateRegimeTiltRuleProvider(options.TiltsFilePath, options.StrictConfig);
             var runStore = new JsonRegimeRunStore(Path.Combine(outputDirectory, "runs"));
+            var manifestStore = new JsonRegimeRunManifestStore(Path.Combine(outputDirectory, "runs", "manifest.json"));
             var reportStore = new FileRegimeReportStore(Path.Combine(outputDirectory, "reports"));
 
             var useCase = new RunRegimeAnalysisUseCase(
@@ -49,7 +50,8 @@ internal static class MacroRegimeCli
                     currentPortfolioProvider,
                     tiltRuleProvider,
                     new AllocationProposalService()),
-                new GenerateRegimeReportUseCase(new MarkdownRegimeReportRenderer(), reportStore));
+                new GenerateRegimeReportUseCase(new MarkdownRegimeReportRenderer(), reportStore),
+                manifestStore);
 
             var result = await useCase
                 .ExecuteAsync(new RunRegimeAnalysisCommand(options.AsOfDate, options.EstimatedCostPerTurnover))
@@ -67,8 +69,9 @@ internal static class MacroRegimeCli
             Console.WriteLine($"Operational regime: {result.Snapshot.OperationalRegime}");
             Console.WriteLine($"Data source: {result.DataSourceInfo.Kind}");
             Console.WriteLine($"Allocation suggestion: {result.AllocationProposal.Suggestion}");
-            Console.WriteLine($"Run JSON: {runStore.GetPath(options.AsOfDate)}");
+            Console.WriteLine($"Run JSON: {result.RunLocation ?? runStore.GetPath(options.AsOfDate)}");
             Console.WriteLine($"Report markdown: {result.ReportLocation}");
+            Console.WriteLine($"Run manifest: {manifestStore.FilePath}");
 
             return 0;
         }

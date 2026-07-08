@@ -2,14 +2,14 @@
 
 **Versione:** 0.1 — 6 luglio 2026  
 **Workspace:** `Codex/Mario`  
-**Stack:** ASP.NET Core, C#, Entity Framework Core, Razor MVC  
+**Stack:** ASP.NET Core, C#, Entity Framework Core, MVC  
 **Repository:** `hol74/Codex` (monorepo)
 
 ---
 
 ## 1. Visione e obiettivo
 
-Costruire un sistema informativo **self-hosted** per la gestione della vita familiare: finanza, patrimonio, assicurazioni, previdenza e aspetti non finanziari (scadenze, progetti, idee). Il software è pensato per **una famiglia** (non SaaS multi-tenant), con possibilità di più utenti e ruoli all'interno del nucleo.
+Costruire un sistema informativo **self-hosted** per la gestione della vita familiare: finanza, patrimonio, assicurazioni, previdenza e aspetti non finanziari (scadenze, progetti, idee). Il software è pensato per **una famiglia** (non SaaS multi-tenant), senza necessità di utenti e ruoli.
 
 ### Principi guida
 
@@ -17,20 +17,16 @@ Costruire un sistema informativo **self-hosted** per la gestione della vita fami
 | Principio             | Descrizione                                                                                      |
 | --------------------- | ------------------------------------------------------------------------------------------------ |
 | **Modularità**        | Ogni area funzionale è un modulo distinto, aggiungibile nel tempo                                |
-| **Ledger first**      | Per la finanza: dati coerenti e auditabili prima di analytics e strategia                        |
 | **Privacy**           | Dati in locale o su infrastruttura controllata; niente cloud obbligatorio                        |
 | **Contesto italiano** | Valute, fiscalità, previdenza e assicurazioni orientate al contesto IT                           |
 | **Incrementale**      | Funzionalità distinte, rilasciate a fasi; niente big-bang                                        |
-| **Riuso**             | Il progetto `Finance` nel monorepo resta il riferimento per portafoglio e strategia regime-aware |
-
-
 
 
 ### Perimetro del progetto
 
 **In scope:** gestione patrimoniale e finanziaria familiare, assicurazioni, fondo pensione, scadenze e promemoria, progetti e idee, dashboard unificata.
 
-**Fuori scope iniziale:** contabilità aziendale, gestione cliniche, multi-famiglia SaaS, app mobile nativa, integrazione bancaria automatica obbligatoria.
+**Fuori scope iniziale:** .
 
 ---
 
@@ -38,27 +34,16 @@ Costruire un sistema informativo **self-hosted** per la gestione della vita fami
 
 ## 2. Relazione con i progetti esistenti nel monorepo
 
-Il repository `hol74/Codex` contiene già progetti correlati. FamilyHub non li sostituisce: li **coordina** o li **referenzia**.
-
-
-| Progetto             | Path                     | Ruolo rispetto a FamilyHub                                                                                                                                                |
-| -------------------- | ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Finance**          | `Codex/Finance`          | Motore portafoglio: ledger, performance TWR/XIRR, import, strategia regime-aware. Solution ASP.NET Core già avviata (Domain, Application, Infrastructure, Analytics, Web) |
-| **Macro**            | `Codex/Macro`            | Motore macro-regime separato (`MacroRegime.`*). Output regime usabile dal modulo Strategia di Finance/FamilyHub                                                           |
-| **Benessere**        | `Codex/Benessere`        | Piano salute/alimentazione (HTML/JS statico). Possibile modulo futuro “Salute & benessere” o link esterno                                                                 |
-| **AutomazioniFipav** | `Codex/AutomazioniFipav` | Automazioni sportive; fuori perimetro salvo eventuale integrazione futura                                                                                                 |
-
-
+Il repository `hol74/Codex` contiene altri progetti magari anche correlati ma FamilyHub non li sostituisce, non li coordina, non li referenzia è un sistema chiuso a se stante.
 
 
 ### Decisione architetturale proposta
 
-FamilyHub è la **shell applicativa familiare** (dashboard, scadenze, assicurazioni, progetti, idee). Il modulo **Finanza** integra o richiama la solution `Finance` esistente, evitando di duplicare ledger e calcoli di performance.
+FamilyHub è la **shell applicativa familiare** (dashboard, scadenze, assicurazioni, progetti, idee).
 
 ```
 FamilyHub (nuovo)
 ├── Moduli non finanziari     → sviluppo in Mario/
-├── Modulo Finanza            → integrazione con Codex/Finance
 ├── Modulo Assicurazioni      → sviluppo in Mario/, ispirato a Surety/Renewals
 ├── Modulo Previdenza         → sviluppo in Mario/, contesto IT
 └── Modulo Scadenze/Progetti  → sviluppo in Mario/
@@ -76,33 +61,7 @@ Analisi basata su documentazione esistente in `Finance/github_personal_portfolio
 
 
 
-### 3.1 Gestione portafoglio e patrimonio finanziario
-
-
-| Rank | Progetto              | URL                                                                                   | Stack          | Punti di forza                           | Limiti / note                                          |
-| ---- | --------------------- | ------------------------------------------------------------------------------------- | -------------- | ---------------------------------------- | ------------------------------------------------------ |
-| 1    | Portfolio Performance | [portfolio-performance/portfolio](https://github.com/portfolio-performance/portfolio) | Java desktop   | TWR, IRR, multivaluta, analisi rigorosa  | Desktop, non web; riferimento funzionale gold standard |
-| 2    | Wealthfolio           | [wealthfolio/wealthfolio](https://github.com/wealthfolio/wealthfolio)                 | TypeScript     | Local-first, TWR/MWR, UX moderna         | Non C#; ottimo modello UX                              |
-| 3    | Ghostfolio            | [ghostfolio/ghostfolio](https://github.com/ghostfolio/ghostfolio)                     | NestJS/Angular | Self-hosted, community forte, dashboard  | Performance meno complete dei top desktop              |
-| 4    | Rotki                 | [rotki/rotki](https://github.com/rotki/rotki)                                         | Python         | Crypto, DeFi, accounting, privacy        | Meno centrato su TWR classico                          |
-| 5    | Net Worth Tracker     | [GiuseppeDM98/net-worth-tracker](https://github.com/GiuseppeDM98/net-worth-tracker)   | —              | Contesto investitori italiani, bond      | Community limitata; **molto rilevante per noi**        |
-| 6    | Financial Management  | [LuoDi-Nate/financial-management](https://github.com/LuoDi-Nate/financial-management) | —              | Patrimonio familiare, XIRR/TWR, snapshot | Contesto Cina; buon modello “household wealth”         |
-| 7    | Firefly III           | [firefly-iii/firefly-iii](https://github.com/firefly-iii/firefly-iii)                 | PHP/Laravel    | Budget, contabilità, self-hosted         | Non motore portfolio analytics                         |
-| 8    | Sossoldi              | [RIP-Comm/sossoldi](https://github.com/RIP-Comm/sossoldi)                             | —              | Net worth italiano (in sviluppo)         | Ancora largamente pianificato                          |
-
-
-**Cosa prendiamo da questi progetti**
-
-- Ledger affidabile e audit trail (Portfolio Performance, Ghostfolio)
-- TWR + XIRR entrambi obbligatori (Portfolio Performance, Wealthfolio)
-- Architettura web self-hosted e multi-account (Ghostfolio, Wealthfolio)
-- Adattamento contesto italiano (Net Worth Tracker, Sossoldi)
-- Modello patrimonio familiare aggregato (LuoDi-Nate/financial-management)
-
-
-
-### 3.2 Finanza familiare, budget e cash flow
-
+### 3.1 Finanza familiare, budget e cash flow
 
 | Progetto        | URL                                                                     | Stack       | Punti di forza                                                         | Rilevanza per FamilyHub                                     |
 | --------------- | ----------------------------------------------------------------------- | ----------- | ---------------------------------------------------------------------- | ----------------------------------------------------------- |
@@ -120,7 +79,7 @@ Analisi basata su documentazione esistente in `Finance/github_personal_portfolio
 
 
 
-### 3.3 Assicurazioni, scadenze e documenti
+### 3.2 Assicurazioni, scadenze e documenti
 
 
 | Progetto     | URL                                                                               | Stack          | Punti di forza                                               | Rilevanza per FamilyHub                                             |
@@ -141,7 +100,7 @@ Analisi basata su documentazione esistente in `Finance/github_personal_portfolio
 
 
 
-### 3.4 Progetti, idee e life management
+### 3.3 Progetti, idee e life management
 
 
 | Progetto                      | URL                                                       | Note                                                                          |
@@ -153,12 +112,11 @@ Analisi basata su documentazione esistente in `Finance/github_personal_portfolio
 
 Per Progetti e Idee non esiste un riferimento GitHub dominante in C#. Si adotta un modello leggero interno (backlog idee + progetti con milestone) ispirato a tool Kanban minimali.
 
-### 3.5 Sintesi: cosa studiare per modulo
+### 3.4 Sintesi: cosa studiare per modulo
 
 
 | Modulo FamilyHub      | Progetti GitHub da studiare                                                          |
 | --------------------- | ------------------------------------------------------------------------------------ |
-| Finanza / Portafoglio | Portfolio Performance, Wealthfolio, Ghostfolio, Net Worth Tracker, Finance (interno) |
 | Cash flow / Budget    | Firefly III, Keeping, CookieJar                                                      |
 | Assicurazioni         | Surety, Family Vault                                                                 |
 | Scadenze              | Renewals, Warracker                                                                  |
@@ -177,21 +135,19 @@ Per Progetti e Idee non esiste un riferimento GitHub dominante in C#. Si adotta 
 
 ### 4.1 Funzionalità da implementare subito (MVP — Fase 0–2)
 
-Priorità: infrastruttura + moduli a valore immediato, senza duplicare Finance.
+Priorità: infrastruttura + moduli a valore immediato.
 
 #### 4.1.1 Piattaforma comune
 
 - [ ] Solution ASP.NET Core MVC in `Mario/`
 - [ ] Architettura a strati: `FamilyHub.Domain`, `Application`, `Infrastructure`, `Web`
 - [ ] Database SQLite in sviluppo, migrabile a SQL Server/PostgreSQL
-- [ ] Autenticazione locale (cookie) per 1–N utenti famiglia
 - [ ] Layout UI unificato, navigazione moduli, dashboard home
 - [ ] Anagrafica **Membri famiglia** (nome, ruolo, data nascita opzionale)
 - [ ] Audit log base (chi ha creato/modificato cosa)
 
 
-
-#### 4.1.2 Modulo Scadenze (primo modulo non finanziario)
+#### 4.1.2 Modulo Scadenze
 
 - [ ] CRUD scadenze: titolo, categoria, data, ricorrenza, membro associato
 - [ ] Stati: attiva, completata, annullata
@@ -220,17 +176,7 @@ Priorità: infrastruttura + moduli a valore immediato, senza duplicare Finance.
 - [ ] Vista “coperture per membro”
 
 
-
-#### 4.1.5 Integrazione Finanza (collegamento, non riscrittura)
-
-- [ ] Link di navigazione verso `Finance.Web` (stesso host o subdomain configurabile)
-- [ ] Dashboard home: widget placeholder patrimonio (dati da Finance quando disponibili)
-- [ ] Documentare contratto di integrazione API tra FamilyHub e Finance
-
-
-
 ### 4.2 Funzionalità future (backlog prioritizzato)
-
 
 
 #### Priorità alta (Fase 3–5)

@@ -13,6 +13,7 @@ public sealed record RunRegimeAnalysisResult
         DataSnapshotSourceInfo dataSourceInfo,
         string? markdown,
         string? reportLocation,
+        string? runLocation,
         string? error)
     {
         IsSuccess = isSuccess;
@@ -21,6 +22,7 @@ public sealed record RunRegimeAnalysisResult
         DataSourceInfo = dataSourceInfo;
         Markdown = markdown;
         ReportLocation = reportLocation;
+        RunLocation = runLocation;
         Error = error;
     }
 
@@ -36,6 +38,8 @@ public sealed record RunRegimeAnalysisResult
 
     public string? ReportLocation { get; }
 
+    public string? RunLocation { get; }
+
     public string? Error { get; }
 
     public static RunRegimeAnalysisResult Success(
@@ -43,6 +47,7 @@ public sealed record RunRegimeAnalysisResult
         AllocationProposal allocationProposal,
         string markdown,
         string reportLocation,
+        string? runLocation = null,
         DataSnapshotSourceInfo? dataSourceInfo = null)
     {
         ArgumentNullException.ThrowIfNull(snapshot);
@@ -65,6 +70,7 @@ public sealed record RunRegimeAnalysisResult
             dataSourceInfo ?? DataSnapshotSourceInfo.Unspecified(),
             markdown,
             reportLocation.Trim(),
+            string.IsNullOrWhiteSpace(runLocation) ? null : runLocation.Trim(),
             null);
     }
 
@@ -75,6 +81,6 @@ public sealed record RunRegimeAnalysisResult
             throw new ArgumentException("Failure error is required.", nameof(error));
         }
 
-        return new RunRegimeAnalysisResult(false, null, null, DataSnapshotSourceInfo.Unspecified(), null, null, error.Trim());
+        return new RunRegimeAnalysisResult(false, null, null, DataSnapshotSourceInfo.Unspecified(), null, null, null, error.Trim());
     }
 }

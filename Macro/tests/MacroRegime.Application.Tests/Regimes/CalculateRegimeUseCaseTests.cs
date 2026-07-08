@@ -217,10 +217,10 @@ public sealed class CalculateRegimeUseCaseTests
     {
         public RegimeSnapshot? SavedSnapshot { get; private set; }
 
-        public Task SaveAsync(RegimeSnapshot snapshot, CancellationToken cancellationToken = default)
+        public Task<string> SaveAsync(RegimeSnapshot snapshot, CancellationToken cancellationToken = default)
         {
             SavedSnapshot = snapshot;
-            return Task.CompletedTask;
+            return Task.FromResult("memory://regime-run.json");
         }
     }
 }
