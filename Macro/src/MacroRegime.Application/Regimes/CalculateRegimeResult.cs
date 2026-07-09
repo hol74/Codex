@@ -8,13 +8,11 @@ public sealed record CalculateRegimeResult
         bool isSuccess,
         RegimeSnapshot? snapshot,
         DataSnapshotSourceInfo dataSourceInfo,
-        string? runLocation,
         string? error)
     {
         IsSuccess = isSuccess;
         Snapshot = snapshot;
         DataSourceInfo = dataSourceInfo;
-        RunLocation = runLocation;
         Error = error;
     }
 
@@ -24,18 +22,15 @@ public sealed record CalculateRegimeResult
 
     public DataSnapshotSourceInfo DataSourceInfo { get; }
 
-    public string? RunLocation { get; }
-
     public string? Error { get; }
 
     public static CalculateRegimeResult Success(
         RegimeSnapshot snapshot,
-        DataSnapshotSourceInfo? dataSourceInfo = null,
-        string? runLocation = null)
+        DataSnapshotSourceInfo? dataSourceInfo = null)
     {
         ArgumentNullException.ThrowIfNull(snapshot);
 
-        return new CalculateRegimeResult(true, snapshot, dataSourceInfo ?? DataSnapshotSourceInfo.Unspecified(), runLocation, null);
+        return new CalculateRegimeResult(true, snapshot, dataSourceInfo ?? DataSnapshotSourceInfo.Unspecified(), null);
     }
 
     public static CalculateRegimeResult Failure(string error)
@@ -45,6 +40,6 @@ public sealed record CalculateRegimeResult
             throw new ArgumentException("Failure error is required.", nameof(error));
         }
 
-        return new CalculateRegimeResult(false, null, DataSnapshotSourceInfo.Unspecified(), null, error.Trim());
+        return new CalculateRegimeResult(false, null, DataSnapshotSourceInfo.Unspecified(), error.Trim());
     }
 }

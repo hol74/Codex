@@ -135,7 +135,7 @@
     <section class="panel">
         <div class="panel-heading">
             <h2>Run History</h2>
-            <span>@Model.WebResult!.RunHistory.Count indexed</span>
+            <span>@Model.WebResult!.RunHistory.Count indexed &middot; <a class="table-action" href="/CompareRuns">Compare runs</a></span>
         </div>
         @if (Model.WebResult.RunHistory.Count == 0)
         {
@@ -166,7 +166,7 @@
                                 <td>@IndexModel.FormatPercent(entry.Confidence)</td>
                                 <td>@entry.AllocationSuggestion</td>
                                 <td>@entry.DataSourceKind</td>
-                                <td><a class="table-action" href="/?asOfDate=@entry.AsOfDate.ToString("yyyy-MM-dd")">Open</a></td>
+                                <td><a class="table-action" href="/RunDetail?asOfDate=@entry.AsOfDate.ToString("yyyy-MM-dd")">Open</a></td>
                             </tr>
                         }
                     </tbody>

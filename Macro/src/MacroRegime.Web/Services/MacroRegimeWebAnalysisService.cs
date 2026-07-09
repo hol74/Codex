@@ -1,8 +1,10 @@
 using MacroRegime.Application.Allocations;
 using MacroRegime.Application.Analysis;
+using MacroRegime.Application.Import;
 using MacroRegime.Application.Ports;
 using MacroRegime.Application.Regimes;
 using MacroRegime.Application.Reports;
+using MacroRegime.Application.Runs;
 using MacroRegime.Domain.Allocations;
 using MacroRegime.Domain.Regimes;
 using MacroRegime.Infrastructure.Demo;
@@ -38,14 +40,14 @@ public sealed class MacroRegimeWebAnalysisService
                 CreateDataSnapshotProvider(),
                 CreateModelVersionProvider(),
                 CreateFeatureSetProvider(),
-                new BaselineRegimeDetector(),
-                runStore),
+                new BaselineRegimeDetector()),
             new GenerateAllocationProposalUseCase(
                 CreateStrategicAllocationPolicyProvider(),
                 CreateCurrentPortfolioProvider(),
                 CreateRegimeTiltRuleProvider(),
                 new AllocationProposalService()),
             new GenerateRegimeReportUseCase(new MarkdownRegimeReportRenderer(), reportStore),
+            runStore,
             manifestStore);
 
         var result = await useCase
@@ -61,6 +63,87 @@ public sealed class MacroRegimeWebAnalysisService
             manifestStore.FilePath,
             runHistory,
             configuration);
+    }
+
+    public async Task<WebRunDetailResult> LoadRunAsync(DateOnly asOfDate, CancellationToken cancellationToken = default)
+    {
+        var configuration = GetConfiguration();
+        var runStore = new JsonRegimeRunStore(configuration.RunDirectory);
+        var reportStore = new FileRegimeReportStore(configuration.ReportDirectory);
+        var manifestStore = new JsonRegimeRunManifestStore(configuration.ManifestPath);
+
+        var loadResult = await new LoadRegimeRunUseCase(runStore)
+            .ExecuteAsync(new LoadRegimeRunCommand(asOfDate), cancellationToken)
+            .ConfigureAwait(false);
+
+        var runHistory = await manifestStore.ListAsync(cancellationToken).ConfigureAwait(false);
+
+        string? reportMarkdown = null;
+        var reportPath = reportStore.GetPath(asOfDate);
+        if (loadResult.IsSuccess && File.Exists(reportPath))
+        {
+            reportMarkdown = await File.ReadAllTextAsync(reportPath, cancellationToken).ConfigureAwait(false);
+        }
+
+        return new WebRunDetailResult(
+            loadResult.IsSuccess,
+            loadResult.Document,
+            loadResult.Error,
+            runStore.GetPath(asOfDate),
+            File.Exists(reportPath) ? reportPath : null,
+            reportMarkdown,
+            runHistory);
+    }
+
+    public async Task<WebRunComparisonResult> CompareRunsAsync(
+        DateOnly baselineAsOfDate,
+        DateOnly comparisonAsOfDate,
+        CancellationToken cancellationToken = default)
+    {
+        var configuration = GetConfiguration();
+        var runStore = new JsonRegimeRunStore(configuration.RunDirectory);
+        var manifestStore = new JsonRegimeRunManifestStore(configuration.ManifestPath);
+
+        var compareResult = await new CompareRegimeRunsUseCase(runStore)
+            .ExecuteAsync(new CompareRegimeRunsCommand(baselineAsOfDate, comparisonAsOfDate), cancellationToken)
+            .ConfigureAwait(false);
+
+        var runHistory = await manifestStore.ListAsync(cancellationToken).ConfigureAwait(false);
+
+        return new WebRunComparisonResult(
+            compareResult.IsSuccess,
+            compareResult.Comparison,
+            compareResult.Error,
+            runHistory);
+    }
+
+    public async Task<IReadOnlyList<RegimeRunManifestEntry>> ListRunsAsync(CancellationToken cancellationToken = default)
+    {
+        var configuration = GetConfiguration();
+        var manifestStore = new JsonRegimeRunManifestStore(configuration.ManifestPath);
+        return await manifestStore.ListAsync(cancellationToken).ConfigureAwait(false);
+    }
+
+    public async Task<WebImportDiagnosticsResult> ValidateImportsAsync(
+        DateOnly asOfDate,
+        CancellationToken cancellationToken = default)
+    {
+        var report = await new JsonImportValidationService()
+            .ValidateAsync(
+                new ValidateImportCommand(
+                    asOfDate,
+                    ResolveOptionalPath(options.DataFilePath),
+                    ResolveOptionalPath(options.ModelFilePath),
+                    ResolveOptionalPath(options.FeatureSetFilePath),
+                    ResolveOptionalPath(options.PolicyFilePath),
+                    ResolveOptionalPath(options.PortfolioFilePath),
+                    ResolveOptionalPath(options.TiltsFilePath),
+                    options.StrictData,
+                    options.StrictConfig),
+                cancellationToken)
+            .ConfigureAwait(false);
+
+        return new WebImportDiagnosticsResult(report, ImportValidationMarkdownRenderer.Render(report), GetConfiguration());
     }
 
     public WebConfigurationSummary GetConfiguration()
@@ -142,6 +225,11 @@ public sealed class MacroRegimeWebAnalysisService
         return Path.GetFullPath(Path.IsPathRooted(path) ? path : Path.Combine(environment.ContentRootPath, path));
     }
 
+    private string? ResolveOptionalPath(string? path)
+    {
+        return string.IsNullOrWhiteSpace(path) ? null : ResolvePath(path);
+    }
+
     private WebConfiguredFile CreateConfiguredFile(string name, string? path, string fallbackMode, bool strict)
     {
         if (string.IsNullOrWhiteSpace(path))
@@ -179,3 +267,23 @@ public sealed record WebConfiguredFile(
     string? FilePath,
     bool Exists,
     bool Strict);
+
+public sealed record WebRunDetailResult(
+    bool IsSuccess,
+    RegimeRunDocument? Document,
+    string? Error,
+    string RunRecordPath,
+    string? ReportPath,
+    string? ReportMarkdown,
+    IReadOnlyList<RegimeRunManifestEntry> RunHistory);
+
+public sealed record WebRunComparisonResult(
+    bool IsSuccess,
+    RegimeRunComparison? Comparison,
+    string? Error,
+    IReadOnlyList<RegimeRunManifestEntry> RunHistory);
+
+public sealed record WebImportDiagnosticsResult(
+    ImportValidationReport Report,
+    string Markdown,
+    WebConfigurationSummary Configuration);

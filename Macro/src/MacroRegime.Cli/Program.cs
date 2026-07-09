@@ -1,6 +1,7 @@
 using System.Globalization;
 using MacroRegime.Application.Allocations;
 using MacroRegime.Application.Analysis;
+using MacroRegime.Application.Import;
 using MacroRegime.Application.Ports;
 using MacroRegime.Application.Regimes;
 using MacroRegime.Application.Reports;
@@ -28,35 +29,35 @@ internal static class MacroRegimeCli
             }
 
             var outputDirectory = Path.GetFullPath(options.OutputDirectory);
-            var dataSnapshotProvider = CreateDataSnapshotProvider(options.DataFilePath, options.StrictData);
-            var modelVersionProvider = CreateModelVersionProvider(options.ModelFilePath, options.StrictConfig);
-            var featureSetProvider = CreateFeatureSetProvider(options.FeatureSetFilePath, options.StrictConfig);
-            var allocationPolicyProvider = CreateStrategicAllocationPolicyProvider(options.PolicyFilePath, options.StrictConfig);
-            var currentPortfolioProvider = CreateCurrentPortfolioProvider(options.PortfolioFilePath, options.StrictConfig);
-            var tiltRuleProvider = CreateRegimeTiltRuleProvider(options.TiltsFilePath, options.StrictConfig);
-            var runStore = new JsonRegimeRunStore(Path.Combine(outputDirectory, "runs"));
-            var manifestStore = new JsonRegimeRunManifestStore(Path.Combine(outputDirectory, "runs", "manifest.json"));
-            var reportStore = new FileRegimeReportStore(Path.Combine(outputDirectory, "reports"));
+            if (options.ValidateOnly)
+            {
+                var validationReport = await new JsonImportValidationService()
+                    .ValidateAsync(CreateValidationCommand(options))
+                    .ConfigureAwait(false);
+                var validationReportPath = await SaveValidationReportAsync(options, validationReport).ConfigureAwait(false);
 
-            var useCase = new RunRegimeAnalysisUseCase(
-                new CalculateRegimeUseCase(
-                    dataSnapshotProvider,
-                    modelVersionProvider,
-                    featureSetProvider,
-                    new BaselineRegimeDetector(),
-                    runStore),
-                new GenerateAllocationProposalUseCase(
-                    allocationPolicyProvider,
-                    currentPortfolioProvider,
-                    tiltRuleProvider,
-                    new AllocationProposalService()),
-                new GenerateRegimeReportUseCase(new MarkdownRegimeReportRenderer(), reportStore),
-                manifestStore);
+                Console.WriteLine("Macro-Regime import validation completed.");
+                Console.WriteLine($"As-of date: {validationReport.AsOfDate:yyyy-MM-dd}");
+                Console.WriteLine($"OK: {validationReport.OkCount}");
+                Console.WriteLine($"Warnings: {validationReport.WarningCount}");
+                Console.WriteLine($"Errors: {validationReport.ErrorCount}");
+                Console.WriteLine($"Validation report: {validationReportPath}");
 
-            var result = await useCase
-                .ExecuteAsync(new RunRegimeAnalysisCommand(options.AsOfDate, options.EstimatedCostPerTurnover))
+                return validationReport.IsSuccess ? 0 : 2;
+            }
+
+            if (options.BatchFrom is not null || options.BatchTo is not null)
+            {
+                return await RunBatchAsync(options, outputDirectory).ConfigureAwait(false);
+            }
+
+            var result = await RunSingleAsync(
+                    options,
+                    outputDirectory,
+                    options.AsOfDate,
+                    options.DataFilePath,
+                    options.PortfolioFilePath)
                 .ConfigureAwait(false);
-
             if (!result.IsSuccess || result.Snapshot is null || result.AllocationProposal is null)
             {
                 Console.Error.WriteLine($"Macro-Regime analysis failed: {result.Error}");
@@ -69,9 +70,9 @@ internal static class MacroRegimeCli
             Console.WriteLine($"Operational regime: {result.Snapshot.OperationalRegime}");
             Console.WriteLine($"Data source: {result.DataSourceInfo.Kind}");
             Console.WriteLine($"Allocation suggestion: {result.AllocationProposal.Suggestion}");
-            Console.WriteLine($"Run JSON: {result.RunLocation ?? runStore.GetPath(options.AsOfDate)}");
+            Console.WriteLine($"Run JSON: {result.RunLocation ?? Path.Combine(outputDirectory, "runs", $"regime-run-{options.AsOfDate:yyyy-MM-dd}.json")}");
             Console.WriteLine($"Report markdown: {result.ReportLocation}");
-            Console.WriteLine($"Run manifest: {manifestStore.FilePath}");
+            Console.WriteLine($"Run manifest: {Path.Combine(outputDirectory, "runs", "manifest.json")}");
 
             return 0;
         }
@@ -87,6 +88,128 @@ internal static class MacroRegimeCli
             Console.Error.WriteLine($"Macro-Regime analysis failed: {exception.Message}");
             return 2;
         }
+    }
+
+    private static async Task<int> RunBatchAsync(CliOptions options, string outputDirectory)
+    {
+        if (options.BatchFrom is null || options.BatchTo is null)
+        {
+            throw new CliUsageException("--batch-from and --batch-to must be provided together.");
+        }
+
+        if (options.BatchFrom.Value > options.BatchTo.Value)
+        {
+            throw new CliUsageException("--batch-from must be on or before --batch-to.");
+        }
+
+        var successCount = 0;
+        var failureCount = 0;
+        for (var date = options.BatchFrom.Value; date <= options.BatchTo.Value; date = date.AddDays(1))
+        {
+            var dataPath = ResolveDatedPath(options.DataDirectory, $"macro-data-{date:yyyy-MM-dd}.json", options.DataFilePath);
+            var portfolioPath = ResolveDatedPath(options.PortfolioDirectory, $"current-portfolio-{date:yyyy-MM-dd}.json", options.PortfolioFilePath);
+            try
+            {
+                var result = await RunSingleAsync(options, outputDirectory, date, dataPath, portfolioPath).ConfigureAwait(false);
+                if (!result.IsSuccess || result.Snapshot is null || result.AllocationProposal is null)
+                {
+                    failureCount++;
+                    Console.Error.WriteLine($"Batch run failed for {date:yyyy-MM-dd}: {result.Error}");
+                    continue;
+                }
+
+                successCount++;
+                Console.WriteLine($"Batch run completed for {date:yyyy-MM-dd}: {result.Snapshot.PrimaryRegime}, {result.AllocationProposal.Suggestion}");
+            }
+            catch (Exception exception) when (exception is IOException or InvalidDataException or UnauthorizedAccessException)
+            {
+                failureCount++;
+                Console.Error.WriteLine($"Batch run failed for {date:yyyy-MM-dd}: {exception.Message}");
+            }
+        }
+
+        Console.WriteLine($"Batch completed. Success: {successCount}. Failed: {failureCount}.");
+        Console.WriteLine($"Run manifest: {Path.Combine(outputDirectory, "runs", "manifest.json")}");
+        return failureCount == 0 ? 0 : 2;
+    }
+
+    private static async Task<RunRegimeAnalysisResult> RunSingleAsync(
+        CliOptions options,
+        string outputDirectory,
+        DateOnly asOfDate,
+        string? dataFilePath,
+        string? portfolioFilePath)
+    {
+        var dataSnapshotProvider = CreateDataSnapshotProvider(dataFilePath, options.StrictData);
+        var modelVersionProvider = CreateModelVersionProvider(options.ModelFilePath, options.StrictConfig);
+        var featureSetProvider = CreateFeatureSetProvider(options.FeatureSetFilePath, options.StrictConfig);
+        var allocationPolicyProvider = CreateStrategicAllocationPolicyProvider(options.PolicyFilePath, options.StrictConfig);
+        var currentPortfolioProvider = CreateCurrentPortfolioProvider(portfolioFilePath, options.StrictConfig);
+        var tiltRuleProvider = CreateRegimeTiltRuleProvider(options.TiltsFilePath, options.StrictConfig);
+        var runStore = new JsonRegimeRunStore(Path.Combine(outputDirectory, "runs"));
+        var manifestStore = new JsonRegimeRunManifestStore(Path.Combine(outputDirectory, "runs", "manifest.json"));
+        var reportStore = new FileRegimeReportStore(Path.Combine(outputDirectory, "reports"));
+
+        var useCase = new RunRegimeAnalysisUseCase(
+            new CalculateRegimeUseCase(
+                dataSnapshotProvider,
+                modelVersionProvider,
+                featureSetProvider,
+                new BaselineRegimeDetector()),
+            new GenerateAllocationProposalUseCase(
+                allocationPolicyProvider,
+                currentPortfolioProvider,
+                tiltRuleProvider,
+                new AllocationProposalService()),
+            new GenerateRegimeReportUseCase(new MarkdownRegimeReportRenderer(), reportStore),
+            runStore,
+            manifestStore);
+
+        return await useCase
+            .ExecuteAsync(new RunRegimeAnalysisCommand(asOfDate, options.EstimatedCostPerTurnover))
+            .ConfigureAwait(false);
+    }
+
+    private static string? ResolveDatedPath(string? directory, string fileName, string? fallbackPath)
+    {
+        return string.IsNullOrWhiteSpace(directory)
+            ? fallbackPath
+            : Path.Combine(Path.GetFullPath(directory), fileName);
+    }
+
+    private static ValidateImportCommand CreateValidationCommand(CliOptions options)
+    {
+        return new ValidateImportCommand(
+            options.AsOfDate,
+            ResolveOptionalPath(options.DataFilePath),
+            ResolveOptionalPath(options.ModelFilePath),
+            ResolveOptionalPath(options.FeatureSetFilePath),
+            ResolveOptionalPath(options.PolicyFilePath),
+            ResolveOptionalPath(options.PortfolioFilePath),
+            ResolveOptionalPath(options.TiltsFilePath),
+            options.StrictData,
+            options.StrictConfig);
+    }
+
+    private static async Task<string> SaveValidationReportAsync(CliOptions options, ImportValidationReport report)
+    {
+        var outputDirectory = Path.GetFullPath(options.OutputDirectory);
+        var path = string.IsNullOrWhiteSpace(options.ValidationReportPath)
+            ? Path.Combine(outputDirectory, "import-validation", $"import-validation-{options.AsOfDate:yyyy-MM-dd}.md")
+            : Path.GetFullPath(options.ValidationReportPath);
+        var directory = Path.GetDirectoryName(path);
+        if (!string.IsNullOrWhiteSpace(directory))
+        {
+            Directory.CreateDirectory(directory);
+        }
+
+        await File.WriteAllTextAsync(path, ImportValidationMarkdownRenderer.Render(report)).ConfigureAwait(false);
+        return path;
+    }
+
+    private static string? ResolveOptionalPath(string? path)
+    {
+        return string.IsNullOrWhiteSpace(path) ? null : Path.GetFullPath(path);
     }
 
     private static IDataSnapshotProvider CreateDataSnapshotProvider(string? dataFilePath, bool strictData)
@@ -150,13 +273,20 @@ internal sealed record CliOptions(
     decimal EstimatedCostPerTurnover,
     bool StrictData,
     bool StrictConfig,
+    bool ValidateOnly,
+    string? ValidationReportPath,
+    DateOnly? BatchFrom,
+    DateOnly? BatchTo,
+    string? DataDirectory,
+    string? PortfolioDirectory,
     bool ShowHelp)
 {
     public const string HelpText = """
 MacroRegime.Cli
 
 Usage:
-  dotnet run --project src/MacroRegime.Cli -- --as-of yyyy-MM-dd [--data path] [--model path] [--feature-set path] [--policy path] [--portfolio path] [--tilts path] [--strict-data] [--strict-config] [--output-dir path] [--cost-per-turnover decimal]
+  dotnet run --project src/MacroRegime.Cli -- --as-of yyyy-MM-dd [--data path] [--model path] [--feature-set path] [--policy path] [--portfolio path] [--tilts path] [--strict-data] [--strict-config] [--output-dir path] [--cost-per-turnover decimal] [--validate-only] [--validate-report path]
+  dotnet run --project src/MacroRegime.Cli -- --batch-from yyyy-MM-dd --batch-to yyyy-MM-dd [--data-dir path] [--portfolio-dir path] [other config options]
 
 Options:
   --as-of yyyy-MM-dd             Required analysis date.
@@ -170,6 +300,12 @@ Options:
   --strict-config                Fail if a provided config file is absent or not effective for --as-of.
   --output-dir path              Output directory for runs and reports. Default: macro-regime-output.
   --cost-per-turnover decimal    Estimated cost per turnover unit. Default: 0.001.
+  --validate-only                Validate import/config inputs and write a markdown report without running the pipeline.
+  --validate-report path         Optional markdown validation report path.
+  --batch-from yyyy-MM-dd        First as-of date for a daily batch run.
+  --batch-to yyyy-MM-dd          Last as-of date for a daily batch run.
+  --data-dir path                Directory containing macro-data-yyyy-MM-dd.json files for batch runs.
+  --portfolio-dir path           Directory containing current-portfolio-yyyy-MM-dd.json files for batch runs.
   --help                         Show help.
 """;
 
@@ -189,20 +325,32 @@ Options:
                 0.001m,
                 false,
                 false,
+                false,
+                null,
+                null,
+                null,
+                null,
+                null,
                 true);
         }
 
         DateOnly? asOfDate = null;
+        DateOnly? batchFrom = null;
+        DateOnly? batchTo = null;
         string? dataFilePath = null;
         string? modelFilePath = null;
         string? featureSetFilePath = null;
         string? policyFilePath = null;
         string? portfolioFilePath = null;
         string? tiltsFilePath = null;
+        string? dataDirectory = null;
+        string? portfolioDirectory = null;
         var outputDirectory = "macro-regime-output";
         var estimatedCostPerTurnover = 0.001m;
         var strictData = false;
         var strictConfig = false;
+        var validateOnly = false;
+        string? validationReportPath = null;
 
         for (var index = 0; index < args.Count; index++)
         {
@@ -212,8 +360,17 @@ Options:
                 case "--as-of":
                     asOfDate = ParseDate(NextValue(args, ref index, "--as-of"), "--as-of");
                     break;
+                case "--batch-from":
+                    batchFrom = ParseDate(NextValue(args, ref index, "--batch-from"), "--batch-from");
+                    break;
+                case "--batch-to":
+                    batchTo = ParseDate(NextValue(args, ref index, "--batch-to"), "--batch-to");
+                    break;
                 case "--data":
                     dataFilePath = NextValue(args, ref index, "--data");
+                    break;
+                case "--data-dir":
+                    dataDirectory = NextValue(args, ref index, "--data-dir");
                     break;
                 case "--model":
                     modelFilePath = NextValue(args, ref index, "--model");
@@ -226,6 +383,9 @@ Options:
                     break;
                 case "--portfolio":
                     portfolioFilePath = NextValue(args, ref index, "--portfolio");
+                    break;
+                case "--portfolio-dir":
+                    portfolioDirectory = NextValue(args, ref index, "--portfolio-dir");
                     break;
                 case "--tilts":
                     tiltsFilePath = NextValue(args, ref index, "--tilts");
@@ -242,14 +402,20 @@ Options:
                 case "--strict-config":
                     strictConfig = true;
                     break;
+                case "--validate-only":
+                    validateOnly = true;
+                    break;
+                case "--validate-report":
+                    validationReportPath = NextValue(args, ref index, "--validate-report");
+                    break;
                 default:
                     throw new CliUsageException($"Unknown argument '{arg}'.");
             }
         }
 
-        if (asOfDate is null)
+        if (asOfDate is null && (batchFrom is null || batchTo is null))
         {
-            throw new CliUsageException("--as-of is required.");
+            throw new CliUsageException("--as-of is required unless --batch-from and --batch-to are provided.");
         }
 
         if (estimatedCostPerTurnover < 0m)
@@ -257,13 +423,13 @@ Options:
             throw new CliUsageException("--cost-per-turnover cannot be negative.");
         }
 
-        if (strictData && string.IsNullOrWhiteSpace(dataFilePath))
+        if (strictData && string.IsNullOrWhiteSpace(dataFilePath) && string.IsNullOrWhiteSpace(dataDirectory))
         {
-            throw new CliUsageException("--strict-data requires --data.");
+            throw new CliUsageException("--strict-data requires --data or --data-dir.");
         }
 
         return new CliOptions(
-            asOfDate.Value,
+            asOfDate ?? batchFrom!.Value,
             dataFilePath,
             modelFilePath,
             featureSetFilePath,
@@ -274,6 +440,12 @@ Options:
             estimatedCostPerTurnover,
             strictData,
             strictConfig,
+            validateOnly,
+            validationReportPath,
+            batchFrom,
+            batchTo,
+            dataDirectory,
+            portfolioDirectory,
             false);
     }
 

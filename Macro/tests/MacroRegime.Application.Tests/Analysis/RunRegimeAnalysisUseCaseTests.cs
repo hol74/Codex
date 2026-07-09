@@ -3,6 +3,7 @@ using MacroRegime.Application.Analysis;
 using MacroRegime.Application.Ports;
 using MacroRegime.Application.Regimes;
 using MacroRegime.Application.Reports;
+using MacroRegime.Application.Runs;
 using MacroRegime.Application.Tests.Allocations;
 using MacroRegime.Domain.Allocations;
 using MacroRegime.Domain.Common;
@@ -50,8 +51,7 @@ public sealed class RunRegimeAnalysisUseCaseTests
             new FakeDataSnapshotProvider(CreateGoldilocksDataSnapshot(new AsOfDate(asOfDate))),
             new FakeModelVersionProvider(CreateModelVersion()),
             new FakeFeatureSetProvider(CreateFeatureSetVersion()),
-            new BaselineRegimeDetector(),
-            new FakeRegimeRunStore("memory://regime-run.json"));
+            new BaselineRegimeDetector());
 
         var useCase = new RunRegimeAnalysisUseCase(
             calculateRegime,
@@ -61,6 +61,7 @@ public sealed class RunRegimeAnalysisUseCaseTests
                 new FakeTiltRuleProvider(AllocationProposalTestFixtures.CreateTiltRules()),
                 new AllocationProposalService()),
             new GenerateRegimeReportUseCase(new FakeReportRenderer(), reportStore),
+            new FakeRegimeRunStore("memory://regime-run.json"),
             manifestStore);
 
         var result = await useCase.ExecuteAsync(new RunRegimeAnalysisCommand(asOfDate));
@@ -74,6 +75,41 @@ public sealed class RunRegimeAnalysisUseCaseTests
         Assert.Equal("memory://macro-regime-report.md", entry.ReportLocation);
         Assert.Equal("Goldilocks", entry.PrimaryRegime);
         Assert.Equal("PartialRebalance", entry.AllocationSuggestion);
+    }
+
+    [Fact]
+    public async Task ExecuteAsync_SavesRunDocumentWithAllocationAndDataSource_WhenRunStoreIsProvided()
+    {
+        var asOfDate = new DateOnly(2026, 7, 1);
+        var runStore = new FakeRegimeRunStore("memory://regime-run.json");
+        var reportStore = new FakeReportStore("memory://macro-regime-report.md");
+        var calculateRegime = new CalculateRegimeUseCase(
+            new FakeDataSnapshotProvider(CreateGoldilocksDataSnapshot(new AsOfDate(asOfDate))),
+            new FakeModelVersionProvider(CreateModelVersion()),
+            new FakeFeatureSetProvider(CreateFeatureSetVersion()),
+            new BaselineRegimeDetector());
+
+        var useCase = new RunRegimeAnalysisUseCase(
+            calculateRegime,
+            new GenerateAllocationProposalUseCase(
+                new FakePolicyProvider(AllocationProposalTestFixtures.CreatePolicy()),
+                new FakePortfolioProvider(AllocationProposalTestFixtures.CreatePortfolio()),
+                new FakeTiltRuleProvider(AllocationProposalTestFixtures.CreateTiltRules()),
+                new AllocationProposalService()),
+            new GenerateRegimeReportUseCase(new FakeReportRenderer(), reportStore),
+            runStore);
+
+        var result = await useCase.ExecuteAsync(new RunRegimeAnalysisCommand(asOfDate));
+
+        Assert.True(result.IsSuccess);
+        Assert.Equal("memory://regime-run.json", result.RunLocation);
+        Assert.NotNull(runStore.SavedDocument);
+        Assert.Equal(asOfDate, runStore.SavedDocument.AsOfDate);
+        Assert.Equal("Goldilocks", runStore.SavedDocument.PrimaryRegime);
+        Assert.NotNull(runStore.SavedDocument.Allocation);
+        Assert.Equal("PartialRebalance", runStore.SavedDocument.Allocation.Suggestion);
+        Assert.NotEmpty(runStore.SavedDocument.Allocation.Lines);
+        Assert.NotNull(runStore.SavedDocument.DataSource);
     }
 
     [Fact]
@@ -287,9 +323,17 @@ public sealed class RunRegimeAnalysisUseCaseTests
 
     private sealed class FakeRegimeRunStore(string location) : IRegimeRunStore
     {
-        public Task<string> SaveAsync(RegimeSnapshot snapshot, CancellationToken cancellationToken = default)
+        public RegimeRunDocument? SavedDocument { get; private set; }
+
+        public Task<string> SaveAsync(RegimeRunDocument document, CancellationToken cancellationToken = default)
         {
+            SavedDocument = document;
             return Task.FromResult(location);
+        }
+
+        public Task<RegimeRunDocument?> LoadAsync(DateOnly asOfDate, CancellationToken cancellationToken = default)
+        {
+            return Task.FromResult(SavedDocument?.AsOfDate == asOfDate ? SavedDocument : null);
         }
     }
 

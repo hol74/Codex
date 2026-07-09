@@ -2,6 +2,7 @@ using MacroRegime.Application.Allocations;
 using MacroRegime.Application.Analysis;
 using MacroRegime.Application.Regimes;
 using MacroRegime.Application.Reports;
+using MacroRegime.Application.Runs;
 using MacroRegime.Domain.Allocations;
 using MacroRegime.Domain.Common;
 using MacroRegime.Domain.Explanations;
@@ -29,7 +30,7 @@ public sealed class RegimeRunAndReportEndToEndTests : IDisposable
         var reportStore = new FileRegimeReportStore(Path.Combine(directoryPath, "reports"));
         var reportUseCase = new GenerateRegimeReportUseCase(new MarkdownRegimeReportRenderer(), reportStore);
 
-        await runStore.SaveAsync(snapshot);
+        await runStore.SaveAsync(RegimeRunDocument.FromDomain(snapshot, allocationProposal));
         var reportResult = await reportUseCase.ExecuteAsync(new GenerateRegimeReportCommand(snapshot, allocationProposal));
 
         var runPath = runStore.GetPath(snapshot.AsOfDate.Value);
@@ -55,14 +56,14 @@ public sealed class RegimeRunAndReportEndToEndTests : IDisposable
                 new DemoDataSnapshotProvider(),
                 new DemoModelVersionProvider(),
                 new DemoFeatureSetProvider(),
-                new BaselineRegimeDetector(),
-                runStore),
+                new BaselineRegimeDetector()),
             new GenerateAllocationProposalUseCase(
                 new DemoStrategicAllocationPolicyProvider(),
                 new DemoCurrentPortfolioProvider(),
                 new DemoRegimeTiltRuleProvider(),
                 new AllocationProposalService()),
-            new GenerateRegimeReportUseCase(new MarkdownRegimeReportRenderer(), reportStore));
+            new GenerateRegimeReportUseCase(new MarkdownRegimeReportRenderer(), reportStore),
+            runStore);
 
         var result = await useCase.ExecuteAsync(new RunRegimeAnalysisCommand(asOfDate));
 
@@ -73,6 +74,14 @@ public sealed class RegimeRunAndReportEndToEndTests : IDisposable
         Assert.Equal(DecisionSuggestion.PartialRebalance, result.AllocationProposal.Suggestion);
         Assert.True(File.Exists(runStore.GetPath(asOfDate)));
         Assert.True(File.Exists(result.ReportLocation));
+
+        var storedRun = await runStore.LoadAsync(asOfDate);
+        Assert.NotNull(storedRun);
+        Assert.Equal("Goldilocks", storedRun.PrimaryRegime);
+        Assert.NotNull(storedRun.Allocation);
+        Assert.Equal("PartialRebalance", storedRun.Allocation.Suggestion);
+        Assert.NotNull(storedRun.DataSource);
+        Assert.Equal("Demo", storedRun.DataSource.Kind);
 
         var report = await File.ReadAllTextAsync(result.ReportLocation!);
         Assert.Contains("# Macro-Regime Report", report);

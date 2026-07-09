@@ -1,6 +1,6 @@
 using System.Text.Json;
 using MacroRegime.Application.Ports;
-using MacroRegime.Domain.Regimes;
+using MacroRegime.Application.Runs;
 
 namespace MacroRegime.Infrastructure.Persistence;
 
@@ -23,18 +23,47 @@ public sealed class JsonRegimeRunStore : IRegimeRunStore
         this.directoryPath = directoryPath;
     }
 
-    public async Task<string> SaveAsync(RegimeSnapshot snapshot, CancellationToken cancellationToken = default)
+    public async Task<string> SaveAsync(RegimeRunDocument document, CancellationToken cancellationToken = default)
     {
-        ArgumentNullException.ThrowIfNull(snapshot);
+        ArgumentNullException.ThrowIfNull(document);
 
         Directory.CreateDirectory(directoryPath);
 
-        var record = RegimeRunRecordMapper.FromSnapshot(snapshot);
-        var path = GetPath(snapshot.AsOfDate.Value);
+        var record = RegimeRunRecordMapper.FromDocument(document);
+        var path = GetPath(document.AsOfDate);
         await using var stream = File.Create(path);
         await JsonSerializer.SerializeAsync(stream, record, SerializerOptions, cancellationToken).ConfigureAwait(false);
 
         return path;
+    }
+
+    public async Task<RegimeRunDocument?> LoadAsync(DateOnly asOfDate, CancellationToken cancellationToken = default)
+    {
+        var path = GetPath(asOfDate);
+        if (!File.Exists(path))
+        {
+            return null;
+        }
+
+        await using var stream = File.OpenRead(path);
+        RegimeRunRecord? record;
+        try
+        {
+            record = await JsonSerializer
+                .DeserializeAsync<RegimeRunRecord>(stream, SerializerOptions, cancellationToken)
+                .ConfigureAwait(false);
+        }
+        catch (JsonException exception)
+        {
+            throw new InvalidDataException($"Regime run file '{path}' is not valid JSON.", exception);
+        }
+
+        if (record is null)
+        {
+            throw new InvalidDataException($"Regime run file '{path}' is empty.");
+        }
+
+        return RegimeRunRecordMapper.ToDocument(record);
     }
 
     public string GetPath(DateOnly asOfDate)

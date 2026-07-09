@@ -1,0 +1,191 @@
+{
+  "schemaVersion": 2,
+  "asOfDate": "2026-07-01",
+  "modelName": "CRS Rule-Based Engine",
+  "modelVersion": "0.1-demo",
+  "featureSetName": "CRS Baseline",
+  "featureSetVersion": "0.1-demo",
+  "primaryRegime": "Goldilocks",
+  "operationalRegime": "Goldilocks",
+  "confidence": 0.6266984484850570954056914699,
+  "compositeScore": 0.7907142857142857142857142857,
+  "status": "Confirmed",
+  "probabilities": [
+    {
+      "regime": "Goldilocks",
+      "probability": 0.3481658047139206085587174833,
+      "rank": 1
+    },
+    {
+      "regime": "Reflation",
+      "probability": 0.2617267165193745751189666893,
+      "rank": 2
+    },
+    {
+      "regime": "LateCycleOverheating",
+      "probability": 0.1913707199958695109673089003,
+      "rank": 3
+    },
+    {
+      "regime": "Stagflation",
+      "probability": 0.0801142768632377870905007357,
+      "rank": 4
+    },
+    {
+      "regime": "DeflationBust",
+      "probability": 0.0755965544837318968410364085,
+      "rank": 5
+    },
+    {
+      "regime": "UncertainTransition",
+      "probability": 0.0430259274238656214234697829,
+      "rank": 6
+    }
+  ],
+  "featureScores": [
+    {
+      "featureCode": "GROWTH_MOM",
+      "name": "Growth momentum",
+      "dimension": "Growth",
+      "weight": 1,
+      "rawValue": 0.975,
+      "normalizedScore": 0.975,
+      "zScore": null,
+      "momentum": null,
+      "interpretation": "Growth momentum normalized from PMI and Sahm rule."
+    },
+    {
+      "featureCode": "INFL_PRESS",
+      "name": "Inflation pressure",
+      "dimension": "Inflation",
+      "weight": 1,
+      "rawValue": 2.0,
+      "normalizedScore": 0.4,
+      "zScore": null,
+      "momentum": null,
+      "interpretation": "Inflation pressure normalized from breakeven inflation."
+    },
+    {
+      "featureCode": "RISK_APPETITE",
+      "name": "Risk appetite",
+      "dimension": "Risk",
+      "weight": 1,
+      "rawValue": 14.0,
+      "normalizedScore": 0.9285714285714285714285714286,
+      "zScore": null,
+      "momentum": null,
+      "interpretation": "Risk appetite normalized inversely from VIX."
+    },
+    {
+      "featureCode": "MONETARY_COND",
+      "name": "Monetary conditions",
+      "dimension": "Monetary",
+      "weight": 1,
+      "rawValue": 0.5,
+      "normalizedScore": 0.75,
+      "zScore": null,
+      "momentum": null,
+      "interpretation": "Monetary conditions normalized from 10Y-2Y curve slope."
+    },
+    {
+      "featureCode": "CREDIT_STRESS",
+      "name": "Credit stress",
+      "dimension": "Credit",
+      "weight": 1,
+      "rawValue": 300.0,
+      "normalizedScore": 0.9,
+      "zScore": null,
+      "momentum": null,
+      "interpretation": "Credit stress normalized inversely from high-yield spread."
+    }
+  ],
+  "explanations": [
+    {
+      "title": "Growth momentum is a driver",
+      "detail": "Normalized score 0,975 with weight 1.",
+      "impact": 0.475,
+      "featureCode": "GROWTH_MOM",
+      "kind": "Driver"
+    },
+    {
+      "title": "Risk appetite is a driver",
+      "detail": "Normalized score 0,9286 with weight 1.",
+      "impact": 0.4285714285714285714285714286,
+      "featureCode": "RISK_APPETITE",
+      "kind": "Driver"
+    },
+    {
+      "title": "Credit stress is a driver",
+      "detail": "Normalized score 0,9 with weight 1.",
+      "impact": 0.4,
+      "featureCode": "CREDIT_STRESS",
+      "kind": "Driver"
+    },
+    {
+      "title": "Inflation pressure is a contrary signal",
+      "detail": "Normalized score 0,4 with weight 1.",
+      "impact": 0.1,
+      "featureCode": "INFL_PRESS",
+      "kind": "ContrarySignal"
+    }
+  ],
+  "warnings": [],
+  "dataSource": {
+    "kind": "Imported",
+    "description": "Data snapshot imported from local JSON file.",
+    "reference": "C:\\ProgettiAzure\\Codex\\Macro\\.tmp\\faseB-batch\\data\\macro-data-2026-07-01.json"
+  },
+  "allocation": {
+    "suggestion": "PartialRebalance",
+    "turnover": 0.08,
+    "estimatedCost": 0.00008,
+    "lines": [
+      {
+        "assetClass": "Cash",
+        "currentWeight": 0.05,
+        "strategicWeight": 0.05,
+        "targetWeight": 0.02,
+        "minimumWeight": 0.02,
+        "maximumWeight": 0.20,
+        "appliedTilt": -0.03,
+        "trade": -0.03
+      },
+      {
+        "assetClass": "GlobalEquity",
+        "currentWeight": 0.60,
+        "strategicWeight": 0.60,
+        "targetWeight": 0.68,
+        "minimumWeight": 0.45,
+        "maximumWeight": 0.75,
+        "appliedTilt": 0.08,
+        "trade": 0.08
+      },
+      {
+        "assetClass": "GovernmentBonds",
+        "currentWeight": 0.25,
+        "strategicWeight": 0.25,
+        "targetWeight": 0.20,
+        "minimumWeight": 0.10,
+        "maximumWeight": 0.40,
+        "appliedTilt": -0.05,
+        "trade": -0.05
+      },
+      {
+        "assetClass": "Gold",
+        "currentWeight": 0.10,
+        "strategicWeight": 0.10,
+        "targetWeight": 0.10,
+        "minimumWeight": 0.00,
+        "maximumWeight": 0.20,
+        "appliedTilt": 0,
+        "trade": 0.00
+      }
+    ],
+    "reasons": [
+      "Constructive growth supports equity tilt.",
+      "Duration can be reduced in risk-on regimes.",
+      "Cash drag can be reduced while risk appetite is strong."
+    ],
+    "constraintMessages": []
+  }
+}

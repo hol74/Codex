@@ -13,5 +13,6 @@
     <Project Path="tests/MacroRegime.Domain.Tests/MacroRegime.Domain.Tests.csproj" />
     <Project Path="tests/MacroRegime.Infrastructure.Tests/MacroRegime.Infrastructure.Tests.csproj" />
     <Project Path="tests/MacroRegime.Reporting.Tests/MacroRegime.Reporting.Tests.csproj" />
+    <Project Path="tests/MacroRegime.Web.Tests/MacroRegime.Web.Tests.csproj" />
   </Folder>
 </Solution>

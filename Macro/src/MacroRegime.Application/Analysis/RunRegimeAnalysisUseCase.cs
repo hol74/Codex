@@ -2,6 +2,7 @@ using MacroRegime.Application.Allocations;
 using MacroRegime.Application.Ports;
 using MacroRegime.Application.Regimes;
 using MacroRegime.Application.Reports;
+using MacroRegime.Application.Runs;
 
 namespace MacroRegime.Application.Analysis;
 
@@ -10,17 +11,20 @@ public sealed class RunRegimeAnalysisUseCase
     private readonly CalculateRegimeUseCase calculateRegimeUseCase;
     private readonly GenerateAllocationProposalUseCase generateAllocationProposalUseCase;
     private readonly GenerateRegimeReportUseCase generateRegimeReportUseCase;
+    private readonly IRegimeRunStore? regimeRunStore;
     private readonly IRegimeRunManifestStore? regimeRunManifestStore;
 
     public RunRegimeAnalysisUseCase(
         CalculateRegimeUseCase calculateRegimeUseCase,
         GenerateAllocationProposalUseCase generateAllocationProposalUseCase,
         GenerateRegimeReportUseCase generateRegimeReportUseCase,
+        IRegimeRunStore? regimeRunStore = null,
         IRegimeRunManifestStore? regimeRunManifestStore = null)
     {
         this.calculateRegimeUseCase = calculateRegimeUseCase ?? throw new ArgumentNullException(nameof(calculateRegimeUseCase));
         this.generateAllocationProposalUseCase = generateAllocationProposalUseCase ?? throw new ArgumentNullException(nameof(generateAllocationProposalUseCase));
         this.generateRegimeReportUseCase = generateRegimeReportUseCase ?? throw new ArgumentNullException(nameof(generateRegimeReportUseCase));
+        this.regimeRunStore = regimeRunStore;
         this.regimeRunManifestStore = regimeRunManifestStore;
     }
 
@@ -48,17 +52,27 @@ public sealed class RunRegimeAnalysisUseCase
             return RunRegimeAnalysisResult.Failure(allocationResult.Error ?? "Allocation proposal generation failed.");
         }
 
+        string? runLocation = null;
+        if (regimeRunStore is not null)
+        {
+            var document = RegimeRunDocument.FromDomain(
+                regimeResult.Snapshot,
+                allocationResult.Proposal,
+                regimeResult.DataSourceInfo);
+            runLocation = await regimeRunStore.SaveAsync(document, cancellationToken).ConfigureAwait(false);
+        }
+
         var reportResult = await generateRegimeReportUseCase
             .ExecuteAsync(new GenerateRegimeReportCommand(regimeResult.Snapshot, allocationResult.Proposal, regimeResult.DataSourceInfo), cancellationToken)
             .ConfigureAwait(false);
 
-        if (regimeRunManifestStore is not null && regimeResult.RunLocation is not null)
+        if (regimeRunManifestStore is not null && runLocation is not null)
         {
             await regimeRunManifestStore
                 .UpsertAsync(
                     new RegimeRunManifestEntry(
                         regimeResult.Snapshot.AsOfDate.Value,
-                        regimeResult.RunLocation,
+                        runLocation,
                         reportResult.Location,
                         regimeResult.DataSourceInfo.Kind.ToString(),
                         regimeResult.DataSourceInfo.Description,
@@ -85,7 +99,7 @@ public sealed class RunRegimeAnalysisUseCase
             allocationResult.Proposal,
             reportResult.Markdown,
             reportResult.Location,
-            regimeResult.RunLocation,
+            runLocation,
             regimeResult.DataSourceInfo);
     }
 }

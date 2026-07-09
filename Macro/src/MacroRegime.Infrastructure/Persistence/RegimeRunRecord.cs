@@ -15,7 +15,9 @@ public sealed record RegimeRunRecord(
     IReadOnlyList<RegimeProbabilityRecord> Probabilities,
     IReadOnlyList<FeatureScoreRecord> FeatureScores,
     IReadOnlyList<RegimeExplanationRecord> Explanations,
-    IReadOnlyList<string> Warnings);
+    IReadOnlyList<string> Warnings,
+    RegimeRunDataSourceRecord? DataSource = null,
+    RegimeRunAllocationRecord? Allocation = null);
 
 public sealed record RegimeProbabilityRecord(
     string Regime,
@@ -39,3 +41,26 @@ public sealed record RegimeExplanationRecord(
     decimal Impact,
     string? FeatureCode,
     string Kind);
+
+public sealed record RegimeRunDataSourceRecord(
+    string Kind,
+    string Description,
+    string? Reference);
+
+public sealed record RegimeRunAllocationRecord(
+    string Suggestion,
+    decimal Turnover,
+    decimal EstimatedCost,
+    IReadOnlyList<RegimeRunAllocationLineRecord> Lines,
+    IReadOnlyList<string> Reasons,
+    IReadOnlyList<string> ConstraintMessages);
+
+public sealed record RegimeRunAllocationLineRecord(
+    string AssetClass,
+    decimal CurrentWeight,
+    decimal StrategicWeight,
+    decimal TargetWeight,
+    decimal MinimumWeight,
+    decimal MaximumWeight,
+    decimal AppliedTilt,
+    decimal Trade);

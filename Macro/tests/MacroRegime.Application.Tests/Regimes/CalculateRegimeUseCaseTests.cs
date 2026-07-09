@@ -76,24 +76,6 @@ public sealed class CalculateRegimeUseCaseTests
         Assert.Equal("Feature set version is missing.", result.Error);
     }
 
-    [Fact]
-    public async Task ExecuteAsync_SavesSnapshot_WhenRegimeRunStoreIsProvided()
-    {
-        var asOfDate = new DateOnly(2026, 7, 1);
-        var store = new FakeRegimeRunStore();
-        var useCase = new CalculateRegimeUseCase(
-            new FakeDataSnapshotProvider(CreateGoldilocksSnapshot(new AsOfDate(asOfDate))),
-            new FakeModelVersionProvider(CreateModelVersion()),
-            new FakeFeatureSetProvider(CreateFeatureSetVersion()),
-            new BaselineRegimeDetector(),
-            store);
-
-        var result = await useCase.ExecuteAsync(new CalculateRegimeCommand(asOfDate));
-
-        Assert.True(result.IsSuccess);
-        Assert.Same(result.Snapshot, store.SavedSnapshot);
-    }
-
     private static CalculateRegimeUseCase CreateUseCase(
         IDataSnapshotProvider dataSnapshotProvider,
         IModelVersionProvider modelVersionProvider,
@@ -213,14 +195,4 @@ public sealed class CalculateRegimeUseCaseTests
         }
     }
 
-    private sealed class FakeRegimeRunStore : IRegimeRunStore
-    {
-        public RegimeSnapshot? SavedSnapshot { get; private set; }
-
-        public Task<string> SaveAsync(RegimeSnapshot snapshot, CancellationToken cancellationToken = default)
-        {
-            SavedSnapshot = snapshot;
-            return Task.FromResult("memory://regime-run.json");
-        }
-    }
 }

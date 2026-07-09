@@ -11,20 +11,17 @@ public sealed class CalculateRegimeUseCase
     private readonly IModelVersionProvider modelVersionProvider;
     private readonly IFeatureSetProvider featureSetProvider;
     private readonly BaselineRegimeDetector detector;
-    private readonly IRegimeRunStore? regimeRunStore;
 
     public CalculateRegimeUseCase(
         IDataSnapshotProvider dataSnapshotProvider,
         IModelVersionProvider modelVersionProvider,
         IFeatureSetProvider featureSetProvider,
-        BaselineRegimeDetector detector,
-        IRegimeRunStore? regimeRunStore = null)
+        BaselineRegimeDetector detector)
     {
         this.dataSnapshotProvider = dataSnapshotProvider ?? throw new ArgumentNullException(nameof(dataSnapshotProvider));
         this.modelVersionProvider = modelVersionProvider ?? throw new ArgumentNullException(nameof(modelVersionProvider));
         this.featureSetProvider = featureSetProvider ?? throw new ArgumentNullException(nameof(featureSetProvider));
         this.detector = detector ?? throw new ArgumentNullException(nameof(detector));
-        this.regimeRunStore = regimeRunStore;
     }
 
     public async Task<CalculateRegimeResult> ExecuteAsync(
@@ -59,13 +56,8 @@ public sealed class CalculateRegimeUseCase
         }
 
         var snapshot = detector.Detect(dataSnapshot, featureSetVersion, modelVersion);
-        string? runLocation = null;
-        if (regimeRunStore is not null)
-        {
-            runLocation = await regimeRunStore.SaveAsync(snapshot, cancellationToken).ConfigureAwait(false);
-        }
 
-        return CalculateRegimeResult.Success(snapshot, dataSourceInfo, runLocation);
+        return CalculateRegimeResult.Success(snapshot, dataSourceInfo);
     }
 
     private DataSnapshotSourceInfo GetDataSourceInfo()

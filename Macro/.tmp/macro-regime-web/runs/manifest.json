@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 1,
+  "entries": [
+    {
+      "asOfDate": "2026-07-01",
+      "runLocation": "C:\\ProgettiAzure\\Codex\\Macro\\.tmp\\macro-regime-web\\runs\\regime-run-2026-07-01.json",
+      "reportLocation": "C:\\ProgettiAzure\\Codex\\Macro\\.tmp\\macro-regime-web\\reports\\macro-regime-report-2026-07-01.md",
+      "dataSourceKind": "Imported",
+      "dataSourceDescription": "Data snapshot imported from local JSON file.",
+      "dataSourceReference": "C:\\ProgettiAzure\\Codex\\Macro\\samples\\macro-data-2026-07-01.json",
+      "modelName": "CRS Rule-Based Engine",
+      "modelVersion": "0.1-local",
+      "featureSetName": "CRS Baseline",
+      "featureSetVersion": "0.1-local",
+      "primaryRegime": "Goldilocks",
+      "operationalRegime": "Goldilocks",
+      "confidence": 0.6266984484850570954056914699,
+      "compositeScore": 0.7907142857142857142857142857,
+      "status": "Confirmed",
+      "allocationSuggestion": "PartialRebalance",
+      "turnover": 0.08,
+      "estimatedCost": 0.00008,
+      "warningCount": 0
+    }
+  ]
+}

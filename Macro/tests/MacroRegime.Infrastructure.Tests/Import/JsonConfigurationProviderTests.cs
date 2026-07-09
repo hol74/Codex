@@ -105,14 +105,14 @@ public sealed class JsonConfigurationProviderTests : IDisposable
                 new JsonDataSnapshotProvider(dataPath, strict: true),
                 new JsonModelVersionProvider(modelPath, strict: true),
                 new JsonFeatureSetProvider(featureSetPath, strict: true),
-                new BaselineRegimeDetector(),
-                runStore),
+                new BaselineRegimeDetector()),
             new GenerateAllocationProposalUseCase(
                 new JsonStrategicAllocationPolicyProvider(policyPath, strict: true),
                 new JsonCurrentPortfolioProvider(portfolioPath, strict: true),
                 new JsonRegimeTiltRuleProvider(tiltsPath, strict: true),
                 new AllocationProposalService()),
-            new GenerateRegimeReportUseCase(new MarkdownRegimeReportRenderer(), reportStore));
+            new GenerateRegimeReportUseCase(new MarkdownRegimeReportRenderer(), reportStore),
+            runStore);
 
         var result = await useCase.ExecuteAsync(new RunRegimeAnalysisCommand(asOfDate));
 

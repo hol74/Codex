@@ -53,14 +53,14 @@ public sealed class DemoProviderTests : IDisposable
                 new DemoDataSnapshotProvider(),
                 new DemoModelVersionProvider(),
                 new DemoFeatureSetProvider(),
-                new BaselineRegimeDetector(),
-                runStore),
+                new BaselineRegimeDetector()),
             new GenerateAllocationProposalUseCase(
                 new DemoStrategicAllocationPolicyProvider(),
                 new DemoCurrentPortfolioProvider(),
                 new DemoRegimeTiltRuleProvider(),
                 new AllocationProposalService()),
-            new GenerateRegimeReportUseCase(new MarkdownRegimeReportRenderer(), reportStore));
+            new GenerateRegimeReportUseCase(new MarkdownRegimeReportRenderer(), reportStore),
+            runStore);
 
         var result = await useCase.ExecuteAsync(new RunRegimeAnalysisCommand(asOfDate));
 

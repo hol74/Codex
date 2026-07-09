@@ -1,0 +1,23 @@
+{
+  "schemaVersion": 1,
+  "asOfDate": "2026-07-01",
+  "weights": [
+    {
+      "assetClass": "Cash",
+      "weight": 0.05
+    },
+    {
+      "assetClass": "GlobalEquity",
+      "weight": 0.60
+    },
+    {
+      "assetClass": "GovernmentBonds",
+      "weight": 0.25
+    },
+    {
+      "assetClass": "Gold",
+      "weight": 0.10
+    }
+  ]
+}
+
