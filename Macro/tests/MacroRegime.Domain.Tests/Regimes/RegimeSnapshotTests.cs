@@ -150,7 +150,7 @@ public sealed class RegimeSnapshotTests
                     "GROWTH_MOM",
                     "Growth momentum",
                     EconomicDimension.Growth,
-                    "PMI and Sahm rule blend",
+                    "Industrial production and Sahm rule blend",
                     new FeatureWeight(1m),
                     FeaturePolarity.HigherIsRiskOn,
                     6,

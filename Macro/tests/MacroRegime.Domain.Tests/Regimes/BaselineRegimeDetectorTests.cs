@@ -13,12 +13,12 @@ public sealed class BaselineRegimeDetectorTests
     public void Detect_ReturnsUncertainTransition_ForNeutralScenario()
     {
         var snapshot = Detect(Scenario(
-            pmi: 50m,
+            industrialProductionYoY: 0m,
             sahm: 0.5m,
             breakeven: 2.25m,
             vix: 26m,
             curve: 0m,
-            highYieldSpread: 500m));
+            highYieldSpread: 5m));
 
         Assert.Equal(RegimeType.UncertainTransition, snapshot.OperationalRegime);
         Assert.True(snapshot.Confidence.Value < 0.55m);
@@ -28,12 +28,12 @@ public sealed class BaselineRegimeDetectorTests
     public void Detect_ReturnsGoldilocks_ForConstructiveGrowthLowStressScenario()
     {
         var snapshot = Detect(Scenario(
-            pmi: 55m,
+            industrialProductionYoY: 5m,
             sahm: 0.05m,
             breakeven: 2.0m,
             vix: 14m,
             curve: 0.5m,
-            highYieldSpread: 300m));
+            highYieldSpread: 3m));
 
         Assert.Equal(RegimeType.Goldilocks, snapshot.PrimaryRegime);
         Assert.Equal(RegimeType.Goldilocks, snapshot.OperationalRegime);
@@ -44,12 +44,12 @@ public sealed class BaselineRegimeDetectorTests
     public void Detect_ReturnsReflation_WhenGrowthRiskAndInflationAreStrong()
     {
         var snapshot = Detect(Scenario(
-            pmi: 55m,
+            industrialProductionYoY: 5m,
             sahm: 0.1m,
             breakeven: 3.0m,
             vix: 16m,
             curve: -0.4m,
-            highYieldSpread: 350m));
+            highYieldSpread: 3.5m));
 
         Assert.Equal(RegimeType.Reflation, snapshot.PrimaryRegime);
         Assert.Contains(snapshot.Explanations, explanation => explanation.Kind == MacroRegime.Domain.Explanations.RegimeExplanationKind.ContrarySignal);
@@ -59,12 +59,12 @@ public sealed class BaselineRegimeDetectorTests
     public void Detect_ReturnsStagflation_WhenGrowthIsWeakAndInflationCreditStressAreHigh()
     {
         var snapshot = Detect(Scenario(
-            pmi: 45m,
+            industrialProductionYoY: -5m,
             sahm: 0.8m,
             breakeven: 3.2m,
             vix: 24m,
             curve: -0.5m,
-            highYieldSpread: 650m));
+            highYieldSpread: 6.5m));
 
         Assert.Equal(RegimeType.Stagflation, snapshot.PrimaryRegime);
         Assert.Contains(snapshot.Explanations, explanation => explanation.FeatureCode == "INFL_PRESS");
@@ -74,12 +74,12 @@ public sealed class BaselineRegimeDetectorTests
     public void Detect_ReturnsDeflationBust_WhenGrowthInflationRiskAndCreditAreWeak()
     {
         var snapshot = Detect(Scenario(
-            pmi: 43m,
+            industrialProductionYoY: -6m,
             sahm: 1.0m,
             breakeven: 1.1m,
             vix: 38m,
             curve: -0.5m,
-            highYieldSpread: 800m));
+            highYieldSpread: 8m));
 
         Assert.Equal(RegimeType.DeflationBust, snapshot.PrimaryRegime);
         Assert.Equal(RegimeType.DeflationBust, snapshot.OperationalRegime);
@@ -89,12 +89,12 @@ public sealed class BaselineRegimeDetectorTests
     public void Detect_SetsOperationalRegimeToUncertainTransition_WhenSignalsDiverge()
     {
         var snapshot = Detect(Scenario(
-            pmi: 56m,
+            industrialProductionYoY: 6m,
             sahm: 0.0m,
             breakeven: 3.2m,
             vix: 35m,
             curve: 0.2m,
-            highYieldSpread: 700m));
+            highYieldSpread: 7m));
 
         Assert.Equal(RegimeType.UncertainTransition, snapshot.OperationalRegime);
         Assert.Contains(snapshot.Warnings, warning => warning.Contains("Divergent macro signals", StringComparison.OrdinalIgnoreCase));
@@ -105,7 +105,7 @@ public sealed class BaselineRegimeDetectorTests
     public void Detect_AddsWarningsAndUsesUncertainTransition_WhenDimensionsAreMissing()
     {
         var snapshot = Detect(Scenario(
-            pmi: 45m,
+            industrialProductionYoY: -5m,
             sahm: 0.8m,
             breakeven: 3.2m,
             vix: 24m,
@@ -123,7 +123,7 @@ public sealed class BaselineRegimeDetectorTests
     }
 
     private static IReadOnlyDictionary<string, decimal> Scenario(
-        decimal pmi,
+        decimal industrialProductionYoY,
         decimal sahm,
         decimal breakeven,
         decimal vix,
@@ -132,7 +132,7 @@ public sealed class BaselineRegimeDetectorTests
     {
         var values = new Dictionary<string, decimal>
         {
-            ["ISM_PMI"] = pmi,
+            ["INDPRO_YOY"] = industrialProductionYoY,
             ["SAHM"] = sahm,
             ["T10YIE"] = breakeven,
             ["VIX"] = vix
@@ -218,7 +218,7 @@ public sealed class BaselineRegimeDetectorTests
     {
         return code switch
         {
-            "ISM_PMI" => EconomicDimension.Growth,
+            "INDPRO_YOY" => EconomicDimension.Growth,
             "SAHM" => EconomicDimension.Growth,
             "T10YIE" => EconomicDimension.Inflation,
             "VIX" => EconomicDimension.Risk,

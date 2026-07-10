@@ -1,0 +1,101 @@
+@page
+@model ImportDiagnosticsModel
+@{
+    ViewData["Title"] = "Import Diagnostics";
+    var diagnostics = Model.Diagnostics;
+    var report = diagnostics?.Report;
+}
+
+<section class="toolbar" aria-label="Import diagnostics">
+    <div>
+        <h1>Import Diagnostics</h1>
+        <p class="muted">Read-only validation of local JSON data and configuration inputs. No run is executed from this page.</p>
+    </div>
+    <form method="get" class="run-form">
+        <label for="asOfDate">As-of</label>
+        <input id="asOfDate" name="asOfDate" type="date" value="@Model.AsOfDateInput" />
+        <button type="submit">Validate</button>
+    </form>
+</section>
+
+@if (!string.IsNullOrWhiteSpace(Model.ErrorMessage))
+{
+    <section class="alert-panel" role="alert">
+        <strong>Validation failed</strong>
+        <span>@Model.ErrorMessage</span>
+    </section>
+}
+
+@if (report is not null)
+{
+    <section class="summary-grid" aria-label="Import validation summary">
+        <article class="metric-panel primary">
+            <span class="label">Validation status</span>
+            <strong>@(report.IsSuccess ? "Usable" : "Blocked")</strong>
+            <span class="muted">@report.AsOfDate.ToString("yyyy-MM-dd")</span>
+        </article>
+        <article class="metric-panel">
+            <span class="label">OK</span>
+            <strong>@report.OkCount</strong>
+            <span class="muted">valid inputs</span>
+        </article>
+        <article class="metric-panel">
+            <span class="label">Warnings</span>
+            <strong>@report.WarningCount</strong>
+            <span class="muted">fallbacks or optional gaps</span>
+        </article>
+        <article class="metric-panel">
+            <span class="label">Errors</span>
+            <strong>@report.ErrorCount</strong>
+            <span class="muted">blocking issues</span>
+        </article>
+    </section>
+
+    <section class="panel">
+        <div class="panel-heading">
+            <h2>Input validation</h2>
+            <span>@report.Items.Count inputs</span>
+        </div>
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Input</th>
+                        <th>Severity</th>
+                        <th>Message</th>
+                        <th>Path</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in report.Items)
+                    {
+                        <tr>
+                            <td>@item.InputKind</td>
+                            <td>
+                                <span class="status-pill @(item.Severity.ToString() == "Ok" ? "ok" : item.Severity.ToString() == "Warning" ? "warn" : "danger")">@item.Severity</span>
+                            </td>
+                            <td>@item.Message</td>
+                            <td>
+                                @if (string.IsNullOrWhiteSpace(item.Path))
+                                {
+                                    <span class="muted">No local file configured.</span>
+                                }
+                                else
+                                {
+                                    <code>@item.Path</code>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <section class="panel">
+        <details open>
+            <summary>Import Validation Report</summary>
+            <pre class="markdown-report">@diagnostics!.Markdown</pre>
+        </details>
+    </section>
+}

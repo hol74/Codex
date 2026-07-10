@@ -154,7 +154,7 @@ public sealed class JsonImportValidationServiceTests : IDisposable
             asOfDate,
             new[]
             {
-                new JsonMacroObservationRecord("ISM_PMI", "ISM PMI", "Growth", new DateOnly(2026, 6, 30), asOfDate, asOfDate, 55m, "Fixture", "Index")
+                new JsonMacroObservationRecord("INDPRO_YOY", "Industrial production YoY", "Growth", new DateOnly(2026, 6, 30), asOfDate, asOfDate, 5m, "Fixture", "Percent change")
             },
             Array.Empty<JsonMarketObservationRecord>());
     }

@@ -51,19 +51,19 @@ public sealed class FeatureNormalizer
 
     private static FeatureNormalizationResultItem NormalizeGrowthMomentum(DataSnapshot snapshot, FeatureDefinition definition)
     {
-        var hasPmi = snapshot.TryGetValue("ISM_PMI", out var pmi);
+        var hasIndustrialProduction = snapshot.TryGetValue("INDPRO_YOY", out var industrialProduction);
         var hasSahm = snapshot.TryGetValue("SAHM", out var sahm);
 
-        if (!hasPmi && !hasSahm)
+        if (!hasIndustrialProduction && !hasSahm)
         {
-            return Missing(definition, "ISM_PMI or SAHM");
+            return Missing(definition, "INDPRO_YOY or SAHM");
         }
 
-        var pmiScore = hasPmi ? Clamp01((pmi - 45m) / 10m) : 0.5m;
+        var industrialProductionScore = hasIndustrialProduction ? Clamp01((industrialProduction + 5m) / 10m) : 0.5m;
         var sahmScore = hasSahm ? 1m - Clamp01(sahm) : 0.5m;
-        var score = (pmiScore + sahmScore) / 2m;
+        var score = (industrialProductionScore + sahmScore) / 2m;
 
-        return new FeatureNormalizationResultItem(score, score, "Growth momentum normalized from PMI and Sahm rule.", MissingPartial(definition, hasPmi, hasSahm, "ISM_PMI", "SAHM"));
+        return new FeatureNormalizationResultItem(score, score, "Growth momentum normalized from industrial production YoY and Sahm rule.", MissingPartial(definition, hasIndustrialProduction, hasSahm, "INDPRO_YOY", "SAHM"));
     }
 
     private static FeatureNormalizationResultItem NormalizeInflationPressure(DataSnapshot snapshot, FeatureDefinition definition)
@@ -106,7 +106,7 @@ public sealed class FeatureNormalizer
             return Missing(definition, "HY_OAS");
         }
 
-        var score = 1m - Clamp01((highYieldSpread - 250m) / 500m);
+        var score = 1m - Clamp01((highYieldSpread - 2.5m) / 5m);
         return new FeatureNormalizationResultItem(highYieldSpread, score, "Credit stress normalized inversely from high-yield spread.", null);
     }
 

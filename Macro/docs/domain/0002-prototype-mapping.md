@@ -74,7 +74,7 @@ Il prototipo Finance e' una reference implementation. Non e' la base diretta da 
 
 ### Macro series
 
-- `ISM_PMI`: Growth.
+- `INDPRO_YOY`: Growth.
 - `SAHM`: Growth con polarita' difensiva.
 - `T10YIE`: Inflation.
 - `HY_OAS`: Credit.

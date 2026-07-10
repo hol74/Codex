@@ -1,0 +1,11 @@
+{
+  "schemaVersion": 1,
+  "name": "CRS Rule-Based Engine",
+  "version": "0.1-local",
+  "role": "Baseline",
+  "parameters": {
+    "confirmation_threshold": 0.55
+  },
+  "effectiveFrom": "2026-07-01",
+  "description": "Local JSON baseline model for deterministic macro-regime analysis."
+}

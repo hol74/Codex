@@ -7,7 +7,7 @@
       "code": "GROWTH_MOM",
       "name": "Growth momentum",
       "dimension": "Growth",
-      "formulaDescription": "PMI and Sahm-rule composite.",
+      "formulaDescription": "Industrial production YoY and Sahm-rule composite.",
       "weight": 1.0,
       "polarity": "HigherIsRiskOn",
       "lookbackMonths": 6,

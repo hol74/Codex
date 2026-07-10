@@ -13,15 +13,15 @@ public sealed class DataSnapshotTests
             new AsOfDate(new DateOnly(2026, 7, 1)),
             new[]
             {
-                MacroObservation("ISM_PMI", 52m, new PublicationDate(new DateOnly(2026, 7, 1))),
-                MacroObservation("ISM_PMI", 60m, new PublicationDate(new DateOnly(2026, 7, 2)))
+                MacroObservation("INDPRO_YOY", 2m, new PublicationDate(new DateOnly(2026, 7, 1))),
+                MacroObservation("INDPRO_YOY", 6m, new PublicationDate(new DateOnly(2026, 7, 2)))
             },
             Array.Empty<MarketObservation>());
 
-        var found = snapshot.TryGetValue("ISM_PMI", out var value);
+        var found = snapshot.TryGetValue("INDPRO_YOY", out var value);
 
         Assert.True(found);
-        Assert.Equal(52m, value);
+        Assert.Equal(2m, value);
     }
 
     [Fact]
@@ -53,7 +53,7 @@ public sealed class DataSnapshotTests
             publicationDate.Value,
             value,
             "Fixture",
-            "Index");
+            code == "INDPRO_YOY" ? "Percent change" : "Index");
     }
 
     private static MarketObservation MarketObservation(string symbol, decimal value, AvailabilityDate availabilityDate)

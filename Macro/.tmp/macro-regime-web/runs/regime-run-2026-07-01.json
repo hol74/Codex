@@ -52,7 +52,7 @@
       "normalizedScore": 0.975,
       "zScore": null,
       "momentum": null,
-      "interpretation": "Growth momentum normalized from PMI and Sahm rule."
+      "interpretation": "Growth momentum normalized from industrial production YoY and Sahm rule."
     },
     {
       "featureCode": "INFL_PRESS",
@@ -92,7 +92,7 @@
       "name": "Credit stress",
       "dimension": "Credit",
       "weight": 1.0,
-      "rawValue": 300.0,
+      "rawValue": 3.0,
       "normalizedScore": 0.9,
       "zScore": null,
       "momentum": null,

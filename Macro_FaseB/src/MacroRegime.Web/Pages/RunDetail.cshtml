@@ -1,0 +1,278 @@
+@page
+@model RunDetailModel
+@{
+    ViewData["Title"] = "Stored Run Detail";
+    var document = Model.Detail?.Document;
+    var allocation = document?.Allocation;
+}
+
+<section class="toolbar" aria-label="Stored run">
+    <div>
+        <h1>Stored Run Detail</h1>
+        @if (document is not null)
+        {
+            <p class="muted">Loaded from saved run JSON without re-executing the pipeline &middot; Model @document.ModelName v@document.ModelVersion &middot; Feature set @document.FeatureSetName v@document.FeatureSetVersion</p>
+        }
+    </div>
+    <div class="run-form">
+        <a class="table-action" href="/">Back to dashboard</a>
+    </div>
+</section>
+
+@if (!string.IsNullOrWhiteSpace(Model.ErrorMessage))
+{
+    <section class="alert-panel" role="alert">
+        <strong>Stored run unavailable</strong>
+        <span>@Model.ErrorMessage</span>
+    </section>
+}
+
+@if (document is not null)
+{
+    <section class="summary-grid" aria-label="Regime summary">
+        <article class="metric-panel primary">
+            <span class="label">Primary regime</span>
+            <strong>@document.PrimaryRegime</strong>
+            <span class="muted">Operational: @document.OperationalRegime</span>
+        </article>
+        <article class="metric-panel">
+            <span class="label">Confidence</span>
+            <strong>@IndexModel.FormatPercent(document.Confidence)</strong>
+            <span class="muted">Composite @IndexModel.FormatRatio(document.CompositeScore)</span>
+        </article>
+        <article class="metric-panel">
+            <span class="label">Data source</span>
+            <strong>@(document.DataSource?.Kind ?? "Not recorded")</strong>
+            <span class="muted">@(document.DataSource?.Description ?? "Run predates data source persistence.")</span>
+        </article>
+        <article class="metric-panel">
+            <span class="label">Allocation</span>
+            <strong>@(allocation?.Suggestion ?? "Not recorded")</strong>
+            @if (allocation is not null)
+            {
+                <span class="muted">Turnover @IndexModel.FormatPercent(allocation.Turnover)</span>
+            }
+            else
+            {
+                <span class="muted">Run predates allocation persistence.</span>
+            }
+        </article>
+    </section>
+
+    <section class="content-grid">
+        <article class="panel">
+            <div class="panel-heading">
+                <h2>Regime Probabilities</h2>
+                <span>@document.Probabilities.Count regimes</span>
+            </div>
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Rank</th>
+                            <th>Regime</th>
+                            <th>Probability</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var probability in document.Probabilities)
+                        {
+                            <tr class="@(probability.Rank == 1 ? "selected-row" : null)">
+                                <td>@probability.Rank</td>
+                                <td>@probability.Regime</td>
+                                <td>
+                                    <div class="probability-cell">
+                                        <span>@IndexModel.FormatPercent(probability.Probability)</span>
+                                        <i style="width: @IndexModel.ProbabilityWidth(probability.Probability)%"></i>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </article>
+
+        <article class="panel">
+            <div class="panel-heading">
+                <h2>Explanations</h2>
+                <span>@document.Explanations.Count items</span>
+            </div>
+            <ol class="explanation-list">
+                @foreach (var explanation in document.Explanations.OrderByDescending(item => Math.Abs(item.Impact)))
+                {
+                    <li>
+                        <div>
+                            <strong>@explanation.Title</strong>
+                            <span>@explanation.Kind &middot; @explanation.FeatureCode</span>
+                        </div>
+                        <b>@IndexModel.FormatRatio(explanation.Impact)</b>
+                    </li>
+                }
+            </ol>
+        </article>
+    </section>
+
+    <section class="panel">
+        <div class="panel-heading">
+            <h2>Feature Scores</h2>
+            <span>@document.FeatureScores.Count recorded</span>
+        </div>
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Code</th>
+                        <th>Name</th>
+                        <th>Dimension</th>
+                        <th>Raw</th>
+                        <th>Score</th>
+                        <th>Weight</th>
+                        <th>Interpretation</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var score in document.FeatureScores)
+                    {
+                        <tr>
+                            <td><code>@score.FeatureCode</code></td>
+                            <td>@score.Name</td>
+                            <td>@score.Dimension</td>
+                            <td>@IndexModel.FormatRatio(score.RawValue)</td>
+                            <td>@IndexModel.FormatRatio(score.NormalizedScore)</td>
+                            <td>@IndexModel.FormatRatio(score.Weight)</td>
+                            <td>@score.Interpretation</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    @if (allocation is not null)
+    {
+        <section class="panel">
+            <div class="panel-heading">
+                <h2>Allocation Proposal</h2>
+                <span>Estimated cost @IndexModel.FormatPercent(allocation.EstimatedCost)</span>
+            </div>
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Asset class</th>
+                            <th>Current</th>
+                            <th>Strategic</th>
+                            <th>Target</th>
+                            <th>Trade</th>
+                            <th>Band</th>
+                            <th>Tilt</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var line in allocation.Lines)
+                        {
+                            <tr>
+                                <td>@line.AssetClass</td>
+                                <td>@IndexModel.FormatPercent(line.CurrentWeight)</td>
+                                <td>@IndexModel.FormatPercent(line.StrategicWeight)</td>
+                                <td>@IndexModel.FormatPercent(line.TargetWeight)</td>
+                                <td>@IndexModel.FormatSignedPercent(line.Trade)</td>
+                                <td>@IndexModel.FormatPercent(line.MinimumWeight)-@IndexModel.FormatPercent(line.MaximumWeight)</td>
+                                <td>@IndexModel.FormatSignedPercent(line.AppliedTilt)</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <div class="notes-grid">
+                <div>
+                    <h3>Rationale</h3>
+                    @if (allocation.Reasons.Count == 0)
+                    {
+                        <p class="muted">No rationale recorded.</p>
+                    }
+                    else
+                    {
+                        <ul>
+                            @foreach (var reason in allocation.Reasons)
+                            {
+                                <li>@reason</li>
+                            }
+                        </ul>
+                    }
+                </div>
+                <div>
+                    <h3>Constraints</h3>
+                    @if (allocation.ConstraintMessages.Count == 0)
+                    {
+                        <p class="muted">No allocation constraints triggered.</p>
+                    }
+                    else
+                    {
+                        <ul>
+                            @foreach (var constraint in allocation.ConstraintMessages)
+                            {
+                                <li>@constraint</li>
+                            }
+                        </ul>
+                    }
+                </div>
+            </div>
+        </section>
+    }
+
+    <section class="content-grid">
+        <article class="panel">
+            <div class="panel-heading">
+                <h2>Warnings</h2>
+                <span>@document.Warnings.Count total</span>
+            </div>
+            @if (document.Warnings.Count == 0)
+            {
+                <p class="muted">No warnings.</p>
+            }
+            else
+            {
+                <ul>
+                    @foreach (var warning in document.Warnings)
+                    {
+                        <li>@warning</li>
+                    }
+                </ul>
+            }
+        </article>
+
+        <article class="panel">
+            <div class="panel-heading">
+                <h2>Artifacts</h2>
+                <span>@document.AsOfDate.ToString("yyyy-MM-dd")</span>
+            </div>
+            <dl class="artifact-list">
+                <dt>Run JSON</dt>
+                <dd><code>@Model.Detail!.RunRecordPath</code></dd>
+                <dt>Report markdown</dt>
+                <dd>
+                    @if (Model.Detail.ReportPath is null)
+                    {
+                        <span class="muted">No stored report found for this run.</span>
+                    }
+                    else
+                    {
+                        <code>@Model.Detail.ReportPath</code>
+                    }
+                </dd>
+            </dl>
+        </article>
+    </section>
+
+    @if (Model.Detail!.ReportMarkdown is not null)
+    {
+        <section class="panel">
+            <details>
+                <summary>Report markdown</summary>
+                <pre class="markdown-report">@Model.Detail.ReportMarkdown</pre>
+            </details>
+        </section>
+    }
+}

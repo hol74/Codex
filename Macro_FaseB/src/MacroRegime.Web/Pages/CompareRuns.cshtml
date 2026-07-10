@@ -1,0 +1,233 @@
+@page
+@model CompareRunsModel
+@{
+    ViewData["Title"] = "Compare Runs";
+    var comparison = Model.Result?.Comparison;
+}
+
+<section class="toolbar" aria-label="Compare runs">
+    <div>
+        <h1>Compare Runs</h1>
+        <p class="muted">Both runs are read from saved run JSON without re-executing the pipeline.</p>
+    </div>
+    <form method="get" class="run-form">
+        <label for="baseline">Baseline</label>
+        <input id="baseline" name="baseline" type="date" value="@Model.BaselineInput" />
+        <label for="comparison">Comparison</label>
+        <input id="comparison" name="comparison" type="date" value="@Model.ComparisonInput" />
+        <button type="submit">Compare</button>
+    </form>
+</section>
+
+@if (!string.IsNullOrWhiteSpace(Model.ErrorMessage))
+{
+    <section class="alert-panel" role="alert">
+        <strong>Comparison unavailable</strong>
+        <span>@Model.ErrorMessage</span>
+    </section>
+}
+
+@if (comparison is null)
+{
+    <section class="panel">
+        <div class="panel-heading">
+            <h2>Indexed runs</h2>
+            <span>@Model.RunHistory.Count available</span>
+        </div>
+        @if (Model.RunHistory.Count == 0)
+        {
+            <p class="empty-state">No indexed runs to compare.</p>
+        }
+        else
+        {
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>As-of</th>
+                            <th>Primary</th>
+                            <th>Operational</th>
+                            <th>Confidence</th>
+                            <th>Allocation</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var entry in Model.RunHistory)
+                        {
+                            <tr>
+                                <td>@entry.AsOfDate.ToString("yyyy-MM-dd")</td>
+                                <td>@entry.PrimaryRegime</td>
+                                <td>@entry.OperationalRegime</td>
+                                <td>@IndexModel.FormatPercent(entry.Confidence)</td>
+                                <td>@entry.AllocationSuggestion</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+    </section>
+}
+else
+{
+    <section class="summary-grid" aria-label="Comparison summary">
+        <article class="metric-panel primary">
+            <span class="label">Primary regime</span>
+            <strong>@comparison.Baseline.PrimaryRegime &rarr; @comparison.Comparison.PrimaryRegime</strong>
+            <span class="muted">@(comparison.PrimaryRegimeChanged ? "Changed" : "Unchanged")</span>
+        </article>
+        <article class="metric-panel">
+            <span class="label">Operational regime</span>
+            <strong>@comparison.Baseline.OperationalRegime &rarr; @comparison.Comparison.OperationalRegime</strong>
+            <span class="muted">@(comparison.OperationalRegimeChanged ? "Changed" : "Unchanged")</span>
+        </article>
+        <article class="metric-panel">
+            <span class="label">Confidence delta</span>
+            <strong>@IndexModel.FormatSignedPercent(comparison.ConfidenceDelta)</strong>
+            <span class="muted">@IndexModel.FormatPercent(comparison.Baseline.Confidence) &rarr; @IndexModel.FormatPercent(comparison.Comparison.Confidence)</span>
+        </article>
+        <article class="metric-panel">
+            <span class="label">Composite delta</span>
+            <strong>@CompareRunsModel.FormatSignedRatio(comparison.CompositeScoreDelta)</strong>
+            <span class="muted">@IndexModel.FormatRatio(comparison.Baseline.CompositeScore) &rarr; @IndexModel.FormatRatio(comparison.Comparison.CompositeScore)</span>
+        </article>
+    </section>
+
+    <section class="content-grid">
+        <article class="panel">
+            <div class="panel-heading">
+                <h2>Probability Deltas</h2>
+                <span>@comparison.ProbabilityDeltas.Count regimes</span>
+            </div>
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Regime</th>
+                            <th>@comparison.Baseline.AsOfDate.ToString("yyyy-MM-dd")</th>
+                            <th>@comparison.Comparison.AsOfDate.ToString("yyyy-MM-dd")</th>
+                            <th>Delta</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var delta in comparison.ProbabilityDeltas)
+                        {
+                            <tr>
+                                <td>@delta.Regime</td>
+                                <td>@CompareRunsModel.FormatOptionalPercent(delta.BaselineProbability)</td>
+                                <td>@CompareRunsModel.FormatOptionalPercent(delta.ComparisonProbability)</td>
+                                <td>@IndexModel.FormatSignedPercent(delta.Delta)</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </article>
+
+        <article class="panel">
+            <div class="panel-heading">
+                <h2>Feature Deltas</h2>
+                <span>@comparison.FeatureDeltas.Count features</span>
+            </div>
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Feature</th>
+                            <th>Baseline score</th>
+                            <th>Comparison score</th>
+                            <th>Delta</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var delta in comparison.FeatureDeltas)
+                        {
+                            <tr>
+                                <td><code>@delta.FeatureCode</code> @delta.Name</td>
+                                <td>@CompareRunsModel.FormatOptionalRatio(delta.BaselineNormalizedScore)</td>
+                                <td>@CompareRunsModel.FormatOptionalRatio(delta.ComparisonNormalizedScore)</td>
+                                <td>@CompareRunsModel.FormatSignedRatio(delta.Delta)</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </article>
+    </section>
+
+    @if (comparison.Allocation is null)
+    {
+        <section class="panel">
+            <div class="panel-heading">
+                <h2>Allocation Comparison</h2>
+            </div>
+            <p class="muted">Neither run has a stored allocation proposal (runs saved before allocation persistence).</p>
+        </section>
+    }
+    else
+    {
+        <section class="panel">
+            <div class="panel-heading">
+                <h2>Allocation Comparison</h2>
+                <span>
+                    @(comparison.Allocation.BaselineSuggestion ?? "Not recorded") &rarr; @(comparison.Allocation.ComparisonSuggestion ?? "Not recorded")
+                    &middot; Turnover delta @IndexModel.FormatSignedPercent(comparison.Allocation.TurnoverDelta)
+                </span>
+            </div>
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Asset class</th>
+                            <th>Baseline target</th>
+                            <th>Comparison target</th>
+                            <th>Delta</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var line in comparison.Allocation.LineDeltas)
+                        {
+                            <tr>
+                                <td>@line.AssetClass</td>
+                                <td>@CompareRunsModel.FormatOptionalPercent(line.BaselineTargetWeight)</td>
+                                <td>@CompareRunsModel.FormatOptionalPercent(line.ComparisonTargetWeight)</td>
+                                <td>@IndexModel.FormatSignedPercent(line.Delta)</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    }
+
+    <section class="content-grid">
+        <article class="panel">
+            <div class="panel-heading">
+                <h2>Baseline run</h2>
+                <span>@comparison.Baseline.AsOfDate.ToString("yyyy-MM-dd")</span>
+            </div>
+            <dl class="artifact-list">
+                <dt>Status</dt>
+                <dd>@comparison.Baseline.Status</dd>
+                <dt>Warnings</dt>
+                <dd>@comparison.Baseline.Warnings.Count</dd>
+                <dt>Detail</dt>
+                <dd><a class="table-action" href="/RunDetail?asOfDate=@comparison.Baseline.AsOfDate.ToString("yyyy-MM-dd")">Open stored run</a></dd>
+            </dl>
+        </article>
+        <article class="panel">
+            <div class="panel-heading">
+                <h2>Comparison run</h2>
+                <span>@comparison.Comparison.AsOfDate.ToString("yyyy-MM-dd")</span>
+            </div>
+            <dl class="artifact-list">
+                <dt>Status</dt>
+                <dd>@comparison.Comparison.Status</dd>
+                <dt>Warnings</dt>
+                <dd>@comparison.Comparison.Warnings.Count</dd>
+                <dt>Detail</dt>
+                <dd><a class="table-action" href="/RunDetail?asOfDate=@comparison.Comparison.AsOfDate.ToString("yyyy-MM-dd")">Open stored run</a></dd>
+            </dl>
+        </article>
+    </section>
+}

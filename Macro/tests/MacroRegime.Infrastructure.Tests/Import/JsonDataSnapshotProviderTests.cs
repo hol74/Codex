@@ -36,8 +36,8 @@ public sealed class JsonDataSnapshotProviderTests : IDisposable
 
         Assert.NotNull(snapshot);
         Assert.Equal(asOfDate.Value, snapshot.AsOfDate.Value);
-        Assert.True(snapshot.TryGetValue("ISM_PMI", out var pmi));
-        Assert.Equal(55m, pmi);
+        Assert.True(snapshot.TryGetValue("INDPRO_YOY", out var industrialProduction));
+        Assert.Equal(5m, industrialProduction);
         Assert.Equal(6, snapshot.MacroObservations.Count);
         Assert.Empty(snapshot.MarketObservations);
         Assert.Equal(DataSnapshotSourceKind.Imported, provider.LastSourceInfo.Kind);
@@ -68,14 +68,14 @@ public sealed class JsonDataSnapshotProviderTests : IDisposable
             {
                 new JsonMacroObservationRecord(
                     string.Empty,
-                    "ISM manufacturing PMI",
+                    "Industrial production YoY",
                     EconomicDimension.Growth.ToString(),
                     new DateOnly(2026, 6, 30),
                     asOfDate.Value,
                     asOfDate.Value,
-                    55m,
+                    5m,
                     "Fixture",
-                    "Index")
+                    "Percent change")
             }
         };
         await WriteRecordAsync(filePath, record);
@@ -187,12 +187,12 @@ public sealed class JsonDataSnapshotProviderTests : IDisposable
             asOfDate,
             new[]
             {
-                Macro("ISM_PMI", "ISM manufacturing PMI", EconomicDimension.Growth, 55m, observationDate, asOfDate),
+                Macro("INDPRO_YOY", "Industrial production YoY", EconomicDimension.Growth, 5m, observationDate, asOfDate),
                 Macro("SAHM", "Sahm rule recession indicator", EconomicDimension.Growth, 0.05m, observationDate, asOfDate),
                 Macro("T10YIE", "10-year breakeven inflation", EconomicDimension.Inflation, 2.0m, observationDate, asOfDate),
                 Macro("VIX", "CBOE volatility index", EconomicDimension.Risk, 14m, observationDate, asOfDate),
                 Macro("YC_10Y2Y", "10-year minus 2-year Treasury slope", EconomicDimension.Monetary, 0.5m, observationDate, asOfDate),
-                Macro("HY_OAS", "High-yield option-adjusted spread", EconomicDimension.Credit, 300m, observationDate, asOfDate)
+                Macro("HY_OAS", "High-yield option-adjusted spread", EconomicDimension.Credit, 3m, observationDate, asOfDate)
             },
             Array.Empty<JsonMarketObservationRecord>());
     }
@@ -214,6 +214,6 @@ public sealed class JsonDataSnapshotProviderTests : IDisposable
             publicationDate,
             value,
             "Fixture",
-            "Index");
+            code == "INDPRO_YOY" ? "Percent change" : "Index");
     }
 }

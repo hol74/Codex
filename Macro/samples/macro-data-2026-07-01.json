@@ -3,15 +3,15 @@
   "asOfDate": "2026-07-01",
   "macroObservations": [
     {
-      "seriesCode": "ISM_PMI",
-      "name": "ISM manufacturing PMI",
+      "seriesCode": "INDPRO_YOY",
+      "name": "Industrial production YoY",
       "dimension": "Growth",
       "observationDate": "2026-06-30",
       "publicationDate": "2026-07-01",
       "vintageDate": "2026-07-01",
-      "value": 55.0,
+      "value": 5.0,
       "source": "Sample",
-      "unit": "Index"
+      "unit": "Percent change"
     },
     {
       "seriesCode": "SAHM",
@@ -64,9 +64,9 @@
       "observationDate": "2026-06-30",
       "publicationDate": "2026-07-01",
       "vintageDate": "2026-07-01",
-      "value": 300.0,
+      "value": 3.0,
       "source": "Sample",
-      "unit": "Basis points"
+      "unit": "Percent"
     }
   ],
   "marketObservations": []

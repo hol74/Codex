@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <ProjectReference Include="..\MacroRegime.Application\MacroRegime.Application.csproj" />
+    <ProjectReference Include="..\MacroRegime.Domain\MacroRegime.Domain.csproj" />
+    <ProjectReference Include="..\MacroRegime.Infrastructure\MacroRegime.Infrastructure.csproj" />
+    <ProjectReference Include="..\MacroRegime.Reporting\MacroRegime.Reporting.csproj" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+</Project>

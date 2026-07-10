@@ -59,8 +59,14 @@ Le regole di dipendenza complete sono in `docs/adr/0002-dipendenze-layer.md`.
 5. Prima release informativa chiusa il 2026-07-08: build verde, 126 test superati, run riproducibile end-to-end.
 6. Fase A (consolidamento storico e confronto run) chiusa il 2026-07-09: run JSON v2 con allocation e data source, dettaglio storico letto da disco senza riesecuzione, pagina di confronto tra run, test Web dedicati; 141 test superati.
 7. Fase B (import dati e diagnostica) chiusa il 2026-07-09: report diagnostico import/config, CLI `--validate-only`, batch multi-data, pagina Web `/ImportDiagnostics`; 150 test superati.
+8. Fase C (decisione persistenza) chiusa il 2026-07-10: persistenza locale file-based formalizzata come scelta stabile per ora; database rimandato a trigger espliciti e nuova ADR.
+9. Fase D - Slice 1 (adapter FRED isolato con stub) chiusa il 2026-07-10: porta `IExternalMacroDataSource`, use case `DownloadMacroDataUseCase`, stub deterministico `FredStubMacroDataSource`, writer `JsonMacroDataFileWriter`, CLI `--download-fred` offline; ADR 0004 sull'isolamento di rete; 172 test superati.
+10. Fase D - Slice 2 (client HTTP FRED reale) chiusa il 2026-07-10: adapter `FredHttpMacroDataSource` in Infrastructure, API key da `--fred-api-key`/`FRED_API_KEY`, retry su errori transitori, CLI `--fred-source stub|http`; runtime core ancora senza rete.
+11. Fase D - Slice 3 (vintage reale e calendario release) chiusa il 2026-07-10: il downloader HTTP seleziona il vintage reale via `fred/series/vintagedates`; nuovo `FredReleaseCalendarClient` per `releases/dates` e `release/dates`; baseline FRED corretto usando `INDPRO` trasformato in `INDPRO_YOY`; rete ancora confinata in Infrastructure.
+12. Fase D - Slice 4 (provider market data esterno) chiusa il 2026-07-10: porta e use case market data, stub deterministico, writer JSON `market-data-{asOf}.json`, adapter Yahoo Finance chart endpoint isolato in Infrastructure; provider utile per uso personale/ricerca ma trattato come non ufficiale e sostituibile.
+13. Fase D - Slice 5 (dataset storico macro+market) chiusa il 2026-07-10: builder locale `HistoricalDatasetBuilder`, comando CLI `--build-historical-dataset`, merge di file macro/market locali e forward returns su orizzonti configurabili.
 
-Il dettaglio per ogni step e' in `docs/checkpoints/` (progressivi 0001-0022).
+Il dettaglio per ogni step e' in `docs/checkpoints/` (progressivi 0001-0028).
 
 ## Piano operativo da seguire
 
@@ -86,19 +92,39 @@ Checkpoint: `docs/checkpoints/0022-fase-b-import-diagnostica-done.md`.
 
 
 
-### Fase C - Decisione persistenza
+### Fase C - Decisione persistenza (COMPLETATA, 2026-07-10)
 
-1. Valutare se e quando introdurre un database locale (ADR dedicata).
-2. In caso positivo, introdurre la persistenza solo come adapter in Infrastructure, senza toccare Domain e Application.
-3. In caso negativo, formalizzare il file-based come scelta di lungo periodo.
+1. Valutare se e quando introdurre un database locale (ADR dedicata). Fatto: ADR 0003.
+2. In caso positivo, introdurre la persistenza solo come adapter in Infrastructure, senza toccare Domain e Application. Fatto: non introdotto ora.
+3. In caso negativo, formalizzare il file-based come scelta di lungo periodo. Fatto: file-based confermato come persistenza locale stabile per la prossima fase.
+
+Checkpoint: `docs/checkpoints/0023-fase-c-decisione-persistenza-done.md`.
+
+ADR: `docs/adr/0003-persistenza-locale-file-based.md`.
 
 
 
 ### Fase D - Provider dati esterni
 
-1. Adapter FRED/ALFRED dietro le porte applicative esistenti.
-2. Gestione vintage reale e calendario rilasci.
-3. Nessuna rete nel runtime core: il download resta un adapter isolato.
+1. Adapter FRED/ALFRED dietro le porte applicative esistenti. Slice 1 fatta: porta `IExternalMacroDataSource`, stub `FredStubMacroDataSource`, CLI `--download-fred`; Slice 2 fatta: client HTTP reale `FredHttpMacroDataSource` in Infrastructure e selezione CLI `--fred-source stub|http`.
+2. Gestione vintage reale e calendario rilasci. Slice 3 fatta: `series/vintagedates` per selezione vintage point-in-time e `FredReleaseCalendarClient` per calendario release.
+3. Provider market data esterno. Slice 4 fatta: porta `IExternalMarketDataSource`, stub deterministico, writer JSON `JsonMarketDataFileWriter`, CLI `--download-market-data`, adapter Yahoo isolato.
+4. Dataset storico macro+market. Slice 5 fatta: builder file-based, comando CLI `--build-historical-dataset`, forward returns 28/56/91 giorni configurabili, output `historical-dataset-{from}-{to}.json`.
+5. Nessuna rete nel runtime core: il download resta un adapter isolato. Fatto: ADR 0004, gate verificato (nessun `HttpClient` in Domain/Application/Web).
+
+Checkpoint Slice 1: `docs/checkpoints/0024-fase-d-slice1-adapter-fred-stub-done.md`.
+
+Checkpoint Slice 2: `docs/checkpoints/0025-fase-d-slice2-fred-http-done.md`.
+
+Checkpoint Slice 3: `docs/checkpoints/0026-fase-d-slice3-vintage-calendar-done.md`.
+
+Checkpoint Slice 4: `docs/checkpoints/0027-fase-d-slice4-market-data-yahoo-done.md`.
+
+Checkpoint Slice 5 / chiusura Fase D: `docs/checkpoints/0028-fase-d-complete-dataset-storico-done.md`.
+
+ADR: `docs/adr/0004-isolamento-rete-adapter-fred.md`.
+
+La Fase D e' completa per il perimetro dati esterni: adapter macro FRED/ALFRED, adapter market data, file JSON locali, dataset storico macro+market e forward returns. Restano futuri ma non bloccanti per Fase E: UI/persistenza calendario release, dataset reale ampio popolato su molti anni e indici/controlli file-based piu' evoluti.
 
 
 
@@ -135,4 +161,3 @@ Checkpoint: `docs/checkpoints/0022-fase-b-import-diagnostica-done.md`.
 - Esecuzione ordini e trading automatico.
 - Raccomandazioni non vincolate da policy.
 - Decisione allocativa automatica senza approvazione umana.
-

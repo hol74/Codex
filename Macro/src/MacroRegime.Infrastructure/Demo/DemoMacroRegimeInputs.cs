@@ -19,12 +19,12 @@ public static class DemoMacroRegimeInputs
             asOfDate,
             new[]
             {
-                Observation("ISM_PMI", "ISM manufacturing PMI", EconomicDimension.Growth, 55m, observationDate, publicationDate),
+                Observation("INDPRO_YOY", "Industrial production YoY", EconomicDimension.Growth, 5m, observationDate, publicationDate),
                 Observation("SAHM", "Sahm rule recession indicator", EconomicDimension.Growth, 0.05m, observationDate, publicationDate),
                 Observation("T10YIE", "10-year breakeven inflation", EconomicDimension.Inflation, 2.0m, observationDate, publicationDate),
                 Observation("VIX", "CBOE volatility index", EconomicDimension.Risk, 14m, observationDate, publicationDate),
                 Observation("YC_10Y2Y", "10-year minus 2-year Treasury slope", EconomicDimension.Monetary, 0.5m, observationDate, publicationDate),
-                Observation("HY_OAS", "High-yield option-adjusted spread", EconomicDimension.Credit, 300m, observationDate, publicationDate)
+                Observation("HY_OAS", "High-yield option-adjusted spread", EconomicDimension.Credit, 3m, observationDate, publicationDate)
             },
             Array.Empty<MarketObservation>());
     }
@@ -114,7 +114,7 @@ public static class DemoMacroRegimeInputs
             publicationDate.Value,
             value,
             "Demo",
-            "Index");
+            code == "INDPRO_YOY" ? "Percent change" : "Index");
     }
 
     private static FeatureDefinition Feature(string code, string name, EconomicDimension dimension, FeaturePolarity polarity)

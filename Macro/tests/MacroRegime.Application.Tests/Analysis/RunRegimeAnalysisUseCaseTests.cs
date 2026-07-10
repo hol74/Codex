@@ -183,12 +183,12 @@ public sealed class RunRegimeAnalysisUseCaseTests
             asOfDate,
             new[]
             {
-                Observation("ISM_PMI", EconomicDimension.Growth, 55m, observationDate, publicationDate),
+                Observation("INDPRO_YOY", EconomicDimension.Growth, 5m, observationDate, publicationDate),
                 Observation("SAHM", EconomicDimension.Growth, 0.05m, observationDate, publicationDate),
                 Observation("T10YIE", EconomicDimension.Inflation, 2.0m, observationDate, publicationDate),
                 Observation("VIX", EconomicDimension.Risk, 14m, observationDate, publicationDate),
                 Observation("YC_10Y2Y", EconomicDimension.Monetary, 0.5m, observationDate, publicationDate),
-                Observation("HY_OAS", EconomicDimension.Credit, 300m, observationDate, publicationDate)
+                Observation("HY_OAS", EconomicDimension.Credit, 3m, observationDate, publicationDate)
             },
             Array.Empty<MarketObservation>());
     }
@@ -209,7 +209,7 @@ public sealed class RunRegimeAnalysisUseCaseTests
             publicationDate.Value,
             value,
             "Fixture",
-            "Index");
+            code == "INDPRO_YOY" ? "Percent change" : "Index");
     }
 
     private static FeatureSetVersion CreateFeatureSetVersion()

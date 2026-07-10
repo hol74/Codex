@@ -389,7 +389,7 @@ I warnings non bloccano necessariamente il calcolo, ma possono portare a `Uncert
 
 Le formule iniziali possono recuperare l'intuizione del prototipo:
 
-- `GROWTH_MOM`: ISM PMI e Sahm Rule inversa.
+- `GROWTH_MOM`: produzione industriale YoY e Sahm Rule inversa.
 - `INFL_PRESS`: breakeven e proxy commodity.
 - `RISK_APPETITE`: VIX inverso e proxy ETF.
 - `MONETARY_COND`: curva 10Y-2Y e stance monetaria.
@@ -404,12 +404,12 @@ AsOfDate: 2026-07-01
 FeatureSetVersion: CRS Baseline v0.1
 ModelVersion: CRS Rule-Based Engine v0.1
 MacroObservations:
-  ISM_PMI = 52.0
+  INDPRO_YOY = 2.0
   SAHM = 0.22
   T10YIE = 2.2
   VIX = 16.0
   YC_10Y2Y = 0.25
-  HY_OAS = 340
+  HY_OAS = 3.4
 MarketObservations:
   VWCE_PROXY = 100
 ```

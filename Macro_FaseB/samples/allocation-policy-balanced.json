@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "name": "Balanced Local IPS",
+  "bands": [
+    {
+      "assetClass": "Cash",
+      "minimum": 0.02,
+      "strategic": 0.05,
+      "maximum": 0.20
+    },
+    {
+      "assetClass": "GlobalEquity",
+      "minimum": 0.45,
+      "strategic": 0.60,
+      "maximum": 0.75
+    },
+    {
+      "assetClass": "GovernmentBonds",
+      "minimum": 0.10,
+      "strategic": 0.25,
+      "maximum": 0.40
+    },
+    {
+      "assetClass": "Gold",
+      "minimum": 0.00,
+      "strategic": 0.10,
+      "maximum": 0.20
+    }
+  ],
+  "maximumTurnover": 0.25,
+  "maximumEstimatedCost": 0.001
+}
