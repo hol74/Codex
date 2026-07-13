@@ -32,6 +32,16 @@ internal static class MacroRegimeCli
             }
 
             var outputDirectory = Path.GetFullPath(options.OutputDirectory);
+            if (options.EvaluateHistoricalBaseline)
+            {
+                return await RunEvaluateHistoricalBaselineAsync(options, outputDirectory).ConfigureAwait(false);
+            }
+
+            if (options.PopulateHistoricalData)
+            {
+                return await RunPopulateHistoricalDataAsync(options, outputDirectory).ConfigureAwait(false);
+            }
+
             if (options.BuildHistoricalDataset)
             {
                 return await RunBuildHistoricalDatasetAsync(options, outputDirectory).ConfigureAwait(false);
@@ -135,6 +145,68 @@ internal static class MacroRegimeCli
         catch (Exception exception) when (exception is IOException or InvalidDataException or UnauthorizedAccessException or ArgumentException)
         {
             Console.Error.WriteLine($"Macro-Regime historical dataset build failed: {exception.Message}");
+            return 2;
+        }
+    }
+
+    private static async Task<int> RunEvaluateHistoricalBaselineAsync(CliOptions options, string outputDirectory)
+    {
+        var evaluator = new HistoricalBaselineEvaluator(
+            new BaselineRegimeDetector(),
+            DemoMacroRegimeInputs.CreateFeatureSetVersion(),
+            DemoMacroRegimeInputs.CreateModelVersion());
+        try
+        {
+            var result = await evaluator.EvaluateAsync(new EvaluateHistoricalBaselineCommand(
+                Path.GetFullPath(options.HistoricalDatasetFilePath!),
+                outputDirectory)).ConfigureAwait(false);
+            Console.WriteLine("Macro-Regime historical baseline evaluation completed.");
+            Console.WriteLine($"Rows: {result.RowCount}");
+            Console.WriteLine($"Dataset SHA-256: {result.DatasetSha256}");
+            Console.WriteLine($"Baseline evaluation file: {result.OutputPath}");
+            return 0;
+        }
+        catch (Exception exception) when (exception is IOException or InvalidDataException or UnauthorizedAccessException or ArgumentException)
+        {
+            Console.Error.WriteLine($"Macro-Regime historical baseline evaluation failed: {exception.Message}");
+            return 2;
+        }
+    }
+
+    private static async Task<int> RunPopulateHistoricalDataAsync(CliOptions options, string outputDirectory)
+    {
+        var apiKey = string.IsNullOrWhiteSpace(options.FredApiKey) ? ResolveFredApiKey() : options.FredApiKey;
+        if (string.IsNullOrWhiteSpace(apiKey))
+        {
+            throw new CliUsageException("--populate-historical-data requires --fred-api-key, FRED_API_KEY, or FRED_API_KEY in .env.");
+        }
+
+        var manifestPath = string.IsNullOrWhiteSpace(options.CorpusManifestPath)
+            ? Path.Combine(outputDirectory, "historical-data-corpus-manifest.json")
+            : Path.GetFullPath(options.CorpusManifestPath);
+        var populator = new HistoricalDataPopulator(
+            new FredHistoricalDataClient(new HttpClient(), new FredHistoricalDataClientOptions(apiKey)),
+            new YahooHistoricalMarketDataClient(new HttpClient(), new YahooHistoricalMarketDataClientOptions()));
+        try
+        {
+            var result = await populator.PopulateAsync(new PopulateHistoricalDataCommand(
+                options.DatasetFrom!.Value,
+                options.DatasetTo!.Value,
+                Path.GetFullPath(options.MacroDataDirectory!),
+                Path.GetFullPath(options.MarketDataDirectory!),
+                manifestPath,
+                options.ForwardReturnHorizonsDays.Max())).ConfigureAwait(false);
+            Console.WriteLine("Macro-Regime historical real-data population completed.");
+            Console.WriteLine($"First monthly sample: {result.FirstSampleDate:yyyy-MM-dd}");
+            Console.WriteLine($"Last monthly sample: {result.LastSampleDate:yyyy-MM-dd}");
+            Console.WriteLine($"Macro snapshots: {result.MacroSnapshotCount}");
+            Console.WriteLine($"Market snapshots: {result.MarketSnapshotCount}");
+            Console.WriteLine($"Corpus manifest: {result.ManifestPath}");
+            return 0;
+        }
+        catch (Exception exception) when (exception is IOException or InvalidDataException or UnauthorizedAccessException or ArgumentException or KeyNotFoundException or HttpRequestException or TaskCanceledException)
+        {
+            Console.Error.WriteLine($"Macro-Regime historical real-data population failed: {exception.Message}");
             return 2;
         }
     }
@@ -462,12 +534,16 @@ internal sealed record CliOptions(
     string? FredApiKey,
     bool DownloadMarketData,
     string MarketSource,
+    bool PopulateHistoricalData,
+    string? CorpusManifestPath,
     bool BuildHistoricalDataset,
     DateOnly? DatasetFrom,
     DateOnly? DatasetTo,
     string? MacroDataDirectory,
     string? MarketDataDirectory,
     IReadOnlyList<int> ForwardReturnHorizonsDays,
+    bool EvaluateHistoricalBaseline,
+    string? HistoricalDatasetFilePath,
     bool ShowHelp)
 {
     public const string HelpText = """
@@ -478,7 +554,9 @@ Usage:
   dotnet run --project src/MacroRegime.Cli -- --batch-from yyyy-MM-dd --batch-to yyyy-MM-dd [--data-dir path] [--portfolio-dir path] [other config options]
   dotnet run --project src/MacroRegime.Cli -- --download-fred --as-of yyyy-MM-dd [--fred-source stub|http] [--fred-api-key key] [--output-dir path]
   dotnet run --project src/MacroRegime.Cli -- --download-market-data --as-of yyyy-MM-dd [--market-source stub|yahoo] [--output-dir path]
+  dotnet run --project src/MacroRegime.Cli -- --populate-historical-data --dataset-from yyyy-MM-dd --dataset-to yyyy-MM-dd --macro-data-dir path --market-data-dir path [--fred-api-key key] [--corpus-manifest path] [--forward-return-days 28,56,91] [--output-dir path]
   dotnet run --project src/MacroRegime.Cli -- --build-historical-dataset --dataset-from yyyy-MM-dd --dataset-to yyyy-MM-dd --macro-data-dir path --market-data-dir path [--forward-return-days 28,56,91] [--output-dir path]
+  dotnet run --project src/MacroRegime.Cli -- --evaluate-historical-baseline --dataset-file path [--output-dir path]
 
 Options:
   --as-of yyyy-MM-dd             Required analysis date.
@@ -503,12 +581,16 @@ Options:
   --fred-api-key key             API key for --fred-source http. Fallback: FRED_API_KEY environment variable, then .env.
   --download-market-data         Download market data for --as-of and write market-data-yyyy-MM-dd.json in --output-dir. No analysis pipeline runs.
   --market-source stub|yahoo     Market data downloader implementation. Default: stub. Yahoo uses an unofficial chart endpoint.
+  --populate-historical-data    Bulk-download real FRED initial releases and Yahoo daily history; write monthly macro and daily market snapshots.
+  --corpus-manifest path        Optional aggregate manifest for populated source files. Default: output-dir/historical-data-corpus-manifest.json.
   --build-historical-dataset     Build historical-dataset-from-to.json from local macro-data and market-data files.
   --dataset-from yyyy-MM-dd      First as-of date for historical dataset build.
   --dataset-to yyyy-MM-dd        Last as-of date for historical dataset build.
   --macro-data-dir path          Directory containing macro-data-yyyy-MM-dd.json files.
   --market-data-dir path         Directory containing market-data-yyyy-MM-dd.json files.
   --forward-return-days list     Comma-separated forward return horizons in calendar days. Default: 28,56,91.
+  --evaluate-historical-baseline Run the authoritative rule-based baseline on every historical dataset row.
+  --dataset-file path            Historical dataset used by baseline evaluation.
   --help                         Show help.
 """;
 
@@ -541,10 +623,14 @@ Options:
                 "stub",
                 false,
                 null,
+                false,
+                null,
                 null,
                 null,
                 null,
                 new[] { 28, 56, 91 },
+                false,
+                null,
                 true);
         }
 
@@ -569,7 +655,11 @@ Options:
         string? fredApiKey = null;
         var downloadMarketData = false;
         var marketSource = "stub";
+        var populateHistoricalData = false;
+        string? corpusManifestPath = null;
         var buildHistoricalDataset = false;
+        var evaluateHistoricalBaseline = false;
+        string? historicalDatasetFilePath = null;
         DateOnly? datasetFrom = null;
         DateOnly? datasetTo = null;
         string? macroDataDirectory = null;
@@ -648,8 +738,20 @@ Options:
                 case "--market-source":
                     marketSource = NextValue(args, ref index, "--market-source");
                     break;
+                case "--populate-historical-data":
+                    populateHistoricalData = true;
+                    break;
+                case "--corpus-manifest":
+                    corpusManifestPath = NextValue(args, ref index, "--corpus-manifest");
+                    break;
                 case "--build-historical-dataset":
                     buildHistoricalDataset = true;
+                    break;
+                case "--evaluate-historical-baseline":
+                    evaluateHistoricalBaseline = true;
+                    break;
+                case "--dataset-file":
+                    historicalDatasetFilePath = NextValue(args, ref index, "--dataset-file");
                     break;
                 case "--dataset-from":
                     datasetFrom = ParseDate(NextValue(args, ref index, "--dataset-from"), "--dataset-from");
@@ -671,7 +773,7 @@ Options:
             }
         }
 
-        if (asOfDate is null && (batchFrom is null || batchTo is null) && !buildHistoricalDataset)
+        if (asOfDate is null && (batchFrom is null || batchTo is null) && !buildHistoricalDataset && !populateHistoricalData && !evaluateHistoricalBaseline)
         {
             throw new CliUsageException("--as-of is required unless --batch-from and --batch-to are provided.");
         }
@@ -691,16 +793,27 @@ Options:
             throw new CliUsageException("--download-fred and --download-market-data are separate offline commands; run one at a time.");
         }
 
-        if (buildHistoricalDataset && (downloadFred || downloadMarketData || validateOnly || batchFrom is not null || batchTo is not null))
+        if ((buildHistoricalDataset || populateHistoricalData || evaluateHistoricalBaseline)
+            && (downloadFred || downloadMarketData || validateOnly || batchFrom is not null || batchTo is not null))
         {
-            throw new CliUsageException("--build-historical-dataset is a separate offline command; run it on its own.");
+            throw new CliUsageException("Historical population/build/evaluation is a separate offline command; run it on its own.");
         }
 
-        if (buildHistoricalDataset)
+        if (evaluateHistoricalBaseline && (buildHistoricalDataset || populateHistoricalData))
+        {
+            throw new CliUsageException("Historical baseline evaluation must run separately from population/build.");
+        }
+
+        if (evaluateHistoricalBaseline && string.IsNullOrWhiteSpace(historicalDatasetFilePath))
+        {
+            throw new CliUsageException("--evaluate-historical-baseline requires --dataset-file.");
+        }
+
+        if (buildHistoricalDataset || populateHistoricalData)
         {
             if (datasetFrom is null || datasetTo is null)
             {
-                throw new CliUsageException("--build-historical-dataset requires --dataset-from and --dataset-to.");
+                throw new CliUsageException("Historical population/build requires --dataset-from and --dataset-to.");
             }
 
             if (datasetFrom.Value > datasetTo.Value)
@@ -710,12 +823,12 @@ Options:
 
             if (string.IsNullOrWhiteSpace(macroDataDirectory))
             {
-                throw new CliUsageException("--build-historical-dataset requires --macro-data-dir.");
+                throw new CliUsageException("Historical population/build requires --macro-data-dir.");
             }
 
             if (string.IsNullOrWhiteSpace(marketDataDirectory))
             {
-                throw new CliUsageException("--build-historical-dataset requires --market-data-dir.");
+                throw new CliUsageException("Historical population/build requires --market-data-dir.");
             }
         }
 
@@ -742,7 +855,7 @@ Options:
         }
 
         return new CliOptions(
-            asOfDate ?? batchFrom ?? datasetFrom!.Value,
+            asOfDate ?? batchFrom ?? datasetFrom ?? DateOnly.MinValue,
             dataFilePath,
             modelFilePath,
             featureSetFilePath,
@@ -764,12 +877,16 @@ Options:
             fredApiKey,
             downloadMarketData,
             marketSource.ToLowerInvariant(),
+            populateHistoricalData,
+            corpusManifestPath,
             buildHistoricalDataset,
             datasetFrom,
             datasetTo,
             macroDataDirectory,
             marketDataDirectory,
             forwardReturnHorizonsDays,
+            evaluateHistoricalBaseline,
+            historicalDatasetFilePath,
             false);
     }
 

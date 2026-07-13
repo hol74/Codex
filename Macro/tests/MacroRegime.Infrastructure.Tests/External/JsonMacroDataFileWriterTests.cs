@@ -85,6 +85,23 @@ public sealed class JsonMacroDataFileWriterTests : IDisposable
         Assert.Empty(snapshot.MarketObservations);
     }
 
+    [Fact]
+    public async Task WriteAsync_LabelsHistoricalCreditSpreadProxy()
+    {
+        var writer = new JsonMacroDataFileWriter();
+        var outDir = Path.Combine(directoryPath, "out");
+        var observations = new[]
+        {
+            new FredObservation("BAA10Y", "HY_OAS", new DateOnly(2008, 4, 30), new DateOnly(2008, 4, 30), new DateOnly(2008, 4, 30), 3.25m, "Percent"),
+        };
+
+        var path = await writer.WriteAsync(observations, new AsOfDate(new DateOnly(2008, 4, 30)), outDir);
+        var json = await File.ReadAllTextAsync(path);
+
+        Assert.Contains("Baa corporate minus 10-year Treasury credit-spread proxy", json);
+        Assert.Contains("\"source\": \"FRED:BAA10Y\"", json);
+    }
+
     public void Dispose()
     {
         if (Directory.Exists(directoryPath))

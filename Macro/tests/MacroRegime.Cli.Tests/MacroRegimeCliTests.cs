@@ -386,6 +386,39 @@ public sealed class MacroRegimeCliTests : IDisposable
         Assert.Equal(1, exitCode);
     }
 
+    [Fact]
+    public async Task RunAsync_EvaluateHistoricalBaseline_WritesEvaluation()
+    {
+        var macroDirectory = Path.Combine(directoryPath, "baseline-macro");
+        var marketDirectory = Path.Combine(directoryPath, "baseline-market");
+        var datasetDirectory = Path.Combine(directoryPath, "baseline-dataset");
+        var outputDirectory = Path.Combine(directoryPath, "baseline-output");
+        Directory.CreateDirectory(macroDirectory);
+        Directory.CreateDirectory(marketDirectory);
+        await File.WriteAllTextAsync(Path.Combine(macroDirectory, "macro-data-2026-07-01.json"), SampleMacroDataJson("2026-07-01"));
+        await File.WriteAllTextAsync(Path.Combine(marketDirectory, "market-data-2026-07-01.json"), SampleMarketDataJson("2026-07-01", 100m));
+        var buildExitCode = await global::MacroRegimeCli.RunAsync(new[]
+        {
+            "--build-historical-dataset", "--dataset-from", "2026-07-01", "--dataset-to", "2026-07-01",
+            "--macro-data-dir", macroDirectory, "--market-data-dir", marketDirectory, "--output-dir", datasetDirectory,
+        });
+
+        var exitCode = await global::MacroRegimeCli.RunAsync(new[]
+        {
+            "--evaluate-historical-baseline",
+            "--dataset-file", Path.Combine(datasetDirectory, "historical-dataset-2026-07-01-2026-07-01.json"),
+            "--output-dir", outputDirectory,
+        });
+
+        Assert.Equal(0, buildExitCode);
+        Assert.Equal(0, exitCode);
+        var evaluationPath = Path.Combine(outputDirectory, "baseline-evaluation-2026-07-01-2026-07-01.json");
+        Assert.True(File.Exists(evaluationPath));
+        var evaluation = await File.ReadAllTextAsync(evaluationPath);
+        Assert.Contains("\"modelName\": \"CRS Rule-Based Engine\"", evaluation);
+        Assert.Contains("\"asOfDate\": \"2026-07-01\"", evaluation);
+    }
+
     public void Dispose()
     {
         if (Directory.Exists(directoryPath))

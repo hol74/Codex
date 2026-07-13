@@ -1,14 +1,14 @@
 # Macro-Regime Engine - Riepilogo del lavoro svolto
 
-Data: 2026-07-09
+Data: 2026-07-13
 
 ## Scopo
 
-Questo documento riassume in ordine cronologico tutto il lavoro svolto sul progetto Macro-Regime Engine, dalla ricerca iniziale alla chiusura della prima release informativa (2026-07-08), alla Fase A di consolidamento, alla Fase B su import dati e diagnostica (2026-07-09), alla Fase C sulla decisione di persistenza locale e alla Fase D - Slice 1/2/3/4/5 sugli adapter FRED, market data esterni e dataset storico macro+market (2026-07-10). Il dettaglio di ogni passaggio e' nei documenti citati.
+Questo documento riassume in ordine cronologico tutto il lavoro svolto sul progetto Macro-Regime Engine, dalla ricerca iniziale alla chiusura della prima release informativa (2026-07-08), alle Fasi A-D e all'avvio della Fase E con il research data gate Python (2026-07-13). Il dettaglio di ogni passaggio e' nei documenti citati.
 
 ## Stato attuale in una frase
 
-La prima release informativa e' completa e consolidata dalle Fasi A, B, C e D-Slice1/2/3/4/5: il sistema calcola una baseline rule-based, produce probabilita' di regime con driver e segnali contrari, genera una proposta allocativa vincolata, salva run complete (regime + allocation + data source) in JSON file-based, indicizza lo storico locale, permette di consultare e confrontare le run salvate senza rieseguire la pipeline, valida import/config con report markdown, supporta batch multi-data locale, scarica dati macro FRED con stub deterministico o client HTTP reale selezionabile da CLI usando vintage reale, dispone di un client calendario release in Infrastructure, scarica market data via stub o adapter Yahoo isolato, produce file leggibili dal runtime esistente, costruisce un dataset storico macro+market con forward returns, ed e' consultabile via CLI e Web UI read-only coperta da test. La persistenza locale file-based e' una scelta architetturale formalizzata da ADR 0003; l'isolamento di rete e' formalizzato da ADR 0004. Nessun database, nessuna rete nel runtime core.
+La prima release informativa e le Fasi A-D sono complete. La Fase E dispone ora di un research lab Python separato, dataset reale 2008-2025 validato e baseline rule-based misurata su sei fold walk-forward rolling 10/2/1. Il runtime C# resta autorevole per detector e proposte allocative; Python valida e aggrega gli artefatti senza duplicare le regole. Nessun database e nessuna rete nel runtime core; nessun challenger e' ancora implementato o promosso.
 
 ## Cronologia del lavoro
 
@@ -167,10 +167,51 @@ Checkpoint: `docs/checkpoints/0028-fase-d-complete-dataset-storico-done.md`.
 - Il calcolo usa la prima data market disponibile uguale o successiva al target dell'orizzonte, cosi' gestisce weekend/festivi quando il dataset contiene solo giorni di mercato.
 - Output `historical-dataset-{from}-{to}.json`, artefatto preparatorio per Fase E.
 
-## Verifiche allo stato attuale (dopo Fasi B, C e D-Slice1/2)
+### 15. Fase E - Slice 1 - Research data gate (2026-07-13)
+
+Checkpoint: `docs/checkpoints/0029-fase-e-slice1-research-data-gate-done.md`.
+
+- Creata la struttura `research/regime-eval/`, isolata dalla solution e dal runtime C#.
+- Scritto il protocollo di valutazione con dataset gate, controlli anti-leakage, walk-forward rolling 10 anni train / 2 anni test / step 1 anno e Model Gate umano.
+- Implementato un loader/validatore standard-library per `historical-dataset` schema v1.
+- Verificate observation, publication e availability date as-of; verificata la coerenza matematica e temporale dei forward returns.
+- Implementato manifest deterministico con SHA-256, dimensione file, copertura, date mancanti, simboli e orizzonti.
+- Implementato planner dei fold walk-forward; meno di 12 anni di copertura non produce fold completi.
+- Aggiunta CLI Python per `validate`, `manifest` e `plan-walk-forward`.
+- Aggiunti 6 test Python senza dipendenze esterne.
+- Dataset reale pluriennale, challenger e metriche composite restano nelle slice successive.
+
+### 16. Fase E - Slice 2 - Dataset reale pluriennale (2026-07-13)
+
+Checkpoint: `docs/checkpoints/0030-fase-e-slice2-dataset-reale-pluriennale-done.md`.
+
+- Aggiunti client bulk storici `FredHistoricalDataClient` e `YahooHistoricalMarketDataClient`, confinati in Infrastructure.
+- Aggiunto `HistoricalDataPopulator` e comando CLI `--populate-historical-data` con manifest SHA-256 del corpus.
+- Popolato localmente il corpus reale 2008-04-01 / 2025-12-31: 213 snapshot macro mensili e 4.536 snapshot market completi.
+- Costruito dataset schema v1 con 213 righe, 3.834 forward return a 28/56/91 giorni e 6 simboli market.
+- Superato il data gate point-in-time; manifest dataset SHA-256 `3cac7d9b290b149f6529fea80e326ff83f8e44abaf907eb91fb4a368099a288a`.
+- Generato piano walk-forward rolling 10/2/1 con 6 fold completi.
+- Le revisionabili mensili usano initial release ALFRED; `INDPRO_YOY` e `SAHM` sono ricostruiti point-in-time.
+- Da aprile 2026 FRED limita `BAMLH0A0HYM2` a tre anni: per la storia lunga `HY_OAS` usa il proxy `BAA10Y`, esplicitamente marcato come `FRED:BAA10Y` nel dataset e nel manifest.
+- Il validatore Python accetta il contratto macro .NET `vintageDate` oltre ad `availabilityDate`; il planner puo' ora scrivere un artefatto JSON tramite `--output`.
+
+### 17. Fase E - Slice 3 - Baseline walk-forward (2026-07-13)
+
+Checkpoint: `docs/checkpoints/0031-fase-e-slice3-baseline-walk-forward-done.md`.
+
+- Aggiunto `HistoricalBaselineEvaluator`: legge il dataset schema v1, esegue il `BaselineRegimeDetector` autorevole e salva probabilita', feature, confidence, stato e warning per tutte le 213 date.
+- Aggiunto comando CLI `--evaluate-historical-baseline --dataset-file`.
+- Aggiunto comando Python `baseline-report`, con verifica degli hash di dataset/evaluation/piano e aggregazione deterministica sui fold.
+- Metriche: confidence, soglia di conferma, quota `UncertainTransition`, transizioni operative, distribuzione regimi e rendimenti forward descrittivi per asset/orizzonte/regime.
+- Aggregato sulle 84 date test uniche 2018-04-30 / 2025-03-31: confidence media 0,5417; `UncertainTransition` 57,14%; transition rate 10,84%; nessuna feature mancante.
+- Primary regime aggregato: `Goldilocks` 79/84 e `DeflationBust` 5/84; regime operativo: `Goldilocks` 31, `DeflationBust` 5, `UncertainTransition` 48.
+- Gli ultimi due fold risultano `UncertainTransition` al 100%, segnale di scarsa capacità discriminante o soglia/configurazione non calibrata da investigare, non da ottimizzare sul test.
+- Accuracy non calcolata: manca una ground truth NBER/crisi versionata. La baseline `0.1-demo`, efficace dal 2026-07-01, e' applicata retrospettivamente e non rappresenta performance live ex-ante.
+
+## Verifiche allo stato attuale
 
 - `dotnet build MacroRegime.slnx`: build superata, 0 warning, 0 errori.
-- `dotnet test MacroRegime.slnx`: 150 test superati, 0 falliti (Domain 79, Application 24, Infrastructure 32, Reporting 2, CLI 7, Web 6).
+- `dotnet test MacroRegime.slnx --no-restore --no-build`: 216 test superati, 0 falliti (Domain 80, Application 30, Infrastructure 81, Reporting 2, CLI 17, Web 6).
 - Smoke CLI validate-only: report markdown generato con `OK: 6` e `Errors: 0`.
 - Smoke CLI batch: due run generate per `2026-07-01` e `2026-07-02`, manifest popolato.
 - Smoke Web: `/ImportDiagnostics?asOfDate=2026-07-01` risponde 200 e mostra `Import Validation Report`, `Macro data`, `Current portfolio`, `OK:`.
@@ -189,6 +230,9 @@ Checkpoint: `docs/checkpoints/0028-fase-d-complete-dataset-storico-done.md`.
 - Gate Fase D - Slice 4: nessun `HttpClient`/`System.Net.Http` nei sorgenti `.cs` di Domain/Application/Web; `HttpClient` presente solo in adapter Infrastructure.
 - Fase D - Slice 5: `dotnet build MacroRegime.slnx --no-restore` 0 errori/0 warning; `dotnet test MacroRegime.slnx --no-restore` 211 test superati (Domain 80, Application 30, Infrastructure 76, Reporting 2, CLI 17, Web 6).
 - Smoke dataset Slice 5: macro stub 6 osservazioni, market stub as-of/futuro 6+6 osservazioni, dataset storico 1 riga e 6 forward returns.
+- Fase E - Slice 1: `python -m unittest discover -s tests -v` superato, 6 test Python; `python -m compileall -q regime_eval tests` superato.
+- Fase E - Slice 2: build 0 warning/0 errori; 216 test C# superati (Domain 80, Application 30, Infrastructure 81, Reporting 2, CLI 17, Web 6); 7 test Python superati; corpus e dataset reali validati; nessuna rete nei sorgenti Domain/Application/Web.
+- Fase E - Slice 3: build 0 warning/0 errori; 218 test C# superati (Domain 80, Application 30, Infrastructure 82, Reporting 2, CLI 18, Web 6); 8 test Python superati; evaluation e report baseline reali generati.
 
 ## Deviazione documentata dal piano originario
 
@@ -197,24 +241,27 @@ Il piano originario prevedeva una prima persistenza anche in chiave EF Core. Dop
 ## Cosa resta fuori (non ancora fatto)
 
 - UI/persistenza calendario release.
-- Dataset reale ampio popolato su molti anni.
-- Indici/manifest dedicati per dataset storici grandi.
+- Indice operativo incrementale per corpus storici grandi; il manifest deterministico e' disponibile.
 - Database ed EF Core, non introdotti per scelta architetturale esplicita in ADR 0003.
-- Dataset macro storico reale ampio.
-- Backtesting, walk-forward, stress test.
-- HMM, clustering, Markov switching, jump model e research lab Python.
+- Tilt simulation con costi/turnover e stress test; la baseline descrittiva sui fold e' disponibile.
+- Ground truth esterna versionata NBER/crisi e metriche di regime accuracy.
+- HMM, clustering, Markov switching e jump model; il research lab Python e il data gate sono disponibili.
 - Autenticazione, upload file, editing configurazione da UI.
 - Fiscalita' reale dettagliata, esecuzione ordini, trading automatico.
 
 ## Rischi residui noti
 
-- I sample locali non rappresentano ancora un dataset macro storico reale.
+- Le serie FRED finanziarie giornaliere del corpus storico usano la storia corrente, non vintage, e possono incorporare correzioni retrospettive.
+- `BAA10Y` e' un proxy credit-spread long-history, non un sostituto semanticamente identico dell'high-yield OAS.
+- Yahoo Finance e' un endpoint pragmatico non ufficiale e sostituibile; il corpus locale deve restare manifestato e riproducibile.
+- La baseline corrente classifica il 57,14% delle date test uniche come `UncertainTransition` e il primary regime e' `Goldilocks` in 79 casi su 84: la capacita' discriminante va verificata prima del Model Gate.
+- La baseline `0.1-demo` e' efficace dal 2026 e il backtest 2008-2025 e' retrospettivo, non una ricostruzione di segnali storicamente operativi.
 - La diagnostica import/config e' formalizzata come report markdown, ma non ha ancora export JSON dedicato o visualizzazione grafica avanzata.
 - Le run salvate prima della Fase A (schema v1) non contengono allocation e data source: restano leggibili, ma il confronto allocativo su quelle date non e' disponibile finche' la run non viene rieseguita.
 
 ## Prossimi passi
 
-I prossimi passi sono definiti nel piano operativo consolidato: `docs/0001-piano-operativo.md`. Le Fasi A, B, C e D-Slice1/2/3/4/5 sono completate; la prossima direzione naturale e' Fase E research lab, usando il dataset storico macro+market generato dalla Fase D, mantenendo Domain/Application/Web runtime isolati dalla rete.
+I prossimi passi sono definiti nel piano operativo consolidato: `docs/0001-piano-operativo.md`. Dopo la Slice E3, la priorita' e' versionare la ground truth NBER/cronologia crisi e poi introdurre il primo challenger con model card contro la baseline misurata. Calendario release persistito, indici incrementali per corpus grandi e stress test restano tracciati e non vanno nascosti nei report intermedi.
 
 ## Riorganizzazione documentale (2026-07-09)
 

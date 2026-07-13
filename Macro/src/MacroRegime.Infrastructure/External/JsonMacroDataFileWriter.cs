@@ -34,15 +34,17 @@ public sealed class JsonMacroDataFileWriter : IMacroDataFileWriter
     private static JsonMacroObservationRecord MapMacro(FredObservation observation)
     {
         var meta = FredSeriesCatalog.Resolve(observation.SeriesCode);
+        var isHistoricalProxy = !string.Equals(observation.SeriesId, meta.FredSeriesId, StringComparison.OrdinalIgnoreCase)
+            && string.Equals(observation.SeriesCode, "HY_OAS", StringComparison.OrdinalIgnoreCase);
         return new JsonMacroObservationRecord(
             observation.SeriesCode,
-            meta.Name,
+            isHistoricalProxy ? "Baa corporate minus 10-year Treasury credit-spread proxy" : meta.Name,
             meta.Dimension,
             observation.ObservationDate,
             observation.PublicationDate,
             observation.VintageDate,
             observation.Value,
-            "FRED",
+            isHistoricalProxy ? $"FRED:{observation.SeriesId}" : "FRED",
             observation.Unit);
     }
 }

@@ -1,6 +1,6 @@
 # Macro-Regime Engine - Piano operativo completo
 
-Data: 2026-07-09
+Data: 2026-07-13
 
 ## Scopo
 
@@ -44,7 +44,7 @@ src/
   MacroRegime.Cli/             esecuzione end-to-end locale
   MacroRegime.Web/             dashboard read-only
 tests/                         un progetto test per layer
-research/regime-eval/          (futuro) research lab Python
+research/regime-eval/          research lab Python isolato dal runtime
 docs/                          documentazione organizzata per categoria
 ```
 
@@ -65,8 +65,11 @@ Le regole di dipendenza complete sono in `docs/adr/0002-dipendenze-layer.md`.
 11. Fase D - Slice 3 (vintage reale e calendario release) chiusa il 2026-07-10: il downloader HTTP seleziona il vintage reale via `fred/series/vintagedates`; nuovo `FredReleaseCalendarClient` per `releases/dates` e `release/dates`; baseline FRED corretto usando `INDPRO` trasformato in `INDPRO_YOY`; rete ancora confinata in Infrastructure.
 12. Fase D - Slice 4 (provider market data esterno) chiusa il 2026-07-10: porta e use case market data, stub deterministico, writer JSON `market-data-{asOf}.json`, adapter Yahoo Finance chart endpoint isolato in Infrastructure; provider utile per uso personale/ricerca ma trattato come non ufficiale e sostituibile.
 13. Fase D - Slice 5 (dataset storico macro+market) chiusa il 2026-07-10: builder locale `HistoricalDatasetBuilder`, comando CLI `--build-historical-dataset`, merge di file macro/market locali e forward returns su orizzonti configurabili.
+14. Fase E - Slice 1 (research data gate) chiusa il 2026-07-13: creato `research/regime-eval/`, protocollo anti-leakage, validatore del dataset storico, manifest riproducibile SHA-256 e planner walk-forward rolling 10/2/1; 6 test Python superati.
+15. Fase E - Slice 2 (dataset reale pluriennale) chiusa il 2026-07-13: popolatore bulk FRED/ALFRED e Yahoo, corpus mensile 2008-2025, manifest del corpus e del dataset, 213 righe validate e 6 fold walk-forward completi.
+16. Fase E - Slice 3 (baseline walk-forward) chiusa il 2026-07-13: evaluator C# della baseline autorevole, report Python deterministico sui sei fold, metriche di confidenza/stabilita' e rendimenti forward condizionati; nessuna accuracy senza ground truth versionata.
 
-Il dettaglio per ogni step e' in `docs/checkpoints/` (progressivi 0001-0028).
+Il dettaglio per ogni step e' in `docs/checkpoints/` (progressivi 0001-0031).
 
 ## Piano operativo da seguire
 
@@ -128,13 +131,33 @@ La Fase D e' completa per il perimetro dati esterni: adapter macro FRED/ALFRED, 
 
 
 
-### Fase E - Research lab e modelli challenger
+### Fase E - Research lab e modelli challenger (IN CORSO, 2026-07-13)
 
-1. Creare `research/regime-eval/` con protocollo di valutazione (Python; il runtime resta C#).
-2. Walk-forward obbligatorio: train 10 anni, test 2 anni, avanzamento 1 anno; nessuna selezione iperparametri sul test.
+1. Creare `research/regime-eval/` con protocollo di valutazione (Python; il runtime resta C#). Fatto nella Slice 1: laboratorio standard-library, protocollo, CLI e test isolati.
+2. Walk-forward obbligatorio: train 10 anni, test 2 anni, avanzamento 1 anno; nessuna selezione iperparametri sul test. Fatto nella Slice 1 per la pianificazione rolling e il gate di copertura; esecuzione dei modelli ancora da implementare.
+   Gate di copertura superato nella Slice 2: dataset reale 2008-2025 con 6 fold completi; l'esecuzione dei modelli resta da implementare.
+   Baseline eseguita nella Slice 3: 213 predizioni e report sui 6 fold; essendo il modello corrente efficace dal 2026, il risultato e' un benchmark retrospettivo e non una performance live ex-ante.
 3. Challenger: HMM, Markov switching, clustering, jump model; sempre confrontati con la baseline rule-based.
 4. Metriche composite: regime accuracy vs NBER, asset alignment 4-13 settimane, tilt simulation, penalita' asimmetrica sui falsi negativi in Stagflazione e Deflation/Bust.
 5. Promozione di un challenger solo tramite Model Gate con model card.
+
+Gate dati introdotto nella Slice 1:
+
+- validazione schema e coerenza dei forward returns;
+- controlli point-in-time su observation/publication/availability date;
+- manifest con hash, dimensione, copertura, simboli e orizzonti;
+- nessun fold completo se il dataset copre meno di 12 anni;
+- sample demo esclusi da qualunque Model Gate.
+
+La Slice 2 ha popolato e manifestato il dataset reale pluriennale: 213 snapshot macro mensili, 4.536 snapshot market giornalieri, 3.834 forward return e 6 fold rolling. Il corpus locale e' sotto `data/historical-real-2008-2025/` ed e' escluso da Git; gli artefatti sono identificati da SHA-256.
+
+Restano prioritari per le prossime slice: ground truth NBER/cronologia crisi versionata, primo challenger con model card e confronto con la baseline, indice operativo incrementale per corpus grandi, integrazione persistita del calendario release e stress test successivi.
+
+Checkpoint Slice 1: `docs/checkpoints/0029-fase-e-slice1-research-data-gate-done.md`.
+
+Checkpoint Slice 2: `docs/checkpoints/0030-fase-e-slice2-dataset-reale-pluriennale-done.md`.
+
+Checkpoint Slice 3: `docs/checkpoints/0031-fase-e-slice3-baseline-walk-forward-done.md`.
 
 
 
