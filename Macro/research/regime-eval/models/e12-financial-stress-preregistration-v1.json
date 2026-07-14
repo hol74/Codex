@@ -1,0 +1,38 @@
+{
+  "artifactType": "E12FinancialStressPreregistration",
+  "candidate": {
+    "fileName": "event-aware-financial-stress-v1.json",
+    "sha256": "5da979a17fb7a346752a8b35698b45b5da222a0290f44055b46da73519e50ab7",
+    "sizeBytes": 2091
+  },
+  "expectedInputs": {
+    "datasetSha256": "4b42c41c875dc8cb19168c6529fd935017120da6640d605da99c64a5eeaad30f",
+    "foundationFreezeSha256": "712454f92299278318055a813685426c15a31e015c018630d274fa3c2a13cef9",
+    "foundationLockSha256": "28a74235ee9cd4968792a68939dc4cf9b7c09c402b5a22fd55a4671f0bdee325",
+    "stressGroundTruthSha256": "e210915f31301e3b0b2082b2ec94f51c3f959782dd06a2fec96a40713d4bc708",
+    "walkForwardPlanSha256": "051615f663ba1e85744dd77ec2662b138c06c9094feb59f5c331a7f9b76b7abb"
+  },
+  "foundationLock": {
+    "fileName": "e12-data-foundation-lock-v1.json",
+    "sha256": "28a74235ee9cd4968792a68939dc4cf9b7c09c402b5a22fd55a4671f0bdee325",
+    "sizeBytes": 1285
+  },
+  "frozenAt": "2026-07-14",
+  "gate": {
+    "contractId": "e12-financial-stress-gate-v1",
+    "fileName": "e12-financial-stress-gate-v1.json",
+    "sha256": "e63b9265d1066659f27c2f620b51deb28563bbb36411a14845b1c7f0f16bf6f2",
+    "sizeBytes": 1326
+  },
+  "implementation": {
+    "module": "regime_eval.e12_financial_stress",
+    "sourceSha256": "b165e4f593e672b24bba4d382ae7442813d87733392eb90173ae93c797df1d13"
+  },
+  "maximumLifecycle": "shadow-candidate",
+  "modelId": "event-aware-financial-stress-v1",
+  "outerOosPolicy": "Forbidden for selection, ranking, tuning or gate execution.",
+  "registrationId": "003490266ac620239a0623ab",
+  "schemaVersion": 1,
+  "status": "preregistered",
+  "taskRole": "financial-stress-signal"
+}

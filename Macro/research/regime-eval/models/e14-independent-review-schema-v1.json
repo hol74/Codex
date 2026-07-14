@@ -1,0 +1,52 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://macro-regime.local/schemas/e14-independent-review-v1.json",
+  "title": "E14 independent dossier review receipt",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "reviewId",
+    "dossierId",
+    "dossierSha256",
+    "reviewerId",
+    "reviewerAffiliation",
+    "independenceDeclaration",
+    "reviewedAt",
+    "decision",
+    "rationale",
+    "checks"
+  ],
+  "properties": {
+    "schemaVersion": {"const": 1},
+    "reviewId": {"type": "string", "pattern": "^e14-review-[a-z0-9-]+$"},
+    "dossierId": {"type": "string", "pattern": "^e14-dossier-[a-z0-9-]+$"},
+    "dossierSha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "reviewerId": {"type": "string", "minLength": 1},
+    "reviewerAffiliation": {"type": "string", "minLength": 1},
+    "independenceDeclaration": {
+      "const": "I did not author the dossier or its evidence pack and reviewed the cited evidence independently."
+    },
+    "reviewedAt": {"type": "string", "format": "date"},
+    "decision": {"enum": ["accept", "reject", "needs-revision"]},
+    "rationale": {"type": "string", "minLength": 80},
+    "checks": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "sourceLocatorsOpened",
+        "mechanismClaimSupported",
+        "boundariesSupported",
+        "counterEvidenceConsidered",
+        "noModelOutputUsed"
+      ],
+      "properties": {
+        "sourceLocatorsOpened": {"const": true},
+        "mechanismClaimSupported": {"type": "boolean"},
+        "boundariesSupported": {"type": "boolean"},
+        "counterEvidenceConsidered": {"const": true},
+        "noModelOutputUsed": {"const": true}
+      }
+    }
+  }
+}

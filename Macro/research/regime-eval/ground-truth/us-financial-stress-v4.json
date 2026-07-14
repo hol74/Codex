@@ -1,0 +1,598 @@
+{
+  "coverage": {
+    "combinedHardNegativeEpisodeCount": 2,
+    "combinedPositiveEpisodeCount": 11,
+    "coverageThresholdsSatisfied": false,
+    "hardNegativeThresholdsSatisfied": false,
+    "mechanismCoverage": [
+      {
+        "combinedHardNegativeEpisodeCount": 1,
+        "combinedPositiveEpisodeCount": 7,
+        "hardNegativeThresholdSatisfied": false,
+        "mechanism": "broad-market-repricing",
+        "positiveThresholdSatisfied": true
+      },
+      {
+        "combinedHardNegativeEpisodeCount": 1,
+        "combinedPositiveEpisodeCount": 3,
+        "hardNegativeThresholdSatisfied": false,
+        "mechanism": "funding-liquidity",
+        "positiveThresholdSatisfied": true
+      },
+      {
+        "combinedHardNegativeEpisodeCount": 1,
+        "combinedPositiveEpisodeCount": 3,
+        "hardNegativeThresholdSatisfied": false,
+        "mechanism": "banking-credit",
+        "positiveThresholdSatisfied": true
+      },
+      {
+        "combinedHardNegativeEpisodeCount": 1,
+        "combinedPositiveEpisodeCount": 5,
+        "hardNegativeThresholdSatisfied": false,
+        "mechanism": "cross-border-growth",
+        "positiveThresholdSatisfied": true
+      }
+    ],
+    "positiveThresholdsSatisfied": true
+  },
+  "coverageFrom": "1984-05-01",
+  "coverageTo": "2025-12-31",
+  "derivedFrom": "us-financial-stress-tristate-v3",
+  "episodes": [
+    {
+      "financialState": "positive",
+      "firstMonth": "1984-05-01",
+      "foundationEvidence": {
+        "dossierId": "e14-dossier-continental-illinois-1984-banking-credit",
+        "dossierSha256": "84baa84f0e6e5797bf41cd2be26558cea754b66969b6f7d5b1927d3064e13d4b"
+      },
+      "foundationOrigin": "accepted-e14-dossier",
+      "id": "e14-dossier-continental-illinois-1984-banking-credit",
+      "independentEventId": "continental-illinois-1984",
+      "lastMonth": "1984-08-01",
+      "mechanisms": [
+        "banking-credit"
+      ],
+      "name": "continental-illinois-1984",
+      "sourceIds": [],
+      "validationRole": "foundation-v4"
+    },
+    {
+      "financialState": "positive",
+      "firstMonth": "1987-10-01",
+      "foundationEvidence": {
+        "dossierId": "e14-dossier-stock-market-break-1987-broad-market-repricing",
+        "dossierSha256": "8b888468a441fa1aea8cef00f32e58200b73727541f532bfba94370545d2e86a"
+      },
+      "foundationOrigin": "accepted-e14-dossier",
+      "id": "e14-dossier-stock-market-break-1987-broad-market-repricing",
+      "independentEventId": "stock-market-break-1987",
+      "lastMonth": "1987-10-01",
+      "mechanisms": [
+        "broad-market-repricing"
+      ],
+      "name": "stock-market-break-1987",
+      "sourceIds": [],
+      "validationRole": "foundation-v4"
+    },
+    {
+      "financialState": "positive",
+      "firstMonth": "1994-12-01",
+      "foundationEvidence": {
+        "dossierId": "e14-dossier-mexico-1994-broad-market-repricing",
+        "dossierSha256": "4304989394e2638cc58058fa0a196e26b96045056ee940734e341bbaa03b703a"
+      },
+      "foundationOrigin": "accepted-e14-dossier",
+      "id": "e14-dossier-mexico-1994-broad-market-repricing",
+      "independentEventId": "mexico-bond-turbulence-1994",
+      "lastMonth": "1995-03-01",
+      "mechanisms": [
+        "broad-market-repricing"
+      ],
+      "name": "mexico-bond-turbulence-1994",
+      "sourceIds": [],
+      "validationRole": "foundation-v4"
+    },
+    {
+      "financialState": "positive",
+      "firstMonth": "1994-12-01",
+      "foundationEvidence": {
+        "dossierId": "e14-dossier-mexico-1994-cross-border-growth",
+        "dossierSha256": "e65b7e891703a7574850a0509fbc5de05920cbacfce08b0a2dbee77e1c7df342"
+      },
+      "foundationOrigin": "accepted-e14-dossier",
+      "id": "e14-dossier-mexico-1994-cross-border-growth",
+      "independentEventId": "mexico-bond-turbulence-1994",
+      "lastMonth": "1995-06-01",
+      "mechanisms": [
+        "cross-border-growth"
+      ],
+      "name": "mexico-bond-turbulence-1994",
+      "sourceIds": [],
+      "validationRole": "foundation-v4"
+    },
+    {
+      "financialState": "positive",
+      "firstMonth": "1997-07-01",
+      "foundationEvidence": {
+        "dossierId": "e14-dossier-asian-financial-crisis-1997-cross-border-growth",
+        "dossierSha256": "517d66b069d09b3131bd71bbac91870946046bc90cc01b3b89e0a7da1dd76347"
+      },
+      "foundationOrigin": "accepted-e14-dossier",
+      "id": "e14-dossier-asian-financial-crisis-1997-cross-border-growth",
+      "independentEventId": "asian-financial-crisis-1997",
+      "lastMonth": "1998-01-01",
+      "mechanisms": [
+        "cross-border-growth"
+      ],
+      "name": "asian-financial-crisis-1997",
+      "sourceIds": [],
+      "validationRole": "foundation-v4"
+    },
+    {
+      "financialState": "positive",
+      "firstMonth": "1998-08-01",
+      "foundationEvidence": {
+        "dossierId": "e14-dossier-russia-ltcm-1998-broad-market-repricing",
+        "dossierSha256": "ca2ce4db0ec96c833e0611dc61b7b386d23e99ecad2d704aebe8cd1abd882f04"
+      },
+      "foundationOrigin": "accepted-e14-dossier",
+      "id": "e14-dossier-russia-ltcm-1998-broad-market-repricing",
+      "independentEventId": "russia-ltcm-1998",
+      "lastMonth": "1998-10-01",
+      "mechanisms": [
+        "broad-market-repricing"
+      ],
+      "name": "russia-ltcm-1998",
+      "sourceIds": [],
+      "validationRole": "foundation-v4"
+    },
+    {
+      "financialState": "positive",
+      "firstMonth": "1998-08-01",
+      "foundationEvidence": {
+        "dossierId": "e14-dossier-russia-ltcm-1998-cross-border-growth",
+        "dossierSha256": "2b9d383d583ede91789827ec51777e08973cd488c97fd10f6e73e1e30d6cb4ad"
+      },
+      "foundationOrigin": "accepted-e14-dossier",
+      "id": "e14-dossier-russia-ltcm-1998-cross-border-growth",
+      "independentEventId": "russia-ltcm-1998",
+      "lastMonth": "1998-10-01",
+      "mechanisms": [
+        "cross-border-growth"
+      ],
+      "name": "russia-ltcm-1998",
+      "sourceIds": [],
+      "validationRole": "foundation-v4"
+    },
+    {
+      "financialState": "positive",
+      "firstMonth": "1998-08-01",
+      "foundationEvidence": {
+        "dossierId": "e14-dossier-russia-ltcm-1998-funding-liquidity",
+        "dossierSha256": "4e932ce5d05029dd873fb494df7e9930b3b2aa3db0914f5d4b36918e443e16c0"
+      },
+      "foundationOrigin": "accepted-e14-dossier",
+      "id": "e14-dossier-russia-ltcm-1998-funding-liquidity",
+      "independentEventId": "russia-ltcm-1998",
+      "lastMonth": "1998-10-01",
+      "mechanisms": [
+        "funding-liquidity"
+      ],
+      "name": "russia-ltcm-1998",
+      "sourceIds": [],
+      "validationRole": "foundation-v4"
+    },
+    {
+      "financialState": "positive",
+      "firstMonth": "2011-09-01",
+      "foundationOrigin": "inherited-v3",
+      "id": "euro-sovereign-stress-2011",
+      "independentEventId": "euro-sovereign-stress-2011",
+      "lastMonth": "2011-12-01",
+      "mechanisms": [
+        "broad-market-repricing",
+        "banking-credit"
+      ],
+      "name": "Euro-area sovereign stress spillover",
+      "sourceIds": [
+        "bis-euro-sovereign-2011"
+      ],
+      "validationRole": "development-v1"
+    },
+    {
+      "financialState": "positive",
+      "firstMonth": "2013-05-01",
+      "foundationOrigin": "inherited-v3",
+      "id": "taper-tantrum-2013",
+      "independentEventId": "taper-tantrum-2013",
+      "lastMonth": "2013-06-01",
+      "mechanisms": [
+        "broad-market-repricing",
+        "cross-border-growth"
+      ],
+      "name": "Taper-announcement market shock",
+      "sourceIds": [
+        "bis-taper-2013"
+      ],
+      "validationRole": "protected-v2"
+    },
+    {
+      "financialState": "positive",
+      "firstMonth": "2015-08-01",
+      "foundationOrigin": "inherited-v3",
+      "id": "china-eme-stress-2015-2016",
+      "independentEventId": "china-eme-stress-2015-2016",
+      "lastMonth": "2016-02-01",
+      "mechanisms": [
+        "broad-market-repricing",
+        "cross-border-growth"
+      ],
+      "name": "China and emerging-market growth stress",
+      "sourceIds": [
+        "bis-eme-2015",
+        "bis-turbulence-2016"
+      ],
+      "validationRole": "development-v1"
+    },
+    {
+      "financialState": "positive",
+      "firstMonth": "2018-10-01",
+      "foundationOrigin": "inherited-v3",
+      "id": "risk-repricing-2018q4",
+      "independentEventId": "risk-repricing-2018q4",
+      "lastMonth": "2018-12-01",
+      "mechanisms": [
+        "broad-market-repricing"
+      ],
+      "name": "Fourth-quarter 2018 risk repricing",
+      "sourceIds": [
+        "fed-2018-repricing"
+      ],
+      "validationRole": "development-v1"
+    },
+    {
+      "financialState": "positive",
+      "firstMonth": "2019-09-01",
+      "foundationOrigin": "inherited-v3",
+      "id": "repo-stress-2019",
+      "independentEventId": "repo-stress-2019",
+      "lastMonth": "2019-10-01",
+      "mechanisms": [
+        "funding-liquidity"
+      ],
+      "name": "US repo-market stress",
+      "sourceIds": [
+        "fed-repo-2019"
+      ],
+      "validationRole": "protected-v2"
+    },
+    {
+      "financialState": "ambiguous",
+      "firstMonth": "2021-04-01",
+      "foundationOrigin": "inherited-v3",
+      "id": "inflation-shock-2021-2023",
+      "independentEventId": "inflation-shock-2021-2023",
+      "lastMonth": "2023-05-01",
+      "mechanisms": [],
+      "name": "Post-pandemic inflation shock",
+      "sourceIds": [
+        "fred-cpi",
+        "fed-mpr-2022"
+      ],
+      "validationRole": "contrast-v3"
+    },
+    {
+      "financialState": "ambiguous",
+      "firstMonth": "2022-03-01",
+      "foundationOrigin": "inherited-v3",
+      "id": "fed-tightening-2022-2023",
+      "independentEventId": "fed-tightening-2022-2023",
+      "lastMonth": "2023-07-01",
+      "mechanisms": [],
+      "name": "Federal Reserve rapid tightening cycle",
+      "sourceIds": [
+        "fed-fomc-rates",
+        "fed-mpr-2022"
+      ],
+      "validationRole": "contrast-v3"
+    },
+    {
+      "financialState": "positive",
+      "firstMonth": "2023-03-01",
+      "foundationOrigin": "inherited-v3",
+      "id": "regional-bank-stress-2023",
+      "independentEventId": "regional-bank-stress-2023",
+      "lastMonth": "2023-05-01",
+      "mechanisms": [
+        "banking-credit",
+        "funding-liquidity"
+      ],
+      "name": "US regional banking stress",
+      "sourceIds": [
+        "fed-fsr-2023"
+      ],
+      "validationRole": "development-v1"
+    }
+  ],
+  "foundation": {
+    "gateAuditSha256": "e8a20cd1591782c61d162ada34ad446194723aa6e26928b7e55fd5be47aa02db",
+    "gateStatus": "FOUNDATION_MERGE_READY_MORE_EVIDENCE_REQUIRED",
+    "proposalId": "e14-label-foundation-proposal-v1",
+    "proposalSha256": "ab47ff9eb885402af5094d3b996241da1139683739a5bde58e68923a1c051718",
+    "sourceQueueSha256": "248e11a03925443f0fa9b797e5f6601b68968f0fdb9260de08c3aade5cb3227c",
+    "versionedAt": "2026-07-14"
+  },
+  "foundationEvidence": [
+    {
+      "dossierId": "e14-dossier-asian-financial-crisis-1997-cross-border-growth",
+      "dossierSha256": "517d66b069d09b3131bd71bbac91870946046bc90cc01b3b89e0a7da1dd76347",
+      "firstMonth": "1997-07-01",
+      "hypothesisId": "asian-financial-crisis-1997",
+      "lastMonth": "1998-01-01",
+      "mechanism": "cross-border-growth",
+      "state": "positive"
+    },
+    {
+      "dossierId": "e14-dossier-brexit-2016-broad-market-repricing-hard-negative",
+      "dossierSha256": "7dcf7bee685f83e43c46610fd8be60144bbd49d68eceae24ab43218ee3832fa9",
+      "firstMonth": "2016-06-01",
+      "hypothesisId": "brexit-contained-transmission-2016",
+      "lastMonth": "2016-07-01",
+      "mechanism": "broad-market-repricing",
+      "state": "hard-negative"
+    },
+    {
+      "dossierId": "e14-dossier-brexit-2016-cross-border-growth-hard-negative",
+      "dossierSha256": "eba85371f21fb33ffbcf82d5071cf553213d7ba8c440ef5207bcccde057dea9d",
+      "firstMonth": "2016-06-01",
+      "hypothesisId": "brexit-contained-transmission-2016",
+      "lastMonth": "2016-07-01",
+      "mechanism": "cross-border-growth",
+      "state": "hard-negative"
+    },
+    {
+      "dossierId": "e14-dossier-brexit-2016-funding-liquidity-hard-negative",
+      "dossierSha256": "4331a9437e74c478f38ad6abc49236fb34cc42230ddc4793fa498423c642cc57",
+      "firstMonth": "2016-06-01",
+      "hypothesisId": "brexit-contained-transmission-2016",
+      "lastMonth": "2016-07-01",
+      "mechanism": "funding-liquidity",
+      "state": "hard-negative"
+    },
+    {
+      "dossierId": "e14-dossier-continental-illinois-1984-banking-credit",
+      "dossierSha256": "84baa84f0e6e5797bf41cd2be26558cea754b66969b6f7d5b1927d3064e13d4b",
+      "firstMonth": "1984-05-01",
+      "hypothesisId": "continental-illinois-1984",
+      "lastMonth": "1984-08-01",
+      "mechanism": "banking-credit",
+      "state": "positive"
+    },
+    {
+      "dossierId": "e14-dossier-mexico-1994-banking-credit-hard-negative",
+      "dossierSha256": "38e0090e6d5e49ea5ad8fbae8dc6837a356b4f3762e4d61f1519b70050e4a388",
+      "firstMonth": "1994-12-01",
+      "hypothesisId": "mexico-banking-containment-1994",
+      "lastMonth": "1995-03-01",
+      "mechanism": "banking-credit",
+      "state": "hard-negative"
+    },
+    {
+      "dossierId": "e14-dossier-mexico-1994-broad-market-repricing",
+      "dossierSha256": "4304989394e2638cc58058fa0a196e26b96045056ee940734e341bbaa03b703a",
+      "firstMonth": "1994-12-01",
+      "hypothesisId": "mexico-bond-turbulence-1994",
+      "lastMonth": "1995-03-01",
+      "mechanism": "broad-market-repricing",
+      "state": "positive"
+    },
+    {
+      "dossierId": "e14-dossier-mexico-1994-cross-border-growth",
+      "dossierSha256": "e65b7e891703a7574850a0509fbc5de05920cbacfce08b0a2dbee77e1c7df342",
+      "firstMonth": "1994-12-01",
+      "hypothesisId": "mexico-bond-turbulence-1994",
+      "lastMonth": "1995-06-01",
+      "mechanism": "cross-border-growth",
+      "state": "positive"
+    },
+    {
+      "dossierId": "e14-dossier-russia-ltcm-1998-broad-market-repricing",
+      "dossierSha256": "ca2ce4db0ec96c833e0611dc61b7b386d23e99ecad2d704aebe8cd1abd882f04",
+      "firstMonth": "1998-08-01",
+      "hypothesisId": "russia-ltcm-1998",
+      "lastMonth": "1998-10-01",
+      "mechanism": "broad-market-repricing",
+      "state": "positive"
+    },
+    {
+      "dossierId": "e14-dossier-russia-ltcm-1998-cross-border-growth",
+      "dossierSha256": "2b9d383d583ede91789827ec51777e08973cd488c97fd10f6e73e1e30d6cb4ad",
+      "firstMonth": "1998-08-01",
+      "hypothesisId": "russia-ltcm-1998",
+      "lastMonth": "1998-10-01",
+      "mechanism": "cross-border-growth",
+      "state": "positive"
+    },
+    {
+      "dossierId": "e14-dossier-russia-ltcm-1998-funding-liquidity",
+      "dossierSha256": "4e932ce5d05029dd873fb494df7e9930b3b2aa3db0914f5d4b36918e443e16c0",
+      "firstMonth": "1998-08-01",
+      "hypothesisId": "russia-ltcm-1998",
+      "lastMonth": "1998-10-01",
+      "mechanism": "funding-liquidity",
+      "state": "positive"
+    },
+    {
+      "dossierId": "e14-dossier-stock-market-break-1987-broad-market-repricing",
+      "dossierSha256": "8b888468a441fa1aea8cef00f32e58200b73727541f532bfba94370545d2e86a",
+      "firstMonth": "1987-10-01",
+      "hypothesisId": "stock-market-break-1987",
+      "lastMonth": "1987-10-01",
+      "mechanism": "broad-market-repricing",
+      "state": "positive"
+    }
+  ],
+  "frequency": "monthly",
+  "geography": "United States with documented global spillovers",
+  "governance": {
+    "additionalHardNegativeResearchRequired": true,
+    "candidateGenerationAuthorized": false,
+    "independentEpisodeCountingKey": "independentEventId",
+    "outerOosAuthorized": false,
+    "proposalEntryGranularity": "one-entry-per-dossier-and-mechanism",
+    "taxonomyV3MutationAuthorized": false
+  },
+  "groundTruthId": "us-financial-stress-mechanism-aware-v4",
+  "hardNegativeEpisodes": [
+    {
+      "financialState": "hard-negative",
+      "firstMonth": "1994-12-01",
+      "foundationEvidence": {
+        "dossierId": "e14-dossier-mexico-1994-banking-credit-hard-negative",
+        "dossierSha256": "38e0090e6d5e49ea5ad8fbae8dc6837a356b4f3762e4d61f1519b70050e4a388"
+      },
+      "foundationOrigin": "accepted-e14-dossier",
+      "id": "e14-dossier-mexico-1994-banking-credit-hard-negative",
+      "independentEventId": "mexico-banking-containment-1994",
+      "lastMonth": "1995-03-01",
+      "mechanisms": [
+        "banking-credit"
+      ],
+      "name": "mexico-banking-containment-1994",
+      "sourceIds": [],
+      "validationRole": "foundation-v4"
+    },
+    {
+      "financialState": "hard-negative",
+      "firstMonth": "2016-06-01",
+      "foundationEvidence": {
+        "dossierId": "e14-dossier-brexit-2016-broad-market-repricing-hard-negative",
+        "dossierSha256": "7dcf7bee685f83e43c46610fd8be60144bbd49d68eceae24ab43218ee3832fa9"
+      },
+      "foundationOrigin": "accepted-e14-dossier",
+      "id": "e14-dossier-brexit-2016-broad-market-repricing-hard-negative",
+      "independentEventId": "brexit-contained-transmission-2016",
+      "lastMonth": "2016-07-01",
+      "mechanisms": [
+        "broad-market-repricing"
+      ],
+      "name": "brexit-contained-transmission-2016",
+      "sourceIds": [],
+      "validationRole": "foundation-v4"
+    },
+    {
+      "financialState": "hard-negative",
+      "firstMonth": "2016-06-01",
+      "foundationEvidence": {
+        "dossierId": "e14-dossier-brexit-2016-cross-border-growth-hard-negative",
+        "dossierSha256": "eba85371f21fb33ffbcf82d5071cf553213d7ba8c440ef5207bcccde057dea9d"
+      },
+      "foundationOrigin": "accepted-e14-dossier",
+      "id": "e14-dossier-brexit-2016-cross-border-growth-hard-negative",
+      "independentEventId": "brexit-contained-transmission-2016",
+      "lastMonth": "2016-07-01",
+      "mechanisms": [
+        "cross-border-growth"
+      ],
+      "name": "brexit-contained-transmission-2016",
+      "sourceIds": [],
+      "validationRole": "foundation-v4"
+    },
+    {
+      "financialState": "hard-negative",
+      "firstMonth": "2016-06-01",
+      "foundationEvidence": {
+        "dossierId": "e14-dossier-brexit-2016-funding-liquidity-hard-negative",
+        "dossierSha256": "4331a9437e74c478f38ad6abc49236fb34cc42230ddc4793fa498423c642cc57"
+      },
+      "foundationOrigin": "accepted-e14-dossier",
+      "id": "e14-dossier-brexit-2016-funding-liquidity-hard-negative",
+      "independentEventId": "brexit-contained-transmission-2016",
+      "lastMonth": "2016-07-01",
+      "mechanisms": [
+        "funding-liquidity"
+      ],
+      "name": "brexit-contained-transmission-2016",
+      "sourceIds": [],
+      "validationRole": "foundation-v4"
+    }
+  ],
+  "label": "US-relevant mechanism-aware financial stress with reviewed tri-state evidence",
+  "limitations": [
+    "No hard-negative episode is asserted by the inherited v2 evidence; E14.2 must report this gap rather than infer negatives from absent labels.",
+    "Episodes are curated ex post and are evaluation labels, never real-time model inputs.",
+    "Mechanism assignments organize documented evidence but do not prove that every month shares the same causal channel.",
+    "No result from this taxonomy can authorize promotion without independent prospective evidence.",
+    "The v4 foundation is mechanism-aware: aggregate month state is a view and cannot replace mechanism-level labels.",
+    "Multiple mechanism entries sharing an independentEventId count as one independent event for coverage.",
+    "Hard-negative coverage remains below the frozen threshold; this taxonomy cannot authorize candidate generation."
+  ],
+  "mechanisms": {
+    "banking-credit": "Banking-system or credit-intermediation stress.",
+    "broad-market-repricing": "Cross-asset repricing, flight to quality or broad risk-off conditions.",
+    "cross-border-growth": "Global or emerging-market shock transmitted through US financial conditions.",
+    "funding-liquidity": "Money-market, secured-funding or liquidity disruption."
+  },
+  "monthResolutionPolicy": "Mechanism-month labels are authoritative and remain independent. Aggregate month state is a view using positive > hard-negative > ambiguous > unlabeled and cannot erase mixed mechanism states.",
+  "schemaVersion": 4,
+  "sources": [
+    {
+      "id": "bis-euro-sovereign-2011",
+      "name": "BIS Quarterly Review December 2011",
+      "url": "https://www.bis.org/publ/qtrpdf/r_qt1112a.htm"
+    },
+    {
+      "id": "bis-taper-2013",
+      "name": "BIS Quarterly Review September 2013",
+      "url": "https://www.bis.org/publ/qtrpdf/r_qt1309a.htm"
+    },
+    {
+      "id": "bis-eme-2015",
+      "name": "BIS Quarterly Review September 2015",
+      "url": "https://www.bis.org/publ/qtrpdf/r_qt1509a.htm"
+    },
+    {
+      "id": "bis-turbulence-2016",
+      "name": "BIS Quarterly Review March 2016",
+      "url": "https://www.bis.org/publ/qtrpdf/r_qt1603a.htm"
+    },
+    {
+      "id": "fed-2018-repricing",
+      "name": "Federal Reserve 2018 Annual Report",
+      "url": "https://www.federalreserve.gov/publications/2018-ar-monetary-policy.htm"
+    },
+    {
+      "id": "fed-repo-2019",
+      "name": "Federal Reserve FEDS Notes on September 2019 money markets",
+      "url": "https://www.federalreserve.gov/econres/notes/feds-notes/what-happened-in-money-markets-in-september-2019-20200227.html"
+    },
+    {
+      "id": "fred-cpi",
+      "name": "FRED CPIAUCSL",
+      "url": "https://fred.stlouisfed.org/series/CPIAUCSL"
+    },
+    {
+      "id": "fed-mpr-2022",
+      "name": "Federal Reserve Monetary Policy Report June 2022",
+      "url": "https://www.federalreserve.gov/monetarypolicy/2022-06-mpr-summary.htm"
+    },
+    {
+      "id": "fed-fomc-rates",
+      "name": "Federal Reserve historical target-rate changes",
+      "url": "https://www.federalreserve.gov/monetarypolicy/openmarket.htm"
+    },
+    {
+      "id": "fed-fsr-2023",
+      "name": "Federal Reserve Financial Stability Report May 2023",
+      "url": "https://www.federalreserve.gov/publications/2023-may-financial-stability-report-overview.htm"
+    }
+  ],
+  "stateDefinitions": {
+    "ambiguous": "A non-financial shock or tightening episode for which absence of a financial_stress label is not evidence of a negative.",
+    "hard-negative": "Documented elevated macro or market conditions with affirmative evidence that the target financial-stress mechanism remained orderly.",
+    "positive": "Documented financial-system, funding, banking or broad-market stress.",
+    "unlabeled": "No curated state; excluded from supervised class metrics."
+  }
+}

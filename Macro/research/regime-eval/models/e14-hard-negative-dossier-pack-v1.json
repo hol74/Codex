@@ -1,0 +1,136 @@
+{
+  "schemaVersion": 1,
+  "packId": "e14-hard-negative-dossier-pack-v1",
+  "frozenAt": "2026-07-14",
+  "inputHashes": {
+    "dossierSchemaSha256": "6163ab4cf6249aa314708361d1572ade403844b2cca9b4deb9c6bfaca3c7702f",
+    "reviewSchemaSha256": "40601d88b91c39115104b59fba8248ee5423661bb4cb38886ad29dc4c38f6fb9",
+    "detectorContractSha256": "b974b5b5e865a46438449e6d1dc0beb8d821e3656f0074b207d0eca96fd6d685",
+    "positiveDossierPackSha256": "a0a12f188ac8540a08e729bf5db5b7077ebf428c6d2b68157e77701c427f7b84",
+    "positiveCurationAuditSha256": "8ee285e84d5ed5ab78529c4ce3e88b0bb4ff2e835a25edb6a0b3e58bf04d7685"
+  },
+  "scope": "Affirmative hard-negative proposals for every E14 mechanism plus an immutable queue for genuinely independent review. No dossier is self-accepted.",
+  "digestPolicy": "Generated dossier contentSha256 is SHA-256 of UTF-8 locator, newline and curated summary. It binds the local evidence assertion, not a remote byte snapshot.",
+  "reviewer": "codex-primary-source-review-2026-07-14",
+  "independencePolicy": {
+    "selfAcceptanceForbidden": true,
+    "reviewerMustDifferFromDossierAuthor": true,
+    "reviewReceiptMustBindDossierSha256": true,
+    "acceptanceRequiresDecision": "accept",
+    "minimumTotalReviewersAfterReceipt": 2
+  },
+  "evidenceAssertions": [
+    {
+      "id": "brexit-bis-orderly-narrative",
+      "sourceId": "bis-quarterly-review-2016-09-brexit-liquidity",
+      "provider": "Bank for International Settlements",
+      "independenceGroup": "bis",
+      "publishedAt": "2016-09-18",
+      "role": "official-narrative",
+      "locator": "https://www.bis.org/publ/qtrpdf/r_qt1609u.htm",
+      "summary": "The BIS reports that core fixed-income and most other markets smoothly absorbed the brief Brexit turbulence with little or no disruption to functioning."
+    },
+    {
+      "id": "brexit-fed-quantitative",
+      "sourceId": "fed-fomc-transcript-2016-07",
+      "provider": "Board of Governors of the Federal Reserve System",
+      "independenceGroup": "federal-reserve",
+      "publishedAt": "2016-07-27",
+      "role": "quantitative-observation",
+      "locator": "https://www.federalreserve.gov/monetarypolicy/files/FOMC20160727meeting.pdf",
+      "summary": "Federal Reserve staff report that corporate-bond bid-ask spreads widened but not unusually, substantial margin calls were met, and trading and liquidity remained generally orderly."
+    },
+    {
+      "id": "brexit-fed-counter",
+      "sourceId": "fed-fomc-minutes-2016-07",
+      "provider": "Board of Governors of the Federal Reserve System",
+      "independenceGroup": "federal-reserve",
+      "publishedAt": "2016-08-17",
+      "role": "counterevidence",
+      "locator": "https://www.federalreserve.gov/monetarypolicy/fomcminutes20160727.htm",
+      "summary": "The minutes record volatile asset prices, brief foreign-exchange liquidity strains, falling global equities and wider credit spreads immediately after the vote."
+    },
+    {
+      "id": "mexico-fdic-banking-narrative",
+      "sourceId": "fdic-annual-report-1994",
+      "provider": "Federal Deposit Insurance Corporation",
+      "independenceGroup": "fdic",
+      "publishedAt": "1995-06-01",
+      "role": "official-narrative",
+      "locator": "https://www.fdic.gov/system/files/2024-07/fdic-ar-1994.pdf",
+      "summary": "The FDIC annual report states that insured banks posted solid or record earnings and strengthened balance sheets by increasing capital and reducing troubled assets in 1994."
+    },
+    {
+      "id": "mexico-fed-credit-quantitative",
+      "sourceId": "fed-fomc-minutes-1995-02",
+      "provider": "Board of Governors of the Federal Reserve System",
+      "independenceGroup": "federal-reserve",
+      "publishedAt": "1995-02-01",
+      "role": "quantitative-observation",
+      "locator": "https://www.federalreserve.gov/fomc/minutes/1995/19950201min.htm",
+      "summary": "FOMC minutes describe robust domestic credit demand and monetary growth while the Mexican peso crisis was transmitting through international financial markets."
+    },
+    {
+      "id": "mexico-fed-counter",
+      "sourceId": "fed-fomc-minutes-1995-02",
+      "provider": "Board of Governors of the Federal Reserve System",
+      "independenceGroup": "federal-reserve",
+      "publishedAt": "1995-02-01",
+      "role": "counterevidence",
+      "locator": "https://www.federalreserve.gov/fomc/minutes/1995/19950201min.htm",
+      "summary": "The same minutes document sharp peso depreciation, spillovers to other developing economies and pressure on the dollar, so containment was not universal across mechanisms."
+    }
+  ],
+  "hardNegativeBlueprints": [
+    {
+      "dossierId": "e14-dossier-brexit-2016-broad-market-repricing-hard-negative",
+      "hypothesisId": "brexit-contained-transmission-2016",
+      "mechanism": "broad-market-repricing",
+      "proposedState": "hard-negative",
+      "firstMonth": "2016-06-01",
+      "lastMonth": "2016-07-01",
+      "boundaryRationale": "June contains the referendum shock and July contains the documented rapid normalization, allowing the dossier to test broad market resilience without extending into later negotiations.",
+      "evidenceIds": ["brexit-bis-orderly-narrative", "brexit-fed-quantitative"],
+      "counterEvidenceIds": ["brexit-fed-counter"]
+    },
+    {
+      "dossierId": "e14-dossier-brexit-2016-funding-liquidity-hard-negative",
+      "hypothesisId": "brexit-contained-transmission-2016",
+      "mechanism": "funding-liquidity",
+      "proposedState": "hard-negative",
+      "firstMonth": "2016-06-01",
+      "lastMonth": "2016-07-01",
+      "boundaryRationale": "The two-month window captures the immediate liquidity stress test and subsequent normalization documented by two authorities, while retaining the observed brief foreign-exchange strains as counterevidence.",
+      "evidenceIds": ["brexit-bis-orderly-narrative", "brexit-fed-quantitative"],
+      "counterEvidenceIds": ["brexit-fed-counter"]
+    },
+    {
+      "dossierId": "e14-dossier-brexit-2016-cross-border-growth-hard-negative",
+      "hypothesisId": "brexit-contained-transmission-2016",
+      "mechanism": "cross-border-growth",
+      "proposedState": "hard-negative",
+      "firstMonth": "2016-06-01",
+      "lastMonth": "2016-07-01",
+      "boundaryRationale": "The boundary isolates a major foreign political and financial shock whose immediate global transmission was explicitly assessed as contained and orderly, without claiming absence of longer-run economic effects.",
+      "evidenceIds": ["brexit-bis-orderly-narrative", "brexit-fed-quantitative"],
+      "counterEvidenceIds": ["brexit-fed-counter"]
+    },
+    {
+      "dossierId": "e14-dossier-mexico-1994-banking-credit-hard-negative",
+      "hypothesisId": "mexico-banking-containment-1994",
+      "mechanism": "banking-credit",
+      "proposedState": "hard-negative",
+      "firstMonth": "1994-12-01",
+      "lastMonth": "1995-03-01",
+      "boundaryRationale": "The interval begins with the peso break and ends after the acute spillover window, while contemporaneous U.S. banking evidence documents strong lending, capital and credit quality rather than inferred calm.",
+      "evidenceIds": ["mexico-fdic-banking-narrative", "mexico-fed-credit-quantitative"],
+      "counterEvidenceIds": ["mexico-fed-counter"]
+    }
+  ],
+  "limitations": [
+    "All four dossiers are proposed hard negatives, not accepted labels.",
+    "The same Brexit event supplies mechanism-specific contrasts; future evaluation must keep each mechanism separate and must not count the event as three independent shocks.",
+    "Evidence digests bind curated assertions and locators, not archived remote bytes.",
+    "No independent review receipt exists at freeze time; self-acceptance is forbidden."
+  ]
+}

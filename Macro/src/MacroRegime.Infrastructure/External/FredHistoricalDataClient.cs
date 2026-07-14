@@ -65,6 +65,19 @@ public sealed class FredHistoricalDataClient
             };
             try
             {
+                if (string.Equals(seriesCode, "SAHM", StringComparison.OrdinalIgnoreCase))
+                {
+                    var unemployment = await FetchSeriesAsync(metadata, "UNRATE", from, to, cancellationToken).ConfigureAwait(false);
+                    var derived = TransformSahm(metadata, unemployment);
+                    // SAHMREALTIME is a FRED-only real-time indicator rather than an
+                    // ALFRED vintage series. Its historical values already encode the
+                    // real-time rule and are used only where UNRATE initial releases
+                    // cannot reconstruct the indicator.
+                    var official = await FetchCurrentSeriesAsync(metadata, metadata.FredSeriesId, from, to, cancellationToken).ConfigureAwait(false);
+                    observations.AddRange(MergeSahmHistory(derived, official));
+                    continue;
+                }
+
                 var raw = string.Equals(metadata.Frequency, "daily", StringComparison.OrdinalIgnoreCase)
                     ? await FetchCurrentSeriesAsync(metadata, providerSeriesId, from, to, cancellationToken).ConfigureAwait(false)
                     : await FetchSeriesAsync(metadata, providerSeriesId, from, to, cancellationToken).ConfigureAwait(false);
@@ -198,7 +211,7 @@ public sealed class FredHistoricalDataClient
             .GroupBy(item => item.ObservationDate)
             .ToDictionary(group => group.Key, group => group.OrderBy(item => item.PublicationDate).First());
         var transformed = new List<FredObservation>();
-        foreach (var current in raw.OrderBy(item => item.ObservationDate))
+        foreach (var current in byDate.Values.OrderBy(item => item.ObservationDate))
         {
             if (!byDate.TryGetValue(current.ObservationDate.AddYears(-1), out var previous) || previous.Value == 0m)
             {
@@ -257,6 +270,26 @@ public sealed class FredHistoricalDataClient
         }
 
         return transformed;
+    }
+
+    private static IReadOnlyList<FredObservation> MergeSahmHistory(
+        IReadOnlyList<FredObservation> derived,
+        IReadOnlyList<FredObservation> official)
+    {
+        // Keep the UNRATE-derived series used by the development corpus wherever it is
+        // computable. Official real-time SAHM initial releases fill dates that cannot be
+        // reconstructed because the unemployment release history contains a gap.
+        var byDate = official
+            .GroupBy(item => item.ObservationDate)
+            .ToDictionary(group => group.Key, group => group.OrderBy(item => item.PublicationDate).First());
+        foreach (var observation in derived)
+        {
+            byDate[observation.ObservationDate] = observation;
+        }
+
+        return byDate.Values
+            .OrderBy(item => item.ObservationDate)
+            .ToArray();
     }
 
     private Uri BuildUri(

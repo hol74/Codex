@@ -1,0 +1,37 @@
+{
+  "schemaVersion": 1,
+  "modelId": "event-aware-financial-stress-v1",
+  "modelFamily": "Causal event-aware rule-based financial stress signal",
+  "taskRole": "financial-stress-signal",
+  "lifecycleStatus": "research-challenger",
+  "promotionTarget": "shadow-candidate",
+  "frozenAt": "2026-07-14",
+  "benchmarkScope": "nested-inner-validation-only",
+  "inputs": {
+    "VIX_MONTHLY_MAX": {"transform": "clip01((value - 18) / 42)"},
+    "SPY_MONTHLY_MAX_DRAWDOWN": {"transform": "clip01(value / 25)"},
+    "HYG_MONTHLY_MAX_DRAWDOWN": {"transform": "clip01(value / 15)"},
+    "HY_OAS": {"transform": "clip01((value - 2) / 4)"},
+    "SOFR_EFFR_MONTHLY_MAX": {"transform": "clip01(value / 200)"}
+  },
+  "baseScore": {
+    "formula": "0.60 * max(vix, spyDrawdown, hygDrawdown, credit) + 0.40 * weightedMean",
+    "weightedMean": {"vix": 0.30, "spyDrawdown": 0.25, "hygDrawdown": 0.25, "credit": 0.20}
+  },
+  "fundingOverlay": {
+    "whenAvailable": "max(baseScore, 0.70 * funding + 0.30 * baseScore)",
+    "whenMissing": "baseScore unchanged; no zero fill, backfill or fitted imputation"
+  },
+  "probability": "sigmoid(7 * (finalScore - 0.45))",
+  "decisionThreshold": 0.5,
+  "statePolicy": "stateless monthly signal; no backward smoothing and no future persistence",
+  "labelPolicy": "Predictions are frozen before labels. Metrics use only months carrying at least one curated stress-v2 label; financial_stress is positive and other curated labels are comparison controls, never generic true negatives.",
+  "outerOosPolicy": "Forbidden for selection, ranking, tuning or gate execution.",
+  "expectedInputs": {
+    "datasetSha256": "4b42c41c875dc8cb19168c6529fd935017120da6640d605da99c64a5eeaad30f",
+    "walkForwardPlanSha256": "051615f663ba1e85744dd77ec2662b138c06c9094feb59f5c331a7f9b76b7abb",
+    "stressGroundTruthSha256": "e210915f31301e3b0b2082b2ec94f51c3f959782dd06a2fec96a40713d4bc708",
+    "foundationFreezeSha256": "712454f92299278318055a813685426c15a31e015c018630d274fa3c2a13cef9",
+    "foundationLockSha256": "28a74235ee9cd4968792a68939dc4cf9b7c09c402b5a22fd55a4671f0bdee325"
+  }
+}

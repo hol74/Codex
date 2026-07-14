@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "gateVersion": 2,
+  "name": "baseline-v1-2-train-gate-v2-preregistered",
+  "modelVersion": "1.2-candidate",
+  "frozenAt": "2026-07-13",
+  "datasetSha256": "1a2db1c7540a2419757b37d01717de258548f9bcf301994dfcd5c83f47f17649",
+  "evaluationSha256": "bbae9056f876241d7da304ae8d80edda2752806a6938c6b161e6e60c375c5a7b",
+  "innerValidationYears": 2,
+  "aggregateDatePolicy": "Union of inner-validation dates; each as-of date is counted once.",
+  "featureIntegrityScope": "aggregateUniqueInnerValidation",
+  "coverageScope": "aggregateUniqueInnerValidation",
+  "operationalScope": "perFold",
+  "minimumOperationalFoldCount": 4,
+  "expectedFeatureCodes": [
+    "GROWTH_MOM",
+    "INFL_PRESS",
+    "RISK_APPETITE",
+    "MONETARY_COND",
+    "CREDIT_STRESS"
+  ],
+  "featureBoundaryFloor": 0.05,
+  "featureBoundaryCeiling": 0.95,
+  "maxFeatureBoundaryRate": 0.25,
+  "minPrimaryRegimeCount": 3,
+  "maxDominantPrimaryRegimeRate": 0.80,
+  "maxUncertainTransitionRate": 0.50,
+  "eligibilityPolicy": "Feature integrity and regime coverage must pass on unique aggregate inner-validation dates, and at least four folds must pass the operational uncertainty gate.",
+  "changeRationale": "Separates persistent-regime coverage from short-window operational robustness without changing any numerical threshold.",
+  "selectionPolicy": "No model parameter, threshold or gate limit is fitted or searched. Outer OOS remains closed until this gate passes.",
+  "groundTruthPolicy": "NBER is not used by this gate."
+}

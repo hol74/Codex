@@ -1,0 +1,39 @@
+{
+  "schemaVersion": 1,
+  "role": "challenger",
+  "modelId": "gaussian-hmm-recession-v1",
+  "modelFamily": "Gaussian HMM",
+  "frozenAt": "2026-07-13",
+  "baselineModelVersion": "1.4-candidate",
+  "baselineEvaluationSha256": "643eaafc9cc30ac8beb1358ccea564afe8eca5d2622605a5335b95c75b8de0f8",
+  "featureCodes": [
+    "GROWTH_MOM",
+    "INFL_PRESS",
+    "RISK_APPETITE",
+    "MONETARY_COND",
+    "CREDIT_STRESS"
+  ],
+  "stateCount": 3,
+  "emissionModel": "diagonal Gaussian on train-standardized features",
+  "initialization": "deterministic farthest-first k-means on each train fold",
+  "maxIterations": 100,
+  "convergenceTolerance": 0.000001,
+  "varianceFloor": 0.05,
+  "transitionPseudoCount": 1.0,
+  "labelSmoothing": 1.0,
+  "testInference": "causal filtered posterior initialized from the final train posterior; no backward smoothing on test",
+  "stateMapping": "Select the state with highest Laplace-smoothed NBER recession rate using train labels only; ties are deterministic.",
+  "uniqueDateAggregation": "earliest eligible fold prediction wins",
+  "promotionPolicy": {
+    "minimumRecallDeltaVsBaselineOperational": 0.0,
+    "minimumF1DeltaVsBaselineOperational": 0.0,
+    "requireConvergenceEveryFold": true,
+    "humanModelGateRequired": true
+  },
+  "selectionPolicy": "No state count, covariance floor, transition prior, mapping rule or aggregation policy may change after OOS execution.",
+  "limitations": [
+    "NBER supplies only a binary US recession label and cannot validate the full latent-state taxonomy.",
+    "Only two unique OOS recession months are available.",
+    "The 2008-2025 benchmark is development/validation and not a fresh final holdout."
+  ]
+}

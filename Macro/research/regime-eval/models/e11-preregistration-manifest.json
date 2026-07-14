@@ -1,0 +1,64 @@
+{
+  "artifactType": "ExperimentPreregistrationManifest",
+  "candidateCount": 3,
+  "candidates": [
+    {
+      "configFileName": "baseline-v1-5-dimensional.json",
+      "configSha256": "a2ecc9fa56f50ab42d8c7f8b4ed239b26709c1e8083cb98466a0454c078f3136",
+      "lifecycleStatus": "research-challenger",
+      "modelFamily": "Rule-based dimensional baseline with causal impulses",
+      "modelId": "baseline-v1-5-dimensional",
+      "promotionTarget": "shadow-candidate",
+      "role": "challenger-baseline"
+    },
+    {
+      "configFileName": "changepoint-duration-v1.json",
+      "configSha256": "1eb54023a1e355952252d8729e1a77aff2f251a8eb82933477afc85724cb058e",
+      "lifecycleStatus": "research-challenger",
+      "modelFamily": "Causal robust changepoint detector with explicit duration",
+      "modelId": "changepoint-duration-v1",
+      "promotionTarget": "shadow-candidate",
+      "role": "challenger"
+    },
+    {
+      "configFileName": "rare-event-logit-v1.json",
+      "configSha256": "1a782a2e6c3215a3ec8a6afeb7b20d19b8d9195dc525c2a3b352b1cd663cded7",
+      "lifecycleStatus": "research-challenger",
+      "modelFamily": "L2-regularized weighted logistic regression for rare events",
+      "modelId": "rare-event-logit-v1",
+      "promotionTarget": "shadow-candidate",
+      "role": "challenger"
+    }
+  ],
+  "expectedInputs": {
+    "baselineEvaluationSha256": "643eaafc9cc30ac8beb1358ccea564afe8eca5d2622605a5335b95c75b8de0f8",
+    "datasetSha256": "1a2db1c7540a2419757b37d01717de258548f9bcf301994dfcd5c83f47f17649",
+    "recessionGroundTruthSha256": "7285b4b88d3f1a269a33241ffad212747be7033dbf557f38cb594c53170da59a",
+    "stressGroundTruthSha256": "e210915f31301e3b0b2082b2ec94f51c3f959782dd06a2fec96a40713d4bc708",
+    "walkForwardPlanSha256": "da4155c2639d4870a9e1bcb475b53f81a0491cef8bd8c8e572851c2419a73fed"
+  },
+  "frozenAt": "2026-07-14",
+  "gate": {
+    "contractId": "e11-shadow-candidate-gate-v1",
+    "fileName": "e11-shadow-candidate-gate-v1.json",
+    "sha256": "60a801b2148ed67d57aa9b9cf537a6ab63726038636672d401d9ea875946eb4c"
+  },
+  "immutable": true,
+  "implementation": {
+    "module": "regime_eval.preregistration",
+    "sourceSha256": "dba47cd22117cb59b83ff52d95404a4165b3e4278b537a947ac28a9202b3f70c"
+  },
+  "promotionBoundary": {
+    "forbiddenWithoutProspectiveEvidence": "operational-approved",
+    "maximumBeforeFreshOutcomes": "shadow-candidate"
+  },
+  "registrationId": "65d8d28f3d84e3e6cc995635",
+  "schemaVersion": 1,
+  "selectionDataPolicy": {
+    "allowed": "nested inner rolling validation contained entirely inside each outer train window",
+    "forbidden": "outer OOS 2008-2025 metrics, shadow outcomes, future observations and test-label-driven feature design",
+    "freshProspectiveRequirement": "required for operational-candidate and operational-approved",
+    "outerOosAfterFreeze": "optional diagnostic only; cannot select, rank or promote a candidate"
+  },
+  "status": "preregistered"
+}

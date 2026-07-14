@@ -1,6 +1,6 @@
 # Macro-Regime Engine - Piano operativo completo
 
-Data: 2026-07-13
+Data: 2026-07-14
 
 ## Scopo
 
@@ -68,8 +68,25 @@ Le regole di dipendenza complete sono in `docs/adr/0002-dipendenze-layer.md`.
 14. Fase E - Slice 1 (research data gate) chiusa il 2026-07-13: creato `research/regime-eval/`, protocollo anti-leakage, validatore del dataset storico, manifest riproducibile SHA-256 e planner walk-forward rolling 10/2/1; 6 test Python superati.
 15. Fase E - Slice 2 (dataset reale pluriennale) chiusa il 2026-07-13: popolatore bulk FRED/ALFRED e Yahoo, corpus mensile 2008-2025, manifest del corpus e del dataset, 213 righe validate e 6 fold walk-forward completi.
 16. Fase E - Slice 3 (baseline walk-forward) chiusa il 2026-07-13: evaluator C# della baseline autorevole, report Python deterministico sui sei fold, metriche di confidenza/stabilita' e rendimenti forward condizionati; nessuna accuracy senza ground truth versionata.
+17. Fase E - Slice 4 (ground truth NBER) chiusa il 2026-07-13: cronologia recessiva mensile versionata con fonti e hash, report confusion-matrix per primary/operational `DeflationBust`, date di errore e detection lag; limiti ex-post e class imbalance espliciti.
+18. Fase E - Slice 5 (primo challenger clustering) chiusa il 2026-07-13: k-means deterministico train-only, configurazione congelata, test anti-leakage, report comparativo e model card; risultato negativo conservato e modello non promosso.
+19. Fase E - Slice 6 (feature e baseline redesign) chiusa il 2026-07-13: baseline v1.4 supera train gate v2 e audit OOS; resta baseline di ricerca, non promozione operativa.
+20. Fase E - Slice 7 (challenger temporale) chiusa il 2026-07-13: Gaussian HMM v1 causale e train-only valutato e respinto per regressione di recall e F1.
+21. Fase E - Slice 8 (evaluation contracts e shadow ledger) chiusa il 2026-07-13: prediction, scoring e decisione umana separati in artefatti immutabili; dry-run completato, shadow-live reale ancora da avviare.
+22. Fase E - Slice 8, primo incremento operativo chiuso il 2026-07-13: prima
+    previsione shadow-live al cutoff 2026-06-30 congelata senza outcome; un dato
+    SAHM obsoleto e' stato intercettato e corretto prima del ledger.
+23. Fase E - stress non recessivi v1 chiuso il 2026-07-13: cronologia multi-label
+    versionata, anti-overlap NBER e report v1.4; risultato negativo conservato,
+    con blind spot sugli stress finanziari e nessun tuning post-hoc.
+24. Fase E9 - Shadow Operations, primo incremento chiuso il 2026-07-13:
+    preflight immutabile, gate su mese chiuso/freshness/assenza label,
+    fingerprint C#/Python, retry idempotente e indice derivato dei ledger.
+25. Fase E9 - Shadow Operations, secondo incremento implementato il 2026-07-14:
+    orchestratore mensile, layout standard, `prepare-only/full`, stato
+    recuperabile, log/hash dei processi C# e recovery dai fallimenti parziali.
 
-Il dettaglio per ogni step e' in `docs/checkpoints/` (progressivi 0001-0031).
+Il dettaglio per ogni step e' in `docs/checkpoints/` (progressivi 0001-0045).
 
 ## Piano operativo da seguire
 
@@ -138,8 +155,70 @@ La Fase D e' completa per il perimetro dati esterni: adapter macro FRED/ALFRED, 
    Gate di copertura superato nella Slice 2: dataset reale 2008-2025 con 6 fold completi; l'esecuzione dei modelli resta da implementare.
    Baseline eseguita nella Slice 3: 213 predizioni e report sui 6 fold; essendo il modello corrente efficace dal 2026, il risultato e' un benchmark retrospettivo e non una performance live ex-ante.
 3. Challenger: HMM, Markov switching, clustering, jump model; sempre confrontati con la baseline rule-based.
+   Primo challenger completato nella Slice 5: clustering k-means v1 non promosso per recall OOS nullo; configurazione, report e model card conservati.
 4. Metriche composite: regime accuracy vs NBER, asset alignment 4-13 settimane, tilt simulation, penalita' asimmetrica sui falsi negativi in Stagflazione e Deflation/Bust.
 5. Promozione di un challenger solo tramite Model Gate con model card.
+
+6. Slice E6 - Feature and Baseline Redesign (COMPLETATA, 2026-07-13). La revisione
+   dopo E5 ha rilevato saturazione delle feature, concentrazione quasi totale su
+   `Goldilocks` e insufficienza degli episodi recessivi OOS. Prima di introdurre
+   HMM o altri challenger temporali, E6 deve:
+   - rendere automatico e versionato l'audit di saturazione, diversita' dei
+     regimi e copertura operativa;
+   - verificare la raggiungibilita' dei cinque regimi primari con scenari
+     macroeconomici archetipici;
+   - ridisegnare credito, condizioni monetarie e inflazione evitando proxy con
+     scale incompatibili e trasformazioni monotone ambigue;
+   - produrre una baseline v1 separata dalla `0.1-demo`, rieseguire walk-forward
+     e ground truth e documentare esplicitamente ogni regressione;
+   - separare, nelle slice successive, lo storico macro di classificazione dallo
+     storico market usato per i forward return e riservare un holdout fresco o
+     uno shadow-live 2026+.
+
+   L'HMM e' sospeso fino al superamento dei gate E6. Il benchmark 2008-2025,
+   gia' osservato durante E3-E6, resta development/validation e non deve essere
+   presentato come test finale incontaminato.
+
+   Secondo incremento eseguito il 2026-07-13: pubblicata la research candidate
+   `1.0-candidate`, separata dalla demo e selezionabile nella sola valutazione
+   storica. La saturazione credito e la diversita' migliorano, ma il gate resta
+   negativo per concentrazione Goldilocks e quota di incertezza. La candidate
+   non e' promossa e la soglia non viene ritoccata sul benchmark osservato.
+
+   Terzo incremento eseguito il 2026-07-13: creato un corpus separato con CPI YoY
+   point-in-time, momentum CPI e variazione trimestrale della curva. La candidate
+   `1.1-candidate` supera saturazione, diversita' e concentrazione, ma resta non
+   promossa per `UncertainTransition` al 75%. Il prossimo incremento E6 riguarda
+   raw score/confidence con configurazione preregistrata e stima train-only.
+
+   Quarto incremento eseguito il 2026-07-13: introdotta la `1.2-candidate` con
+   scoring archetipico e confidence fit/margine, piu' un gate train-only
+   riproducibile. Il preflight ha prodotto 0 fold eleggibili su 6 e ha bloccato
+   l'apertura dei report OOS. Il prossimo incremento E6 deve preregistrare un gate
+   v2 che valuti integrita' feature e copertura su validation aggregate, lasciando
+   per-fold i controlli di robustezza operativa; solo dopo potra' nascere una v1.3.
+
+   Quinto incremento eseguito il 2026-07-13: il train gate v2 e' stato
+   preregistrato e implementato mantenendo le soglie v1. Copertura aggregata e
+   robustezza operativa passano, mentre l'integrita' fallisce per
+   `RISK_APPETITE` al 27,38% di boundary rate contro il 25%. La v1.2 resta
+   bloccata; il prossimo incremento e' una v1.3 con normalizzazione VIX
+   ridisegnata e nuova preregistrazione train-only.
+
+   Sesto incremento eseguito il 2026-07-13: la `1.3-candidate` sostituisce solo
+   il mapping VIX con una logistica inversa preregistrata. L'integrita' passa e
+   `RISK_APPETITE` scende all'1,19% di boundary rate; copertura ancora superata.
+   La robustezza operativa regredisce pero' a 2/6 fold e blocca l'OOS. Il prossimo
+   incremento deve riallineare archetipi e confidence alla scala delle feature
+   usando esclusivamente inner fit/validation e pubblicando una nuova versione.
+
+   Settimo incremento eseguito il 2026-07-13: la `1.4-candidate` riallinea
+   semanticamente archetipi, cutoff divergente e confidence alla scala VIX
+   logistica. Il train gate passa 6/6 fold e autorizza l'OOS, che supera l'audit
+   con zero violazioni, 4 regimi e 2,38% di incertezza. NBER conserva recall 100%
+   ma precision 20% e F1 33,33%. E6 e' chiusa; v1.4 e' baseline di ricerca, non
+   modello operativo promosso. Il prossimo passo e' un challenger temporale
+   contro v1.4 e uno shadow-live 2026+.
 
 Gate dati introdotto nella Slice 1:
 
@@ -151,13 +230,492 @@ Gate dati introdotto nella Slice 1:
 
 La Slice 2 ha popolato e manifestato il dataset reale pluriennale: 213 snapshot macro mensili, 4.536 snapshot market giornalieri, 3.834 forward return e 6 fold rolling. Il corpus locale e' sotto `data/historical-real-2008-2025/` ed e' escluso da Git; gli artefatti sono identificati da SHA-256.
 
-Restano prioritari per le prossime slice: ground truth NBER/cronologia crisi versionata, primo challenger con model card e confronto con la baseline, indice operativo incrementale per corpus grandi, integrazione persistita del calendario release e stress test successivi.
+E6-E8 sono completate e il Gaussian HMM v1 e' stato valutato e respinto. La
+prima osservazione realmente shadow-live, con cutoff 2026-06-30, e' stata
+congelata senza outcome. La priorita' corrente e' accumulare i successivi ledger
+mensili immutabili. La cronologia stress v1 e' ora disponibile e ha rilevato un
+blind spot; un eventuale contratto v2 dovra' essere dimensionale e validato su
+episodi nuovi, senza selezionare varianti sul benchmark gia' osservato.
+Restano inoltre pianificati: indice operativo incrementale per corpus grandi,
+integrazione persistita del calendario release e stress test successivi.
 
 Checkpoint Slice 1: `docs/checkpoints/0029-fase-e-slice1-research-data-gate-done.md`.
 
 Checkpoint Slice 2: `docs/checkpoints/0030-fase-e-slice2-dataset-reale-pluriennale-done.md`.
 
 Checkpoint Slice 3: `docs/checkpoints/0031-fase-e-slice3-baseline-walk-forward-done.md`.
+
+Checkpoint Slice 4: `docs/checkpoints/0032-fase-e-slice4-ground-truth-nber-done.md`.
+
+Checkpoint Slice 5: `docs/checkpoints/0033-fase-e-slice5-primo-challenger-clustering-done.md`.
+
+Checkpoint Slice 6: completata; avvio e primo audit sono documentati in
+`docs/checkpoints/0034-fase-e-slice6-feature-baseline-redesign-in-progress.md`,
+chiusura in `docs/checkpoints/0038-fase-e-slice6-v14-gates-passed-done.md`.
+
+Checkpoint v1.2 train gate:
+`docs/checkpoints/0035-fase-e-slice6-v12-train-gate-rejected.md`.
+
+Checkpoint train gate v2:
+`docs/checkpoints/0036-fase-e-slice6-train-gate-v2-done.md`.
+
+Checkpoint v1.3:
+`docs/checkpoints/0037-fase-e-slice6-v13-vix-train-gate-rejected.md`.
+
+Checkpoint chiusura E6 / v1.4:
+`docs/checkpoints/0038-fase-e-slice6-v14-gates-passed-done.md`.
+
+7. Slice E7 - Challenger temporale Gaussian HMM (COMPLETATA, 2026-07-13).
+   Il modello v1 a tre stati e' stato preregistrato contro la baseline v1.4,
+   implementato con Baum-Welch deterministico e inferenza test causale, quindi
+   eseguito sui 6 fold. Tutti i fit convergono, ma il gate fallisce: recall 50%
+   e F1 11,76% contro 100% e 33,33% della baseline. Il challenger e' respinto
+   senza tuning post-hoc. La priorita' successiva diventa predisporre lo
+   shadow-live 2026+ e una ground truth degli stress non recessivi prima di
+   aprire altre varianti temporali sul benchmark gia' osservato.
+
+Checkpoint Slice 7:
+`docs/checkpoints/0039-fase-e-slice7-gaussian-hmm-v1-rejected.md`.
+
+8. Slice E8 - Evaluation Contracts & Shadow Ledger (COMPLETATA, 2026-07-13).
+   Prima dello shadow-live sono stati separati formalmente prediction ledger,
+   scoring successivo e decisione umana del Model Gate. Ogni artefatto e'
+   immutabile, lega il precedente tramite SHA-256 e registra model lifecycle,
+   input, fingerprint del codice e runtime. Il ledger conserva probabilita'
+   recessiva e distribuzione completa dei regimi senza includere outcome. Le
+   metriche binarie sono ora condivise dai challenger. Un dry-run reale sui mesi
+   febbraio-maggio 2020 ha verificato il flusso senza essere qualificato come
+   shadow-live o nuovo benchmark.
+
+Checkpoint Slice 8:
+`docs/checkpoints/0040-fase-e-slice8-evaluation-contracts-shadow-ledger-done.md`.
+
+Checkpoint prima osservazione shadow-live:
+`docs/checkpoints/0041-fase-e-slice8-prima-osservazione-shadow-live-done.md`.
+
+Checkpoint stress non recessivi v1:
+`docs/checkpoints/0042-fase-e-stress-non-recessivi-v1-done.md`.
+
+9. Fase E9 - Shadow Operations (IN CORSO, 2026-07-13).
+   Obiettivo: rendere operativo il protocollo E8 mantenendo separati download,
+   preparazione, previsione e scoring. E9 non autorizza tuning del modello.
+
+   Primo incremento (COMPLETATO, 2026-07-13):
+
+   - `ShadowPreflight` immutabile, legato tramite hash a dataset, evaluation e
+     model config;
+   - cutoff ammesso solo dopo la chiusura del mese informativo;
+   - nessun forward return nel dataset shadow e freshness massima di tre mesi
+     per le serie macro richieste;
+   - fingerprint deterministico delle sorgenti C# che producono dati/evaluation
+     e del research lab Python;
+   - creazione idempotente del ledger: una retry con gli stessi input restituisce
+     l'artefatto esistente, mentre un conflitto viene bloccato;
+   - `ShadowIndex` deterministico e ricostruibile dai ledger, mai fonte
+     autorevole e mai contenitore di outcome.
+
+   Esecuzione reale di verifica:
+
+   - creato un `ShadowPreflight` retrospettivo sul cutoff 2026-06-30;
+   - verificati nove segnali macro, tutti entro un mese di lag;
+   - il preflight retrospettivo non e' stato collegato al ledger gia' congelato,
+     che conserva lo stesso SHA-256;
+   - costruito il primo `ShadowIndex` derivato con una sola entry;
+   - aggiunti i comandi `shadow-preflight`, `shadow-cycle` e `shadow-index`;
+   - 22 test Python superati, inclusi mese aperto, staleness, retry identica e
+     conflitto con artefatto immutabile.
+
+   Secondo incremento (IMPLEMENTATO, 2026-07-14):
+
+   - comando `shadow-operations` che determina il prossimo cutoff senza saltare
+     mesi e orchestra i processi C# di population, dataset build ed evaluation;
+   - modalita' `prepare-only`, che si ferma al preflight, e `full`, che congela
+     ledger e indice solo dopo tutti i gate;
+   - layout `cycles/yyyy-MM/{source,dataset,evaluation,preflight,logs}` e stato
+     atomico `cycle-state.json`;
+   - comando, exit code, timestamp e SHA-256 di stdout/stderr e artefatti per
+     ogni tentativo, senza API key nella command line;
+   - retry che valida e salta gli step completati, riprendendo dal primo step
+     fallito senza sovrascrivere ledger;
+   - receipt immutabile `ShadowOperationsRun`, sempre senza outcome;
+   - smoke reale al 2026-07-14: `no-eligible-month`, zero comandi eseguiti e
+     nessun secondo ledger di giugno.
+
+   Attivazione prospettica ancora da eseguire: il primo cutoff nuovo possibile
+   e' 2026-07-31, non prima della chiusura del mese e della disponibilita' degli
+   input. E9 resta in corso fino a quel primo ciclo `full` reale senza scoring.
+
+   Gate E9: nessuna sovrascrittura dei ledger, nessuna label nel ciclo di
+   previsione, indice interamente derivabile, rete confinata in Infrastructure e
+   nessuna dipendenza Python nel runtime C#.
+
+   Checkpoint primo incremento:
+   `docs/checkpoints/0043-fase-e9-shadow-operations-incremento1-done.md`.
+
+   Checkpoint secondo incremento:
+   `docs/checkpoints/0044-fase-e9-shadow-operations-incremento2-done.md`.
+
+   Consolidamento repository (COMPLETATO, 2026-07-14):
+
+   - esclusi globalmente dal tracciamento Git gli artefatti runtime `.tmp`;
+   - rimossi dall'indice, ma conservati localmente, output di smoke, batch,
+     report e chiavi ASP.NET Core Data Protection generate in sviluppo;
+   - nessuna riscrittura della cronologia: l'eventuale purge dei commit storici
+     resta un intervento separato, distruttivo e soggetto ad autorizzazione.
+
+   Checkpoint consolidamento:
+   `docs/checkpoints/0045-git-hygiene-runtime-artifacts-done.md`.
+
+   Release tecnica E9.2 (COMPLETATA, 2026-07-14):
+
+   - CI GitHub per build/test .NET e laboratorio Python;
+   - release notes versionate;
+   - integrazione fast-forward in `main` e tag annotato
+     `macro-regime-e9.2`;
+   - nessuna modifica alla baseline o apertura anticipata del cutoff luglio.
+
+   Checkpoint release:
+   `docs/checkpoints/0046-release-e9-2-ci-done.md`.
+
+
+
+### Fase E10 - Model Evidence v2 e challenger dual-timescale (COMPLETATA, 2026-07-14)
+
+E10 trasforma i risultati della baseline v1.4 e dei challenger respinti in un
+nuovo ciclo di ricerca senza riaprire il tuning sul benchmark 2008-2025.
+
+1. Congelare gli stati esistenti: v1.4 resta `research-baseline`; k-means v1 e
+   Gaussian HMM v1 restano `rejected`. Nessun artefatto precedente viene
+   sovrascritto.
+2. Introdurre un Evidence & Promotion Contract v2 con lifecycle distinti
+   (`research-baseline`, `shadow-candidate`, `operational-candidate`,
+   `operational-approved`), esito `INSUFFICIENT_EVIDENCE`, metriche
+   probabilistiche, precision-recall, calibrazione ed errori per episodio.
+3. Versionare uno stress contract v2 dimensionale: crescita, inflazione, stress
+   finanziario e restrizione monetaria sono valutati separatamente prima della
+   composizione in un regime. La cronologia v1 resta congelata.
+4. Preregistrare `dual-timescale-regime-v1`, con componente macro lenta e
+   componente finanziaria rapida, filtro esclusivamente causale e output
+   probabilistico dimensionale. Il modello ha nuovo id e nuova model card; non
+   e' una variante post-hoc dei challenger respinti.
+5. Eseguire il nuovo challenger sul 2008-2025 esclusivamente come diagnostica di
+   sviluppo. Il benchmark gia' osservato non puo' produrre promozione.
+6. Usare inner rolling validation per ogni scelta futura e riservare la
+   decisione operativa ai ledger shadow-live prodotti dopo la preregistrazione.
+7. Eseguire il primo ciclo E9 `full` sul cutoff 2026-07-31 solo dopo la chiusura
+   del mese e la disponibilita' point-in-time degli input. Fino ad allora lo
+   step e' temporalmente bloccato, non fallito.
+8. Ammettere una promozione solo dopo evidenza prospettica sufficiente, utilita'
+   allocativa della Fase F e decisione umana persistita. La mera convergenza o
+   il miglioramento sul benchmark storico non sono sufficienti.
+
+Ogni incremento E10 produce configurazione preregistrata, test, report e model
+card/checkpoint. I report storici devono riportare esplicitamente
+`development-diagnostic-only` e non possono generare una decisione
+`operational-approved`.
+
+Esito: Evidence v2 conferma `INSUFFICIENT_EVIDENCE` per la v1.4; lo stress
+dimensionale v2 migliora la diagnosi ma conferma il blind spot finanziario; il
+dual-timescale v1 perde entrambi i mesi recessivi OOS e viene respinto senza
+tuning. Il punto 7 resta un'attivita' E9 temporalmente vincolata, da eseguire
+dopo il 31 luglio 2026, e non impedisce la chiusura tecnica di E10.
+
+Checkpoint: `docs/checkpoints/0047-fase-e10-model-evidence-dual-timescale-done.md`.
+
+
+
+### Fase E11 - Controlled Candidate Lab (COMPLETATA, 2026-07-14)
+
+Obiettivo: usare il periodo precedente al cutoff 2026-07-31 per confrontare un
+numero limitato di nuove ipotesi senza trasformare il benchmark gia' osservato
+in un meccanismo di selezione post-hoc.
+
+1. E11.1 - preregistrazione e shadow-candidate gate (COMPLETATA, 2026-07-14):
+   - massimo tre famiglie e nessuno sweep non dichiarato;
+   - target massimo ottenibile prima di nuovi outcome: `shadow-candidate`;
+   - `operational-approved` vietato senza Evidence v2 prospettica;
+   - selezione e calibrazione solo su inner rolling validation;
+   - outer OOS 2008-2025 escluso dalla selezione;
+   - manifest write-once con hash del gate e delle configurazioni.
+2. Candidate preregistrate:
+   - `baseline-v1-5-dimensional`: baseline rule-based con livello e impulso
+     delle dimensioni macro-finanziarie;
+   - `changepoint-duration-v1`: rilevazione causale degli shock e durata
+     esplicita, senza backward smoothing;
+   - `rare-event-logit-v1`: benchmark supervisionato regolarizzato, train-only,
+     con trattamento preregistrato della classe rara.
+3. E11.2 - implementazione delle feature temporali e della baseline v1.5
+   (COMPLETATA, 2026-07-14): scenari archetipici e causalita' superati; gate
+   inner-only `REJECTED_FOR_SHADOW` per Brier peggiore e mancata copertura dello
+   stress protetto. Nessun parametro e' stato modificato e l'outer OOS e'
+   rimasto chiuso.
+4. E11.3 - implementazione dei due challenger (COMPLETATA, 2026-07-14), con
+   label independence, nested validation e metriche probabilistiche condivise.
+   Changepoint-duration v1 e rare-event-logit v1 sono entrambi
+   `REJECTED_FOR_SHADOW`.
+5. E11.4 - esecuzione consolidata del gate inner-only (COMPLETATA, 2026-07-14).
+   Nessuno dei tre modelli e' eleggibile; i fallimenti sono conservati senza
+   cambio di soglie e l'outer OOS resta chiuso.
+6. Al primo cutoff eleggibile, la baseline v1.4 e gli eventuali shadow-candidate
+   congelano previsioni parallele. Una singola osservazione non produce
+   promozione operativa.
+
+E11 non autorizza la modifica di v1.4, k-means v1, Gaussian HMM v1 o
+dual-timescale v1. Ogni nuova formula o soglia richiede model id, configurazione
+e manifest diversi prima dell'esecuzione.
+
+Checkpoint E11.1:
+`docs/checkpoints/0048-fase-e11-1-preregistrazione-candidate-done.md`.
+
+Checkpoint E11.2:
+`docs/checkpoints/0049-fase-e11-2-baseline-dimensionale-done.md`.
+
+Checkpoint E11.3-E11.4:
+`docs/checkpoints/0050-fase-e11-3-challenger-inner-gates-done.md`.
+
+
+
+### Fase E12 - Event-aware task-specific candidates (COMPLETATA, 2026-07-14)
+
+Obiettivo: provare nuovi candidati eleggibili correggendo prima il blind spot
+informativo del campionamento month-end e separando i task che hanno ground
+truth e costi di errore diversi.
+
+1. E12.1 - data foundation e lifecycle (COMPLETATA, 2026-07-14):
+   - aggregati point-in-time `VIX_MONTHLY_MAX`, `SOFR_EFFR_MONTHLY_MAX`,
+     `SPY_MONTHLY_MAX_DRAWDOWN`, `HYG_MONTHLY_MAX_DRAWDOWN`;
+   - manifest corpus v2 con coverage esplicita e nessuna imputazione della
+     storia SOFR mancante;
+   - contratto `e12-task-lifecycle-v1` con ruoli `recession-signal` e
+     `financial-stress-signal` separati;
+   - compatibilita' preservata con dataset schema v1 e baseline v1.4.
+2. E12.2 - corpus reale e freeze degli input (COMPLETATA, 2026-07-14):
+   - ripopolare in un nuovo layout, senza sovrascrivere il corpus v1.1;
+   - costruire e validare dataset e coverage per data/fold;
+   - congelare manifest e hash prima di implementare i candidate.
+3. E12.3 - `event-aware-financial-stress-v1` (COMPLETATA, RESPINTA, 2026-07-14):
+   - usare onset intramese, funding spread, drawdown equity/credit e HY proxy;
+   - valutare inner-only contro episodi di stress protetti e falsi positivi;
+   - esito massimo `ELIGIBLE_FOR_SHADOW_REVIEW`.
+4. E12.4 - `sahm-yield-hazard-v1` (COMPLETATA, RESPINTA, 2026-07-14):
+   - usare SAHM real-time, deterioramento INDPRO e curva dei rendimenti;
+   - valutare inner-only contro NBER con metriche probabilistiche;
+   - nessuna scelta basata sull'outer OOS.
+5. E12.5 - decisione indipendente (COMPLETATA, 2026-07-14):
+   - congelare esiti e fallimenti senza tuning post-hoc;
+   - vietare la fusione se i componenti non hanno evidenza autonoma;
+   - richiedere dati prospettici Evidence v2 e revisione umana per ogni stato
+     oltre `shadow-candidate`.
+   - esito: entrambi i componenti respinti, zero candidati shadow, fusione
+     vietata e outer OOS mai aperto.
+
+Checkpoint E12.1:
+`docs/checkpoints/0051-fase-e12-1-event-aware-data-foundation-done.md`.
+
+Checkpoint E12.2:
+`docs/checkpoints/0052-fase-e12-2-corpus-coverage-freeze-done.md`.
+
+Checkpoint E12.3:
+`docs/checkpoints/0053-fase-e12-3-event-aware-financial-stress-rejected.md`.
+
+Checkpoint E12.4:
+`docs/checkpoints/0054-fase-e12-4-sahm-yield-hazard-rejected.md`.
+
+Checkpoint E12.5:
+`docs/checkpoints/0055-fase-e12-5-independent-decision-done.md`.
+
+
+
+### Fase E13 - Constrained candidate generation (COMPLETATA, 2026-07-14)
+
+Obiettivo: passare dalla scelta manuale di una singola formula a una famiglia
+finita preregistrata, mantenendo task separati e selezione interamente inner.
+
+1. E13.1 - grammatica e generazione (COMPLETATA, 2026-07-14):
+   - congelare combinazioni ammesse, budget e vincoli prima dei punteggi;
+   - generare manifest deterministico e write-once con ID content-derived;
+   - vietare fusione, riuso degli ID E12 e accesso all'outer OOS;
+   - esito: 16 candidati non valutati, 8 per ciascun task.
+2. E13.2 - valutatore leave-one-episode-out (COMPLETATA, 2026-07-14):
+   - usare esclusivamente finestre inner e lasciare fuori un episodio alla
+     volta per misurare generalizzazione tra eventi;
+   - selezionare le soglie soltanto nell'inner fit;
+   - riportare dispersione per episodio, worst case e fallimenti di coverage.
+   - esito: 8 candidati finanziari valutati su 3 episodi; 8 candidati
+     recessivi non valutabili perche' nell'inner e' osservabile un solo
+     episodio; outer OOS chiuso e nessuna shortlist prodotta.
+3. E13.3 - shortlist Pareto (COMPLETATA, 2026-07-14):
+   - penalizzare instabilita' e complessita', senza una classifica su singola
+     metrica;
+   - ammettere al massimo due candidati per task;
+   - congelare shortlist e motivi di esclusione prima di qualunque diagnostica
+     ulteriore.
+   - esito: due candidati finanziari complementari congelati, uno `coverage`
+     e uno `precision`; shortlist recessiva vuota per evidenza insufficiente.
+4. E13.4 - gate task-specifico (COMPLETATA, RESPINTA, 2026-07-14):
+   - eseguire il gate inner-only sui soli candidati congelati;
+   - mantenere l'outer OOS chiuso e richiedere evidenza prospettica per ogni
+     avanzamento oltre `shadow-candidate`.
+   - esito: entrambi i candidati finanziari `REJECTED_FOR_SHADOW`; ramo
+     recessivo non sottoposto a gate; zero candidati eleggibili.
+
+Checkpoint E13.1:
+`docs/checkpoints/0056-fase-e13-1-constrained-generator-done.md`.
+
+Checkpoint E13.2:
+`docs/checkpoints/0057-fase-e13-2-loeo-evaluation-done.md`.
+
+Checkpoint E13.3:
+`docs/checkpoints/0058-fase-e13-3-pareto-shortlist-done.md`.
+
+Checkpoint E13.4:
+`docs/checkpoints/0059-fase-e13-4-absolute-gate-rejected.md`.
+
+
+
+### Fase E14 - Information foundation redesign (IN CORSO, 2026-07-14)
+
+Obiettivo: correggere il problema informativo emerso in E13 prima di creare
+altri candidati, separando qualita' delle feature, ontologia delle label e
+copertura degli episodi.
+
+1. E14.1 - information audit (COMPLETATA, 2026-07-14):
+   - misurare separabilita' feature-per-feature e firme per episodio;
+   - trattare i controlli come contrasti curati, non negativi certi;
+   - mantenere outer OOS chiuso e vietare generazione/ranking;
+   - esito: forte overlap broad-market, funding promettente ma fragile,
+     episodi eterogenei e copertura recessiva insufficiente.
+2. E14.2 - tassonomia v3 e hard-negative audit (COMPLETATA, NOT READY, 2026-07-14):
+   - introdurre stati positivo, hard negative confermato e ambiguo;
+   - separare broad-market, funding/liquidity, banking/credit e
+     cross-border/growth;
+   - versionare fonti, confini e motivazioni senza modifiche in-place.
+   - esito: 6 episodi positivi, 2 ambigui e zero hard negative confermati;
+     il gate informativo vieta quindi la generazione di candidati.
+3. E14.3 - feasibility della nuova foundation (COMPLETATA, DOSSIER ONLY, 2026-07-14):
+   - verificare estensione pre-2008, disponibilita' point-in-time e proxy
+     compatibili per ottenere almeno tre episodi per detector;
+   - decidere go/no-go prima di popolare un nuovo corpus.
+   - esito: fonti e 5 ipotesi pre-2008 rendono plausibile la copertura positiva
+     minima, ma zero hard negative bloccano la popolazione; sono autorizzati
+     soltanto dossier di evidenza, non label o candidati.
+4. E14.4 - contratto e dossier per meccanismo:
+   - E14.4a contract audit (COMPLETATA, 2026-07-14):
+     - congelare schema dei dossier e quattro detector indipendenti;
+     - separare `calm`, `onset`, `active` e `recovery` con isteresi;
+     - ammettere soltanto trasformazioni causali e fitting inner-only;
+     - esito: `READY_FOR_DOSSIER_CURATION`, senza mutare label o corpus;
+   - E14.4b1 curation positiva (COMPLETATA, REVIEWED, 2026-07-14):
+     - costruiti 8 dossier hash-bound sulle 5 ipotesi positive pre-2008 e su
+       ogni coppia ipotesi-meccanismo;
+     - verificate fonti indipendenti, narrativa ufficiale, osservazione
+       quantitativa, controevidenza e confini temporali;
+     - rilevato il mismatch VIX/1987 e sostituita nel dossier la fonte con
+       evidenza CFTC, senza mutare il catalogo congelato;
+     - esito: 8 dossier `reviewed`, zero `accepted` e zero hard negative.
+   - E14.4b2 hard-negative e review queue (COMPLETATA, 2026-07-14):
+     - curati quattro hard negative affermativi, uno per meccanismo;
+     - usati Brexit 2016 come contrasto broad-market, funding e cross-border
+       e la crisi messicana 1994-95 come contrasto banking-credit;
+     - congelati schema delle review, hash dei 12 dossier e coda write-once;
+     - impedita l'auto-accettazione dell'autore dei dossier;
+     - esito: copertura hard-negative completa, ma zero review indipendenti e
+       stato `INDEPENDENT_REVIEW_REQUIRED`.
+   - E14.4b3a handoff review (COMPLETATA, 2026-07-14):
+     - generare un bundle immutabile con i 12 dossier byte-identici;
+     - fornire un worksheet per dossier con evidenze, controevidenze e hash;
+     - fornire template di ricevuta intenzionalmente non validi finche' il
+       reviewer non completa identita', decisione e checklist;
+     - esito: `AWAITING_EXTERNAL_REVIEW`, 12 worksheet e 12 template pronti.
+   - E14.4b3b review indipendente e ingestione (COMPLETATA, REVISIONI RICHIESTE, 2026-07-14):
+     - esaminati i 12 dossier con un agente reviewer distinto dall'autore;
+     - acquisite e validate 12 ricevute hash-bound in schema v2;
+     - corretta la limitazione dello schema v1 che non rappresentava una fonte
+       inaccessibile come motivo valido di `needs-revision`;
+     - esito: 8 `accept`, 4 `needs-revision`, 0 `reject` e stato
+       `DOSSIER_REVISIONS_REQUIRED`.
+   - E14.4b4 revisione mirata dossier (COMPLETATA, 2026-07-14):
+     - corretti i confini di Continental Illinois e dei tre dossier Messico
+       usando solo fonti istituzionali direttamente verificabili;
+     - sostituito il locator FDIC problematico con il QBP FDIC 1995 Q1;
+     - preservati byte-identici gli 8 dossier gia' accettati;
+     - riesaminati soltanto i 4 nuovi hash: 4 `accept`, zero revisioni e zero
+       rigetti;
+     - esito: 12/12 dossier accettati e
+       `READY_FOR_LABEL_FOUNDATION_GATE`, senza scrivere label o candidati.
+   - E14.4c label-foundation gate (COMPLETATA, MERGE READY / MORE EVIDENCE REQUIRED, 2026-07-14):
+     - trasformati i 12 dossier accettati in una proposta separata e
+       versionata, senza mutare la ground truth v3;
+     - espanse 42 label mensili per meccanismo su 24 mesi aggregati;
+     - verificati zero conflitti nello stesso mese/meccanismo e zero conflitti
+       con la tassonomia v3; preservati 4 mesi con stati diversi tra
+       meccanismi;
+     - la copertura positiva combinata supera tutte le soglie: 11 episodi
+       indipendenti e rispettivamente 7/3/3/5 per broad, funding, banking e
+       cross-border;
+     - i quattro dossier hard-negative valgono soltanto 2 eventi indipendenti
+       e 1 evento per meccanismo, sotto le soglie 6 totali e 2 per meccanismo;
+     - esito: `FOUNDATION_MERGE_READY_MORE_EVIDENCE_REQUIRED`; il merge in una
+       tassonomia nuova e' autorizzabile, la generazione candidati resta chiusa.
+   - E14.4d taxonomy v4 (COMPLETATA, MORE HARD NEGATIVES REQUIRED, 2026-07-14):
+     - materializzata una nuova tassonomia v4 dalla proposta validata, senza
+       modificare in-place la v3 e mantenendo provenienza e hash dei dossier;
+     - introdotto `independentEventId` per impedire che dossier dello stesso
+       evento su meccanismi diversi aumentino artificialmente la copertura;
+     - mantenute 12 voci monomeccanismo: 8 positive e 4 hard-negative, con
+       confini temporali distinti e stati misti preservati;
+     - estesa la copertura iniziale a maggio 1984 senza restringere il limite
+       ereditato di dicembre 2025;
+     - esito: `TAXONOMY_V4_VERSIONED_MORE_HARD_NEGATIVES_REQUIRED`, 11 eventi
+       positivi e 2 hard-negative indipendenti; candidati ancora chiusi.
+   - E14.4e espansione hard-negative indipendente (PROSSIMO PASSO):
+     - curare ulteriori eventi hard-negative affermativi, non varianti dello
+       stesso episodio, fino ad almeno 6 totali e 2 per ogni meccanismo;
+     - sottoporre i nuovi dossier a review indipendente e integrare soltanto
+       gli hash accettati in una successiva versione della tassonomia;
+     - rieseguire il coverage audit prima di qualsiasi generazione.
+   - definire feature relative al regime storico, onset e recovery separati;
+   - definire dossier e hard negative a livello di singolo meccanismo;
+   - vietare composizione finche' ogni detector non ha evidenza autonoma.
+5. E14.5 - generazione condizionata:
+   - aprire nuovi candidati soltanto se tassonomia e coverage superano i gate
+     informativi; altrimenti accumulare evidenza prospettica.
+
+Analisi E14:
+`docs/e14-riesame-problema-informativo.md`.
+
+Checkpoint E14.1:
+`docs/checkpoints/0060-fase-e14-1-information-audit-done.md`.
+
+Checkpoint E14.2:
+`docs/checkpoints/0061-fase-e14-2-tristate-label-audit-done.md`.
+
+Checkpoint E14.3:
+`docs/checkpoints/0062-fase-e14-3-historical-feasibility-done.md`.
+
+Checkpoint E14.4a:
+`docs/checkpoints/0063-fase-e14-4a-mechanism-contract-done.md`.
+
+Checkpoint E14.4b1:
+`docs/checkpoints/0064-fase-e14-4b1-positive-dossiers-reviewed.md`.
+
+Checkpoint E14.4b2:
+`docs/checkpoints/0065-fase-e14-4b2-hard-negatives-review-queue.md`.
+
+Checkpoint E14.4b3a:
+`docs/checkpoints/0066-fase-e14-4b3a-external-review-handoff.md`.
+
+Checkpoint E14.4b3b:
+`docs/checkpoints/0067-fase-e14-4b3b-independent-review-ingested.md`.
+
+Checkpoint E14.4b4:
+`docs/checkpoints/0068-fase-e14-4b4-targeted-revision-accepted.md`.
+
+Checkpoint E14.4c:
+`docs/checkpoints/0069-fase-e14-4c-label-foundation-gate.md`.
+
+Checkpoint E14.4d:
+`docs/checkpoints/0070-fase-e14-4d-taxonomy-v4-versioned.md`.
 
 
 

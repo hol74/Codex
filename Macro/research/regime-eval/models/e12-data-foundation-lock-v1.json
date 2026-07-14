@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "E12DataFoundationLock",
+  "lockId": "15eef71e961b3dd01f2dbf88",
+  "lockedAt": "2026-07-14",
+  "status": "frozen",
+  "contractId": "e12-task-lifecycle-v1",
+  "localLayout": "data/historical-real-v12-2008-2025",
+  "coverage": {
+    "from": "2008-04-30",
+    "to": "2025-12-31",
+    "rowCount": 213,
+    "foldCount": 6,
+    "intramonthFeatureObservationCounts": {
+      "VIX_MONTHLY_MAX": 213,
+      "SOFR_EFFR_MONTHLY_MAX": 93,
+      "SPY_MONTHLY_MAX_DRAWDOWN": 213,
+      "HYG_MONTHLY_MAX_DRAWDOWN": 213
+    }
+  },
+  "hashes": {
+    "corpusAggregateSha256": "e96ebb8003dc3dcc9729065cb85a915b91300847508185d7f82da5e3ea872dfb",
+    "corpusManifestSha256": "4f8483375da3375723dbb5c9cf4458c867468e363f25e470301582d9229882a1",
+    "datasetSha256": "4b42c41c875dc8cb19168c6529fd935017120da6640d605da99c64a5eeaad30f",
+    "walkForwardPlanSha256": "051615f663ba1e85744dd77ec2662b138c06c9094feb59f5c331a7f9b76b7abb",
+    "taskLifecycleSha256": "d0e3fa9343508a7d6b0a1019a6adecec7328c7ca7ab36d859d4d3503abca9199",
+    "foundationFreezeSha256": "712454f92299278318055a813685426c15a31e015c018630d274fa3c2a13cef9"
+  },
+  "policy": "Candidate configurations must bind these hashes. Regeneration is a new foundation version, never an in-place replacement."
+}

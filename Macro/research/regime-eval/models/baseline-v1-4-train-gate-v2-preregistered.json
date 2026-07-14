@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 1,
+  "gateVersion": 2,
+  "name": "baseline-v1-4-train-gate-v2-preregistered",
+  "modelVersion": "1.4-candidate",
+  "frozenAt": "2026-07-13",
+  "datasetSha256": "1a2db1c7540a2419757b37d01717de258548f9bcf301994dfcd5c83f47f17649",
+  "evaluationSha256": "643eaafc9cc30ac8beb1358ccea564afe8eca5d2622605a5335b95c75b8de0f8",
+  "innerValidationYears": 2,
+  "aggregateDatePolicy": "Union of inner-validation dates; each as-of date is counted once.",
+  "featureIntegrityScope": "aggregateUniqueInnerValidation",
+  "coverageScope": "aggregateUniqueInnerValidation",
+  "operationalScope": "perFold",
+  "minimumOperationalFoldCount": 4,
+  "expectedFeatureCodes": [
+    "GROWTH_MOM",
+    "INFL_PRESS",
+    "RISK_APPETITE",
+    "MONETARY_COND",
+    "CREDIT_STRESS"
+  ],
+  "featureBoundaryFloor": 0.05,
+  "featureBoundaryCeiling": 0.95,
+  "maxFeatureBoundaryRate": 0.25,
+  "minPrimaryRegimeCount": 3,
+  "maxDominantPrimaryRegimeRate": 0.80,
+  "maxUncertainTransitionRate": 0.50,
+  "eligibilityPolicy": "Feature integrity and regime coverage must pass on unique aggregate inner-validation dates, and at least four folds must pass the operational uncertainty gate.",
+  "selectionPolicy": "No model parameter, archetype coordinate, confidence share or gate threshold is fitted or searched after evaluation generation. Outer OOS remains closed until this gate passes.",
+  "groundTruthPolicy": "NBER is not used by this gate."
+}

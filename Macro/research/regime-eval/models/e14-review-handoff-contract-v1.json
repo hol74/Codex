@@ -1,0 +1,33 @@
+{
+  "schemaVersion": 1,
+  "contractId": "e14-review-handoff-contract-v1",
+  "frozenAt": "2026-07-14",
+  "inputHashes": {
+    "reviewQueueSha256": "8c4b0dbc3f401d48a463ed64342b0820eba50fb5958bd5c19303fff3c3617316",
+    "adjudicationAuditSha256": "159f703e5faa83f8417276a656f7e6cbce841ece264b892354edddbbad1f055a",
+    "reviewSchemaSha256": "40601d88b91c39115104b59fba8248ee5423661bb4cb38886ad29dc4c38f6fb9",
+    "dossierSchemaSha256": "6163ab4cf6249aa314708361d1572ade403844b2cca9b4deb9c6bfaca3c7702f"
+  },
+  "bundleRules": {
+    "oneWorksheetPerDossier": true,
+    "oneReceiptTemplatePerDossier": true,
+    "includeAllEvidenceLocators": true,
+    "includeCounterEvidence": true,
+    "copyDossiersIntoBundle": true,
+    "receiptTemplatesAreNonIngestible": true,
+    "reviewerMustOpenSourceLocators": true,
+    "reviewerMustNotUseModelOutputs": true,
+    "completedReceiptsWrittenOutsideBundle": true
+  },
+  "receiptOutputConvention": {
+    "directory": "e14-independent-reviews-v1",
+    "fileName": "e14-review-<dossier-slug>-<reviewer-slug>.json",
+    "instruction": "Copy and complete each template into the review receipt directory; never place templates there."
+  },
+  "decisionPolicy": {
+    "accept": "Both mechanism claim and monthly boundaries are supported after opening the sources and reviewing counterevidence.",
+    "reject": "The mechanism state is not supported by the cited evidence.",
+    "needs-revision": "Evidence may support the claim but sources, boundaries or rationale require correction before acceptance."
+  },
+  "readinessDecision": "READY_TO_BUILD_EXTERNAL_REVIEW_BUNDLE"
+}

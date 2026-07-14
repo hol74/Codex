@@ -1,0 +1,25 @@
+{
+  "schemaVersion": 1,
+  "contractId": "e13-loeo-evaluation-contract-v1",
+  "frozenAt": "2026-07-14",
+  "protocolSha256": "81e39ad49d41c2f886cb4ee222c70ed4041f3fe2cea1b1961969dc3101356b70",
+  "generatedManifestSha256": "85c8bf00ff5c9a3ade2ff8a08af5795357d1562f1b2c7d97ae8ccf4c401f7810",
+  "foundationLockSha256": "28a74235ee9cd4968792a68939dc4cf9b7c09c402b5a22fd55a4671f0bdee325",
+  "minimumObservableEpisodesPerTask": 3,
+  "thresholdSelection": {
+    "scope": "other observable episodes plus curated task controls",
+    "objectiveOrder": ["f1", "recall", "precision", "distanceFrom0.5"],
+    "heldOutLabelsForbidden": true
+  },
+  "reportedMetrics": [
+    "episodeHitRate",
+    "meanEpisodeRecall",
+    "worstEpisodeRecall",
+    "meanControlFalsePositiveRate",
+    "thresholdRange",
+    "complexityScore"
+  ],
+  "insufficientEvidencePolicy": "Do not score, rank or shortlist a task with fewer than three observable episodes.",
+  "outerOosPolicy": "Forbidden for evaluation, threshold selection, ranking and recovery from insufficient evidence.",
+  "shortlistProduced": false
+}

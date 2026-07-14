@@ -1,0 +1,28 @@
+{
+  "schemaVersion": 1,
+  "contractId": "e13-financial-absolute-gate-v1",
+  "frozenAt": "2026-07-14",
+  "shortlistSha256": "c72b84fde31c7332499dc8f7c3097d7eb6564c1e842aaa3706f50cbb36fb13d7",
+  "loeoReportSha256": "1c2352d7731901c57618389780d330152dc789a62da4cf3f40879c408cd24317",
+  "registeredCandidateIds": [
+    "e13-financial-8ec8415452",
+    "e13-financial-7452a93533"
+  ],
+  "requirements": {
+    "minimumObservableEpisodes": 3,
+    "minimumEpisodeHitRate": 1.0,
+    "minimumMeanEpisodeRecall": 0.5,
+    "minimumWorstEpisodeRecall": 0.5,
+    "maximumMeanControlFalsePositiveRate": 0.15,
+    "maximumThresholdRange": 0.15,
+    "maximumComplexityScore": 6
+  },
+  "decisionPolicy": "Every requirement must pass independently. Relative rank, profile role and performance of the other candidate cannot rescue a failed gate.",
+  "recessionTaskPolicy": "No gate: INSUFFICIENT_EPISODES and zero shortlisted candidates.",
+  "outerOosPolicy": "Forbidden for gate execution, tie-breaking, rescue and promotion.",
+  "passingStatus": "ELIGIBLE_FOR_SHADOW_REVIEW",
+  "failingStatus": "REJECTED_FOR_SHADOW",
+  "maximumLifecycleOnPass": "shadow-candidate",
+  "operationalApprovalAuthorized": false,
+  "humanReviewRequired": true
+}

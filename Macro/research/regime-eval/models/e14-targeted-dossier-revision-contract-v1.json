@@ -1,0 +1,210 @@
+{
+  "schemaVersion": 1,
+  "contractId": "e14-targeted-dossier-revision-contract-v1",
+  "frozenAt": "2026-07-14",
+  "inputHashes": {
+    "reviewedQueueV3Sha256": "ad9878cc9a33a2d337a17726f9f5243cfafa0284fff6579c91c094eb3966fe2d",
+    "reviewIngestionAuditV1Sha256": "300280d64e6cb9f40240b5adde9f307c0d5acb079408e54756de7b0883b4fed5",
+    "dossierSchemaSha256": "6163ab4cf6249aa314708361d1572ade403844b2cca9b4deb9c6bfaca3c7702f"
+  },
+  "dossierAuthor": "codex-e14-targeted-revision-author-2026-07-14",
+  "readinessDecision": "READY_FOR_HASH_SCOPED_DOSSIER_REVISION",
+  "policy": {
+    "acceptedDossiersMustRemainByteIdentical": true,
+    "onlyNeedsRevisionDossiersMayChange": true,
+    "changedDossiersRequireNewHashes": true,
+    "onlyChangedHashesRequireRereview": true,
+    "modelOutputsForbidden": true,
+    "groundTruthMutationForbidden": true
+  },
+  "revisions": [
+    {
+      "dossierId": "e14-dossier-continental-illinois-1984-banking-credit",
+      "baseSha256": "f79c57a31f3e5de7725898b5f1a0dda2f246bde38ed9c2075c023c88ae8863a2",
+      "firstMonth": "1984-05-01",
+      "lastMonth": "1984-08-01",
+      "boundaryRationale": "The run began in May and private non-support liabilities were still declining through August 29; the permanent program implemented in September and the subsequent orderly markets provide the first explicit stabilization evidence after the revised stress window.",
+      "evidenceAssertions": [
+        {
+          "sourceId": "fdic-continental-history",
+          "provider": "Federal Deposit Insurance Corporation",
+          "independenceGroup": "fdic",
+          "publishedAt": "1984-06-22",
+          "role": "official-narrative",
+          "locator": "https://archive.fdic.gov/view/fdic/11382",
+          "summary": "The FDIC archive records the May 1984 intervention and the systemic implications of Continental Illinois for other banks and financial markets."
+        },
+        {
+          "sourceId": "fed-continental-run-study",
+          "provider": "Board of Governors of the Federal Reserve System",
+          "independenceGroup": "federal-reserve",
+          "publishedAt": "2016-02-01",
+          "role": "quantitative-observation",
+          "locator": "https://www.federalreserve.gov/econresdata/feds/2016/files/2016003pap.pdf",
+          "summary": "Daily liability data show the May run, renewed declines in late June and July, and continued but more modest non-support liability outflows through August 29."
+        },
+        {
+          "sourceId": "fed-continental-september-boundary",
+          "provider": "Board of Governors of the Federal Reserve System",
+          "independenceGroup": "federal-reserve",
+          "publishedAt": "2016-02-01",
+          "role": "boundary-corroboration",
+          "locator": "https://www.federalreserve.gov/econresdata/feds/2016/files/2016003pap.pdf",
+          "summary": "The permanent assistance plan was implemented in September; borrowings then declined as private market funding recovered and financial markets remained orderly."
+        }
+      ],
+      "counterEvidenceAssertions": [
+        {
+          "sourceId": "fed-continental-containment-counter",
+          "provider": "Board of Governors of the Federal Reserve System",
+          "independenceGroup": "federal-reserve",
+          "publishedAt": "2016-02-01",
+          "role": "counterevidence",
+          "locator": "https://www.federalreserve.gov/econresdata/feds/2016/files/2016003pap.pdf",
+          "summary": "Government support appears to have prevented serious spillovers to other institutions, limiting the breadth of the banking-credit episode despite the prolonged run at Continental."
+        }
+      ]
+    },
+    {
+      "dossierId": "e14-dossier-mexico-1994-broad-market-repricing",
+      "baseSha256": "56e35bd52155aa98e0ffa3adbbe55434261ef1675c22c3ee1fdd5b85fd1f9836",
+      "firstMonth": "1994-12-01",
+      "lastMonth": "1995-03-01",
+      "boundaryRationale": "The peso break starts the repricing in December; Mexican short rates peaked in mid-March, while the peso, rates and equity prices recovered materially in April, making March the last supported stress month rather than an assumed endpoint.",
+      "evidenceAssertions": [
+        {
+          "sourceId": "bis-latin-capital-flows-1995",
+          "provider": "Bank for International Settlements",
+          "independenceGroup": "bis",
+          "publishedAt": "1995-05-01",
+          "role": "official-narrative",
+          "locator": "https://www.bis.org/publ/econ44.htm",
+          "summary": "The BIS records heavy Mexican outflows, sharp repricing and regional reverberations after the December peso crisis."
+        },
+        {
+          "sourceId": "fed-fomc-minutes-1995-02",
+          "provider": "Board of Governors of the Federal Reserve System",
+          "independenceGroup": "federal-reserve",
+          "publishedAt": "1995-02-01",
+          "role": "quantitative-observation",
+          "locator": "https://www.federalreserve.gov/fomc/minutes/1995/19950201min.htm",
+          "summary": "FOMC minutes document the peso depreciation, spillovers to other developing economies and pressure on the dollar after the December break."
+        },
+        {
+          "sourceId": "fed-greenbook-mexico-market-boundary-1995-05",
+          "provider": "Board of Governors of the Federal Reserve System",
+          "independenceGroup": "federal-reserve",
+          "publishedAt": "1995-05-17",
+          "role": "boundary-corroboration",
+          "locator": "https://www.federalreserve.gov/monetarypolicy/files/fomc19950523gbpt119950517.pdf",
+          "summary": "The Greenbook records a mid-March peak in Mexican Treasury-bill rates followed by a 15 percent peso appreciation in early April and a reversal of more than two-thirds of the equity decline."
+        }
+      ],
+      "counterEvidenceAssertions": [
+        {
+          "sourceId": "fed-fomc-us-market-resilience-1995-02",
+          "provider": "Board of Governors of the Federal Reserve System",
+          "independenceGroup": "federal-reserve",
+          "publishedAt": "1995-02-01",
+          "role": "counterevidence",
+          "locator": "https://www.federalreserve.gov/fomc/minutes/1995/19950201min.htm",
+          "summary": "U.S. stock prices, debt spreads and credit availability remained broadly supportive, limiting the breadth of the Mexican repricing episode in U.S. markets."
+        }
+      ]
+    },
+    {
+      "dossierId": "e14-dossier-mexico-1994-cross-border-growth",
+      "baseSha256": "e3de5f780d3122b2eed3265c574920ebcf8ef22a579332605db85a1cfccc9ee9",
+      "firstMonth": "1994-12-01",
+      "lastMonth": "1995-06-01",
+      "boundaryRationale": "Trade effects began after the December peso break, remained visible through the second quarter, and later evidence shows that total U.S. exports rose in that quarter despite declines to Mexico; June therefore closes the documented cross-border adjustment window.",
+      "evidenceAssertions": [
+        {
+          "sourceId": "bis-latin-capital-flows-1995",
+          "provider": "Bank for International Settlements",
+          "independenceGroup": "bis",
+          "publishedAt": "1995-05-01",
+          "role": "official-narrative",
+          "locator": "https://www.bis.org/publ/econ44.htm",
+          "summary": "The BIS records Mexican capital outflows and regional transmission following the peso crisis."
+        },
+        {
+          "sourceId": "fed-fomc-mexico-trade-1995-03",
+          "provider": "Board of Governors of the Federal Reserve System",
+          "independenceGroup": "federal-reserve",
+          "publishedAt": "1995-03-28",
+          "role": "quantitative-observation",
+          "locator": "https://www.federalreserve.gov/fomc/MINUTES/1995/19950328min.htm",
+          "summary": "The FOMC records lower U.S. exports, higher imports and concentrated effects on trade flows and business activity in states bordering Mexico."
+        },
+        {
+          "sourceId": "fed-greenbook-mexico-trade-boundary-1995-05",
+          "provider": "Board of Governors of the Federal Reserve System",
+          "independenceGroup": "federal-reserve",
+          "publishedAt": "1995-05-17",
+          "role": "boundary-corroboration",
+          "locator": "https://www.federalreserve.gov/monetarypolicy/files/fomc19950523gbpt119950517.pdf",
+          "summary": "The Greenbook reports a sharp decline in exports to Mexico and expects the remaining net-export adjustment in the second quarter before a positive contribution resumes."
+        },
+        {
+          "sourceId": "fed-fomc-mexico-trade-outcome-1995-08",
+          "provider": "Board of Governors of the Federal Reserve System",
+          "independenceGroup": "federal-reserve",
+          "publishedAt": "1995-08-22",
+          "role": "boundary-corroboration",
+          "locator": "https://www.federalreserve.gov/fomc/MINUTES/1995/19950822min.htm",
+          "summary": "Later FOMC minutes show that total U.S. exports rose considerably in the second quarter despite declines in shipments to Mexico, bounding the broader growth transmission by June."
+        }
+      ],
+      "counterEvidenceAssertions": [
+        {
+          "sourceId": "fed-fomc-external-resilience-1995-03",
+          "provider": "Board of Governors of the Federal Reserve System",
+          "independenceGroup": "federal-reserve",
+          "publishedAt": "1995-03-28",
+          "role": "counterevidence",
+          "locator": "https://www.federalreserve.gov/fomc/MINUTES/1995/19950328min.htm",
+          "summary": "The FOMC expected Mexico to interrupt only briefly the broader uptrend in U.S. exports because growth among other trading partners remained robust."
+        }
+      ]
+    },
+    {
+      "dossierId": "e14-dossier-mexico-1994-banking-credit-hard-negative",
+      "baseSha256": "0ca7d7c13a1bd765b3f03e5190930ab943dc44f6d687a43fa21de403ed625e51",
+      "firstMonth": "1994-12-01",
+      "lastMonth": "1995-03-01",
+      "boundaryRationale": "The comparison starts with the December peso break and ends with the first quarter of 1995, for which directly reviewable FDIC results show strong U.S. bank earnings and record commercial-loan growth while Federal Reserve evidence confirms continued loan funding.",
+      "evidenceAssertions": [
+        {
+          "sourceId": "fdic-qbp-1995-q1",
+          "provider": "Federal Deposit Insurance Corporation",
+          "independenceGroup": "fdic",
+          "publishedAt": "1995-06-14",
+          "role": "official-narrative",
+          "locator": "https://www.fdic.gov/analysis/quarterly-banking-profile/graph-book/archives/1995q1.pdf",
+          "summary": "The directly reviewable first-quarter 1995 QBP reports 11.1 billion dollars of bank earnings, 97 percent profitability and record quarterly commercial-loan growth."
+        },
+        {
+          "sourceId": "fed-fomc-bank-credit-1995-03",
+          "provider": "Board of Governors of the Federal Reserve System",
+          "independenceGroup": "federal-reserve",
+          "publishedAt": "1995-03-28",
+          "role": "quantitative-observation",
+          "locator": "https://www.federalreserve.gov/fomc/MINUTES/1995/19950328min.htm",
+          "summary": "March FOMC minutes report that banks continued relying on managed liabilities to fund loan growth and that bank lending policies remained accommodative."
+        }
+      ],
+      "counterEvidenceAssertions": [
+        {
+          "sourceId": "fed-fomc-mexico-spillover-counter-1995-02",
+          "provider": "Board of Governors of the Federal Reserve System",
+          "independenceGroup": "federal-reserve",
+          "publishedAt": "1995-02-01",
+          "role": "counterevidence",
+          "locator": "https://www.federalreserve.gov/fomc/minutes/1995/19950201min.htm",
+          "summary": "The peso crisis spread to other developing economies and the dollar, so the hard negative is limited to U.S. banking credit and does not assert universal containment."
+        }
+      ]
+    }
+  ]
+}

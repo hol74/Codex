@@ -1,0 +1,283 @@
+{
+  "artifactType": "GeneratedCandidateManifest",
+  "candidateCount": 16,
+  "candidates": [
+    {
+      "candidateId": "e13-financial-06d6dcc8ee",
+      "lifecycleStatus": "research-generated",
+      "parameters": {
+        "aggregator": "noisy-or",
+        "entryPersistenceMonths": 1,
+        "recoveryPersistenceMonths": 1,
+        "thresholdCandidates": [
+          0.35,
+          0.5,
+          0.65
+        ],
+        "thresholdSelectionScope": "inner-fit-only"
+      },
+      "task": "financial-stress-signal"
+    },
+    {
+      "candidateId": "e13-financial-536bdb38d9",
+      "lifecycleStatus": "research-generated",
+      "parameters": {
+        "aggregator": "noisy-or",
+        "entryPersistenceMonths": 1,
+        "recoveryPersistenceMonths": 2,
+        "thresholdCandidates": [
+          0.35,
+          0.5,
+          0.65
+        ],
+        "thresholdSelectionScope": "inner-fit-only"
+      },
+      "task": "financial-stress-signal"
+    },
+    {
+      "candidateId": "e13-financial-8ca936bdc7",
+      "lifecycleStatus": "research-generated",
+      "parameters": {
+        "aggregator": "noisy-or",
+        "entryPersistenceMonths": 2,
+        "recoveryPersistenceMonths": 1,
+        "thresholdCandidates": [
+          0.35,
+          0.5,
+          0.65
+        ],
+        "thresholdSelectionScope": "inner-fit-only"
+      },
+      "task": "financial-stress-signal"
+    },
+    {
+      "candidateId": "e13-financial-8ec8415452",
+      "lifecycleStatus": "research-generated",
+      "parameters": {
+        "aggregator": "noisy-or",
+        "entryPersistenceMonths": 2,
+        "recoveryPersistenceMonths": 2,
+        "thresholdCandidates": [
+          0.35,
+          0.5,
+          0.65
+        ],
+        "thresholdSelectionScope": "inner-fit-only"
+      },
+      "task": "financial-stress-signal"
+    },
+    {
+      "candidateId": "e13-financial-7452a93533",
+      "lifecycleStatus": "research-generated",
+      "parameters": {
+        "aggregator": "top-two-mean",
+        "entryPersistenceMonths": 1,
+        "recoveryPersistenceMonths": 1,
+        "thresholdCandidates": [
+          0.35,
+          0.5,
+          0.65
+        ],
+        "thresholdSelectionScope": "inner-fit-only"
+      },
+      "task": "financial-stress-signal"
+    },
+    {
+      "candidateId": "e13-financial-38ed66b545",
+      "lifecycleStatus": "research-generated",
+      "parameters": {
+        "aggregator": "top-two-mean",
+        "entryPersistenceMonths": 1,
+        "recoveryPersistenceMonths": 2,
+        "thresholdCandidates": [
+          0.35,
+          0.5,
+          0.65
+        ],
+        "thresholdSelectionScope": "inner-fit-only"
+      },
+      "task": "financial-stress-signal"
+    },
+    {
+      "candidateId": "e13-financial-f20c2b88ee",
+      "lifecycleStatus": "research-generated",
+      "parameters": {
+        "aggregator": "top-two-mean",
+        "entryPersistenceMonths": 2,
+        "recoveryPersistenceMonths": 1,
+        "thresholdCandidates": [
+          0.35,
+          0.5,
+          0.65
+        ],
+        "thresholdSelectionScope": "inner-fit-only"
+      },
+      "task": "financial-stress-signal"
+    },
+    {
+      "candidateId": "e13-financial-da741591fa",
+      "lifecycleStatus": "research-generated",
+      "parameters": {
+        "aggregator": "top-two-mean",
+        "entryPersistenceMonths": 2,
+        "recoveryPersistenceMonths": 2,
+        "thresholdCandidates": [
+          0.35,
+          0.5,
+          0.65
+        ],
+        "thresholdSelectionScope": "inner-fit-only"
+      },
+      "task": "financial-stress-signal"
+    },
+    {
+      "candidateId": "e13-recession-3253e56fb5",
+      "lifecycleStatus": "research-generated",
+      "parameters": {
+        "aggregator": "max-confirmation",
+        "entryPersistenceMonths": 1,
+        "recoveryPersistenceMonths": 1,
+        "thresholdCandidates": [
+          0.35,
+          0.5,
+          0.65
+        ],
+        "thresholdSelectionScope": "inner-fit-only"
+      },
+      "task": "recession-signal"
+    },
+    {
+      "candidateId": "e13-recession-fae6ac553d",
+      "lifecycleStatus": "research-generated",
+      "parameters": {
+        "aggregator": "max-confirmation",
+        "entryPersistenceMonths": 1,
+        "recoveryPersistenceMonths": 2,
+        "thresholdCandidates": [
+          0.35,
+          0.5,
+          0.65
+        ],
+        "thresholdSelectionScope": "inner-fit-only"
+      },
+      "task": "recession-signal"
+    },
+    {
+      "candidateId": "e13-recession-3c18ae7823",
+      "lifecycleStatus": "research-generated",
+      "parameters": {
+        "aggregator": "max-confirmation",
+        "entryPersistenceMonths": 2,
+        "recoveryPersistenceMonths": 1,
+        "thresholdCandidates": [
+          0.35,
+          0.5,
+          0.65
+        ],
+        "thresholdSelectionScope": "inner-fit-only"
+      },
+      "task": "recession-signal"
+    },
+    {
+      "candidateId": "e13-recession-86d69b3cfd",
+      "lifecycleStatus": "research-generated",
+      "parameters": {
+        "aggregator": "max-confirmation",
+        "entryPersistenceMonths": 2,
+        "recoveryPersistenceMonths": 2,
+        "thresholdCandidates": [
+          0.35,
+          0.5,
+          0.65
+        ],
+        "thresholdSelectionScope": "inner-fit-only"
+      },
+      "task": "recession-signal"
+    },
+    {
+      "candidateId": "e13-recession-3f15025c20",
+      "lifecycleStatus": "research-generated",
+      "parameters": {
+        "aggregator": "weighted-hazard",
+        "entryPersistenceMonths": 1,
+        "recoveryPersistenceMonths": 1,
+        "thresholdCandidates": [
+          0.35,
+          0.5,
+          0.65
+        ],
+        "thresholdSelectionScope": "inner-fit-only"
+      },
+      "task": "recession-signal"
+    },
+    {
+      "candidateId": "e13-recession-6302389553",
+      "lifecycleStatus": "research-generated",
+      "parameters": {
+        "aggregator": "weighted-hazard",
+        "entryPersistenceMonths": 1,
+        "recoveryPersistenceMonths": 2,
+        "thresholdCandidates": [
+          0.35,
+          0.5,
+          0.65
+        ],
+        "thresholdSelectionScope": "inner-fit-only"
+      },
+      "task": "recession-signal"
+    },
+    {
+      "candidateId": "e13-recession-30cd76441c",
+      "lifecycleStatus": "research-generated",
+      "parameters": {
+        "aggregator": "weighted-hazard",
+        "entryPersistenceMonths": 2,
+        "recoveryPersistenceMonths": 1,
+        "thresholdCandidates": [
+          0.35,
+          0.5,
+          0.65
+        ],
+        "thresholdSelectionScope": "inner-fit-only"
+      },
+      "task": "recession-signal"
+    },
+    {
+      "candidateId": "e13-recession-9a644eadc1",
+      "lifecycleStatus": "research-generated",
+      "parameters": {
+        "aggregator": "weighted-hazard",
+        "entryPersistenceMonths": 2,
+        "recoveryPersistenceMonths": 2,
+        "thresholdCandidates": [
+          0.35,
+          0.5,
+          0.65
+        ],
+        "thresholdSelectionScope": "inner-fit-only"
+      },
+      "task": "recession-signal"
+    }
+  ],
+  "foundationLockSha256": "28a74235ee9cd4968792a68939dc4cf9b7c09c402b5a22fd55a4671f0bdee325",
+  "generationId": "04493308138d10060df9dd99",
+  "immutable": true,
+  "implementation": {
+    "module": "regime_eval.e13_generator",
+    "sourceSha256": "5998ad5d42a81c6692b2ceb5d5014b18c80d42c3ba6dd0db4c9525cca522b7b8"
+  },
+  "outerOosOpened": false,
+  "protocol": {
+    "fileName": "e13-candidate-generation-protocol-v1.json",
+    "protocolId": "e13-candidate-generation-protocol-v1",
+    "sha256": "81e39ad49d41c2f886cb4ee222c70ed4041f3fe2cea1b1961969dc3101356b70"
+  },
+  "schemaVersion": 1,
+  "selectionPolicy": {
+    "maximumShortlistPerTask": 2,
+    "method": "leave-one-episode-out-within-inner-validation",
+    "outerOos": "Forbidden for generation, fitting, ranking, selection and tuning.",
+    "ranking": "pareto-on-task-metrics-stability-and-complexity"
+  },
+  "status": "generated-not-evaluated"
+}

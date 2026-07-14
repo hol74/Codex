@@ -20,14 +20,21 @@ python -m regime_eval validate path/to/historical-dataset.json
 python -m regime_eval manifest path/to/historical-dataset.json --output dataset-manifest.json
 python -m regime_eval plan-walk-forward path/to/historical-dataset.json --output walk-forward-plan.json
 python -m regime_eval baseline-report --evaluation baseline-evaluation.json --dataset historical-dataset.json --plan walk-forward-plan.json --output baseline-walk-forward-report.json
+python -m regime_eval baseline-audit --evaluation baseline-evaluation.json --dataset historical-dataset.json --plan walk-forward-plan.json --config models/baseline-audit-v1.json --output baseline-audit-v1-report.json
+python -m regime_eval recession-report --evaluation baseline-evaluation.json --dataset historical-dataset.json --plan walk-forward-plan.json --ground-truth ground-truth/nber-us-recessions-v1.json --output baseline-nber-recession-report.json
+python -m regime_eval stress-report --evaluation baseline-evaluation.json --dataset historical-dataset.json --plan walk-forward-plan.json --stress-truth ground-truth/us-non-recession-stress-v1.json --recession-truth ground-truth/nber-us-recessions-v1.json --output baseline-stress-report.json
+python -m regime_eval evidence-report --evaluation baseline-evaluation.json --dataset historical-dataset.json --plan walk-forward-plan.json --ground-truth ground-truth/nber-us-recessions-v1.json --policy models/baseline-v1-4-evidence-v2-preregistered.json --output baseline-evidence-v2-report.json
+python -m regime_eval dual-timescale-report --evaluation baseline-evaluation.json --dataset historical-dataset.json --plan walk-forward-plan.json --recession-truth ground-truth/nber-us-recessions-v1.json --stress-truth ground-truth/us-non-recession-stress-v2.json --config models/dual-timescale-regime-v1.json --output dual-timescale-regime-v1-report.json
+python -m regime_eval clustering-report --evaluation baseline-evaluation.json --dataset historical-dataset.json --plan walk-forward-plan.json --ground-truth ground-truth/nber-us-recessions-v1.json --config models/kmeans-recession-v1.json --output kmeans-recession-v1-report.json
 python -m unittest discover -s tests -v
 ```
 
-Il laboratorio usa solo la standard library Python. Le dipendenze scientifiche
-verranno introdotte in una slice successiva, insieme al primo challenger e alla
-relativa model card.
+Il laboratorio usa ancora solo la standard library Python. Anche il primo
+challenger k-means e' implementato senza dipendenze scientifiche; eventuali
+librerie aggiuntive per HMM o modelli successivi richiederanno una scelta
+esplicita e riproducibile.
 
-## Gate prima dei challenger
+## Gate dei challenger
 
 Un dataset destinato alla valutazione deve:
 
@@ -50,6 +57,41 @@ La Slice E2 ha prodotto localmente `data/historical-real-2008-2025/`:
 La directory `data/` e' esclusa da Git. Va rigenerata con le credenziali FRED e
 non deve essere confusa con un fixture versionato.
 
+## E12 - foundation event-aware
+
+E12.2 usa un layout separato `data/historical-real-v12-2008-2025/` e aggiunge
+massimi intramese VIX/SOFR-EFFR e drawdown SPY/HYG senza cambiare il dataset
+schema v1. Dopo population e build, il freeze si esegue dal laboratorio con:
+
+```text
+python -m regime_eval e12-freeze-foundation --corpus-manifest ../../data/historical-real-v12-2008-2025/corpus-manifest.json --dataset ../../data/historical-real-v12-2008-2025/dataset/historical-dataset-2008-04-01-2025-12-31.json --plan ../../data/historical-real-v12-2008-2025/dataset/walk-forward-plan.json --lifecycle models/e12-task-lifecycle-v1.json --output ../../data/historical-real-v12-2008-2025/e12-data-foundation-freeze.json
+```
+
+Il report e' write-once, verifica i conteggi dichiarati dal corpus e registra
+coverage totale e train/test per fold. Il lock versionato
+`models/e12-data-foundation-lock-v1.json` conserva gli hash autorevoli per le
+configurazioni candidate successive.
+
+Il primo candidato task-specifico si esegue solo dopo la preregistrazione:
+
+```text
+python -m regime_eval e12-preregister-financial-stress --candidate models/event-aware-financial-stress-v1.json --gate models/e12-financial-stress-gate-v1.json --foundation-lock models/e12-data-foundation-lock-v1.json --output models/e12-financial-stress-preregistration-v1.json
+python -m regime_eval e12-financial-stress-gate --dataset ../../data/historical-real-v12-2008-2025/dataset/historical-dataset-2008-04-01-2025-12-31.json --plan ../../data/historical-real-v12-2008-2025/dataset/walk-forward-plan.json --stress-truth ground-truth/us-non-recession-stress-v2.json --candidate models/event-aware-financial-stress-v1.json --gate models/e12-financial-stress-gate-v1.json --foundation-lock models/e12-data-foundation-lock-v1.json --foundation-freeze ../../data/historical-real-v12-2008-2025/e12-data-foundation-freeze.json --preregistration models/e12-financial-stress-preregistration-v1.json --output ../../data/historical-real-v12-2008-2025/challengers/event-aware-financial-stress-v1-inner-gate.json
+```
+
+La v1 e' stata respinta dal gate inner-only; il report resta un artefatto di
+sviluppo e non autorizza modifiche post-hoc o promozione.
+
+Il candidato recessivo E12.4 segue lo stesso confine:
+
+```text
+python -m regime_eval e12-preregister-recession-hazard --candidate models/sahm-yield-hazard-v1.json --gate models/e12-recession-hazard-gate-v1.json --foundation-lock models/e12-data-foundation-lock-v1.json --output models/e12-recession-hazard-preregistration-v1.json
+python -m regime_eval e12-recession-hazard-gate --dataset ../../data/historical-real-v12-2008-2025/dataset/historical-dataset-2008-04-01-2025-12-31.json --plan ../../data/historical-real-v12-2008-2025/dataset/walk-forward-plan.json --recession-truth ground-truth/nber-us-recessions-v1.json --candidate models/sahm-yield-hazard-v1.json --gate models/e12-recession-hazard-gate-v1.json --foundation-lock models/e12-data-foundation-lock-v1.json --foundation-freeze ../../data/historical-real-v12-2008-2025/e12-data-foundation-freeze.json --preregistration models/e12-recession-hazard-preregistration-v1.json --output ../../data/historical-real-v12-2008-2025/challengers/sahm-yield-hazard-v1-inner-gate.json
+```
+
+Anche questa v1 e' stata respinta. Il gate finanziario e quello recessivo
+restano semanticamente e operativamente separati.
+
 ## Baseline walk-forward
 
 La Slice E3 mantiene due responsabilita' separate:
@@ -63,3 +105,418 @@ Le finestre di test sono out-of-sample rispetto alla struttura walk-forward, ma
 la baseline `0.1-demo` e' applicata retrospettivamente ed e' efficace dal 2026:
 il report non rappresenta performance live ex-ante. L'accuracy di regime non e'
 calcolata finche' non sara' disponibile una ground truth esterna versionata.
+
+## Ground truth recessiva
+
+La Slice E4 aggiunge `ground-truth/nber-us-recessions-v1.json`, con cronologia
+NBER, fonti, hash e mapping mensile esplicito: il picco e' l'ultimo mese di
+espansione; l'etichetta recessiva va dal mese successivo al picco fino al trough
+incluso. `recession-report` misura il segnale binario `DeflationBust` separatamente
+per primary e operational regime.
+
+La cronologia NBER e' ex-post e non va usata come input real-time. Accuracy e
+specificity devono essere lette insieme a recall, precision, F1, prevalenza,
+false-negative dates e detection lag; sul campione OOS i mesi recessivi sono solo
+due e l'accuracy isolata e' dominata dalla classe non recessiva.
+
+## Stress non recessivi
+
+`ground-truth/us-non-recession-stress-v1.json` aggiunge una cronologia ex-post
+multi-label per stress finanziario, growth scare, shock inflazionistico e
+tightening monetario. `stress-report` richiede anche la ground truth NBER e
+rifiuta episodi che intersecano mesi recessivi.
+
+Il report misura distribuzione dei regimi, allineamento semantico e incertezza
+solo sui mesi etichettati. Non calcola accuracy sulla classe negativa: la
+cronologia e' selettiva e l'assenza di label non dimostra assenza di stress. La
+v1 e' un artefatto di audit congelato, non un set di tuning.
+
+## Slice E6 - Audit prima del redesign
+
+E6 sospende il passaggio diretto all'HMM. `baseline-audit` produce un artefatto
+deterministico con distribuzioni delle feature, saturazione ai bordi, diversita'
+dei regimi primari, concentrazione del regime dominante, quota di transizioni
+incerte e coppie top-2. Un gate fallito restituisce exit code 3 dopo avere scritto
+il report: e' un risultato diagnostico atteso, non un errore di esecuzione.
+
+La candidate v1 viene generata dal runtime C# autorevole senza sovrascrivere la
+demo:
+
+```text
+dotnet run --project src/MacroRegime.Cli -- --evaluate-historical-baseline --baseline-version v1 --dataset-file historical-dataset.json --output-dir output
+```
+
+L'output usa il suffisso `-v1-candidate`. La model card
+`model-cards/baseline-v1-candidate.md` conserva sia i miglioramenti sia le
+regressioni; la candidate non e' promossa.
+
+La candidate temporale v1.1 richiede il corpus esteso con `CPI_YOY`,
+`CPI_YOY_3M_CHANGE` e `YC_10Y2Y_3M_CHANGE` e si esegue con
+`--baseline-version v1.1`. L'output usa il suffisso `-v1-1-candidate`; risultati
+e limiti sono in `model-cards/baseline-v1-1-candidate.md`.
+
+La v1.2 introduce raw score archetipici e confidence fit/margine, selezionabile
+con `--baseline-version v1.2`. Prima di qualsiasi report OOS si esegue:
+
+```text
+python -m regime_eval baseline-train-gate --evaluation baseline-v1-2.json --dataset historical-dataset.json --plan walk-forward-plan.json --config models/baseline-v1-2-train-gate-v2-preregistered.json --output baseline-v1-2-train-gate-v2.json
+```
+
+Il gate v1 reale era negativo (0 fold eleggibili su 6). Il gate v2 separa
+integrita'/copertura aggregate e operativita' per fold: copertura e operativita'
+passano, ma `RISK_APPETITE` resta al bordo nel 27,38% delle validation uniche
+contro il 25% massimo. La candidate resta fermata prima dei report OOS.
+
+La candidate v1.3 usa `--baseline-version v1.3` e cambia soltanto il mapping VIX
+in una logistica inversa centrata a 20, scala 7. Il train gate v2 passa integrita'
+e copertura, ma fallisce robustezza operativa (2/6 fold): nessun report OOS viene
+aperto. Configurazioni e risultato sono nella model card v1.3.
+
+La v1.4 (`--baseline-version v1.4`) traduce archetipi e cutoff divergente sugli
+stessi livelli VIX semantici e usa confidence geometrica. Supera train gate v2 e
+audit OOS; i report walk-forward, audit e NBER vengono quindi autorizzati. La
+candidate e' baseline di ricerca, non modello operativo promosso: dettagli e
+regressione NBER sono nella model card v1.4.
+
+## Primo challenger
+
+`kmeans-recession-v1` è un clustering standard-library, deterministico e
+train-only. Scaling, centroidi e mapping cluster/NBER vengono rifatti in ogni
+train fold. Il test verifica sia la riproducibilità byte-for-byte sia che cambiare
+le sole label test non alteri le predizioni.
+
+Il risultato è negativo ed è conservato nella model card: il challenger non
+rileva alcun mese recessivo sulle date OOS uniche e non viene promosso. Non sono
+stati provati valori alternativi di `clusterCount` dopo la lettura del test.
+
+## Challenger temporale Gaussian HMM
+
+`gaussian-hmm-recession-v1` usa tre stati, emissioni gaussiane diagonali e
+Baum-Welch deterministico. Scaling, parametri e mapping stato/NBER sono stimati
+solo sul train. Sul test usa posterior filtrati causalmente, senza backward
+smoothing.
+
+```text
+python -m regime_eval hmm-report --evaluation baseline-v1-4.json --dataset historical-dataset.json --plan walk-forward-plan.json --ground-truth ground-truth/nber-us-recessions-v1.json --config models/gaussian-hmm-recession-v1.json --output gaussian-hmm-recession-v1-report.json
+```
+
+Il report reale converge in tutti i 6 fold ma fallisce il gate: recall 50% e F1
+11,76%, contro 100% e 33,33% della baseline v1.4 operational. Il modello non e'
+promosso e non viene sottoposto a tuning post-hoc sul medesimo OOS. Dettagli e
+hash sono in `model-cards/gaussian-hmm-recession-v1.md`.
+
+## E8 - Ledger per lo shadow-live
+
+La previsione viene congelata senza ground truth:
+
+```text
+python -m regime_eval shadow-preflight --evaluation baseline-v1-4-evaluation.json --dataset historical-dataset.json --model-config models/baseline-v1-4-preregistered.json --as-of 2026-07-31 --generated-at-utc 2026-08-01T08:00:00Z --source-root ../.. --output shadow-preflight.json
+python -m regime_eval shadow-cycle --evaluation baseline-v1-4-evaluation.json --dataset historical-dataset.json --model-config models/baseline-v1-4-preregistered.json --preflight shadow-preflight.json --as-of 2026-07-31 --generated-at-utc 2026-08-01T08:05:00Z --output ledger/prediction-ledger-2026-07-31.json --index ledger/shadow-index.json
+```
+
+Solo quando la label versionata e' disponibile si crea uno score separato:
+
+```text
+python -m regime_eval shadow-score --ledger prediction-ledger.json --ground-truth ground-truth/nber-us-recessions-v2.json --scored-at-utc 2027-01-01T08:00:00Z --output prediction-score.json
+```
+
+La decisione umana del Model Gate e' anch'essa un artefatto separato:
+
+```text
+python -m regime_eval gate-decision --report challenger-report.json --decision rejected --reviewer research-owner --rationale "Automatic gate failed." --decided-at-utc 2026-07-13T13:10:00Z --output gate-decision.json
+```
+
+Tutti e tre i formati sono write-once. Il ledger registra probabilita' di
+recessione, distribuzione completa dei regimi, input hash, fingerprint del
+codice e runtime; non contiene mai outcome.
+
+## E9 - Shadow Operations
+
+`shadow-live` richiede ora un `ShadowPreflight` passato e write-once. Il
+preflight accetta solo mesi informativi chiusi, dataset point-in-time senza
+forward return, tutte le nove serie macro richieste con lag massimo di tre mesi
+e registra fingerprint deterministici delle sorgenti C# e Python.
+
+`shadow-cycle` e' idempotente: con gli stessi input recupera il ledger
+esistente senza riscriverlo; se path, date o hash sono incompatibili, termina
+con errore. `shadow-index` ricostruisce una vista non autorevole dai soli ledger
+`shadow-live` immutabili. Nessuno di questi comandi riceve ground truth.
+
+### Orchestrazione mensile E9.2
+
+Il comando end-to-end determina il mese successivo all'ultimo ledger e non
+consente salti nella serie temporale:
+
+```text
+python -m regime_eval shadow-operations --source-root ../.. --operations-root ../../data/shadow-live-2026 --model-config models/baseline-v1-4-preregistered.json --generated-at-utc 2026-08-01T08:00:00Z --mode prepare-only --result ../../data/shadow-live-2026/operations-audit/shadow-operations-2026-08-01.json
+```
+
+`prepare-only` esegue population, dataset build, evaluation e preflight, ma non
+crea il ledger. `full` aggiunge il freeze del ledger e la ricostruzione
+dell'indice. Gli step C# sono eseguiti senza shell e senza API key negli
+argomenti; FRED continua a leggere la credenziale dall'ambiente o da `.env`.
+
+Ogni ciclo usa `cycles/yyyy-MM/` con sottodirectory `source`, `dataset`,
+`evaluation`, `preflight` e `logs`. `cycle-state.json` e' uno stato operativo
+atomico e non autorevole: registra tentativi, exit code e hash e permette di
+saltare gli step gia' completati e invariati. Ogni invocazione produce invece
+una receipt `ShadowOperationsRun` write-once. Un risultato
+`no-eligible-month` non avvia alcun processo e non crea directory di ciclo.
+
+## E10 - Evidence v2 e stress dimensionale
+
+`evidence-report` separa il superamento tecnico dalla sufficienza dell'evidenza
+operativa e aggiunge scoring probabilistico, average precision, calibrazione,
+bootstrap a blocchi ed errori temporali per episodio. Sul corpus reale la v1.4
+restituisce `INSUFFICIENT_EVIDENCE`: 84 date OOS ma soltanto due mesi positivi e
+un episodio recessivo.
+
+`us-non-recession-stress-v2.json` valuta quattro dimensioni prima del regime
+composito e separa gli episodi v1 da due episodi protetti v2. Il primo report
+conferma il blind spot finanziario sulla partizione protetta.
+
+`dual-timescale-regime-v1` e' un filtro causale preregistrato con componente
+macro lenta e finanziaria rapida. Il diagnostico storico e' negativo (recall e
+F1 0%) e il modello e' respinto senza modifica dei parametri. Il comando scrive
+comunque il report, ma restituisce exit code non zero perche' non supera alcun
+gate di promozione.
+
+## E11 - Controlled Candidate Lab
+
+E11.1 congela il contratto sperimentale prima di implementare o valutare i
+modelli. Sono ammesse esattamente tre configurazioni: baseline dimensionale
+v1.5, changepoint con durata v1 e rare-event logit v1. La selezione usa soltanto
+inner rolling validation; l'outer OOS 2008-2025 puo' diventare una diagnostica
+successiva ma non puo' selezionare, ordinare o promuovere un candidato.
+
+Il manifest write-once si genera una sola volta con:
+
+```text
+python -m regime_eval e11-preregister --gate models/e11-shadow-candidate-gate-v1.json --model-config models/baseline-v1-5-dimensional.json --model-config models/changepoint-duration-v1.json --model-config models/rare-event-logit-v1.json --output models/e11-preregistration-manifest.json
+```
+
+Il gate lega gli hash degli input, del contratto e delle tre configurazioni.
+Prima di nuovi outcome il massimo lifecycle ottenibile e' `shadow-candidate`;
+`operational-approved` richiede evidenza prospettica e decisione umana.
+
+E11.2 implementa la baseline dimensionale e la valuta soltanto sulle inner
+validation derivate dalle finestre walk-forward:
+
+```text
+python -m regime_eval e11-dimensional-baseline-gate --evaluation ../../data/historical-real-v11-2008-2025/baseline/baseline-evaluation-2008-04-01-2025-12-31-v1-4-candidate.json --dataset ../../data/historical-real-v11-2008-2025/dataset/historical-dataset-2008-04-01-2025-12-31.json --plan ../../data/historical-real-v11-2008-2025/dataset/walk-forward-plan.json --recession-truth ground-truth/nber-us-recessions-v1.json --stress-truth ground-truth/us-non-recession-stress-v2.json --candidate models/baseline-v1-5-dimensional.json --geometry models/baseline-v1-4-preregistered.json --gate models/e11-shadow-candidate-gate-v1.json --manifest models/e11-preregistration-manifest.json --output ../../data/historical-real-v11-2008-2025/challengers/baseline-v1-5-dimensional-inner-gate.json
+```
+
+Il runner verifica il manifest preregistrato, non riceve righe outer-test e
+calcola tutte le predizioni prima di applicare le label. L'esito reale e'
+`REJECTED_FOR_SHADOW`: Brier delta `+0.00081972` e protected-stress hit rate
+`0/2`. Le soglie e le formule restano congelate.
+
+E11.3 usa un runner condiviso per i due challenger preregistrati:
+
+```text
+python -m regime_eval e11-challenger-gate --evaluation ../../data/historical-real-v11-2008-2025/baseline/baseline-evaluation-2008-04-01-2025-12-31-v1-4-candidate.json --dataset ../../data/historical-real-v11-2008-2025/dataset/historical-dataset-2008-04-01-2025-12-31.json --plan ../../data/historical-real-v11-2008-2025/dataset/walk-forward-plan.json --recession-truth ground-truth/nber-us-recessions-v1.json --stress-truth ground-truth/us-non-recession-stress-v2.json --candidate models/changepoint-duration-v1.json --gate models/e11-shadow-candidate-gate-v1.json --manifest models/e11-preregistration-manifest.json --output ../../data/historical-real-v11-2008-2025/challengers/changepoint-duration-v1-inner-gate.json
+python -m regime_eval e11-challenger-gate --evaluation ../../data/historical-real-v11-2008-2025/baseline/baseline-evaluation-2008-04-01-2025-12-31-v1-4-candidate.json --dataset ../../data/historical-real-v11-2008-2025/dataset/historical-dataset-2008-04-01-2025-12-31.json --plan ../../data/historical-real-v11-2008-2025/dataset/walk-forward-plan.json --recession-truth ground-truth/nber-us-recessions-v1.json --stress-truth ground-truth/us-non-recession-stress-v2.json --candidate models/rare-event-logit-v1.json --gate models/e11-shadow-candidate-gate-v1.json --manifest models/e11-preregistration-manifest.json --output ../../data/historical-real-v11-2008-2025/challengers/rare-event-logit-v1-inner-gate.json
+```
+
+Entrambi gli esiti sono `REJECTED_FOR_SHADOW`. Il changepoint produce troppi
+falsi positivi e probabilita' non calibrate; il logit e' conservativo ma perde
+il positivo inner e due fold sono ineligibili per assenza di positivi nel fit.
+E11.4 consolida quindi zero shadow-candidate, senza aprire l'outer OOS.
+
+## E13 - Constrained Candidate Generation
+
+E13 cambia il modo di proporre modelli: una grammatica finita viene congelata
+prima di calcolare risultati. Il generatore espande deterministicamente le
+combinazioni ammesse per i due task separati e produce un manifest immutabile:
+
+```text
+python -m regime_eval e13-generate-candidates --protocol models/e13-candidate-generation-protocol-v1.json --output models/e13-generated-candidates-v1.json
+```
+
+Il manifest contiene 16 candidati `research-generated`, 8 per task, e nessuna
+metrica. La valutazione successiva e' vincolata a leave-one-episode-out nelle
+sole finestre inner, con shortlist Pareto massima di due candidati per task.
+L'outer OOS non puo' generare, ordinare, selezionare o tarare candidati.
+
+E13.2 congela separatamente le regole LOEO e valuta il manifest senza
+modificarlo:
+
+```text
+python -m regime_eval e13-loeo-evaluate --dataset ../../data/historical-real-v12-2008-2025/dataset/historical-dataset-2008-04-01-2025-12-31.json --plan ../../data/historical-real-v12-2008-2025/dataset/walk-forward-plan.json --stress-truth ground-truth/us-non-recession-stress-v2.json --recession-truth ground-truth/nber-us-recessions-v1.json --protocol models/e13-candidate-generation-protocol-v1.json --manifest models/e13-generated-candidates-v1.json --foundation-lock models/e12-data-foundation-lock-v1.json --evaluation-contract models/e13-loeo-evaluation-contract-v1.json --output ../../data/historical-real-v12-2008-2025/challengers/e13-loeo-evaluation-v1.json
+```
+
+Il report non produce una shortlist. Il task finanziario dispone dei tre
+episodi minimi ed espone il trade-off copertura/falsi allarmi; il task
+recessivo resta `INSUFFICIENT_EPISODES` con una sola recessione inner.
+
+E13.3 congela la shortlist Pareto finanziaria con:
+
+```text
+python -m regime_eval e13-freeze-shortlist --loeo-report ../../data/historical-real-v12-2008-2025/challengers/e13-loeo-evaluation-v1.json --evaluation-contract models/e13-loeo-evaluation-contract-v1.json --manifest models/e13-generated-candidates-v1.json --shortlist-contract models/e13-shortlist-contract-v1.json --output models/e13-financial-shortlist-v1.json
+```
+
+L'output contiene un profilo orientato alla copertura e uno alla precisione,
+le esclusioni motivate e una shortlist recessiva esplicitamente vuota. Lo
+stato massimo e' `research-shortlisted`: i gate assoluti non sono ancora stati
+eseguiti.
+
+E13.4 applica requisiti assoluti, senza classifica relativa:
+
+```text
+python -m regime_eval e13-financial-absolute-gate --shortlist models/e13-financial-shortlist-v1.json --loeo-report ../../data/historical-real-v12-2008-2025/challengers/e13-loeo-evaluation-v1.json --gate models/e13-financial-absolute-gate-v1.json --output models/e13-financial-gate-decisions-v1.json
+```
+
+Il comando restituisce exit code non zero quando nessun candidato passa. Nel
+primo run entrambi sono `REJECTED_FOR_SHADOW`: il profilo coverage ha troppi
+falsi allarmi, quello precision perde troppi episodi. Il report resta valido e
+write-once; l'exit non zero rappresenta la decisione negativa del gate.
+
+## E14 - Information Audit
+
+Prima di generare altri modelli, E14 misura separabilita' delle feature,
+eterogeneita' degli episodi e semantica dei controlli:
+
+```text
+python -m regime_eval e14-information-audit --dataset ../../data/historical-real-v12-2008-2025/dataset/historical-dataset-2008-04-01-2025-12-31.json --plan ../../data/historical-real-v12-2008-2025/dataset/walk-forward-plan.json --stress-truth ground-truth/us-non-recession-stress-v2.json --recession-truth ground-truth/nber-us-recessions-v1.json --foundation-lock models/e12-data-foundation-lock-v1.json --e13-decisions models/e13-financial-gate-decisions-v1.json --contract models/e14-information-audit-contract-v1.json --output ../../data/historical-real-v12-2008-2025/challengers/e14-information-audit-v1.json
+```
+
+Il comando e' esclusivamente diagnostico: usa date inner, non tratta gli
+unlabeled come negativi e non genera candidati, ranking o promozioni.
+
+E14.2 congela la tassonomia tri-state v3 e verifica la copertura informativa
+prima di autorizzare nuovi candidati:
+
+```text
+python -m regime_eval e14-label-audit --dataset ../../data/historical-real-v12-2008-2025/dataset/historical-dataset-2008-04-01-2025-12-31.json --plan ../../data/historical-real-v12-2008-2025/dataset/walk-forward-plan.json --taxonomy ground-truth/us-financial-stress-v3.json --information-audit ../../data/historical-real-v12-2008-2025/challengers/e14-information-audit-v1.json --contract models/e14-label-audit-contract-v1.json --output ../../data/historical-real-v12-2008-2025/challengers/e14-label-audit-v1.json
+```
+
+Il comando restituisce exit code non zero quando la copertura non autorizza la
+generazione. Il report resta valido, deterministico e write-once: l'exit code
+negativo e' la decisione del gate, non un errore di esecuzione.
+
+E14.3 verifica le fonti storiche e le ipotesi pre-2008 senza scaricare dati o
+creare label:
+
+```text
+python -m regime_eval e14-historical-feasibility --catalog models/e14-historical-source-catalog-v1.json --taxonomy ground-truth/us-financial-stress-v3.json --label-audit ../../data/historical-real-v12-2008-2025/challengers/e14-label-audit-v1.json --contract models/e14-historical-feasibility-contract-v1.json --output ../../data/historical-real-v12-2008-2025/challengers/e14-historical-feasibility-v1.json
+```
+
+Il primo gate restituisce exit code 3 e
+`GO_FOR_EPISODE_DOSSIERS_ONLY`: le fonti positive sono plausibili, ma gli hard
+negative non sono ancora dimostrati. Gli indici compositi con storia
+ricostruita restano diagnostici e la popolazione completa rimane vietata.
+
+E14.4a congela lo schema dei dossier e il contratto dei detector indipendenti:
+
+```text
+python -m regime_eval e14-mechanism-contract-audit --detector-contract models/e14-mechanism-detector-contract-v1.json --dossier-schema models/e14-episode-dossier-schema-v1.json --source-catalog models/e14-historical-source-catalog-v1.json --feasibility-report ../../data/historical-real-v12-2008-2025/challengers/e14-historical-feasibility-v1.json --taxonomy ground-truth/us-financial-stress-v3.json --output ../../data/historical-real-v12-2008-2025/challengers/e14-mechanism-contract-audit-v1.json
+```
+
+Il comando passa con `READY_FOR_DOSSIER_CURATION`. Non legge dataset o dossier,
+non sceglie soglie e non autorizza ground truth, corpus o candidati.
+
+E14.4b1 cura i dossier positivi pre-2008 a partire da un pack congelato di
+asserzioni su fonti primarie:
+
+```text
+python -m regime_eval e14-curate-positive-dossiers --pack models/e14-positive-dossier-pack-v1.json --dossier-schema models/e14-episode-dossier-schema-v1.json --detector-contract models/e14-mechanism-detector-contract-v1.json --source-catalog models/e14-historical-source-catalog-v1.json --contract-audit ../../data/historical-real-v12-2008-2025/challengers/e14-mechanism-contract-audit-v1.json --dossier-dir ../../data/historical-real-v12-2008-2025/challengers/e14-dossiers-v1 --output ../../data/historical-real-v12-2008-2025/challengers/e14-positive-dossier-curation-v1.json
+```
+
+Il comando produce 8 dossier write-once nello stato `reviewed`. Restituisce
+exit code 3 perche' un solo reviewer non puo' accettare i dossier e non esiste
+ancora alcun hard negative conforme. Il report e' quindi valido, ma non
+autorizza modifiche alla ground truth, popolazione del corpus o candidati.
+
+E14.4b2 aggiunge hard negative affermativi per tutti i meccanismi e prepara la
+coda per il reviewer indipendente:
+
+```text
+python -m regime_eval e14-adjudication-queue --hard-negative-pack models/e14-hard-negative-dossier-pack-v1.json --dossier-schema models/e14-episode-dossier-schema-v1.json --review-schema models/e14-independent-review-schema-v1.json --detector-contract models/e14-mechanism-detector-contract-v1.json --positive-pack models/e14-positive-dossier-pack-v1.json --positive-curation-audit ../../data/historical-real-v12-2008-2025/challengers/e14-positive-dossier-curation-v1.json --positive-dossier-dir ../../data/historical-real-v12-2008-2025/challengers/e14-dossiers-v1 --hard-negative-dossier-dir ../../data/historical-real-v12-2008-2025/challengers/e14-hard-negative-dossiers-v2 --review-receipt-dir ../../data/historical-real-v12-2008-2025/challengers/e14-independent-reviews-v1 --queue-output ../../data/historical-real-v12-2008-2025/challengers/e14-independent-review-queue-v2.json --output ../../data/historical-real-v12-2008-2025/challengers/e14-adjudication-readiness-v2.json
+```
+
+In assenza di ricevute il comando restituisce un exit non zero intenzionale e
+lo stato `INDEPENDENT_REVIEW_REQUIRED`. La coda contiene 8 dossier positivi e
+4 hard negative. Una ricevuta valida deve legare l'hash del dossier, dichiarare
+l'indipendenza del reviewer e non puo' essere firmata dall'autore del pack.
+La run `v2` e' quella autorevole: rende chiuse anche le proprieta' della
+ricevuta e vieta `accept` quando claim o confini non sono confermati. La prima
+run locale `v1` resta superseded e non viene modificata per rispettare
+l'immutabilita' degli artefatti.
+
+E14.4b3a costruisce il pacchetto da consegnare al reviewer esterno:
+
+```text
+python -m regime_eval e14-build-review-handoff --contract models/e14-review-handoff-contract-v1.json --review-queue ../../data/historical-real-v12-2008-2025/challengers/e14-independent-review-queue-v2.json --adjudication-audit ../../data/historical-real-v12-2008-2025/challengers/e14-adjudication-readiness-v2.json --review-schema models/e14-independent-review-schema-v1.json --dossier-schema models/e14-episode-dossier-schema-v1.json --positive-dossier-dir ../../data/historical-real-v12-2008-2025/challengers/e14-dossiers-v1 --hard-negative-dossier-dir ../../data/historical-real-v12-2008-2025/challengers/e14-hard-negative-dossiers-v2 --bundle-dir ../../data/historical-real-v12-2008-2025/challengers/e14-external-review-bundle-v1 --output ../../data/historical-real-v12-2008-2025/challengers/e14-review-handoff-audit-v1.json
+```
+
+Il bundle contiene `README.md`, copie immutabili dei dossier, worksheet e
+template. Il reviewer deve copiare ogni template nella directory
+`e14-independent-reviews-v1`, completarlo e non modificare il bundle. I
+template hanno placeholder e valori `null`: non sono ricevute valide e non
+devono essere collocati direttamente nella directory di ingestione.
+
+E14.4b3b valida le ricevute del reviewer con lo schema v2:
+
+```text
+python -m regime_eval e14-ingest-independent-reviews --contract models/e14-review-ingestion-contract-v1.json --review-queue ../../data/historical-real-v12-2008-2025/challengers/e14-independent-review-queue-v2.json --adjudication-audit ../../data/historical-real-v12-2008-2025/challengers/e14-adjudication-readiness-v2.json --handoff-audit ../../data/historical-real-v12-2008-2025/challengers/e14-review-handoff-audit-v1.json --review-schema models/e14-independent-review-schema-v2.json --receipt-dir ../../data/historical-real-v12-2008-2025/challengers/e14-independent-reviews-v1 --queue-output ../../data/historical-real-v12-2008-2025/challengers/e14-independent-review-queue-v3.json --output ../../data/historical-real-v12-2008-2025/challengers/e14-review-ingestion-audit-v1.json
+```
+
+Lo schema v2 permette `sourceLocatorsOpened=false` solo nei non-accept; una
+decisione `accept` richiede fonti aperte, claim confermato e confini confermati.
+Il primo ciclo reale produce 8 `accept` e 4 `needs-revision`, quindi l'exit non
+zero e `DOSSIER_REVISIONS_REQUIRED` sono un esito metodologico, non un errore.
+
+E14.4b4 revisiona soltanto i quattro hash non accettati e genera un bundle di
+riesame che esclude deliberatamente gli otto dossier gia' accettati:
+
+```text
+python -m regime_eval e14-targeted-dossier-revision --contract models/e14-targeted-dossier-revision-contract-v1.json --reviewed-queue ../../data/historical-real-v12-2008-2025/challengers/e14-independent-review-queue-v3.json --review-ingestion-audit ../../data/historical-real-v12-2008-2025/challengers/e14-review-ingestion-audit-v1.json --dossier-schema models/e14-episode-dossier-schema-v1.json --positive-dossier-dir ../../data/historical-real-v12-2008-2025/challengers/e14-dossiers-v1 --hard-negative-dossier-dir ../../data/historical-real-v12-2008-2025/challengers/e14-hard-negative-dossiers-v2 --revised-dossier-dir ../../data/historical-real-v12-2008-2025/challengers/e14-revised-dossiers-v1 --bundle-dir ../../data/historical-real-v12-2008-2025/challengers/e14-targeted-review-bundle-v1 --queue-output ../../data/historical-real-v12-2008-2025/challengers/e14-independent-review-queue-v4.json --output ../../data/historical-real-v12-2008-2025/challengers/e14-targeted-dossier-revision-audit-v1.json
+```
+
+Le quattro nuove ricevute vengono fuse con gli otto accept preservati senza
+riaprire le review precedenti:
+
+```text
+python -m regime_eval e14-ingest-targeted-reviews --contract models/e14-targeted-review-ingestion-contract-v1.json --targeted-queue ../../data/historical-real-v12-2008-2025/challengers/e14-independent-review-queue-v4.json --revision-audit ../../data/historical-real-v12-2008-2025/challengers/e14-targeted-dossier-revision-audit-v1.json --review-schema models/e14-independent-review-schema-v2.json --receipt-dir ../../data/historical-real-v12-2008-2025/challengers/e14-targeted-independent-reviews-v1 --queue-output ../../data/historical-real-v12-2008-2025/challengers/e14-independent-review-queue-v5.json --output ../../data/historical-real-v12-2008-2025/challengers/e14-targeted-review-ingestion-audit-v1.json
+```
+
+L'esito reale e' 4/4 accept mirati e 12/12 complessivi. Lo stato
+`READY_FOR_LABEL_FOUNDATION_GATE` autorizza soltanto E14.4c: non muta la ground
+truth e non autorizza ancora la generazione di candidati.
+
+E14.4c espande i dossier accettati alla granularita' mese-meccanismo e crea
+una proposta di fondazione separata dalla ground truth:
+
+```text
+python -m regime_eval e14-label-foundation-gate --contract models/e14-label-foundation-gate-contract-v1.json --reviewed-queue ../../data/historical-real-v12-2008-2025/challengers/e14-independent-review-queue-v5.json --targeted-ingestion-audit ../../data/historical-real-v12-2008-2025/challengers/e14-targeted-review-ingestion-audit-v1.json --taxonomy ground-truth/us-financial-stress-v3.json --dossier-schema models/e14-episode-dossier-schema-v1.json --proposal-schema models/e14-label-foundation-proposal-schema-v1.json --label-audit-contract models/e14-label-audit-contract-v1.json --mechanism-contract models/e14-mechanism-detector-contract-v1.json --positive-dossier-dir ../../data/historical-real-v12-2008-2025/challengers/e14-dossiers-v1 --hard-negative-dossier-dir ../../data/historical-real-v12-2008-2025/challengers/e14-hard-negative-dossiers-v2 --revised-dossier-dir ../../data/historical-real-v12-2008-2025/challengers/e14-revised-dossiers-v1 --proposal-output ../../data/historical-real-v12-2008-2025/challengers/e14-label-foundation-proposal-v1.json --output ../../data/historical-real-v12-2008-2025/challengers/e14-label-foundation-gate-audit-v1.json
+```
+
+La chiave di conflitto e' `(mese, meccanismo)`: stati diversi nello stesso
+mese ma su meccanismi differenti vengono mantenuti, mentre stati opposti sulla
+stessa chiave bloccano il merge. Gli unlabeled non diventano mai negativi e i
+dossier di uno stesso evento non aumentano artificialmente il conteggio degli
+episodi indipendenti.
+
+La run reale produce 42 label mese-meccanismo, zero conflitti e copertura
+positiva sufficiente. Gli hard negative restano pero' due eventi indipendenti,
+uno per meccanismo, sotto le soglie 6 totali e 2 per meccanismo. Lo stato
+`FOUNDATION_MERGE_READY_MORE_EVIDENCE_REQUIRED` autorizza E14.4d a versionare
+la tassonomia v4, ma mantiene chiusa la generazione di candidati.
+
+E14.4d materializza la proposta in una nuova tassonomia mechanism-aware senza
+modificare la v3:
+
+```text
+python -m regime_eval e14-materialize-taxonomy-v4 --contract models/e14-taxonomy-v4-materialization-contract-v1.json --taxonomy-v3 ground-truth/us-financial-stress-v3.json --foundation-proposal ../../data/historical-real-v12-2008-2025/challengers/e14-label-foundation-proposal-v1.json --foundation-gate-audit ../../data/historical-real-v12-2008-2025/challengers/e14-label-foundation-gate-audit-v1.json --proposal-schema models/e14-label-foundation-proposal-schema-v1.json --taxonomy-schema models/e14-financial-stress-taxonomy-v4-schema.json --label-audit-contract models/e14-label-audit-contract-v1.json --mechanism-contract models/e14-mechanism-detector-contract-v1.json --taxonomy-output ground-truth/us-financial-stress-v4.json --output ../../data/historical-real-v12-2008-2025/challengers/e14-taxonomy-v4-materialization-audit-v1.json
+```
+
+Le nuove voci sono monomeccanismo e mantengono il proprio intervallo. Il campo
+`independentEventId` e' la chiave di conteggio: piu' dossier dello stesso
+evento non diventano osservazioni indipendenti. La v4 estende la cronologia a
+maggio 1984 senza restringere il precedente limite dicembre 2025.
+
+La run reale termina
+`TAXONOMY_V4_VERSIONED_MORE_HARD_NEGATIVES_REQUIRED`: la copertura positiva e'
+sufficiente, ma i quattro dossier hard-negative rappresentano solo due eventi
+indipendenti. E14.4e deve quindi ampliare e sottoporre a review gli hard
+negative prima di riaprire il coverage gate o generare candidati.

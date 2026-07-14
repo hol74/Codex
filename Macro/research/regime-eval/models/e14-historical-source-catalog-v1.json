@@ -1,0 +1,209 @@
+{
+  "schemaVersion": 1,
+  "catalogId": "e14-historical-source-catalog-v1",
+  "frozenAt": "2026-07-14",
+  "purpose": "Feasibility evidence only. Sources and episode hypotheses cannot modify labels or authorize candidate generation.",
+  "asOfClasses": {
+    "vintage-api": "A provider exposes observations as known on a requested historical date.",
+    "event-time-observation": "A dated market observation existed at event time, but the downloaded history still requires immutable snapshotting and correction audit.",
+    "release-archived": "A dated official release or filing can be bound to its publication date.",
+    "reconstructed-current-history": "The provider recomputes or revises history; allowed only for diagnostics, not strict point-in-time features."
+  },
+  "sources": [
+    {
+      "id": "fred-alfred-api",
+      "provider": "Federal Reserve Bank of St. Louis",
+      "url": "https://fred.stlouisfed.org/docs/api/fred/series_vintagedates.html",
+      "sourceType": "feature-infrastructure",
+      "coverageFrom": "1946-01-01",
+      "frequency": "series-dependent",
+      "mechanisms": ["broad-market-repricing", "funding-liquidity", "banking-credit", "cross-border-growth"],
+      "asOfClass": "vintage-api",
+      "eligibility": "strict-point-in-time",
+      "role": "Reuse the existing vintage selector for revisionable macro controls; series-specific coverage remains mandatory."
+    },
+    {
+      "id": "cboe-vix-history",
+      "provider": "Cboe Global Markets",
+      "url": "https://www.cboe.com/tradable_products/vix/vix_historical_data",
+      "sourceType": "feature",
+      "coverageFrom": "1990-01-02",
+      "frequency": "daily",
+      "mechanisms": ["broad-market-repricing"],
+      "asOfClass": "event-time-observation",
+      "eligibility": "pilot-with-snapshot",
+      "role": "Official daily VIX history; methodology/backcast boundary and corrections must be manifested."
+    },
+    {
+      "id": "fred-baa10y",
+      "provider": "Federal Reserve Bank of St. Louis / Moody's",
+      "url": "https://fred.stlouisfed.org/series/BAA10Y",
+      "sourceType": "feature",
+      "coverageFrom": "1986-01-02",
+      "frequency": "daily",
+      "mechanisms": ["broad-market-repricing", "banking-credit"],
+      "asOfClass": "event-time-observation",
+      "eligibility": "pilot-with-snapshot",
+      "role": "Long-history corporate credit proxy; licensing and source-component changes require an explicit manifest."
+    },
+    {
+      "id": "fred-tedrate",
+      "provider": "Federal Reserve Bank of St. Louis",
+      "url": "https://fred.stlouisfed.org/series/TEDRATE",
+      "sourceType": "feature",
+      "coverageFrom": "1986-01-02",
+      "coverageTo": "2022-01-21",
+      "frequency": "daily",
+      "mechanisms": ["funding-liquidity"],
+      "asOfClass": "event-time-observation",
+      "eligibility": "pilot-with-snapshot",
+      "role": "Historical unsecured funding proxy; discontinued LIBOR construction forbids seamless continuation into the SOFR era."
+    },
+    {
+      "id": "fred-dtwexb",
+      "provider": "Board of Governors via FRED",
+      "url": "https://fred.stlouisfed.org/series/DTWEXB",
+      "sourceType": "feature",
+      "coverageFrom": "1995-01-04",
+      "coverageTo": "2019-12-31",
+      "frequency": "daily",
+      "mechanisms": ["cross-border-growth"],
+      "asOfClass": "event-time-observation",
+      "eligibility": "pilot-with-snapshot",
+      "role": "Broad trade-weighted dollar proxy; discontinued series must not be silently spliced to its successor."
+    },
+    {
+      "id": "chicago-fed-nfci",
+      "provider": "Federal Reserve Bank of Chicago",
+      "url": "https://www.chicagofed.org/research/data/nfci/current-data",
+      "sourceType": "diagnostic-index",
+      "coverageFrom": "1971-01-08",
+      "frequency": "weekly",
+      "mechanisms": ["broad-market-repricing", "funding-liquidity", "banking-credit"],
+      "asOfClass": "reconstructed-current-history",
+      "eligibility": "diagnostic-only",
+      "role": "Long historical benchmark; its full history and estimated weights can change with new releases."
+    },
+    {
+      "id": "stlouis-fed-stlfsi4",
+      "provider": "Federal Reserve Bank of St. Louis",
+      "url": "https://fred.stlouisfed.org/series/STLFSI4",
+      "sourceType": "diagnostic-index",
+      "coverageFrom": "1993-12-31",
+      "frequency": "weekly",
+      "mechanisms": ["broad-market-repricing", "funding-liquidity", "banking-credit"],
+      "asOfClass": "reconstructed-current-history",
+      "eligibility": "diagnostic-only",
+      "role": "Versioned composite benchmark, not a frozen historical feature stream."
+    },
+    {
+      "id": "ofr-fsi",
+      "provider": "Office of Financial Research",
+      "url": "https://www.financialresearch.gov/financial-stress-index/",
+      "sourceType": "diagnostic-index",
+      "coverageFrom": "2000-01-03",
+      "frequency": "daily",
+      "mechanisms": ["broad-market-repricing", "funding-liquidity", "banking-credit", "cross-border-growth"],
+      "asOfClass": "reconstructed-current-history",
+      "eligibility": "diagnostic-only",
+      "role": "Useful category and regional benchmark; revisions and the 2023 reference-rate transition prevent strict historical use without archived vintages."
+    },
+    {
+      "id": "fdic-failures",
+      "provider": "Federal Deposit Insurance Corporation",
+      "url": "https://banks.data.fdic.gov/explore/failures",
+      "sourceType": "label-evidence",
+      "coverageFrom": "1934-01-01",
+      "frequency": "event",
+      "mechanisms": ["banking-credit"],
+      "asOfClass": "release-archived",
+      "eligibility": "label-only",
+      "role": "Official failure and assistance events; a failure is not by itself evidence of systemic stress or of a hard negative."
+    },
+    {
+      "id": "fdic-quarterly-financials",
+      "provider": "Federal Deposit Insurance Corporation",
+      "url": "https://www.fdic.gov/bank-data-guide/data-downloads",
+      "sourceType": "feature",
+      "coverageFrom": "1984-01-01",
+      "frequency": "quarterly",
+      "mechanisms": ["banking-credit"],
+      "asOfClass": "release-archived",
+      "eligibility": "pilot-with-release-calendar",
+      "role": "Aggregate and institution financials; ingestion must preserve filing/publication dates and revisions."
+    },
+    {
+      "id": "fed-historical-archives",
+      "provider": "Board of Governors of the Federal Reserve System",
+      "url": "https://www.federalreserve.gov/monetarypolicy/fomc_historical.htm",
+      "sourceType": "label-evidence",
+      "coverageFrom": "1936-01-01",
+      "frequency": "event-and-release",
+      "mechanisms": ["broad-market-repricing", "funding-liquidity", "banking-credit", "cross-border-growth"],
+      "asOfClass": "release-archived",
+      "eligibility": "label-only",
+      "role": "Dated policy records and reports for episode dossiers; later retrospective documents must be marked ex post."
+    },
+    {
+      "id": "bis-publication-archive",
+      "provider": "Bank for International Settlements",
+      "url": "https://www.bis.org/publ/qtrpdf/",
+      "sourceType": "label-evidence",
+      "coverageFrom": "1996-01-01",
+      "frequency": "quarterly-and-event",
+      "mechanisms": ["broad-market-repricing", "funding-liquidity", "banking-credit", "cross-border-growth"],
+      "asOfClass": "release-archived",
+      "eligibility": "label-only",
+      "role": "Contemporaneous and retrospective official narratives for cross-border and market episodes."
+    }
+  ],
+  "positiveEpisodeHypotheses": [
+    {
+      "id": "continental-illinois-1984",
+      "firstMonth": "1984-05-01",
+      "lastMonth": "1984-07-01",
+      "mechanisms": ["banking-credit"],
+      "sourceIds": ["fdic-failures", "fed-historical-archives"],
+      "curationStatus": "hypothesis-only"
+    },
+    {
+      "id": "stock-market-break-1987",
+      "firstMonth": "1987-10-01",
+      "lastMonth": "1987-10-01",
+      "mechanisms": ["broad-market-repricing"],
+      "sourceIds": ["cboe-vix-history", "fed-historical-archives"],
+      "curationStatus": "hypothesis-only"
+    },
+    {
+      "id": "mexico-bond-turbulence-1994",
+      "firstMonth": "1994-02-01",
+      "lastMonth": "1995-03-01",
+      "mechanisms": ["broad-market-repricing", "cross-border-growth"],
+      "sourceIds": ["fred-baa10y", "bis-publication-archive"],
+      "curationStatus": "hypothesis-only"
+    },
+    {
+      "id": "asian-financial-crisis-1997",
+      "firstMonth": "1997-07-01",
+      "lastMonth": "1998-01-01",
+      "mechanisms": ["cross-border-growth"],
+      "sourceIds": ["fred-dtwexb", "bis-publication-archive", "fed-historical-archives"],
+      "curationStatus": "hypothesis-only"
+    },
+    {
+      "id": "russia-ltcm-1998",
+      "firstMonth": "1998-08-01",
+      "lastMonth": "1998-10-01",
+      "mechanisms": ["broad-market-repricing", "funding-liquidity", "cross-border-growth"],
+      "sourceIds": ["cboe-vix-history", "fred-baa10y", "fred-tedrate", "fed-historical-archives", "bis-publication-archive"],
+      "curationStatus": "hypothesis-only"
+    }
+  ],
+  "hardNegativeHypotheses": [],
+  "prohibitions": [
+    "Hypotheses are not labels and cannot be copied into ground truth without an episode dossier.",
+    "Composite reconstructed histories cannot be used as strict point-in-time detector inputs.",
+    "A low index value or absence of intervention cannot establish a hard negative.",
+    "No series may be spliced across methodology or reference-rate regimes without a versioned bridge contract."
+  ]
+}

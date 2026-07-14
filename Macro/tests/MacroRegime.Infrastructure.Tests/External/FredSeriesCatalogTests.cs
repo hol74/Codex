@@ -5,10 +5,13 @@ namespace MacroRegime.Infrastructure.Tests.External;
 public sealed class FredSeriesCatalogTests
 {
     [Fact]
-    public void Baseline_ContainsSixSeries()
+    public void Baseline_ContainsSevenSourceSeriesAndTwoDerivedSeries()
     {
         var codes = FredSeriesCatalog.BaselineSeriesCodes;
-        Assert.Equal(new[] { "INDPRO_YOY", "SAHM", "T10YIE", "VIX", "YC_10Y2Y", "HY_OAS" }, codes);
+        Assert.Equal(new[] { "INDPRO_YOY", "SAHM", "CPI_YOY", "T10YIE", "VIX", "YC_10Y2Y", "HY_OAS" }, codes);
+        Assert.Equal(new[] { "CPI_YOY_3M_CHANGE", "YC_10Y2Y_3M_CHANGE" }, FredSeriesCatalog.HistoricalDerivedSeriesCodes);
+        Assert.Equal(new[] { "SOFR", "EFFR" }, FredSeriesCatalog.HistoricalIntramonthSourceSeriesCodes);
+        Assert.Equal(4, FredSeriesCatalog.HistoricalIntramonthDerivedSeriesCodes.Count);
     }
 
     [Fact]
@@ -32,9 +35,9 @@ public sealed class FredSeriesCatalogTests
     }
 
     [Fact]
-    public void Resolve_ReturnsAllSix_ForBaselineCodes()
+    public void Resolve_ReturnsMetadata_ForAllHistoricalSnapshotCodes()
     {
-        foreach (var code in FredSeriesCatalog.BaselineSeriesCodes)
+        foreach (var code in FredSeriesCatalog.HistoricalSnapshotSeriesCodes)
         {
             var meta = FredSeriesCatalog.Resolve(code);
             Assert.Equal(code, meta.SeriesCode);

@@ -1,0 +1,124 @@
+{
+  "schemaVersion": 3,
+  "groundTruthId": "us-financial-stress-tristate-v3",
+  "label": "US-relevant financial stress with explicit positive, hard-negative and ambiguous states",
+  "geography": "United States with documented global spillovers",
+  "frequency": "monthly",
+  "coverageFrom": "2008-04-01",
+  "coverageTo": "2025-12-31",
+  "derivedFrom": "us-non-recession-stress-monthly-v2-dimensional",
+  "stateDefinitions": {
+    "positive": "Documented financial-system, funding, banking or broad-market stress.",
+    "hard-negative": "Documented elevated macro or market conditions with affirmative evidence that the target financial-stress mechanism remained orderly.",
+    "ambiguous": "A non-financial shock or tightening episode for which absence of a financial_stress label is not evidence of a negative.",
+    "unlabeled": "No curated state; excluded from supervised class metrics."
+  },
+  "monthResolutionPolicy": "positive overrides hard-negative, which overrides ambiguous; unlabeled is the default. Overlap is preserved at episode level for audit.",
+  "mechanisms": {
+    "broad-market-repricing": "Cross-asset repricing, flight to quality or broad risk-off conditions.",
+    "funding-liquidity": "Money-market, secured-funding or liquidity disruption.",
+    "banking-credit": "Banking-system or credit-intermediation stress.",
+    "cross-border-growth": "Global or emerging-market shock transmitted through US financial conditions."
+  },
+  "sources": [
+    {"id": "bis-euro-sovereign-2011", "name": "BIS Quarterly Review December 2011", "url": "https://www.bis.org/publ/qtrpdf/r_qt1112a.htm"},
+    {"id": "bis-taper-2013", "name": "BIS Quarterly Review September 2013", "url": "https://www.bis.org/publ/qtrpdf/r_qt1309a.htm"},
+    {"id": "bis-eme-2015", "name": "BIS Quarterly Review September 2015", "url": "https://www.bis.org/publ/qtrpdf/r_qt1509a.htm"},
+    {"id": "bis-turbulence-2016", "name": "BIS Quarterly Review March 2016", "url": "https://www.bis.org/publ/qtrpdf/r_qt1603a.htm"},
+    {"id": "fed-2018-repricing", "name": "Federal Reserve 2018 Annual Report", "url": "https://www.federalreserve.gov/publications/2018-ar-monetary-policy.htm"},
+    {"id": "fed-repo-2019", "name": "Federal Reserve FEDS Notes on September 2019 money markets", "url": "https://www.federalreserve.gov/econres/notes/feds-notes/what-happened-in-money-markets-in-september-2019-20200227.html"},
+    {"id": "fred-cpi", "name": "FRED CPIAUCSL", "url": "https://fred.stlouisfed.org/series/CPIAUCSL"},
+    {"id": "fed-mpr-2022", "name": "Federal Reserve Monetary Policy Report June 2022", "url": "https://www.federalreserve.gov/monetarypolicy/2022-06-mpr-summary.htm"},
+    {"id": "fed-fomc-rates", "name": "Federal Reserve historical target-rate changes", "url": "https://www.federalreserve.gov/monetarypolicy/openmarket.htm"},
+    {"id": "fed-fsr-2023", "name": "Federal Reserve Financial Stability Report May 2023", "url": "https://www.federalreserve.gov/publications/2023-may-financial-stability-report-overview.htm"}
+  ],
+  "episodes": [
+    {
+      "id": "euro-sovereign-stress-2011",
+      "name": "Euro-area sovereign stress spillover",
+      "firstMonth": "2011-09-01",
+      "lastMonth": "2011-12-01",
+      "financialState": "positive",
+      "mechanisms": ["broad-market-repricing", "banking-credit"],
+      "sourceIds": ["bis-euro-sovereign-2011"],
+      "validationRole": "development-v1"
+    },
+    {
+      "id": "taper-tantrum-2013",
+      "name": "Taper-announcement market shock",
+      "firstMonth": "2013-05-01",
+      "lastMonth": "2013-06-01",
+      "financialState": "positive",
+      "mechanisms": ["broad-market-repricing", "cross-border-growth"],
+      "sourceIds": ["bis-taper-2013"],
+      "validationRole": "protected-v2"
+    },
+    {
+      "id": "china-eme-stress-2015-2016",
+      "name": "China and emerging-market growth stress",
+      "firstMonth": "2015-08-01",
+      "lastMonth": "2016-02-01",
+      "financialState": "positive",
+      "mechanisms": ["broad-market-repricing", "cross-border-growth"],
+      "sourceIds": ["bis-eme-2015", "bis-turbulence-2016"],
+      "validationRole": "development-v1"
+    },
+    {
+      "id": "risk-repricing-2018q4",
+      "name": "Fourth-quarter 2018 risk repricing",
+      "firstMonth": "2018-10-01",
+      "lastMonth": "2018-12-01",
+      "financialState": "positive",
+      "mechanisms": ["broad-market-repricing"],
+      "sourceIds": ["fed-2018-repricing"],
+      "validationRole": "development-v1"
+    },
+    {
+      "id": "repo-stress-2019",
+      "name": "US repo-market stress",
+      "firstMonth": "2019-09-01",
+      "lastMonth": "2019-10-01",
+      "financialState": "positive",
+      "mechanisms": ["funding-liquidity"],
+      "sourceIds": ["fed-repo-2019"],
+      "validationRole": "protected-v2"
+    },
+    {
+      "id": "inflation-shock-2021-2023",
+      "name": "Post-pandemic inflation shock",
+      "firstMonth": "2021-04-01",
+      "lastMonth": "2023-05-01",
+      "financialState": "ambiguous",
+      "mechanisms": [],
+      "sourceIds": ["fred-cpi", "fed-mpr-2022"],
+      "validationRole": "contrast-v3"
+    },
+    {
+      "id": "fed-tightening-2022-2023",
+      "name": "Federal Reserve rapid tightening cycle",
+      "firstMonth": "2022-03-01",
+      "lastMonth": "2023-07-01",
+      "financialState": "ambiguous",
+      "mechanisms": [],
+      "sourceIds": ["fed-fomc-rates", "fed-mpr-2022"],
+      "validationRole": "contrast-v3"
+    },
+    {
+      "id": "regional-bank-stress-2023",
+      "name": "US regional banking stress",
+      "firstMonth": "2023-03-01",
+      "lastMonth": "2023-05-01",
+      "financialState": "positive",
+      "mechanisms": ["banking-credit", "funding-liquidity"],
+      "sourceIds": ["fed-fsr-2023"],
+      "validationRole": "development-v1"
+    }
+  ],
+  "hardNegativeEpisodes": [],
+  "limitations": [
+    "No hard-negative episode is asserted by the inherited v2 evidence; E14.2 must report this gap rather than infer negatives from absent labels.",
+    "Episodes are curated ex post and are evaluation labels, never real-time model inputs.",
+    "Mechanism assignments organize documented evidence but do not prove that every month shares the same causal channel.",
+    "No result from this taxonomy can authorize promotion without independent prospective evidence."
+  ]
+}

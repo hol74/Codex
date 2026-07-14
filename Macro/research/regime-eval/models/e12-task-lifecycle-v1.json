@@ -1,0 +1,34 @@
+{
+  "schemaVersion": 1,
+  "contractId": "e12-task-lifecycle-v1",
+  "frozenAt": "2026-07-14",
+  "status": "foundation-frozen",
+  "maximumLifecycleBeforeFreshProspectiveEvidence": "shadow-candidate",
+  "tasks": {
+    "recession-signal": {
+      "primaryTruth": "NBER recession chronology",
+      "primaryMetrics": ["recall", "f1", "brier", "averagePrecision", "expectedCalibrationError"],
+      "requiredInputs": ["SAHM", "INDPRO_YOY", "YC_10Y2Y"],
+      "firstCandidateId": "sahm-yield-hazard-v1"
+    },
+    "financial-stress-signal": {
+      "primaryTruth": "non-recession stress chronology v2",
+      "primaryMetrics": ["episodeHitRate", "falsePositiveRun", "brier", "averagePrecision", "expectedCalibrationError"],
+      "requiredInputs": [
+        "VIX_MONTHLY_MAX",
+        "SOFR_EFFR_MONTHLY_MAX",
+        "SPY_MONTHLY_MAX_DRAWDOWN",
+        "HYG_MONTHLY_MAX_DRAWDOWN",
+        "HY_OAS"
+      ],
+      "firstCandidateId": "event-aware-financial-stress-v1"
+    }
+  },
+  "missingnessPolicy": {
+    "SOFR_EFFR_MONTHLY_MAX": "absent before source coverage; never backfilled or zero-imputed",
+    "eligibility": "reported per fold and task; insufficient coverage makes the fold ineligible"
+  },
+  "compositionPolicy": "No fused regime candidate until both task-specific candidates are frozen and evaluated independently.",
+  "selectionPolicy": "Nested inner rolling validation only; outer OOS cannot select, rank or tune.",
+  "promotionPolicy": "Passing a task gate can only produce ELIGIBLE_FOR_SHADOW_REVIEW; operational approval requires fresh prospective Evidence v2 and human review."
+}

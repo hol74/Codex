@@ -1,0 +1,48 @@
+{
+  "schemaVersion": 1,
+  "role": "challenger",
+  "lifecycleStatus": "research-challenger",
+  "promotionTarget": "shadow-candidate",
+  "modelId": "rare-event-logit-v1",
+  "modelFamily": "L2-regularized weighted logistic regression for rare events",
+  "frozenAt": "2026-07-14",
+  "benchmarkScope": "inner-validation-only",
+  "expectedInputs": {
+    "datasetSha256": "1a2db1c7540a2419757b37d01717de258548f9bcf301994dfcd5c83f47f17649",
+    "baselineEvaluationSha256": "643eaafc9cc30ac8beb1358ccea564afe8eca5d2622605a5335b95c75b8de0f8",
+    "walkForwardPlanSha256": "da4155c2639d4870a9e1bcb475b53f81a0491cef8bd8c8e572851c2419a73fed",
+    "recessionGroundTruthSha256": "7285b4b88d3f1a269a33241ffad212747be7033dbf557f38cb594c53170da59a",
+    "stressGroundTruthSha256": "e210915f31301e3b0b2082b2ec94f51c3f959782dd06a2fec96a40713d4bc708"
+  },
+  "levelFeatures": ["GROWTH_MOM", "INFL_PRESS", "RISK_APPETITE", "MONETARY_COND", "CREDIT_STRESS"],
+  "differenceFeatures": ["GROWTH_MOM", "RISK_APPETITE", "MONETARY_COND", "CREDIT_STRESS"],
+  "firstDifferencePolicy": "causal one-month difference; first available difference is zero",
+  "trainOnlyStandardization": true,
+  "optimizer": {
+    "algorithm": "deterministic batch gradient descent",
+    "l2Penalty": 1.0,
+    "learningRate": 0.05,
+    "maximumIterations": 2000,
+    "convergenceTolerance": 0.0000001
+  },
+  "rareEventPolicy": {
+    "negativeClassWeight": 1.0,
+    "positiveClassWeight": "min(10, negativeTrainCount / positiveTrainCount)",
+    "maximumPositiveClassWeight": 10.0,
+    "foldWithoutPositiveTrainLabel": "ineligible"
+  },
+  "decisionThresholdPolicy": {
+    "candidates": [0.25, 0.35, 0.5],
+    "selectionScope": "inner validation only",
+    "objective": "maximum F1 among thresholds with recall >= 0.50; tie-break by lower Brier score then higher threshold",
+    "fallback": 0.5
+  },
+  "probabilityCalibration": "none in v1; raw logistic probabilities are evaluated with Brier score, log loss and calibration table",
+  "labelUse": "NBER labels are used only in outer-train fitting and nested inner validation; outer OOS labels never affect fitting, threshold or features.",
+  "outerOosPolicy": "Forbidden for selection or parameter changes; optional diagnostic only after implementation and config hashes are frozen.",
+  "selectionPolicy": "The declared threshold list is the only inner search. Feature list, L2 penalty, class-weight cap and optimizer cannot change after validation.",
+  "limitations": [
+    "The available recession labels remain scarce and coefficient estimates may be unstable.",
+    "Class weighting changes the fitted objective and does not by itself guarantee calibrated probabilities."
+  ]
+}

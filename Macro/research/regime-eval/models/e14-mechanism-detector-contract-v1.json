@@ -1,0 +1,125 @@
+{
+  "schemaVersion": 1,
+  "contractId": "e14-mechanism-detector-contract-v1",
+  "frozenAt": "2026-07-14",
+  "inputHashes": {
+    "dossierSchemaSha256": "6163ab4cf6249aa314708361d1572ade403844b2cca9b4deb9c6bfaca3c7702f",
+    "sourceCatalogSha256": "e2da8ce5dfacb144871d9d152d2114a30ba4b16adea938a96fabc05031b69271",
+    "historicalFeasibilitySha256": "923020a3b3aea552f1bb4737ec1e724891f991c1ad9b8c433d297560b4b93f00",
+    "taxonomyV3Sha256": "5c74072b70f6bc5c840b49e3937ffc0506db3a808adfd29138804e840fbf68b9"
+  },
+  "frequency": "monthly",
+  "requiredMechanisms": [
+    "broad-market-repricing",
+    "funding-liquidity",
+    "banking-credit",
+    "cross-border-growth"
+  ],
+  "globalPolicies": {
+    "detectorIndependence": "Each mechanism is trained, gated and reported independently before any composition.",
+    "compositionAuthorized": false,
+    "candidateGenerationAuthorized": false,
+    "corpusPopulationAuthorized": false,
+    "outerOosPolicy": "Feature values, labels and outcomes from outer OOS are forbidden for dossier adjudication, fitting and threshold selection.",
+    "missingnessPolicy": "Missing, unavailable and not-applicable methodology regimes remain explicit; zero imputation and cross-regime silent splicing are forbidden.",
+    "thresholdPolicy": "No threshold is frozen in E14.4. Future thresholds may be selected only inside inner leave-one-episode-out folds.",
+    "transformPolicy": {
+      "historyDirection": "strictly-prior-and-current-only",
+      "minimumHistoryMonths": 60,
+      "allowed": ["causal-rolling-percentile", "causal-robust-z-score", "causal-drawdown"],
+      "fitScope": "inner-only"
+    }
+  },
+  "dossierRules": {
+    "minimumEvidenceItems": 2,
+    "minimumIndependentProviders": 2,
+    "minimumAcceptedReviewers": 2,
+    "positiveRequirements": [
+      "one official narrative identifying disruption in the named mechanism",
+      "one quantitative observation corroborating timing and direction",
+      "explicit counterevidence review",
+      "month boundaries justified independently of model predictions"
+    ],
+    "hardNegativeRequirements": [
+      "one official narrative affirmatively describing orderly functioning or contained transmission in the named mechanism",
+      "one quantitative observation showing the named mechanism remained within its documented historical regime",
+      "explicit counterevidence review",
+      "absence of labels, interventions or alerts is never evidence"
+    ],
+    "acceptedDossierMayWriteGroundTruth": false,
+    "requiredFollowupGate": "A separate label-foundation audit must bind accepted dossiers before ground truth can change."
+  },
+  "phaseModel": {
+    "states": ["calm", "onset", "active", "recovery"],
+    "entryConfirmationMonths": 1,
+    "recoveryConfirmationMonths": 2,
+    "onsetDefinition": "First month crossing a future inner-fitted entry threshold from calm.",
+    "activeDefinition": "Months after onset while the independent mechanism remains above its future exit threshold.",
+    "recoveryDefinition": "First of two consecutive months below a future exit threshold, reported separately from onset quality.",
+    "hysteresisRequired": true
+  },
+  "evaluationContract": {
+    "unit": "episode-and-month",
+    "selectionScope": "inner-leave-one-episode-out-only",
+    "requiredMetrics": [
+      "episode-hit-rate",
+      "episode-recall",
+      "worst-episode-recall",
+      "onset-delay-months",
+      "recovery-lag-months",
+      "hard-negative-alert-rate",
+      "unlabeled-alert-count-reported-not-scored"
+    ],
+    "crossMechanismScore": false,
+    "outerOosOpened": false
+  },
+  "detectors": [
+    {
+      "detectorId": "e14-broad-market-repricing-detector",
+      "mechanism": "broad-market-repricing",
+      "target": "Broad, cross-asset risk repricing and impaired market risk-bearing.",
+      "positiveDefinition": "Officially documented broad repricing or market-liquidity disruption corroborated by volatility, drawdown or credit-risk observations.",
+      "hardNegativeDefinition": "A material non-target shock during which official evidence and market observations affirm that broad risk-bearing and market functioning remained orderly.",
+      "featureProposals": [
+        {"sourceId": "cboe-vix-history", "transform": "causal-rolling-percentile", "aggregation": "monthly-maximum", "status": "proposal-not-populated"},
+        {"sourceId": "fred-baa10y", "transform": "causal-rolling-percentile", "aggregation": "monthly-maximum", "status": "proposal-not-populated"}
+      ],
+      "diagnosticBenchmarkSourceIds": ["chicago-fed-nfci", "stlouis-fed-stlfsi4", "ofr-fsi"]
+    },
+    {
+      "detectorId": "e14-funding-liquidity-detector",
+      "mechanism": "funding-liquidity",
+      "target": "Disruption in unsecured or secured short-term funding and market liquidity.",
+      "positiveDefinition": "Officially documented funding disruption corroborated by a spread or liquidity observation valid in the applicable reference-rate regime.",
+      "hardNegativeDefinition": "A material shock during which official evidence affirmatively reports orderly short-term funding and the applicable spread remains within its documented historical regime.",
+      "featureProposals": [
+        {"sourceId": "fred-tedrate", "transform": "causal-robust-z-score", "aggregation": "monthly-maximum", "methodologyRegime": "libor-era-through-2022-01-21", "status": "proposal-not-populated"}
+      ],
+      "diagnosticBenchmarkSourceIds": ["chicago-fed-nfci", "stlouis-fed-stlfsi4", "ofr-fsi"]
+    },
+    {
+      "detectorId": "e14-banking-credit-detector",
+      "mechanism": "banking-credit",
+      "target": "Banking-system stress or impaired credit intermediation.",
+      "positiveDefinition": "Officially documented banking or credit-intermediation stress corroborated by release-dated bank financials or credit spreads.",
+      "hardNegativeDefinition": "An institution-specific failure or macro shock for which official evidence affirmatively shows containment and stable system-level intermediation.",
+      "featureProposals": [
+        {"sourceId": "fdic-quarterly-financials", "transform": "causal-robust-z-score", "aggregation": "release-available-quarterly-carried-with-age", "status": "proposal-not-populated"},
+        {"sourceId": "fred-baa10y", "transform": "causal-rolling-percentile", "aggregation": "monthly-maximum", "status": "proposal-not-populated"}
+      ],
+      "diagnosticBenchmarkSourceIds": ["chicago-fed-nfci", "stlouis-fed-stlfsi4", "ofr-fsi"]
+    },
+    {
+      "detectorId": "e14-cross-border-growth-detector",
+      "mechanism": "cross-border-growth",
+      "target": "External growth or emerging-market shock transmitted into U.S.-relevant financial conditions.",
+      "positiveDefinition": "Officially documented cross-border transmission corroborated by exchange-rate or U.S. risk-spread observations.",
+      "hardNegativeDefinition": "A foreign or domestic shock for which official evidence affirmatively shows contained transmission and no material U.S.-relevant cross-border financial disruption.",
+      "featureProposals": [
+        {"sourceId": "fred-dtwexb", "transform": "causal-rolling-percentile", "aggregation": "monthly-maximum-absolute-change", "methodologyRegime": "goods-only-through-2019-12-31", "status": "proposal-not-populated"}
+      ],
+      "diagnosticBenchmarkSourceIds": ["ofr-fsi"]
+    }
+  ],
+  "readinessDecision": "READY_FOR_DOSSIER_CURATION"
+}

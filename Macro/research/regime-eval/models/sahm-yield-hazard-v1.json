@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 1,
+  "modelId": "sahm-yield-hazard-v1",
+  "modelFamily": "Causal rule-based recession hazard with labor, production and yield-curve transition",
+  "taskRole": "recession-signal",
+  "lifecycleStatus": "research-challenger",
+  "promotionTarget": "shadow-candidate",
+  "frozenAt": "2026-07-14",
+  "benchmarkScope": "nested-inner-validation-only",
+  "inputs": ["SAHM", "INDPRO_YOY", "YC_10Y2Y"],
+  "transforms": {
+    "sahmSeverity": "clip01(SAHM / 0.50)",
+    "growthDeterioration": "clip01((1.0 - INDPRO_YOY) / 7.0)",
+    "curveInversion": "clip01(-minimum(YC_10Y2Y over current and prior 23 observations) / 0.75)",
+    "curveResteepening": "clip01((current YC_10Y2Y - trailing minimum) / 1.0)",
+    "curveTransition": "curveInversion * curveResteepening"
+  },
+  "hazardScore": "0.50 * sahmSeverity + 0.30 * growthDeterioration + 0.20 * curveTransition",
+  "probability": "sigmoid(8 * (hazardScore - 0.50))",
+  "decisionThreshold": 0.5,
+  "statePolicy": "stateless monthly hazard; no backward smoothing, no future persistence and no label-fitted duration",
+  "labelPolicy": "Predictions are frozen before NBER labels are attached. NBER chronology is used only for inner gate metrics.",
+  "outerOosPolicy": "Forbidden for selection, ranking, tuning or gate execution.",
+  "expectedInputs": {
+    "datasetSha256": "4b42c41c875dc8cb19168c6529fd935017120da6640d605da99c64a5eeaad30f",
+    "walkForwardPlanSha256": "051615f663ba1e85744dd77ec2662b138c06c9094feb59f5c331a7f9b76b7abb",
+    "recessionGroundTruthSha256": "7285b4b88d3f1a269a33241ffad212747be7033dbf557f38cb594c53170da59a",
+    "foundationFreezeSha256": "712454f92299278318055a813685426c15a31e015c018630d274fa3c2a13cef9",
+    "foundationLockSha256": "28a74235ee9cd4968792a68939dc4cf9b7c09c402b5a22fd55a4671f0bdee325"
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "schemaVersion": 1,
+  "contractId": "model-evidence-and-promotion-v2",
+  "frozenAt": "2026-07-14",
+  "modelId": "baseline-v1-4-preregistered",
+  "modelVersion": "1.4-candidate",
+  "currentLifecycle": "research-baseline",
+  "benchmarkScope": "development-diagnostic-only",
+  "expectedInputs": {
+    "datasetSha256": "1a2db1c7540a2419757b37d01717de258548f9bcf301994dfcd5c83f47f17649",
+    "evaluationSha256": "643eaafc9cc30ac8beb1358ccea564afe8eca5d2622605a5335b95c75b8de0f8",
+    "walkForwardPlanSha256": "da4155c2639d4870a9e1bcb475b53f81a0491cef8bd8c8e572851c2419a73fed",
+    "groundTruthSha256": "7285b4b88d3f1a269a33241ffad212747be7033dbf557f38cb594c53170da59a"
+  },
+  "evidenceMinimums": {
+    "outOfSampleRows": 60,
+    "positiveMonths": 12,
+    "positiveEpisodes": 2,
+    "negativeMonths": 24
+  },
+  "calibrationBins": 5,
+  "bootstrap": {
+    "method": "circular-moving-block",
+    "replicates": 500,
+    "blockMonths": 12,
+    "seed": 14072026
+  },
+  "promotionPolicy": {
+    "technicalGateIsNecessaryButNotSufficient": true,
+    "freshProspectiveEvidenceRequired": true,
+    "humanReviewRequired": true,
+    "allocationUtilityRequired": true,
+    "insufficientEvidenceBlocksPromotion": true
+  },
+  "selectionPolicy": "Evidence minimums, calibration bins and bootstrap settings are frozen before the v2 report is generated. The 2008-2025 benchmark is diagnostic and cannot authorize operational promotion."
+}

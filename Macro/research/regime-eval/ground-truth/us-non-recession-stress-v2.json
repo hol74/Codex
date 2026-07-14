@@ -1,0 +1,71 @@
+{
+  "schemaVersion": 2,
+  "groundTruthId": "us-non-recession-stress-monthly-v2-dimensional",
+  "label": "US-relevant macro-financial stress outside NBER recessions, evaluated by dimension",
+  "geography": "United States with documented global spillovers",
+  "frequency": "monthly",
+  "evidenceStatus": "curated-ex-post-preregistered-dimensional",
+  "coverageFrom": "2008-04-01",
+  "coverageTo": "2025-12-31",
+  "scopePolicy": "Episodes cannot overlap NBER recession months. Dimensions are evaluated before composite regime alignment. V1 episodes are development evidence; new v2 episodes form a protected diagnostic partition and cannot authorize promotion.",
+  "dimensionFormulaVersion": "macro-financial-dimensions-v1",
+  "sources": [
+    {"id": "bis-euro-sovereign-2011", "name": "BIS Quarterly Review December 2011", "url": "https://www.bis.org/publ/qtrpdf/r_qt1112a.htm", "role": "documents global spillovers from euro-area sovereign stress"},
+    {"id": "bis-taper-2013", "name": "BIS Quarterly Review September 2013 - Markets precipitate tightening", "url": "https://www.bis.org/publ/qtrpdf/r_qt1309a.htm", "role": "documents the May-June 2013 cross-asset shock and market-led tightening"},
+    {"id": "bis-eme-2015", "name": "BIS Quarterly Review September 2015", "url": "https://www.bis.org/publ/qtrpdf/r_qt1509a.htm", "role": "documents the August 2015 China and emerging-market shock"},
+    {"id": "bis-turbulence-2016", "name": "BIS Quarterly Review March 2016", "url": "https://www.bis.org/publ/qtrpdf/r_qt1603a.htm", "role": "documents renewed turbulence through February 2016"},
+    {"id": "fed-2018-repricing", "name": "Federal Reserve 2018 Annual Report", "url": "https://www.federalreserve.gov/publications/2018-ar-monetary-policy.htm", "role": "documents fourth-quarter risk repricing and tighter financial conditions"},
+    {"id": "fed-repo-2019", "name": "Federal Reserve - What Happened in Money Markets in September 2019?", "url": "https://www.federalreserve.gov/econres/notes/feds-notes/what-happened-in-money-markets-in-september-2019-20200227.html", "role": "documents acute repo and federal-funds market pressure in September 2019 and stabilization measures"},
+    {"id": "fred-cpi", "name": "FRED CPIAUCSL", "url": "https://fred.stlouisfed.org/series/CPIAUCSL", "role": "supports the CPI year-over-year episode boundary"},
+    {"id": "fed-mpr-2022", "name": "Federal Reserve Monetary Policy Report June 2022", "url": "https://www.federalreserve.gov/monetarypolicy/2022-06-mpr-summary.htm", "role": "documents broad inflation and tightening financial conditions"},
+    {"id": "fed-fomc-rates", "name": "Federal Reserve historical target-rate changes", "url": "https://www.federalreserve.gov/monetarypolicy/openmarket.htm", "role": "dates the 2022-2023 hiking cycle"},
+    {"id": "fed-fsr-2023", "name": "Federal Reserve Financial Stability Report May 2023", "url": "https://www.federalreserve.gov/publications/2023-may-financial-stability-report-overview.htm", "role": "documents regional-bank stress and subsequent stabilization"}
+  ],
+  "taxonomy": [
+    {
+      "code": "financial_stress",
+      "label": "Financial-system or broad market stress",
+      "definition": "Documented disruption, flight to quality, material risk repricing or funding-market stress.",
+      "expectedPrimaryRegimes": ["DeflationBust"],
+      "expectedDimensions": {"financialStress": {"minimum": 0.55}}
+    },
+    {
+      "code": "growth_scare",
+      "label": "Growth scare",
+      "definition": "Documented material concern about weakening growth outside an NBER recession month.",
+      "expectedPrimaryRegimes": ["DeflationBust"],
+      "expectedDimensions": {"growthDeterioration": {"minimum": 0.55}}
+    },
+    {
+      "code": "inflation_shock",
+      "label": "Inflation shock",
+      "definition": "Headline CPI year-over-year at or above 4 percent with broad institutional evidence.",
+      "expectedPrimaryRegimes": ["LateCycleOverheating", "Stagflation"],
+      "expectedDimensions": {"inflationPressure": {"minimum": 0.65}}
+    },
+    {
+      "code": "monetary_tightening",
+      "label": "Rapid monetary tightening",
+      "definition": "Federal Reserve hiking cycle or documented market-led tightening shock.",
+      "expectedPrimaryRegimes": ["LateCycleOverheating", "Stagflation"],
+      "expectedDimensions": {"monetaryRestriction": {"minimum": 0.55}}
+    }
+  ],
+  "episodes": [
+    {"id": "euro-sovereign-stress-2011", "name": "Euro-area sovereign stress spillover", "firstMonth": "2011-09-01", "lastMonth": "2011-12-01", "labels": ["financial_stress", "growth_scare"], "sourceIds": ["bis-euro-sovereign-2011"], "validationRole": "development-v1", "boundaryRationale": "BIS dates the dominant market-stress window from September through early December; monthly coverage includes September-December."},
+    {"id": "taper-tantrum-2013", "name": "Taper-announcement market shock", "firstMonth": "2013-05-01", "lastMonth": "2013-06-01", "labels": ["financial_stress", "monetary_tightening"], "sourceIds": ["bis-taper-2013"], "validationRole": "protected-v2", "boundaryRationale": "BIS documents the May announcement shock, the cross-asset selloff and pressure through June, followed by reassurance and easing in early July."},
+    {"id": "china-eme-stress-2015-2016", "name": "China and emerging-market growth stress", "firstMonth": "2015-08-01", "lastMonth": "2016-02-01", "labels": ["financial_stress", "growth_scare"], "sourceIds": ["bis-eme-2015", "bis-turbulence-2016"], "validationRole": "development-v1", "boundaryRationale": "The August 2015 shock was followed by renewed turbulence in January-February 2016."},
+    {"id": "risk-repricing-2018q4", "name": "Fourth-quarter 2018 risk repricing", "firstMonth": "2018-10-01", "lastMonth": "2018-12-01", "labels": ["financial_stress", "growth_scare", "monetary_tightening"], "sourceIds": ["fed-2018-repricing"], "validationRole": "development-v1", "boundaryRationale": "The Federal Reserve documents marked deterioration in risk appetite and risky-asset prices from October through December."},
+    {"id": "repo-stress-2019", "name": "US repo-market stress", "firstMonth": "2019-09-01", "lastMonth": "2019-10-01", "labels": ["financial_stress"], "sourceIds": ["fed-repo-2019"], "validationRole": "protected-v2", "boundaryRationale": "Rates spiked in mid-September; Federal Reserve operations stabilized overnight markets while measures continued into October."},
+    {"id": "inflation-shock-2021-2023", "name": "Post-pandemic inflation shock", "firstMonth": "2021-04-01", "lastMonth": "2023-05-01", "labels": ["inflation_shock"], "sourceIds": ["fred-cpi", "fed-mpr-2022"], "validationRole": "development-v1", "boundaryRationale": "Headline CPI year-over-year remained at or above 4 percent from April 2021 through May 2023."},
+    {"id": "fed-tightening-2022-2023", "name": "Federal Reserve rapid tightening cycle", "firstMonth": "2022-03-01", "lastMonth": "2023-07-01", "labels": ["monetary_tightening"], "sourceIds": ["fed-fomc-rates", "fed-mpr-2022"], "validationRole": "development-v1", "boundaryRationale": "The first target-range increase occurred in March 2022 and the final increase in July 2023."},
+    {"id": "regional-bank-stress-2023", "name": "US regional banking stress", "firstMonth": "2023-03-01", "lastMonth": "2023-05-01", "labels": ["financial_stress"], "sourceIds": ["fed-fsr-2023"], "validationRole": "development-v1", "boundaryRationale": "Acute bank stress began in March; the May report documents stabilization with residual stress."}
+  ],
+  "limitations": [
+    "The chronology is curated ex post and is never a real-time model input.",
+    "Thresholds describe normalized dimensions and are not calibrated probabilities.",
+    "The protected-v2 partition prevents silent reuse of only v1 episodes but remains part of an already observed historical benchmark.",
+    "Absence of a label does not establish a true negative.",
+    "No result from this chronology can authorize operational promotion without fresh shadow-live evidence."
+  ]
+}

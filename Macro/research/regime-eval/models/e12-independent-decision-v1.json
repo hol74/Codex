@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "decisionId": "e12-independent-decision-v1",
+  "decidedAt": "2026-07-14",
+  "foundationLockSha256": "28a74235ee9cd4968792a68939dc4cf9b7c09c402b5a22fd55a4671f0bdee325",
+  "outerOosOpened": false,
+  "decisions": [
+    {
+      "task": "financial-stress-signal",
+      "candidateId": "event-aware-financial-stress-v1",
+      "decision": "REJECTED_FOR_SHADOW",
+      "reportSha256": "adf2939eac5af5223aea312393409c96c5da4a060325e75f5b1f85cb58002174"
+    },
+    {
+      "task": "recession-signal",
+      "candidateId": "sahm-yield-hazard-v1",
+      "decision": "REJECTED_FOR_SHADOW",
+      "reportSha256": "15d935f8dbbcaccca6b23b37b172b6cdcbba19114b8c17375e90e9f1b294ab2a"
+    }
+  ],
+  "composition": {
+    "allowed": false,
+    "reason": "Both task-specific components were rejected by their independent inner-only gates."
+  },
+  "maximumLifecycleReached": "research-rejected",
+  "nextPath": "A new phase must preregister a finite candidate-generation grammar and use new candidate identifiers. E12 candidates cannot be tuned or reused."
+}

@@ -7,7 +7,10 @@ using MacroRegime.Infrastructure.Import;
 
 namespace MacroRegime.Infrastructure.External;
 
-public sealed record EvaluateHistoricalBaselineCommand(string DatasetPath, string OutputDirectory);
+public sealed record EvaluateHistoricalBaselineCommand(
+    string DatasetPath,
+    string OutputDirectory,
+    string? OutputLabel = null);
 
 public sealed record EvaluateHistoricalBaselineResult(string OutputPath, int RowCount, string DatasetSha256);
 
@@ -122,9 +125,19 @@ public sealed class HistoricalBaselineEvaluator
 
         var outputDirectory = Path.GetFullPath(command.OutputDirectory);
         Directory.CreateDirectory(outputDirectory);
-        var outputPath = Path.Combine(outputDirectory, $"baseline-evaluation-{dataset.From:yyyy-MM-dd}-{dataset.To:yyyy-MM-dd}.json");
+        var label = string.IsNullOrWhiteSpace(command.OutputLabel)
+            ? string.Empty
+            : $"-{SanitizeLabel(command.OutputLabel)}";
+        var outputPath = Path.Combine(outputDirectory, $"baseline-evaluation-{dataset.From:yyyy-MM-dd}-{dataset.To:yyyy-MM-dd}{label}.json");
         await using var output = File.Create(outputPath);
         await JsonSerializer.SerializeAsync(output, evaluation, SerializerOptions, cancellationToken).ConfigureAwait(false);
         return new EvaluateHistoricalBaselineResult(outputPath, rows.Length, datasetSha256);
+    }
+
+    private static string SanitizeLabel(string value)
+    {
+        var safe = new string(value.Trim().Select(character =>
+            char.IsLetterOrDigit(character) || character is '-' or '_' ? character : '-').ToArray());
+        return safe.Trim('-');
     }
 }

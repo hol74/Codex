@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "contractId": "e14-label-audit-contract-v1",
+  "frozenAt": "2026-07-14",
+  "inputHashes": {
+    "taxonomyV3Sha256": "5c74072b70f6bc5c840b49e3937ffc0506db3a808adfd29138804e840fbf68b9",
+    "informationAuditSha256": "2630eccf3deea2945a1ac244b5cb5487a25e938a007905fa2539583c91df25b5",
+    "datasetSha256": "4b42c41c875dc8cb19168c6529fd935017120da6640d605da99c64a5eeaad30f",
+    "walkForwardPlanSha256": "051615f663ba1e85744dd77ec2662b138c06c9094feb59f5c331a7f9b76b7abb"
+  },
+  "requiredMechanisms": [
+    "broad-market-repricing",
+    "funding-liquidity",
+    "banking-credit",
+    "cross-border-growth"
+  ],
+  "requirements": {
+    "minimumFullPositiveEpisodes": 6,
+    "minimumFullPositiveEpisodesPerMechanism": 3,
+    "minimumInnerPositiveEpisodesPerMechanism": 3,
+    "minimumHardNegativeEpisodes": 6,
+    "minimumHardNegativeEpisodesPerMechanism": 2
+  },
+  "monthPrecedence": ["positive", "hard-negative", "ambiguous", "unlabeled"],
+  "implicitNegativePolicy": "Forbidden. Unlabeled and ambiguous months cannot become hard negatives.",
+  "outerOosPolicy": "Feature values and outcomes from outer OOS are forbidden. Full chronology metadata may be inventoried but cannot select a model.",
+  "passingDecision": "READY_FOR_FOUNDATION_FEASIBILITY",
+  "failingDecision": "NOT_READY_FOR_CANDIDATE_GENERATION",
+  "candidateGenerationAuthorized": false
+}

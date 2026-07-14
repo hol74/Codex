@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://macro-regime.local/schemas/e14-label-foundation-proposal-v1.json",
+  "title": "E14 accepted-dossier label foundation proposal",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "artifactType",
+    "proposalId",
+    "sourceQueueSha256",
+    "monthResolutionPolicy",
+    "dossierLabels",
+    "monthlyMechanismLabels",
+    "aggregateMonthlyLabels",
+    "coverage"
+  ],
+  "properties": {
+    "schemaVersion": {"const": 1},
+    "artifactType": {"const": "E14LabelFoundationProposal"},
+    "proposalId": {"const": "e14-label-foundation-proposal-v1"},
+    "sourceQueueSha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "monthResolutionPolicy": {
+      "const": "Mechanism-month labels remain independent; aggregate state uses positive > hard-negative > ambiguous > unlabeled without erasing mechanism detail."
+    },
+    "dossierLabels": {"type": "array", "minItems": 12, "maxItems": 12},
+    "monthlyMechanismLabels": {"type": "array", "minItems": 1},
+    "aggregateMonthlyLabels": {"type": "array", "minItems": 1},
+    "coverage": {"type": "object"}
+  }
+}

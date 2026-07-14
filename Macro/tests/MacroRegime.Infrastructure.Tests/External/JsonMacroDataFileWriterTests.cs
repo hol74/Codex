@@ -102,6 +102,22 @@ public sealed class JsonMacroDataFileWriterTests : IDisposable
         Assert.Contains("\"source\": \"FRED:BAA10Y\"", json);
     }
 
+    [Fact]
+    public async Task WriteAsync_IdentifiesAlternateProviderSeries()
+    {
+        var writer = new JsonMacroDataFileWriter();
+        var outDir = Path.Combine(directoryPath, "out");
+        var observations = new[]
+        {
+            new FredObservation("UNRATE", "SAHM", new DateOnly(2025, 9, 1), new DateOnly(2025, 10, 3), new DateOnly(2025, 10, 3), 0.23m, "Index"),
+        };
+
+        var path = await writer.WriteAsync(observations, new AsOfDate(new DateOnly(2025, 10, 31)), outDir);
+        var json = await File.ReadAllTextAsync(path);
+
+        Assert.Contains("\"source\": \"FRED:UNRATE\"", json);
+    }
+
     public void Dispose()
     {
         if (Directory.Exists(directoryPath))

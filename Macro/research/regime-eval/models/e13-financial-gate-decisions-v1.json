@@ -1,0 +1,111 @@
+{
+  "artifactType": "E13FinancialAbsoluteGateDecisions",
+  "blockedTasks": [
+    {
+      "candidateCount": 0,
+      "status": "NO_GATE_INSUFFICIENT_EPISODES",
+      "task": "recession-signal"
+    }
+  ],
+  "decidedAt": "2026-07-14",
+  "decisions": [
+    {
+      "candidateId": "e13-financial-7452a93533",
+      "checks": {
+        "maximumComplexityScore": true,
+        "maximumMeanControlFalsePositiveRate": true,
+        "maximumThresholdRange": true,
+        "minimumEpisodeHitRate": false,
+        "minimumMeanEpisodeRecall": false,
+        "minimumObservableEpisodes": true,
+        "minimumWorstEpisodeRecall": false,
+        "outerTestClosed": true
+      },
+      "failedChecks": [
+        "minimumEpisodeHitRate",
+        "minimumMeanEpisodeRecall",
+        "minimumWorstEpisodeRecall"
+      ],
+      "maximumLifecycle": "research-rejected",
+      "metrics": {
+        "complexityScore": 3.0,
+        "episodeHitRate": 0.66666667,
+        "meanControlFalsePositiveRate": 0.04347826,
+        "meanEpisodeRecall": 0.27777778,
+        "thresholdRange": 0.0,
+        "worstEpisodeRecall": 0.0
+      },
+      "operationalApprovalAuthorized": false,
+      "passed": false,
+      "selectionRole": "precision",
+      "status": "REJECTED_FOR_SHADOW"
+    },
+    {
+      "candidateId": "e13-financial-8ec8415452",
+      "checks": {
+        "maximumComplexityScore": true,
+        "maximumMeanControlFalsePositiveRate": false,
+        "maximumThresholdRange": true,
+        "minimumEpisodeHitRate": true,
+        "minimumMeanEpisodeRecall": true,
+        "minimumObservableEpisodes": true,
+        "minimumWorstEpisodeRecall": true,
+        "outerTestClosed": true
+      },
+      "failedChecks": [
+        "maximumMeanControlFalsePositiveRate"
+      ],
+      "maximumLifecycle": "research-rejected",
+      "metrics": {
+        "complexityScore": 6.0,
+        "episodeHitRate": 1.0,
+        "meanControlFalsePositiveRate": 0.7826087,
+        "meanEpisodeRecall": 0.88888889,
+        "thresholdRange": 0.0,
+        "worstEpisodeRecall": 0.66666667
+      },
+      "operationalApprovalAuthorized": false,
+      "passed": false,
+      "selectionRole": "coverage",
+      "status": "REJECTED_FOR_SHADOW"
+    }
+  ],
+  "implementation": {
+    "module": "regime_eval.e13_gate",
+    "sourceSha256": "72c5ccfb573b885b1100e374950690b37d38c36a9991e587e5a56f0ae9c8a5f1"
+  },
+  "inputs": {
+    "gate": {
+      "fileName": "e13-financial-absolute-gate-v1.json",
+      "sha256": "a3fe7dd2b628fe2c269f60d7b97f25a47245eb6fe8b5c141022ef58c22f8a12f",
+      "sizeBytes": 1221
+    },
+    "loeoReport": {
+      "fileName": "e13-loeo-evaluation-v1.json",
+      "sha256": "1c2352d7731901c57618389780d330152dc789a62da4cf3f40879c408cd24317",
+      "sizeBytes": 46491
+    },
+    "shortlist": {
+      "fileName": "e13-financial-shortlist-v1.json",
+      "sha256": "c72b84fde31c7332499dc8f7c3097d7eb6564c1e842aaa3706f50cbb36fb13d7",
+      "sizeBytes": 4314
+    }
+  },
+  "phaseDecision": {
+    "eligibleForShadowReviewCount": 0,
+    "fusionAllowed": false,
+    "operationalApprovalAuthorized": false,
+    "outerOosOpened": false
+  },
+  "protocol": {
+    "candidateCount": 2,
+    "decisionMode": "independent-absolute-all-checks-required",
+    "fallbackCandidateAllowed": false,
+    "outerTestRowCountUsed": 0,
+    "passedCount": 0,
+    "relativeRankingUsed": false,
+    "task": "financial-stress-signal"
+  },
+  "schemaVersion": 1,
+  "status": "completed-no-eligible-candidates"
+}

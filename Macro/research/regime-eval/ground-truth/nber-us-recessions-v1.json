@@ -1,0 +1,41 @@
+{
+  "schemaVersion": 1,
+  "groundTruthId": "nber-us-recessions-monthly-v1",
+  "label": "US recession",
+  "geography": "United States",
+  "frequency": "monthly",
+  "coverageFrom": "2007-12-01",
+  "coverageTo": "2025-12-31",
+  "mappingPolicy": "NBER peak month is the last expansion month; recession months run from the month after the peak through the trough month, inclusive.",
+  "sources": [
+    {
+      "name": "NBER US Business Cycle Expansions and Contractions",
+      "url": "https://www.nber.org/research/data/us-business-cycle-expansions-and-contractions",
+      "role": "authoritative peak and trough chronology"
+    },
+    {
+      "name": "FRED USREC",
+      "url": "https://fred.stlouisfed.org/series/USREC",
+      "role": "monthly cross-check using the period-following-peak-through-trough convention"
+    }
+  ],
+  "periods": [
+    {
+      "name": "Great Recession",
+      "peakMonth": "2007-12-01",
+      "firstRecessionMonth": "2008-01-01",
+      "troughMonth": "2009-06-01"
+    },
+    {
+      "name": "COVID-19 recession",
+      "peakMonth": "2020-02-01",
+      "firstRecessionMonth": "2020-03-01",
+      "troughMonth": "2020-04-01"
+    }
+  ],
+  "limitations": [
+    "The NBER chronology is ex-post and turning points may be announced with material delay; it is an evaluation label, not a real-time input.",
+    "The label is binary and US-specific; it does not identify inflation shocks, financial stress outside recessions, or the project's full multi-regime taxonomy.",
+    "Coverage is frozen through 2025-12-31 for reproducibility and must be versioned before adding later cycles."
+  ]
+}
