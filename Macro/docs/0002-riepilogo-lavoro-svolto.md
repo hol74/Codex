@@ -6,6 +6,10 @@ Data: 2026-07-13
 
 Questo documento riassume in ordine cronologico tutto il lavoro svolto sul progetto Macro-Regime Engine, dalla ricerca iniziale alla chiusura della prima release informativa (2026-07-08), alle Fasi A-D e alle prime cinque slice della Fase E (2026-07-13). Il dettaglio di ogni passaggio e' nei documenti citati.
 
+La descrizione organica dell'architettura corrente, delle scelte operative,
+della letteratura di riferimento e del glossario e' disponibile in
+`docs/architecture/0001-architettura-sistema-scelte-letteratura-glossario.md`.
+
 ## Stato attuale in una frase
 
 La prima release informativa e le Fasi A-D sono complete. La Fase E dispone ora di un research lab Python separato, dataset reale 2008-2025 validato, baseline misurata, ground truth NBER e primo challenger k-means valutato con esito negativo e non promosso. Il runtime C# resta autorevole per detector e proposte allocative; Python valida e aggrega gli artefatti senza duplicare le regole. Nessun database e nessuna rete nel runtime core.
