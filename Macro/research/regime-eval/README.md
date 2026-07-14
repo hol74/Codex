@@ -370,3 +370,153 @@ Il comando restituisce exit code non zero quando nessun candidato passa. Nel
 primo run entrambi sono `REJECTED_FOR_SHADOW`: il profilo coverage ha troppi
 falsi allarmi, quello precision perde troppi episodi. Il report resta valido e
 write-once; l'exit non zero rappresenta la decisione negativa del gate.
+
+## E14 - Information Audit
+
+Prima di generare altri modelli, E14 misura separabilita' delle feature,
+eterogeneita' degli episodi e semantica dei controlli:
+
+```text
+python -m regime_eval e14-information-audit --dataset ../../data/historical-real-v12-2008-2025/dataset/historical-dataset-2008-04-01-2025-12-31.json --plan ../../data/historical-real-v12-2008-2025/dataset/walk-forward-plan.json --stress-truth ground-truth/us-non-recession-stress-v2.json --recession-truth ground-truth/nber-us-recessions-v1.json --foundation-lock models/e12-data-foundation-lock-v1.json --e13-decisions models/e13-financial-gate-decisions-v1.json --contract models/e14-information-audit-contract-v1.json --output ../../data/historical-real-v12-2008-2025/challengers/e14-information-audit-v1.json
+```
+
+Il comando e' esclusivamente diagnostico: usa date inner, non tratta gli
+unlabeled come negativi e non genera candidati, ranking o promozioni.
+
+E14.2 congela la tassonomia tri-state v3 e verifica la copertura informativa
+prima di autorizzare nuovi candidati:
+
+```text
+python -m regime_eval e14-label-audit --dataset ../../data/historical-real-v12-2008-2025/dataset/historical-dataset-2008-04-01-2025-12-31.json --plan ../../data/historical-real-v12-2008-2025/dataset/walk-forward-plan.json --taxonomy ground-truth/us-financial-stress-v3.json --information-audit ../../data/historical-real-v12-2008-2025/challengers/e14-information-audit-v1.json --contract models/e14-label-audit-contract-v1.json --output ../../data/historical-real-v12-2008-2025/challengers/e14-label-audit-v1.json
+```
+
+Il comando restituisce exit code non zero quando la copertura non autorizza la
+generazione. Il report resta valido, deterministico e write-once: l'exit code
+negativo e' la decisione del gate, non un errore di esecuzione.
+
+E14.3 verifica le fonti storiche e le ipotesi pre-2008 senza scaricare dati o
+creare label:
+
+```text
+python -m regime_eval e14-historical-feasibility --catalog models/e14-historical-source-catalog-v1.json --taxonomy ground-truth/us-financial-stress-v3.json --label-audit ../../data/historical-real-v12-2008-2025/challengers/e14-label-audit-v1.json --contract models/e14-historical-feasibility-contract-v1.json --output ../../data/historical-real-v12-2008-2025/challengers/e14-historical-feasibility-v1.json
+```
+
+Il primo gate restituisce exit code 3 e
+`GO_FOR_EPISODE_DOSSIERS_ONLY`: le fonti positive sono plausibili, ma gli hard
+negative non sono ancora dimostrati. Gli indici compositi con storia
+ricostruita restano diagnostici e la popolazione completa rimane vietata.
+
+E14.4a congela lo schema dei dossier e il contratto dei detector indipendenti:
+
+```text
+python -m regime_eval e14-mechanism-contract-audit --detector-contract models/e14-mechanism-detector-contract-v1.json --dossier-schema models/e14-episode-dossier-schema-v1.json --source-catalog models/e14-historical-source-catalog-v1.json --feasibility-report ../../data/historical-real-v12-2008-2025/challengers/e14-historical-feasibility-v1.json --taxonomy ground-truth/us-financial-stress-v3.json --output ../../data/historical-real-v12-2008-2025/challengers/e14-mechanism-contract-audit-v1.json
+```
+
+Il comando passa con `READY_FOR_DOSSIER_CURATION`. Non legge dataset o dossier,
+non sceglie soglie e non autorizza ground truth, corpus o candidati.
+
+E14.4b1 cura i dossier positivi pre-2008 a partire da un pack congelato di
+asserzioni su fonti primarie:
+
+```text
+python -m regime_eval e14-curate-positive-dossiers --pack models/e14-positive-dossier-pack-v1.json --dossier-schema models/e14-episode-dossier-schema-v1.json --detector-contract models/e14-mechanism-detector-contract-v1.json --source-catalog models/e14-historical-source-catalog-v1.json --contract-audit ../../data/historical-real-v12-2008-2025/challengers/e14-mechanism-contract-audit-v1.json --dossier-dir ../../data/historical-real-v12-2008-2025/challengers/e14-dossiers-v1 --output ../../data/historical-real-v12-2008-2025/challengers/e14-positive-dossier-curation-v1.json
+```
+
+Il comando produce 8 dossier write-once nello stato `reviewed`. Restituisce
+exit code 3 perche' un solo reviewer non puo' accettare i dossier e non esiste
+ancora alcun hard negative conforme. Il report e' quindi valido, ma non
+autorizza modifiche alla ground truth, popolazione del corpus o candidati.
+
+E14.4b2 aggiunge hard negative affermativi per tutti i meccanismi e prepara la
+coda per il reviewer indipendente:
+
+```text
+python -m regime_eval e14-adjudication-queue --hard-negative-pack models/e14-hard-negative-dossier-pack-v1.json --dossier-schema models/e14-episode-dossier-schema-v1.json --review-schema models/e14-independent-review-schema-v1.json --detector-contract models/e14-mechanism-detector-contract-v1.json --positive-pack models/e14-positive-dossier-pack-v1.json --positive-curation-audit ../../data/historical-real-v12-2008-2025/challengers/e14-positive-dossier-curation-v1.json --positive-dossier-dir ../../data/historical-real-v12-2008-2025/challengers/e14-dossiers-v1 --hard-negative-dossier-dir ../../data/historical-real-v12-2008-2025/challengers/e14-hard-negative-dossiers-v2 --review-receipt-dir ../../data/historical-real-v12-2008-2025/challengers/e14-independent-reviews-v1 --queue-output ../../data/historical-real-v12-2008-2025/challengers/e14-independent-review-queue-v2.json --output ../../data/historical-real-v12-2008-2025/challengers/e14-adjudication-readiness-v2.json
+```
+
+In assenza di ricevute il comando restituisce un exit non zero intenzionale e
+lo stato `INDEPENDENT_REVIEW_REQUIRED`. La coda contiene 8 dossier positivi e
+4 hard negative. Una ricevuta valida deve legare l'hash del dossier, dichiarare
+l'indipendenza del reviewer e non puo' essere firmata dall'autore del pack.
+La run `v2` e' quella autorevole: rende chiuse anche le proprieta' della
+ricevuta e vieta `accept` quando claim o confini non sono confermati. La prima
+run locale `v1` resta superseded e non viene modificata per rispettare
+l'immutabilita' degli artefatti.
+
+E14.4b3a costruisce il pacchetto da consegnare al reviewer esterno:
+
+```text
+python -m regime_eval e14-build-review-handoff --contract models/e14-review-handoff-contract-v1.json --review-queue ../../data/historical-real-v12-2008-2025/challengers/e14-independent-review-queue-v2.json --adjudication-audit ../../data/historical-real-v12-2008-2025/challengers/e14-adjudication-readiness-v2.json --review-schema models/e14-independent-review-schema-v1.json --dossier-schema models/e14-episode-dossier-schema-v1.json --positive-dossier-dir ../../data/historical-real-v12-2008-2025/challengers/e14-dossiers-v1 --hard-negative-dossier-dir ../../data/historical-real-v12-2008-2025/challengers/e14-hard-negative-dossiers-v2 --bundle-dir ../../data/historical-real-v12-2008-2025/challengers/e14-external-review-bundle-v1 --output ../../data/historical-real-v12-2008-2025/challengers/e14-review-handoff-audit-v1.json
+```
+
+Il bundle contiene `README.md`, copie immutabili dei dossier, worksheet e
+template. Il reviewer deve copiare ogni template nella directory
+`e14-independent-reviews-v1`, completarlo e non modificare il bundle. I
+template hanno placeholder e valori `null`: non sono ricevute valide e non
+devono essere collocati direttamente nella directory di ingestione.
+
+E14.4b3b valida le ricevute del reviewer con lo schema v2:
+
+```text
+python -m regime_eval e14-ingest-independent-reviews --contract models/e14-review-ingestion-contract-v1.json --review-queue ../../data/historical-real-v12-2008-2025/challengers/e14-independent-review-queue-v2.json --adjudication-audit ../../data/historical-real-v12-2008-2025/challengers/e14-adjudication-readiness-v2.json --handoff-audit ../../data/historical-real-v12-2008-2025/challengers/e14-review-handoff-audit-v1.json --review-schema models/e14-independent-review-schema-v2.json --receipt-dir ../../data/historical-real-v12-2008-2025/challengers/e14-independent-reviews-v1 --queue-output ../../data/historical-real-v12-2008-2025/challengers/e14-independent-review-queue-v3.json --output ../../data/historical-real-v12-2008-2025/challengers/e14-review-ingestion-audit-v1.json
+```
+
+Lo schema v2 permette `sourceLocatorsOpened=false` solo nei non-accept; una
+decisione `accept` richiede fonti aperte, claim confermato e confini confermati.
+Il primo ciclo reale produce 8 `accept` e 4 `needs-revision`, quindi l'exit non
+zero e `DOSSIER_REVISIONS_REQUIRED` sono un esito metodologico, non un errore.
+
+E14.4b4 revisiona soltanto i quattro hash non accettati e genera un bundle di
+riesame che esclude deliberatamente gli otto dossier gia' accettati:
+
+```text
+python -m regime_eval e14-targeted-dossier-revision --contract models/e14-targeted-dossier-revision-contract-v1.json --reviewed-queue ../../data/historical-real-v12-2008-2025/challengers/e14-independent-review-queue-v3.json --review-ingestion-audit ../../data/historical-real-v12-2008-2025/challengers/e14-review-ingestion-audit-v1.json --dossier-schema models/e14-episode-dossier-schema-v1.json --positive-dossier-dir ../../data/historical-real-v12-2008-2025/challengers/e14-dossiers-v1 --hard-negative-dossier-dir ../../data/historical-real-v12-2008-2025/challengers/e14-hard-negative-dossiers-v2 --revised-dossier-dir ../../data/historical-real-v12-2008-2025/challengers/e14-revised-dossiers-v1 --bundle-dir ../../data/historical-real-v12-2008-2025/challengers/e14-targeted-review-bundle-v1 --queue-output ../../data/historical-real-v12-2008-2025/challengers/e14-independent-review-queue-v4.json --output ../../data/historical-real-v12-2008-2025/challengers/e14-targeted-dossier-revision-audit-v1.json
+```
+
+Le quattro nuove ricevute vengono fuse con gli otto accept preservati senza
+riaprire le review precedenti:
+
+```text
+python -m regime_eval e14-ingest-targeted-reviews --contract models/e14-targeted-review-ingestion-contract-v1.json --targeted-queue ../../data/historical-real-v12-2008-2025/challengers/e14-independent-review-queue-v4.json --revision-audit ../../data/historical-real-v12-2008-2025/challengers/e14-targeted-dossier-revision-audit-v1.json --review-schema models/e14-independent-review-schema-v2.json --receipt-dir ../../data/historical-real-v12-2008-2025/challengers/e14-targeted-independent-reviews-v1 --queue-output ../../data/historical-real-v12-2008-2025/challengers/e14-independent-review-queue-v5.json --output ../../data/historical-real-v12-2008-2025/challengers/e14-targeted-review-ingestion-audit-v1.json
+```
+
+L'esito reale e' 4/4 accept mirati e 12/12 complessivi. Lo stato
+`READY_FOR_LABEL_FOUNDATION_GATE` autorizza soltanto E14.4c: non muta la ground
+truth e non autorizza ancora la generazione di candidati.
+
+E14.4c espande i dossier accettati alla granularita' mese-meccanismo e crea
+una proposta di fondazione separata dalla ground truth:
+
+```text
+python -m regime_eval e14-label-foundation-gate --contract models/e14-label-foundation-gate-contract-v1.json --reviewed-queue ../../data/historical-real-v12-2008-2025/challengers/e14-independent-review-queue-v5.json --targeted-ingestion-audit ../../data/historical-real-v12-2008-2025/challengers/e14-targeted-review-ingestion-audit-v1.json --taxonomy ground-truth/us-financial-stress-v3.json --dossier-schema models/e14-episode-dossier-schema-v1.json --proposal-schema models/e14-label-foundation-proposal-schema-v1.json --label-audit-contract models/e14-label-audit-contract-v1.json --mechanism-contract models/e14-mechanism-detector-contract-v1.json --positive-dossier-dir ../../data/historical-real-v12-2008-2025/challengers/e14-dossiers-v1 --hard-negative-dossier-dir ../../data/historical-real-v12-2008-2025/challengers/e14-hard-negative-dossiers-v2 --revised-dossier-dir ../../data/historical-real-v12-2008-2025/challengers/e14-revised-dossiers-v1 --proposal-output ../../data/historical-real-v12-2008-2025/challengers/e14-label-foundation-proposal-v1.json --output ../../data/historical-real-v12-2008-2025/challengers/e14-label-foundation-gate-audit-v1.json
+```
+
+La chiave di conflitto e' `(mese, meccanismo)`: stati diversi nello stesso
+mese ma su meccanismi differenti vengono mantenuti, mentre stati opposti sulla
+stessa chiave bloccano il merge. Gli unlabeled non diventano mai negativi e i
+dossier di uno stesso evento non aumentano artificialmente il conteggio degli
+episodi indipendenti.
+
+La run reale produce 42 label mese-meccanismo, zero conflitti e copertura
+positiva sufficiente. Gli hard negative restano pero' due eventi indipendenti,
+uno per meccanismo, sotto le soglie 6 totali e 2 per meccanismo. Lo stato
+`FOUNDATION_MERGE_READY_MORE_EVIDENCE_REQUIRED` autorizza E14.4d a versionare
+la tassonomia v4, ma mantiene chiusa la generazione di candidati.
+
+E14.4d materializza la proposta in una nuova tassonomia mechanism-aware senza
+modificare la v3:
+
+```text
+python -m regime_eval e14-materialize-taxonomy-v4 --contract models/e14-taxonomy-v4-materialization-contract-v1.json --taxonomy-v3 ground-truth/us-financial-stress-v3.json --foundation-proposal ../../data/historical-real-v12-2008-2025/challengers/e14-label-foundation-proposal-v1.json --foundation-gate-audit ../../data/historical-real-v12-2008-2025/challengers/e14-label-foundation-gate-audit-v1.json --proposal-schema models/e14-label-foundation-proposal-schema-v1.json --taxonomy-schema models/e14-financial-stress-taxonomy-v4-schema.json --label-audit-contract models/e14-label-audit-contract-v1.json --mechanism-contract models/e14-mechanism-detector-contract-v1.json --taxonomy-output ground-truth/us-financial-stress-v4.json --output ../../data/historical-real-v12-2008-2025/challengers/e14-taxonomy-v4-materialization-audit-v1.json
+```
+
+Le nuove voci sono monomeccanismo e mantengono il proprio intervallo. Il campo
+`independentEventId` e' la chiave di conteggio: piu' dossier dello stesso
+evento non diventano osservazioni indipendenti. La v4 estende la cronologia a
+maggio 1984 senza restringere il precedente limite dicembre 2025.
+
+La run reale termina
+`TAXONOMY_V4_VERSIONED_MORE_HARD_NEGATIVES_REQUIRED`: la copertura positiva e'
+sufficiente, ma i quattro dossier hard-negative rappresentano solo due eventi
+indipendenti. E14.4e deve quindi ampliare e sottoporre a review gli hard
+negative prima di riaprire il coverage gate o generare candidati.

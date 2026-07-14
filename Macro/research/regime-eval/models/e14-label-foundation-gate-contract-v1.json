@@ -1,0 +1,42 @@
+{
+  "schemaVersion": 1,
+  "contractId": "e14-label-foundation-gate-contract-v1",
+  "frozenAt": "2026-07-14",
+  "inputHashes": {
+    "reviewedQueueV5Sha256": "248e11a03925443f0fa9b797e5f6601b68968f0fdb9260de08c3aade5cb3227c",
+    "targetedIngestionAuditSha256": "1bccb53e4f63aab5f560c5001dfe44376ad1f3b9da958bcef947594156baee67",
+    "taxonomyV3Sha256": "5c74072b70f6bc5c840b49e3937ffc0506db3a808adfd29138804e840fbf68b9",
+    "dossierSchemaSha256": "6163ab4cf6249aa314708361d1572ade403844b2cca9b4deb9c6bfaca3c7702f",
+    "proposalSchemaSha256": "4e28c87aeaf7b868d40d12255828253204b76a460a80fa65e7b8143dc7005687",
+    "labelAuditContractSha256": "edee49028b9d8601c9d22bf956e4e8c8a393897c8d388f94c9d21a1d79d0d570",
+    "mechanismContractSha256": "b974b5b5e865a46438449e6d1dc0beb8d821e3656f0074b207d0eca96fd6d685"
+  },
+  "readinessDecision": "READY_TO_BUILD_LABEL_FOUNDATION_PROPOSAL",
+  "requiredMechanisms": [
+    "broad-market-repricing",
+    "funding-liquidity",
+    "banking-credit",
+    "cross-border-growth"
+  ],
+  "expectedAcceptedDossierCount": 12,
+  "monthPrecedence": ["positive", "hard-negative", "ambiguous", "unlabeled"],
+  "conflictPolicy": {
+    "sameMechanismMonthOpposingStatesForbidden": true,
+    "crossMechanismMixedStatesPreserved": true,
+    "duplicateEventMechanismsNotIndependentEpisodes": true,
+    "unlabeledNeverBecomesHardNegative": true
+  },
+  "coverageThresholds": {
+    "minimumFullPositiveEpisodes": 6,
+    "minimumFullPositiveEpisodesPerMechanism": 3,
+    "minimumHardNegativeEpisodes": 6,
+    "minimumHardNegativeEpisodesPerMechanism": 2
+  },
+  "authorizationPolicy": {
+    "proposalMayBeWritten": true,
+    "groundTruthMayNotBeMutatedInGate": true,
+    "mergeRequiresSeparateVersionedStep": true,
+    "candidateGenerationRemainsForbidden": true,
+    "outerOosRemainsClosed": true
+  }
+}

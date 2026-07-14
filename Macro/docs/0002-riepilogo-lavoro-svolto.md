@@ -457,6 +457,93 @@ Checkpoint in corso: `docs/checkpoints/0034-fase-e-slice6-feature-baseline-redes
   fallisce hit rate e recall. Entrambi sono `REJECTED_FOR_SHADOW`, il ramo
   recessivo resta fuori per evidenza insufficiente ed E13 termina con zero
   candidati eleggibili, senza outer OOS, fallback o fusione.
+- Fase E14.1 - information audit: sulle 84 date inner le feature broad-market
+  mostrano AUC direzionale `0,292-0,752` e forte overlap tra 7 mesi finanziari
+  e 23 contrasti. Il funding spread separa il piccolo campione ma ha copertura
+  solo dal 2018 e firme molto diverse tra episodi. I contrasti sono
+  inflation/tightening, non veri negativi; il ramo recessivo ha un solo
+  episodio. Il piano viene quindi spostato da nuove formule a tassonomia v3,
+  hard negatives, feasibility storica e detector per meccanismo.
+- Fase E14.2 - tassonomia tri-state e label audit: la ground truth v3 separa
+  `positive`, `hard-negative`, `ambiguous` e `unlabeled`, con precedenza
+  esplicita e quattro meccanismi. Il corpus contiene 6 episodi positivi, 2
+  ambigui e nessun hard negative confermato; nell'inner sono osservabili solo
+  3 positivi. Il gate termina `NOT_READY_FOR_CANDIDATE_GENERATION`, senza usare
+  feature outer o trasformare implicitamente gli unlabeled in negativi.
+- Fase E14.3 - feasibility storica: congelato un catalogo di 12 fonti con
+  semantica as-of esplicita. Cinque ipotesi pre-2008 portano la copertura
+  positiva teorica a 7 episodi broad-market, 3 funding, 3 banking e 5
+  cross-border, ma restano zero ipotesi hard-negative. Il gate autorizza solo
+  la costruzione di dossier (`GO_FOR_EPISODE_DOSSIERS_ONLY`), non popolazione,
+  label, candidati o uso degli indici compositi revisionati come feature.
+- Fase E14.4a - mechanism contract: congelati schema hash-bound dei dossier e
+  quattro detector indipendenti con 6 feature proposte. Ogni detector separa
+  `calm`, `onset`, `active` e `recovery`, usa trasformazioni causali e rinvia
+  soglie e fitting a futuri fold inner LOEO. Un hard negative richiede prova
+  ufficiale affermativa, corroborazione quantitativa, counterevidence e due
+  reviewer. Il contratto passa, ma ground truth, corpus, composizione e
+  candidati restano chiusi fino alla curation E14.4b.
+- Fase E14.4b1 - dossier positivi: curate tutte le 8 coppie
+  ipotesi-meccanismo pre-2008 con almeno due fonti indipendenti, narrativa
+  ufficiale, osservazione quantitativa e controevidenza. I dossier sono
+  deterministici, hash-bound e `reviewed`, ma non `accepted` perche' hanno un
+  solo reviewer. Il mismatch tra VIX e crash 1987 e' corretto localmente con
+  evidenza CFTC senza riscrivere il catalogo congelato. Restano zero hard
+  negative: ground truth, corpus e candidati rimangono chiusi.
+- Fase E14.4b2 - hard negative e review queue: curati quattro contrasti con
+  prova affermativa, uno per ciascun meccanismo. Brexit 2016 fornisce i
+  contrasti broad-market, funding e cross-border; la crisi messicana 1994-95
+  fornisce il contrasto banking-credit. Tutti i 12 dossier sono manifestati in
+  una coda hash-bound. Lo schema delle ricevute richiede un reviewer diverso
+  dall'autore e il codice rifiuta esplicitamente l'auto-accettazione. Poiche'
+  non esistono ancora ricevute indipendenti, l'esito e'
+  `INDEPENDENT_REVIEW_REQUIRED` e nessuna label viene promossa.
+- Fase E14.4b3a - external review handoff: generato un bundle immutabile con
+  12 copie dossier byte-identiche, 12 worksheet, 12 template di ricevuta e 36
+  occorrenze di locator. I template sono intenzionalmente non ingeribili prima
+  della compilazione e devono essere copiati fuori dal bundle. L'audit termina
+  `AWAITING_EXTERNAL_REVIEW`: l'handoff e' pronto, ma nessuna review e' stata
+  attribuita al generatore e la label foundation resta chiusa.
+- Fase E14.4b3b - independent review ingestion: un reviewer agente distinto
+  ha aperto le fonti e restituito 12 ricevute. Otto dossier sono `accept`,
+  quattro `needs-revision` e nessuno e' `reject`. Continental Illinois non ha
+  un end boundary luglio sufficientemente provato; i tre dossier Messico non
+  dimostrano il confine marzo 1995 e il locator FDIC del controllo banking non
+  e' direttamente renderizzabile. Lo schema v2 rappresenta onestamente fonti
+  non accessibili nei non-accept, mantenendo requisiti stretti per `accept`.
+  Il gate termina `DOSSIER_REVISIONS_REQUIRED`; gli 8 hash accettati sono
+  preservati e nessuna label o candidato viene autorizzato.
+- Fase E14.4b4 - targeted dossier revision: revisionati soltanto Continental
+  Illinois e i tre dossier Messico. Continental termina ad agosto con
+  stabilizzazione documentata a settembre; il broad-market Messico mantiene
+  marzo grazie alla successiva ripresa di aprile; il cross-border si estende a
+  giugno; il banking hard-negative usa il QBP FDIC 1995 Q1 direttamente
+  accessibile. Gli 8 dossier accettati restano byte-identici. Il reviewer
+  distinto ha accettato tutti i 4 nuovi hash; l'ingestione produce 12/12
+  accettazioni e `READY_FOR_LABEL_FOUNDATION_GATE`. Nessuna label, ground truth
+  o candidato e' stato ancora scritto: E14.4c resta un gate separato.
+- Fase E14.4c - label-foundation gate: i 12 dossier accettati sono stati
+  trasformati in una proposta versionata con 42 label mese-meccanismo su 24
+  mesi. Non emergono conflitti nello stesso meccanismo ne' con la tassonomia
+  v3; quattro mesi del Messico preservano correttamente il contrasto tra stato
+  positivo broad/cross-border e hard-negative banking. La copertura positiva
+  combinata raggiunge 11 episodi indipendenti e supera tutte le soglie per
+  meccanismo. I quattro dossier hard-negative derivano invece da due soli
+  eventi indipendenti (Brexit e Messico), quindi producono 2 eventi totali e 1
+  per meccanismo contro soglie 6/2. Lo stato e'
+  `FOUNDATION_MERGE_READY_MORE_EVIDENCE_REQUIRED`: e' autorizzabile soltanto
+  una tassonomia v4 versionata; ground truth v3 e candidati restano immutati e
+  chiusi fino a nuova evidenza hard-negative.
+- Fase E14.4d - taxonomy v4: la proposta E14.4c e' stata materializzata in
+  `us-financial-stress-mechanism-aware-v4` senza modificare la v3. Le 12 nuove
+  voci restano monomeccanismo per non appiattire confini diversi; ogni voce ha
+  un `independentEventId`, per cui i tre dossier Brexit valgono un solo evento
+  e le tre manifestazioni Russia/LTCM un solo positivo indipendente. La
+  cronologia parte da maggio 1984 e conserva il limite ereditato a dicembre
+  2025. L'audit conferma zero conflitti, 11 positivi e 2 hard-negative
+  indipendenti. Lo stato e'
+  `TAXONOMY_V4_VERSIONED_MORE_HARD_NEGATIVES_REQUIRED`: la tassonomia e'
+  versionata, ma candidati, outer OOS e promozione restano chiusi.
 
 ## Deviazione documentata dal piano originario
 

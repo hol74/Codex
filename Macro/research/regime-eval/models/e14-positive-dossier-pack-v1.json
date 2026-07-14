@@ -1,0 +1,263 @@
+{
+  "schemaVersion": 1,
+  "packId": "e14-positive-dossier-pack-v1",
+  "frozenAt": "2026-07-14",
+  "inputHashes": {
+    "dossierSchemaSha256": "6163ab4cf6249aa314708361d1572ade403844b2cca9b4deb9c6bfaca3c7702f",
+    "detectorContractSha256": "b974b5b5e865a46438449e6d1dc0beb8d821e3656f0074b207d0eca96fd6d685",
+    "sourceCatalogSha256": "e2da8ce5dfacb144871d9d152d2114a30ba4b16adea938a96fabc05031b69271",
+    "mechanismContractAuditSha256": "c1811ece8246569cf151f3f69511a6c4ce5761cbe32b1a9bd5ea8fc40c2b3bd0"
+  },
+  "scope": "Primary-source review of every positive pre-2008 hypothesis/mechanism pair. No hard-negative assertion and no ground-truth mutation.",
+  "digestPolicy": "Generated dossier contentSha256 is SHA-256 of UTF-8 locator, newline and curated summary. It binds the local evidence assertion, not a remote byte snapshot.",
+  "reviewer": "codex-primary-source-review-2026-07-14",
+  "evidenceAssertions": [
+    {
+      "id": "continental-fdic-narrative",
+      "sourceId": "fdic-continental-history",
+      "provider": "Federal Deposit Insurance Corporation",
+      "independenceGroup": "fdic",
+      "publishedAt": "1984-06-22",
+      "role": "official-narrative",
+      "locator": "https://archive.fdic.gov/view/fdic/11382",
+      "summary": "The FDIC archive records Continental Illinois assistance in 1984 and the systemic implications considered by the deposit insurer."
+    },
+    {
+      "id": "continental-fed-quantitative",
+      "sourceId": "fed-continental-run-study",
+      "provider": "Board of Governors of the Federal Reserve System",
+      "independenceGroup": "federal-reserve",
+      "publishedAt": "2016-02-01",
+      "role": "quantitative-observation",
+      "locator": "https://www.federalreserve.gov/econres/feds/can-a-bank-run-be-stopped-government-guarantees-and-the-run-on-continental-illinois.htm",
+      "summary": "The Federal Reserve study documents a broad run by U.S. and foreign institutional creditors and links liability concentration to systemic importance."
+    },
+    {
+      "id": "continental-fed-counter",
+      "sourceId": "fed-continental-run-study",
+      "provider": "Board of Governors of the Federal Reserve System",
+      "independenceGroup": "federal-reserve",
+      "publishedAt": "2016-02-01",
+      "role": "counterevidence",
+      "locator": "https://www.federalreserve.gov/econres/feds/can-a-bank-run-be-stopped-government-guarantees-and-the-run-on-continental-illinois.htm",
+      "summary": "The guarantee slowed but did not immediately stop withdrawals, so the proposed July end boundary remains provisional rather than a proven recovery date."
+    },
+    {
+      "id": "crash-1987-fed-narrative",
+      "sourceId": "fed-1987-crash-study",
+      "provider": "Board of Governors of the Federal Reserve System",
+      "independenceGroup": "federal-reserve",
+      "publishedAt": "2007-05-01",
+      "role": "official-narrative",
+      "locator": "https://www.federalreserve.gov/econres/feds/a-brief-history-of-the-1987-stock-market-crash-with-a-discussion-of-the-federal-reserve-response.htm",
+      "summary": "The Federal Reserve study classifies the October 1987 crash as a major systemic shock in which asset prices fell and market functioning was severely impaired."
+    },
+    {
+      "id": "crash-1987-cftc-quantitative",
+      "sourceId": "cftc-1987-history",
+      "provider": "Commodity Futures Trading Commission",
+      "independenceGroup": "cftc",
+      "publishedAt": "1987-11-09",
+      "role": "quantitative-observation",
+      "locator": "https://www.cftc.gov/About/HistoryoftheCFTC/history_1980s.html",
+      "summary": "The CFTC chronology identifies October 19 as the largest one-day stock-price plunge then recorded and documents the agency's successive market-activity reports."
+    },
+    {
+      "id": "crash-1987-cftc-counter",
+      "sourceId": "cftc-1987-history",
+      "provider": "Commodity Futures Trading Commission",
+      "independenceGroup": "cftc",
+      "publishedAt": "1987-11-09",
+      "role": "counterevidence",
+      "locator": "https://www.cftc.gov/About/HistoryoftheCFTC/history_1980s.html",
+      "summary": "The CFTC reports that no CFTC-regulated system failed and no firm defaulted, limiting any claim that the crash produced universal infrastructure failure."
+    },
+    {
+      "id": "mexico-1994-bis-narrative",
+      "sourceId": "bis-latin-capital-flows-1995",
+      "provider": "Bank for International Settlements",
+      "independenceGroup": "bis",
+      "publishedAt": "1995-05-01",
+      "role": "official-narrative",
+      "locator": "https://www.bis.org/publ/econ44.htm",
+      "summary": "The BIS records severe Latin American turbulence during 1994, heavy Mexican outflows and regional reverberations after higher U.S. rates and the peso crisis."
+    },
+    {
+      "id": "mexico-1994-fed-quantitative",
+      "sourceId": "fed-fomc-minutes-1995-02",
+      "provider": "Board of Governors of the Federal Reserve System",
+      "independenceGroup": "federal-reserve",
+      "publishedAt": "1995-02-01",
+      "role": "quantitative-observation",
+      "locator": "https://www.federalreserve.gov/fomc/minutes/1995/19950201min.htm",
+      "summary": "FOMC minutes document sharp peso depreciation, spillovers to other developing economies and pressure on the dollar and U.S. policy expectations."
+    },
+    {
+      "id": "mexico-1994-fed-counter",
+      "sourceId": "fed-fomc-minutes-1995-02",
+      "provider": "Board of Governors of the Federal Reserve System",
+      "independenceGroup": "federal-reserve",
+      "publishedAt": "1995-02-01",
+      "role": "counterevidence",
+      "locator": "https://www.federalreserve.gov/fomc/minutes/1995/19950201min.htm",
+      "summary": "The same minutes describe robust domestic credit demands and monetary growth, weakening a claim of sustained broad U.S. market impairment across the full hypothesis window."
+    },
+    {
+      "id": "asia-1997-bis-narrative",
+      "sourceId": "bis-annual-report-1998",
+      "provider": "Bank for International Settlements",
+      "independenceGroup": "bis",
+      "publishedAt": "1998-06-08",
+      "role": "official-narrative",
+      "locator": "https://www.bis.org/publ/ar98f01.htm",
+      "summary": "The BIS annual report documents the Asian crisis, volatile external funding reversals, dramatic market volatility and liquidity drying up in affected markets."
+    },
+    {
+      "id": "asia-1997-fed-quantitative",
+      "sourceId": "fed-mpr-1998-02",
+      "provider": "Board of Governors of the Federal Reserve System",
+      "independenceGroup": "federal-reserve",
+      "publishedAt": "1998-02-24",
+      "role": "quantitative-observation",
+      "locator": "https://www.federalreserve.gov/boarddocs/hh/1998/february/fullreport.htm",
+      "summary": "The Federal Reserve report records steep Asian currency and equity declines, an appreciating U.S. dollar and lower intermediate and long U.S. Treasury yields."
+    },
+    {
+      "id": "asia-1997-fed-counter",
+      "sourceId": "fed-mpr-1998-07",
+      "provider": "Board of Governors of the Federal Reserve System",
+      "independenceGroup": "federal-reserve",
+      "publishedAt": "1998-07-21",
+      "role": "counterevidence",
+      "locator": "https://www.federalreserve.gov/boarddocs/hh/1998/july/ReportSection2.htm",
+      "summary": "Despite foreign weakness, the report describes robust U.S. domestic demand, ample credit and rising equities in early 1998, limiting claims of broad domestic impairment."
+    },
+    {
+      "id": "ltcm-1998-fed-narrative",
+      "sourceId": "fed-mpr-1999-02",
+      "provider": "Board of Governors of the Federal Reserve System",
+      "independenceGroup": "federal-reserve",
+      "publishedAt": "1999-02-23",
+      "role": "official-narrative",
+      "locator": "https://www.federalreserve.gov/boarddocs/hh/1999/february/ReportSection1.htm",
+      "summary": "The Federal Reserve report states that Russia's crisis triggered unusual volatility, wider risk spreads, higher uncertainty, lower equities and reduced market liquidity."
+    },
+    {
+      "id": "ltcm-1998-bis-quantitative",
+      "sourceId": "bis-annual-report-1999-markets",
+      "provider": "Bank for International Settlements",
+      "independenceGroup": "bis",
+      "publishedAt": "1999-06-07",
+      "role": "quantitative-observation",
+      "locator": "https://www.bis.org/publ/ar99e7.pdf",
+      "summary": "The BIS reports that Russia and LTCM sharply tightened issuance, curtailed bank and securities financing and reduced secondary trading in risky instruments."
+    },
+    {
+      "id": "ltcm-1998-fed-counter",
+      "sourceId": "fed-mpr-1999-02",
+      "provider": "Board of Governors of the Federal Reserve System",
+      "independenceGroup": "federal-reserve",
+      "publishedAt": "1999-02-23",
+      "role": "counterevidence",
+      "locator": "https://www.federalreserve.gov/boarddocs/hh/1999/february/ReportSection1.htm",
+      "summary": "The report also notes that most firms and households retained sufficient credit and spending was not materially constrained, narrowing the episode's systemic breadth."
+    }
+  ],
+  "dossierBlueprints": [
+    {
+      "dossierId": "e14-dossier-continental-illinois-1984-banking-credit",
+      "hypothesisId": "continental-illinois-1984",
+      "mechanism": "banking-credit",
+      "proposedState": "positive",
+      "firstMonth": "1984-05-01",
+      "lastMonth": "1984-07-01",
+      "boundaryRationale": "May begins with the documented run and intervention; July is retained from the hypothesis but recovery timing remains challenged by continuing withdrawals.",
+      "evidenceIds": ["continental-fdic-narrative", "continental-fed-quantitative"],
+      "counterEvidenceIds": ["continental-fed-counter"]
+    },
+    {
+      "dossierId": "e14-dossier-stock-market-break-1987-broad-market-repricing",
+      "hypothesisId": "stock-market-break-1987",
+      "mechanism": "broad-market-repricing",
+      "proposedState": "positive",
+      "firstMonth": "1987-10-01",
+      "lastMonth": "1987-10-01",
+      "boundaryRationale": "The monthly boundary isolates the October market break documented independently by the Federal Reserve and CFTC without relying on unavailable pre-1990 VIX history.",
+      "evidenceIds": ["crash-1987-fed-narrative", "crash-1987-cftc-quantitative"],
+      "counterEvidenceIds": ["crash-1987-cftc-counter"]
+    },
+    {
+      "dossierId": "e14-dossier-mexico-1994-broad-market-repricing",
+      "hypothesisId": "mexico-bond-turbulence-1994",
+      "mechanism": "broad-market-repricing",
+      "proposedState": "positive",
+      "firstMonth": "1994-12-01",
+      "lastMonth": "1995-03-01",
+      "boundaryRationale": "The narrower window begins with the peso break rather than the February U.S. rate move because available evidence does not yet prove broad impairment throughout 1994.",
+      "evidenceIds": ["mexico-1994-bis-narrative", "mexico-1994-fed-quantitative"],
+      "counterEvidenceIds": ["mexico-1994-fed-counter"]
+    },
+    {
+      "dossierId": "e14-dossier-mexico-1994-cross-border-growth",
+      "hypothesisId": "mexico-bond-turbulence-1994",
+      "mechanism": "cross-border-growth",
+      "proposedState": "positive",
+      "firstMonth": "1994-12-01",
+      "lastMonth": "1995-03-01",
+      "boundaryRationale": "The window follows the peso crisis and documented regional and U.S. spillovers, while excluding earlier months supported only as general bond turbulence.",
+      "evidenceIds": ["mexico-1994-bis-narrative", "mexico-1994-fed-quantitative"],
+      "counterEvidenceIds": ["mexico-1994-fed-counter"]
+    },
+    {
+      "dossierId": "e14-dossier-asian-financial-crisis-1997-cross-border-growth",
+      "hypothesisId": "asian-financial-crisis-1997",
+      "mechanism": "cross-border-growth",
+      "proposedState": "positive",
+      "firstMonth": "1997-07-01",
+      "lastMonth": "1998-01-01",
+      "boundaryRationale": "July starts with the Thai-baht break and January retains the acute regional transmission window before evidence becomes mixed with Russia and later global stress.",
+      "evidenceIds": ["asia-1997-bis-narrative", "asia-1997-fed-quantitative"],
+      "counterEvidenceIds": ["asia-1997-fed-counter"]
+    },
+    {
+      "dossierId": "e14-dossier-russia-ltcm-1998-broad-market-repricing",
+      "hypothesisId": "russia-ltcm-1998",
+      "mechanism": "broad-market-repricing",
+      "proposedState": "positive",
+      "firstMonth": "1998-08-01",
+      "lastMonth": "1998-10-01",
+      "boundaryRationale": "August begins with the Russian moratorium and October includes the documented global repricing and liquidity disruption before conditions eased later in the autumn.",
+      "evidenceIds": ["ltcm-1998-fed-narrative", "ltcm-1998-bis-quantitative"],
+      "counterEvidenceIds": ["ltcm-1998-fed-counter"]
+    },
+    {
+      "dossierId": "e14-dossier-russia-ltcm-1998-funding-liquidity",
+      "hypothesisId": "russia-ltcm-1998",
+      "mechanism": "funding-liquidity",
+      "proposedState": "positive",
+      "firstMonth": "1998-08-01",
+      "lastMonth": "1998-10-01",
+      "boundaryRationale": "The interval captures the Russian default, LTCM exposure shock and documented contraction in risky issuance, bank financing and secondary-market liquidity.",
+      "evidenceIds": ["ltcm-1998-fed-narrative", "ltcm-1998-bis-quantitative"],
+      "counterEvidenceIds": ["ltcm-1998-fed-counter"]
+    },
+    {
+      "dossierId": "e14-dossier-russia-ltcm-1998-cross-border-growth",
+      "hypothesisId": "russia-ltcm-1998",
+      "mechanism": "cross-border-growth",
+      "proposedState": "positive",
+      "firstMonth": "1998-08-01",
+      "lastMonth": "1998-10-01",
+      "boundaryRationale": "The interval covers transmission from the Russian moratorium through LTCM and the associated global pullback in risk-taking and international financing.",
+      "evidenceIds": ["ltcm-1998-fed-narrative", "ltcm-1998-bis-quantitative"],
+      "counterEvidenceIds": ["ltcm-1998-fed-counter"]
+    }
+  ],
+  "hardNegativeBlueprints": [],
+  "limitations": [
+    "Evidence digests bind curated assertions and locators, not archived remote bytes.",
+    "All dossiers have one research reviewer and cannot be accepted until a second independent review.",
+    "No hard negative met the affirmative evidence contract in this increment.",
+    "The frozen E14.3 catalog associated VIX with 1987 despite VIX coverage beginning in 1990; the 1987 dossier replaces it with CFTC evidence without mutating the catalog."
+  ]
+}

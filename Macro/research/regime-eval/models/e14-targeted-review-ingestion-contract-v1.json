@@ -1,0 +1,21 @@
+{
+  "schemaVersion": 1,
+  "contractId": "e14-targeted-review-ingestion-contract-v1",
+  "frozenAt": "2026-07-14",
+  "inputHashes": {
+    "targetedReviewQueueV4Sha256": "54adb9c12fe01035410468832029b1909b4fa9c7a9af4a975358bc78fe373947",
+    "targetedRevisionAuditV1Sha256": "00a343b5ddb383d0976614bfa14b525b752c14d7bc4201c279a9a35bde502eac",
+    "reviewSchemaV2Sha256": "77310369e3ba33a6a5dbde84ce6cc445a6a87c7e9e03ba3842718a684822dd58"
+  },
+  "readinessDecision": "READY_TO_INGEST_TARGETED_REREVIEW",
+  "expectedPreservedAcceptCount": 8,
+  "expectedTargetedReceiptCount": 4,
+  "receiptPolicy": {
+    "schemaV2Required": true,
+    "exactRevisedDossierHashRequired": true,
+    "reviewerMustDifferFromRevisionAuthor": true,
+    "strictAcceptChecksRequired": true,
+    "counterEvidenceRequired": true,
+    "modelOutputsForbidden": true
+  }
+}

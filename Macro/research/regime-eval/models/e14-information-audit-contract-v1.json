@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "contractId": "e14-information-audit-contract-v1",
+  "frozenAt": "2026-07-14",
+  "purpose": "diagnosis-only; no candidate generation, ranking, gate or promotion",
+  "inputHashes": {
+    "datasetSha256": "4b42c41c875dc8cb19168c6529fd935017120da6640d605da99c64a5eeaad30f",
+    "walkForwardPlanSha256": "051615f663ba1e85744dd77ec2662b138c06c9094feb59f5c331a7f9b76b7abb",
+    "stressGroundTruthSha256": "e210915f31301e3b0b2082b2ec94f51c3f959782dd06a2fec96a40713d4bc708",
+    "recessionGroundTruthSha256": "7285b4b88d3f1a269a33241ffad212747be7033dbf557f38cb594c53170da59a",
+    "foundationLockSha256": "28a74235ee9cd4968792a68939dc4cf9b7c09c402b5a22fd55a4671f0bdee325",
+    "e13GateDecisionsSha256": "9f0d061319f5bece558c5572f0f02ecf222bf97d10125cab08231d93fe2b6db0"
+  },
+  "scope": "unique nested-inner-validation dates only",
+  "cohorts": {
+    "positive": "months in observable financial_stress episodes",
+    "contrast": "months in curated episodes without financial_stress, excluding positive overlap",
+    "unlabeled": "reported for coverage only; never treated as confirmed negatives"
+  },
+  "metrics": [
+    "featureAvailability",
+    "cohortQuantiles",
+    "directionalPairwiseAuc",
+    "rangeOverlapRatio",
+    "episodeFeatureSignatures",
+    "frozenCandidateAlertOverlap"
+  ],
+  "featureFormulaVersion": "e13-financial-severity-v1",
+  "candidateDiagnostics": {
+    "noisyOrThreshold": 0.35,
+    "topTwoMeanThreshold": 0.5
+  },
+  "outerOosPolicy": "Forbidden. Outer rows cannot diagnose, reinterpret or rescue E13.",
+  "decisionBoundary": "Audit may revise the future research plan but cannot authorize a candidate or lifecycle transition."
+}

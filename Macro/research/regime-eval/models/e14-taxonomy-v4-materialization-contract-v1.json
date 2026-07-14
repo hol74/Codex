@@ -1,0 +1,50 @@
+{
+  "schemaVersion": 1,
+  "contractId": "e14-taxonomy-v4-materialization-contract-v1",
+  "frozenAt": "2026-07-14",
+  "inputHashes": {
+    "taxonomyV3Sha256": "5c74072b70f6bc5c840b49e3937ffc0506db3a808adfd29138804e840fbf68b9",
+    "foundationProposalSha256": "ab47ff9eb885402af5094d3b996241da1139683739a5bde58e68923a1c051718",
+    "foundationGateAuditSha256": "e8a20cd1591782c61d162ada34ad446194723aa6e26928b7e55fd5be47aa02db",
+    "proposalSchemaSha256": "4e28c87aeaf7b868d40d12255828253204b76a460a80fa65e7b8143dc7005687",
+    "taxonomyV4SchemaSha256": "1a7f4bb3e22e2bf287d4fe6773727e623fcd0345306d41328682c510fd663df5",
+    "labelAuditContractSha256": "edee49028b9d8601c9d22bf956e4e8c8a393897c8d388f94c9d21a1d79d0d570",
+    "mechanismContractSha256": "b974b5b5e865a46438449e6d1dc0beb8d821e3656f0074b207d0eca96fd6d685"
+  },
+  "requiredFoundationStatus": "FOUNDATION_MERGE_READY_MORE_EVIDENCE_REQUIRED",
+  "requiredGroundTruthId": "us-financial-stress-tristate-v3",
+  "outputGroundTruthId": "us-financial-stress-mechanism-aware-v4",
+  "expectedInheritedEpisodeCount": 8,
+  "expectedProposalDossierCount": 12,
+  "requiredMechanisms": [
+    "broad-market-repricing",
+    "funding-liquidity",
+    "banking-credit",
+    "cross-border-growth"
+  ],
+  "coverageThresholds": {
+    "minimumFullPositiveEpisodes": 6,
+    "minimumFullPositiveEpisodesPerMechanism": 3,
+    "minimumHardNegativeEpisodes": 6,
+    "minimumHardNegativeEpisodesPerMechanism": 2
+  },
+  "materializationPolicy": {
+    "versioningMode": "create-new-file-never-mutate-v3",
+    "proposalEntryGranularity": "one-entry-per-dossier-and-mechanism",
+    "independentEventIdentity": "hypothesisId-for-proposal-id-for-inherited",
+    "mechanismMonthStatesRemainIndependent": true,
+    "crossMechanismMixedStatesAllowed": true,
+    "sameMechanismMonthOpposingStatesForbidden": true,
+    "unlabeledNeverBecomesHardNegative": true,
+    "aggregateMonthStateIsViewOnly": true
+  },
+  "authorizationPolicy": {
+    "taxonomyV4MaterializationAuthorized": true,
+    "taxonomyV3MutationAuthorized": false,
+    "candidateGenerationAuthorized": false,
+    "outerOosAuthorized": false,
+    "promotionAuthorized": false
+  },
+  "expectedStatus": "TAXONOMY_V4_VERSIONED_MORE_HARD_NEGATIVES_REQUIRED",
+  "nextAllowedAction": "E14.4e curate additional independent hard-negative events and rerun coverage audit"
+}

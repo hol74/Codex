@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "contractId": "e14-review-ingestion-contract-v1",
+  "frozenAt": "2026-07-14",
+  "inputHashes": {
+    "reviewQueueSha256": "8c4b0dbc3f401d48a463ed64342b0820eba50fb5958bd5c19303fff3c3617316",
+    "adjudicationAuditSha256": "159f703e5faa83f8417276a656f7e6cbce841ece264b892354edddbbad1f055a",
+    "handoffAuditSha256": "31dab5f771b9bf15e46aef3f9025c6394550d118dcddf262fe1be7d61d3ccd6b",
+    "reviewSchemaV2Sha256": "77310369e3ba33a6a5dbde84ce6cc445a6a87c7e9e03ba3842718a684822dd58"
+  },
+  "expectedDossierCount": 12,
+  "receiptPolicy": {
+    "exactlyOneReceiptPerDossier": true,
+    "reviewerMustDifferFromDossierAuthor": true,
+    "receiptMustBindDossierSha256": true,
+    "acceptRequiresAllSourcesOpened": true,
+    "acceptRequiresMechanismClaim": true,
+    "acceptRequiresBoundaries": true,
+    "needsRevisionMayRecordInaccessibleLocator": true,
+    "counterEvidenceRequiredForEveryDecision": true,
+    "modelOutputsForbidden": true
+  },
+  "decisionPolicy": {
+    "allAccepted": "READY_FOR_LABEL_FOUNDATION_GATE",
+    "anyRejectOrNeedsRevision": "DOSSIER_REVISIONS_REQUIRED",
+    "missingReceipt": "INDEPENDENT_REVIEW_INCOMPLETE"
+  },
+  "schemaV2Rationale": "Schema v1 could not represent a valid needs-revision decision caused by an inaccessible source locator because it required sourceLocatorsOpened=true for every decision. V2 retains strict accept requirements while allowing an honest false value for non-accept decisions.",
+  "readinessDecision": "READY_TO_INGEST_INDEPENDENT_REVIEWS"
+}

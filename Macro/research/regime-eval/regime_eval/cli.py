@@ -26,6 +26,18 @@ from .e13_generator import write_e13_candidate_manifest
 from .e13_loeo import write_e13_loeo_report
 from .e13_shortlist import write_e13_shortlist
 from .e13_gate import write_e13_financial_gate_decisions
+from .e14_information_audit import write_e14_information_audit
+from .e14_label_audit import write_e14_label_audit
+from .e14_label_foundation_gate import write_e14_label_foundation_gate
+from .e14_taxonomy_v4 import write_e14_taxonomy_v4
+from .e14_historical_feasibility import write_e14_historical_feasibility
+from .e14_mechanism_contract import write_e14_mechanism_contract_audit
+from .e14_dossier_curation import write_e14_positive_dossier_curation
+from .e14_adjudication import write_e14_adjudication_queue
+from .e14_review_handoff import write_e14_review_handoff_bundle
+from .e14_review_ingestion import write_e14_review_ingestion
+from .e14_targeted_revision import write_e14_targeted_revision
+from .e14_targeted_review_ingestion import write_e14_targeted_review_ingestion
 from .ground_truth import write_recession_report
 from .hmm_challenger import write_hmm_challenger_report
 from .preregistration import write_preregistration_manifest
@@ -45,6 +57,114 @@ def main(argv: list[str] | None = None) -> int:
     parser = _parser()
     args = parser.parse_args(argv)
     try:
+        if args.command == "e14-materialize-taxonomy-v4":
+            taxonomy, output = write_e14_taxonomy_v4(
+                args.contract, args.taxonomy_v3, args.foundation_proposal,
+                args.foundation_gate_audit, args.proposal_schema,
+                args.taxonomy_schema, args.label_audit_contract,
+                args.mechanism_contract, args.taxonomy_output, args.output,
+            )
+            print(taxonomy)
+            print(output)
+            report = json.loads(output.read_text(encoding="utf-8"))
+            return 0 if report["decision"]["taxonomyV4Ready"] else 3
+        if args.command == "e14-label-foundation-gate":
+            proposal, output = write_e14_label_foundation_gate(
+                args.contract, args.reviewed_queue, args.targeted_ingestion_audit,
+                args.taxonomy, args.dossier_schema, args.proposal_schema,
+                args.label_audit_contract, args.mechanism_contract,
+                args.positive_dossier_dir, args.hard_negative_dossier_dir,
+                args.revised_dossier_dir, args.proposal_output, args.output,
+            )
+            print(proposal)
+            print(output)
+            report = json.loads(output.read_text(encoding="utf-8"))
+            return 0 if report["decision"]["foundationMergeAuthorized"] else 3
+        if args.command == "e14-ingest-targeted-reviews":
+            queue, output = write_e14_targeted_review_ingestion(
+                args.contract, args.targeted_queue, args.revision_audit,
+                args.review_schema, args.receipt_dir, args.queue_output, args.output,
+            )
+            print(queue)
+            print(output)
+            report = json.loads(output.read_text(encoding="utf-8"))
+            return 0 if report["decision"]["labelFoundationGateAuthorized"] else 3
+        if args.command == "e14-targeted-dossier-revision":
+            queue, output = write_e14_targeted_revision(
+                args.contract, args.reviewed_queue, args.review_ingestion_audit,
+                args.dossier_schema, args.positive_dossier_dir,
+                args.hard_negative_dossier_dir, args.revised_dossier_dir,
+                args.bundle_dir, args.queue_output, args.output,
+            )
+            print(queue)
+            print(output)
+            return 0
+        if args.command == "e14-ingest-independent-reviews":
+            queue, output = write_e14_review_ingestion(
+                args.contract, args.review_queue, args.adjudication_audit,
+                args.handoff_audit, args.review_schema, args.receipt_dir,
+                args.queue_output, args.output,
+            )
+            print(queue)
+            print(output)
+            report = json.loads(output.read_text(encoding="utf-8"))
+            return 0 if report["decision"]["labelFoundationGateAuthorized"] else 3
+        if args.command == "e14-build-review-handoff":
+            output = write_e14_review_handoff_bundle(
+                args.contract, args.review_queue, args.adjudication_audit,
+                args.review_schema, args.dossier_schema, args.positive_dossier_dir,
+                args.hard_negative_dossier_dir, args.bundle_dir, args.output,
+            )
+            print(output)
+            return 0
+        if args.command == "e14-adjudication-queue":
+            queue, output = write_e14_adjudication_queue(
+                args.hard_negative_pack, args.dossier_schema, args.review_schema,
+                args.detector_contract, args.positive_pack, args.positive_curation_audit,
+                args.positive_dossier_dir, args.hard_negative_dossier_dir,
+                args.review_receipt_dir, args.queue_output, args.output,
+            )
+            print(queue)
+            print(output)
+            report = json.loads(output.read_text(encoding="utf-8"))
+            return 0 if report["decision"]["labelFoundationGateAuthorized"] else 3
+        if args.command == "e14-curate-positive-dossiers":
+            output = write_e14_positive_dossier_curation(
+                args.pack, args.dossier_schema, args.detector_contract,
+                args.source_catalog, args.contract_audit, args.dossier_dir, args.output,
+            )
+            print(output)
+            report = json.loads(output.read_text(encoding="utf-8"))
+            return 0 if report["decision"]["groundTruthMutationAuthorized"] else 3
+        if args.command == "e14-mechanism-contract-audit":
+            output = write_e14_mechanism_contract_audit(
+                args.detector_contract, args.dossier_schema, args.source_catalog,
+                args.feasibility_report, args.taxonomy, args.output,
+            )
+            print(output)
+            return 0
+        if args.command == "e14-historical-feasibility":
+            output = write_e14_historical_feasibility(
+                args.catalog, args.taxonomy, args.label_audit, args.contract, args.output,
+            )
+            print(output)
+            report = json.loads(output.read_text(encoding="utf-8"))
+            return 0 if report["decision"]["fullCorpusPopulationAuthorized"] else 3
+        if args.command == "e14-label-audit":
+            output = write_e14_label_audit(
+                args.taxonomy, args.information_audit, args.dataset, args.plan,
+                args.contract, args.output,
+            )
+            print(output)
+            report = json.loads(output.read_text(encoding="utf-8"))
+            return 0 if report["decision"]["ready"] else 3
+        if args.command == "e14-information-audit":
+            output = write_e14_information_audit(
+                args.dataset, args.plan, args.stress_truth, args.recession_truth,
+                args.foundation_lock, args.e13_decisions, args.contract, args.output,
+            )
+            print(output)
+            return 0
         if args.command == "e13-financial-absolute-gate":
             output = write_e13_financial_gate_decisions(
                 args.shortlist, args.loeo_report, args.gate, args.output,
@@ -375,6 +495,154 @@ def _parser() -> argparse.ArgumentParser:
     e13_gate.add_argument("--loeo-report", required=True)
     e13_gate.add_argument("--gate", required=True)
     e13_gate.add_argument("--output", required=True)
+    e14_audit = subparsers.add_parser(
+        "e14-information-audit",
+        help="diagnose E13 feature, label and episode limitations without generating candidates",
+    )
+    e14_audit.add_argument("--dataset", required=True)
+    e14_audit.add_argument("--plan", required=True)
+    e14_audit.add_argument("--stress-truth", required=True)
+    e14_audit.add_argument("--recession-truth", required=True)
+    e14_audit.add_argument("--foundation-lock", required=True)
+    e14_audit.add_argument("--e13-decisions", required=True)
+    e14_audit.add_argument("--contract", required=True)
+    e14_audit.add_argument("--output", required=True)
+    e14_labels = subparsers.add_parser(
+        "e14-label-audit",
+        help="audit tri-state labels, mechanism coverage and explicit hard negatives",
+    )
+    e14_labels.add_argument("--taxonomy", required=True)
+    e14_labels.add_argument("--information-audit", required=True)
+    e14_labels.add_argument("--dataset", required=True)
+    e14_labels.add_argument("--plan", required=True)
+    e14_labels.add_argument("--contract", required=True)
+    e14_labels.add_argument("--output", required=True)
+    e14_feasibility = subparsers.add_parser(
+        "e14-historical-feasibility",
+        help="gate historical point-in-time sources and pre-2008 episode hypotheses",
+    )
+    e14_feasibility.add_argument("--catalog", required=True)
+    e14_feasibility.add_argument("--taxonomy", required=True)
+    e14_feasibility.add_argument("--label-audit", required=True)
+    e14_feasibility.add_argument("--contract", required=True)
+    e14_feasibility.add_argument("--output", required=True)
+    e14_mechanisms = subparsers.add_parser(
+        "e14-mechanism-contract-audit",
+        help="audit independent mechanism detectors and the episode-dossier schema",
+    )
+    e14_mechanisms.add_argument("--detector-contract", required=True)
+    e14_mechanisms.add_argument("--dossier-schema", required=True)
+    e14_mechanisms.add_argument("--source-catalog", required=True)
+    e14_mechanisms.add_argument("--feasibility-report", required=True)
+    e14_mechanisms.add_argument("--taxonomy", required=True)
+    e14_mechanisms.add_argument("--output", required=True)
+    e14_dossiers = subparsers.add_parser(
+        "e14-curate-positive-dossiers",
+        help="curate reviewed positive episode dossiers from frozen primary-source assertions",
+    )
+    e14_dossiers.add_argument("--pack", required=True)
+    e14_dossiers.add_argument("--dossier-schema", required=True)
+    e14_dossiers.add_argument("--detector-contract", required=True)
+    e14_dossiers.add_argument("--source-catalog", required=True)
+    e14_dossiers.add_argument("--contract-audit", required=True)
+    e14_dossiers.add_argument("--dossier-dir", required=True)
+    e14_dossiers.add_argument("--output", required=True)
+    e14_adjudication = subparsers.add_parser(
+        "e14-adjudication-queue",
+        help="curate affirmative hard negatives and build the independent-review queue",
+    )
+    e14_adjudication.add_argument("--hard-negative-pack", required=True)
+    e14_adjudication.add_argument("--dossier-schema", required=True)
+    e14_adjudication.add_argument("--review-schema", required=True)
+    e14_adjudication.add_argument("--detector-contract", required=True)
+    e14_adjudication.add_argument("--positive-pack", required=True)
+    e14_adjudication.add_argument("--positive-curation-audit", required=True)
+    e14_adjudication.add_argument("--positive-dossier-dir", required=True)
+    e14_adjudication.add_argument("--hard-negative-dossier-dir", required=True)
+    e14_adjudication.add_argument("--review-receipt-dir", required=True)
+    e14_adjudication.add_argument("--queue-output", required=True)
+    e14_adjudication.add_argument("--output", required=True)
+    e14_handoff = subparsers.add_parser(
+        "e14-build-review-handoff",
+        help="build an immutable external-review bundle without performing the review",
+    )
+    e14_handoff.add_argument("--contract", required=True)
+    e14_handoff.add_argument("--review-queue", required=True)
+    e14_handoff.add_argument("--adjudication-audit", required=True)
+    e14_handoff.add_argument("--review-schema", required=True)
+    e14_handoff.add_argument("--dossier-schema", required=True)
+    e14_handoff.add_argument("--positive-dossier-dir", required=True)
+    e14_handoff.add_argument("--hard-negative-dossier-dir", required=True)
+    e14_handoff.add_argument("--bundle-dir", required=True)
+    e14_handoff.add_argument("--output", required=True)
+    e14_ingestion = subparsers.add_parser(
+        "e14-ingest-independent-reviews",
+        help="validate independent review receipts v2 and freeze review decisions",
+    )
+    e14_ingestion.add_argument("--contract", required=True)
+    e14_ingestion.add_argument("--review-queue", required=True)
+    e14_ingestion.add_argument("--adjudication-audit", required=True)
+    e14_ingestion.add_argument("--handoff-audit", required=True)
+    e14_ingestion.add_argument("--review-schema", required=True)
+    e14_ingestion.add_argument("--receipt-dir", required=True)
+    e14_ingestion.add_argument("--queue-output", required=True)
+    e14_ingestion.add_argument("--output", required=True)
+    e14_revision = subparsers.add_parser(
+        "e14-targeted-dossier-revision",
+        help="revise only needs-revision dossier hashes and build a targeted rereview bundle",
+    )
+    e14_revision.add_argument("--contract", required=True)
+    e14_revision.add_argument("--reviewed-queue", required=True)
+    e14_revision.add_argument("--review-ingestion-audit", required=True)
+    e14_revision.add_argument("--dossier-schema", required=True)
+    e14_revision.add_argument("--positive-dossier-dir", required=True)
+    e14_revision.add_argument("--hard-negative-dossier-dir", required=True)
+    e14_revision.add_argument("--revised-dossier-dir", required=True)
+    e14_revision.add_argument("--bundle-dir", required=True)
+    e14_revision.add_argument("--queue-output", required=True)
+    e14_revision.add_argument("--output", required=True)
+    e14_targeted_ingestion = subparsers.add_parser(
+        "e14-ingest-targeted-reviews",
+        help="ingest only receipts for revised E14 hashes and preserve prior accepts",
+    )
+    e14_targeted_ingestion.add_argument("--contract", required=True)
+    e14_targeted_ingestion.add_argument("--targeted-queue", required=True)
+    e14_targeted_ingestion.add_argument("--revision-audit", required=True)
+    e14_targeted_ingestion.add_argument("--review-schema", required=True)
+    e14_targeted_ingestion.add_argument("--receipt-dir", required=True)
+    e14_targeted_ingestion.add_argument("--queue-output", required=True)
+    e14_targeted_ingestion.add_argument("--output", required=True)
+    e14_foundation = subparsers.add_parser(
+        "e14-label-foundation-gate",
+        help="derive a mechanism-month label proposal from accepted E14 dossiers without mutating ground truth",
+    )
+    e14_foundation.add_argument("--contract", required=True)
+    e14_foundation.add_argument("--reviewed-queue", required=True)
+    e14_foundation.add_argument("--targeted-ingestion-audit", required=True)
+    e14_foundation.add_argument("--taxonomy", required=True)
+    e14_foundation.add_argument("--dossier-schema", required=True)
+    e14_foundation.add_argument("--proposal-schema", required=True)
+    e14_foundation.add_argument("--label-audit-contract", required=True)
+    e14_foundation.add_argument("--mechanism-contract", required=True)
+    e14_foundation.add_argument("--positive-dossier-dir", required=True)
+    e14_foundation.add_argument("--hard-negative-dossier-dir", required=True)
+    e14_foundation.add_argument("--revised-dossier-dir", required=True)
+    e14_foundation.add_argument("--proposal-output", required=True)
+    e14_foundation.add_argument("--output", required=True)
+    e14_taxonomy_v4 = subparsers.add_parser(
+        "e14-materialize-taxonomy-v4",
+        help="version the accepted E14 foundation proposal into an immutable mechanism-aware taxonomy v4",
+    )
+    e14_taxonomy_v4.add_argument("--contract", required=True)
+    e14_taxonomy_v4.add_argument("--taxonomy-v3", required=True)
+    e14_taxonomy_v4.add_argument("--foundation-proposal", required=True)
+    e14_taxonomy_v4.add_argument("--foundation-gate-audit", required=True)
+    e14_taxonomy_v4.add_argument("--proposal-schema", required=True)
+    e14_taxonomy_v4.add_argument("--taxonomy-schema", required=True)
+    e14_taxonomy_v4.add_argument("--label-audit-contract", required=True)
+    e14_taxonomy_v4.add_argument("--mechanism-contract", required=True)
+    e14_taxonomy_v4.add_argument("--taxonomy-output", required=True)
+    e14_taxonomy_v4.add_argument("--output", required=True)
     e12_foundation = subparsers.add_parser(
         "e12-freeze-foundation",
         help="validate E12 feature coverage by fold and freeze all foundation input hashes",

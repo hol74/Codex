@@ -1,0 +1,41 @@
+{
+  "schemaVersion": 1,
+  "contractId": "e14-historical-feasibility-contract-v1",
+  "frozenAt": "2026-07-14",
+  "inputHashes": {
+    "sourceCatalogSha256": "e2da8ce5dfacb144871d9d152d2114a30ba4b16adea938a96fabc05031b69271",
+    "taxonomyV3Sha256": "5c74072b70f6bc5c840b49e3937ffc0506db3a808adfd29138804e840fbf68b9",
+    "labelAuditSha256": "821a9b503d6161fa73270b48ec659de8ca2306a324f50841f6d62c3f8346fcff"
+  },
+  "requiredMechanisms": [
+    "broad-market-repricing",
+    "funding-liquidity",
+    "banking-credit",
+    "cross-border-growth"
+  ],
+  "featureEligibleClasses": [
+    "strict-point-in-time",
+    "pilot-with-snapshot",
+    "pilot-with-release-calendar"
+  ],
+  "requirements": {
+    "minimumFeatureSourcesPerMechanism": 1,
+    "minimumLabelSourcesPerMechanism": 1,
+    "minimumProjectedPositiveEpisodesPerMechanism": 3,
+    "minimumHardNegativeHypothesesPerMechanism": 2,
+    "extensionCutoff": "2008-01-01"
+  },
+  "policies": {
+    "hypothesisPolicy": "Hypotheses authorize dossier curation only and are never ground truth.",
+    "compositeIndexPolicy": "reconstructed-current-history sources are diagnostic-only.",
+    "pointInTimePolicy": "Every pilot feature must preserve observation date, acquisition timestamp, provider publication/vintage date when available, raw hash and methodology regime.",
+    "hardNegativePolicy": "Hard negatives require affirmative mechanism-specific evidence of orderly functioning; absence of stress, low index values and unlabeled months are insufficient.",
+    "outerOosPolicy": "No outer feature or outcome may be read during feasibility analysis."
+  },
+  "decisions": {
+    "fullPassing": "GO_FOR_BOUNDED_CORPUS_PILOT",
+    "curationOnly": "GO_FOR_EPISODE_DOSSIERS_ONLY",
+    "failing": "NO_GO_FOR_ANY_HISTORICAL_EXTENSION"
+  },
+  "candidateGenerationAuthorized": false
+}

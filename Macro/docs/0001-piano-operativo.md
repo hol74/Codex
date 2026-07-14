@@ -573,6 +573,152 @@ Checkpoint E13.4:
 
 
 
+### Fase E14 - Information foundation redesign (IN CORSO, 2026-07-14)
+
+Obiettivo: correggere il problema informativo emerso in E13 prima di creare
+altri candidati, separando qualita' delle feature, ontologia delle label e
+copertura degli episodi.
+
+1. E14.1 - information audit (COMPLETATA, 2026-07-14):
+   - misurare separabilita' feature-per-feature e firme per episodio;
+   - trattare i controlli come contrasti curati, non negativi certi;
+   - mantenere outer OOS chiuso e vietare generazione/ranking;
+   - esito: forte overlap broad-market, funding promettente ma fragile,
+     episodi eterogenei e copertura recessiva insufficiente.
+2. E14.2 - tassonomia v3 e hard-negative audit (COMPLETATA, NOT READY, 2026-07-14):
+   - introdurre stati positivo, hard negative confermato e ambiguo;
+   - separare broad-market, funding/liquidity, banking/credit e
+     cross-border/growth;
+   - versionare fonti, confini e motivazioni senza modifiche in-place.
+   - esito: 6 episodi positivi, 2 ambigui e zero hard negative confermati;
+     il gate informativo vieta quindi la generazione di candidati.
+3. E14.3 - feasibility della nuova foundation (COMPLETATA, DOSSIER ONLY, 2026-07-14):
+   - verificare estensione pre-2008, disponibilita' point-in-time e proxy
+     compatibili per ottenere almeno tre episodi per detector;
+   - decidere go/no-go prima di popolare un nuovo corpus.
+   - esito: fonti e 5 ipotesi pre-2008 rendono plausibile la copertura positiva
+     minima, ma zero hard negative bloccano la popolazione; sono autorizzati
+     soltanto dossier di evidenza, non label o candidati.
+4. E14.4 - contratto e dossier per meccanismo:
+   - E14.4a contract audit (COMPLETATA, 2026-07-14):
+     - congelare schema dei dossier e quattro detector indipendenti;
+     - separare `calm`, `onset`, `active` e `recovery` con isteresi;
+     - ammettere soltanto trasformazioni causali e fitting inner-only;
+     - esito: `READY_FOR_DOSSIER_CURATION`, senza mutare label o corpus;
+   - E14.4b1 curation positiva (COMPLETATA, REVIEWED, 2026-07-14):
+     - costruiti 8 dossier hash-bound sulle 5 ipotesi positive pre-2008 e su
+       ogni coppia ipotesi-meccanismo;
+     - verificate fonti indipendenti, narrativa ufficiale, osservazione
+       quantitativa, controevidenza e confini temporali;
+     - rilevato il mismatch VIX/1987 e sostituita nel dossier la fonte con
+       evidenza CFTC, senza mutare il catalogo congelato;
+     - esito: 8 dossier `reviewed`, zero `accepted` e zero hard negative.
+   - E14.4b2 hard-negative e review queue (COMPLETATA, 2026-07-14):
+     - curati quattro hard negative affermativi, uno per meccanismo;
+     - usati Brexit 2016 come contrasto broad-market, funding e cross-border
+       e la crisi messicana 1994-95 come contrasto banking-credit;
+     - congelati schema delle review, hash dei 12 dossier e coda write-once;
+     - impedita l'auto-accettazione dell'autore dei dossier;
+     - esito: copertura hard-negative completa, ma zero review indipendenti e
+       stato `INDEPENDENT_REVIEW_REQUIRED`.
+   - E14.4b3a handoff review (COMPLETATA, 2026-07-14):
+     - generare un bundle immutabile con i 12 dossier byte-identici;
+     - fornire un worksheet per dossier con evidenze, controevidenze e hash;
+     - fornire template di ricevuta intenzionalmente non validi finche' il
+       reviewer non completa identita', decisione e checklist;
+     - esito: `AWAITING_EXTERNAL_REVIEW`, 12 worksheet e 12 template pronti.
+   - E14.4b3b review indipendente e ingestione (COMPLETATA, REVISIONI RICHIESTE, 2026-07-14):
+     - esaminati i 12 dossier con un agente reviewer distinto dall'autore;
+     - acquisite e validate 12 ricevute hash-bound in schema v2;
+     - corretta la limitazione dello schema v1 che non rappresentava una fonte
+       inaccessibile come motivo valido di `needs-revision`;
+     - esito: 8 `accept`, 4 `needs-revision`, 0 `reject` e stato
+       `DOSSIER_REVISIONS_REQUIRED`.
+   - E14.4b4 revisione mirata dossier (COMPLETATA, 2026-07-14):
+     - corretti i confini di Continental Illinois e dei tre dossier Messico
+       usando solo fonti istituzionali direttamente verificabili;
+     - sostituito il locator FDIC problematico con il QBP FDIC 1995 Q1;
+     - preservati byte-identici gli 8 dossier gia' accettati;
+     - riesaminati soltanto i 4 nuovi hash: 4 `accept`, zero revisioni e zero
+       rigetti;
+     - esito: 12/12 dossier accettati e
+       `READY_FOR_LABEL_FOUNDATION_GATE`, senza scrivere label o candidati.
+   - E14.4c label-foundation gate (COMPLETATA, MERGE READY / MORE EVIDENCE REQUIRED, 2026-07-14):
+     - trasformati i 12 dossier accettati in una proposta separata e
+       versionata, senza mutare la ground truth v3;
+     - espanse 42 label mensili per meccanismo su 24 mesi aggregati;
+     - verificati zero conflitti nello stesso mese/meccanismo e zero conflitti
+       con la tassonomia v3; preservati 4 mesi con stati diversi tra
+       meccanismi;
+     - la copertura positiva combinata supera tutte le soglie: 11 episodi
+       indipendenti e rispettivamente 7/3/3/5 per broad, funding, banking e
+       cross-border;
+     - i quattro dossier hard-negative valgono soltanto 2 eventi indipendenti
+       e 1 evento per meccanismo, sotto le soglie 6 totali e 2 per meccanismo;
+     - esito: `FOUNDATION_MERGE_READY_MORE_EVIDENCE_REQUIRED`; il merge in una
+       tassonomia nuova e' autorizzabile, la generazione candidati resta chiusa.
+   - E14.4d taxonomy v4 (COMPLETATA, MORE HARD NEGATIVES REQUIRED, 2026-07-14):
+     - materializzata una nuova tassonomia v4 dalla proposta validata, senza
+       modificare in-place la v3 e mantenendo provenienza e hash dei dossier;
+     - introdotto `independentEventId` per impedire che dossier dello stesso
+       evento su meccanismi diversi aumentino artificialmente la copertura;
+     - mantenute 12 voci monomeccanismo: 8 positive e 4 hard-negative, con
+       confini temporali distinti e stati misti preservati;
+     - estesa la copertura iniziale a maggio 1984 senza restringere il limite
+       ereditato di dicembre 2025;
+     - esito: `TAXONOMY_V4_VERSIONED_MORE_HARD_NEGATIVES_REQUIRED`, 11 eventi
+       positivi e 2 hard-negative indipendenti; candidati ancora chiusi.
+   - E14.4e espansione hard-negative indipendente (PROSSIMO PASSO):
+     - curare ulteriori eventi hard-negative affermativi, non varianti dello
+       stesso episodio, fino ad almeno 6 totali e 2 per ogni meccanismo;
+     - sottoporre i nuovi dossier a review indipendente e integrare soltanto
+       gli hash accettati in una successiva versione della tassonomia;
+     - rieseguire il coverage audit prima di qualsiasi generazione.
+   - definire feature relative al regime storico, onset e recovery separati;
+   - definire dossier e hard negative a livello di singolo meccanismo;
+   - vietare composizione finche' ogni detector non ha evidenza autonoma.
+5. E14.5 - generazione condizionata:
+   - aprire nuovi candidati soltanto se tassonomia e coverage superano i gate
+     informativi; altrimenti accumulare evidenza prospettica.
+
+Analisi E14:
+`docs/e14-riesame-problema-informativo.md`.
+
+Checkpoint E14.1:
+`docs/checkpoints/0060-fase-e14-1-information-audit-done.md`.
+
+Checkpoint E14.2:
+`docs/checkpoints/0061-fase-e14-2-tristate-label-audit-done.md`.
+
+Checkpoint E14.3:
+`docs/checkpoints/0062-fase-e14-3-historical-feasibility-done.md`.
+
+Checkpoint E14.4a:
+`docs/checkpoints/0063-fase-e14-4a-mechanism-contract-done.md`.
+
+Checkpoint E14.4b1:
+`docs/checkpoints/0064-fase-e14-4b1-positive-dossiers-reviewed.md`.
+
+Checkpoint E14.4b2:
+`docs/checkpoints/0065-fase-e14-4b2-hard-negatives-review-queue.md`.
+
+Checkpoint E14.4b3a:
+`docs/checkpoints/0066-fase-e14-4b3a-external-review-handoff.md`.
+
+Checkpoint E14.4b3b:
+`docs/checkpoints/0067-fase-e14-4b3b-independent-review-ingested.md`.
+
+Checkpoint E14.4b4:
+`docs/checkpoints/0068-fase-e14-4b4-targeted-revision-accepted.md`.
+
+Checkpoint E14.4c:
+`docs/checkpoints/0069-fase-e14-4c-label-foundation-gate.md`.
+
+Checkpoint E14.4d:
+`docs/checkpoints/0070-fase-e14-4d-taxonomy-v4-versioned.md`.
+
+
+
 ### Fase F - Ottimizzazione vincolata e stress test
 
 1. Ottimizzazione allocativa vincolata: bande IPS, turnover massimo, costi, fiscalita', penalita' per portafogli estremi, shrinkage sugli expected return.
