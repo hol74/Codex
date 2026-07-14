@@ -526,6 +526,53 @@ Checkpoint E12.5:
 
 
 
+### Fase E13 - Constrained candidate generation (COMPLETATA, 2026-07-14)
+
+Obiettivo: passare dalla scelta manuale di una singola formula a una famiglia
+finita preregistrata, mantenendo task separati e selezione interamente inner.
+
+1. E13.1 - grammatica e generazione (COMPLETATA, 2026-07-14):
+   - congelare combinazioni ammesse, budget e vincoli prima dei punteggi;
+   - generare manifest deterministico e write-once con ID content-derived;
+   - vietare fusione, riuso degli ID E12 e accesso all'outer OOS;
+   - esito: 16 candidati non valutati, 8 per ciascun task.
+2. E13.2 - valutatore leave-one-episode-out (COMPLETATA, 2026-07-14):
+   - usare esclusivamente finestre inner e lasciare fuori un episodio alla
+     volta per misurare generalizzazione tra eventi;
+   - selezionare le soglie soltanto nell'inner fit;
+   - riportare dispersione per episodio, worst case e fallimenti di coverage.
+   - esito: 8 candidati finanziari valutati su 3 episodi; 8 candidati
+     recessivi non valutabili perche' nell'inner e' osservabile un solo
+     episodio; outer OOS chiuso e nessuna shortlist prodotta.
+3. E13.3 - shortlist Pareto (COMPLETATA, 2026-07-14):
+   - penalizzare instabilita' e complessita', senza una classifica su singola
+     metrica;
+   - ammettere al massimo due candidati per task;
+   - congelare shortlist e motivi di esclusione prima di qualunque diagnostica
+     ulteriore.
+   - esito: due candidati finanziari complementari congelati, uno `coverage`
+     e uno `precision`; shortlist recessiva vuota per evidenza insufficiente.
+4. E13.4 - gate task-specifico (COMPLETATA, RESPINTA, 2026-07-14):
+   - eseguire il gate inner-only sui soli candidati congelati;
+   - mantenere l'outer OOS chiuso e richiedere evidenza prospettica per ogni
+     avanzamento oltre `shadow-candidate`.
+   - esito: entrambi i candidati finanziari `REJECTED_FOR_SHADOW`; ramo
+     recessivo non sottoposto a gate; zero candidati eleggibili.
+
+Checkpoint E13.1:
+`docs/checkpoints/0056-fase-e13-1-constrained-generator-done.md`.
+
+Checkpoint E13.2:
+`docs/checkpoints/0057-fase-e13-2-loeo-evaluation-done.md`.
+
+Checkpoint E13.3:
+`docs/checkpoints/0058-fase-e13-3-pareto-shortlist-done.md`.
+
+Checkpoint E13.4:
+`docs/checkpoints/0059-fase-e13-4-absolute-gate-rejected.md`.
+
+
+
 ### Fase F - Ottimizzazione vincolata e stress test
 
 1. Ottimizzazione allocativa vincolata: bande IPS, turnover massimo, costi, fiscalita', penalita' per portafogli estremi, shrinkage sugli expected return.

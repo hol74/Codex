@@ -22,6 +22,10 @@ from .e12_recession_hazard import (
     write_e12_recession_hazard_gate,
     write_e12_recession_preregistration,
 )
+from .e13_generator import write_e13_candidate_manifest
+from .e13_loeo import write_e13_loeo_report
+from .e13_shortlist import write_e13_shortlist
+from .e13_gate import write_e13_financial_gate_decisions
 from .ground_truth import write_recession_report
 from .hmm_challenger import write_hmm_challenger_report
 from .preregistration import write_preregistration_manifest
@@ -41,6 +45,32 @@ def main(argv: list[str] | None = None) -> int:
     parser = _parser()
     args = parser.parse_args(argv)
     try:
+        if args.command == "e13-financial-absolute-gate":
+            output = write_e13_financial_gate_decisions(
+                args.shortlist, args.loeo_report, args.gate, args.output,
+            )
+            print(output)
+            report = json.loads(output.read_text(encoding="utf-8"))
+            return 0 if report["protocol"]["passedCount"] > 0 else 3
+        if args.command == "e13-freeze-shortlist":
+            output = write_e13_shortlist(
+                args.loeo_report, args.evaluation_contract, args.manifest,
+                args.shortlist_contract, args.output,
+            )
+            print(output)
+            return 0
+        if args.command == "e13-loeo-evaluate":
+            output = write_e13_loeo_report(
+                args.dataset, args.plan, args.stress_truth, args.recession_truth,
+                args.protocol, args.manifest, args.foundation_lock,
+                args.evaluation_contract, args.output,
+            )
+            print(output)
+            return 0
+        if args.command == "e13-generate-candidates":
+            output = write_e13_candidate_manifest(args.protocol, args.output)
+            print(output)
+            return 0
         if args.command == "e12-preregister-recession-hazard":
             output = write_e12_recession_preregistration(
                 args.candidate, args.gate, args.foundation_lock, args.output
@@ -309,6 +339,42 @@ def _parser() -> argparse.ArgumentParser:
     manifest = subparsers.add_parser("manifest", help="write a reproducibility manifest")
     manifest.add_argument("dataset")
     manifest.add_argument("--output", required=True)
+    e13_generate = subparsers.add_parser(
+        "e13-generate-candidates",
+        help="expand the frozen E13 grammar into an immutable candidate manifest",
+    )
+    e13_generate.add_argument("--protocol", required=True)
+    e13_generate.add_argument("--output", required=True)
+    e13_loeo = subparsers.add_parser(
+        "e13-loeo-evaluate",
+        help="evaluate the frozen E13 population with inner-only leave-one-episode-out",
+    )
+    e13_loeo.add_argument("--dataset", required=True)
+    e13_loeo.add_argument("--plan", required=True)
+    e13_loeo.add_argument("--stress-truth", required=True)
+    e13_loeo.add_argument("--recession-truth", required=True)
+    e13_loeo.add_argument("--protocol", required=True)
+    e13_loeo.add_argument("--manifest", required=True)
+    e13_loeo.add_argument("--foundation-lock", required=True)
+    e13_loeo.add_argument("--evaluation-contract", required=True)
+    e13_loeo.add_argument("--output", required=True)
+    e13_shortlist = subparsers.add_parser(
+        "e13-freeze-shortlist",
+        help="freeze at most two complementary E13 Pareto candidates per eligible task",
+    )
+    e13_shortlist.add_argument("--loeo-report", required=True)
+    e13_shortlist.add_argument("--evaluation-contract", required=True)
+    e13_shortlist.add_argument("--manifest", required=True)
+    e13_shortlist.add_argument("--shortlist-contract", required=True)
+    e13_shortlist.add_argument("--output", required=True)
+    e13_gate = subparsers.add_parser(
+        "e13-financial-absolute-gate",
+        help="apply independent absolute gates to the frozen E13 financial shortlist",
+    )
+    e13_gate.add_argument("--shortlist", required=True)
+    e13_gate.add_argument("--loeo-report", required=True)
+    e13_gate.add_argument("--gate", required=True)
+    e13_gate.add_argument("--output", required=True)
     e12_foundation = subparsers.add_parser(
         "e12-freeze-foundation",
         help="validate E12 feature coverage by fold and freeze all foundation input hashes",

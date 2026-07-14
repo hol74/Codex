@@ -1,0 +1,41 @@
+{
+  "schemaVersion": 1,
+  "contractId": "e13-shortlist-contract-v1",
+  "frozenAt": "2026-07-14",
+  "loeoReportSha256": "1c2352d7731901c57618389780d330152dc789a62da4cf3f40879c408cd24317",
+  "loeoEvaluationContractSha256": "71c1e3ce297b79be295435e254c9803e073292cf0d6ea6cabb1d6f49cbdc4e47",
+  "generatedManifestSha256": "85c8bf00ff5c9a3ade2ff8a08af5795357d1562f1b2c7d97ae8ccf4c401f7810",
+  "eligibleTasks": ["financial-stress-signal"],
+  "blockedTasks": {
+    "recession-signal": "INSUFFICIENT_EPISODES"
+  },
+  "eligibility": {
+    "requiredStatus": "LOEO_EVALUATED",
+    "minimumEpisodeHitRate": 0.66666667
+  },
+  "paretoObjectives": {
+    "maximize": ["episodeHitRate", "meanEpisodeRecall", "worstEpisodeRecall"],
+    "minimize": ["meanControlFalsePositiveRate", "thresholdRange", "complexityScore"]
+  },
+  "selectionProfiles": {
+    "coverage": [
+      "episodeHitRate",
+      "worstEpisodeRecall",
+      "meanEpisodeRecall",
+      "meanControlFalsePositiveRate",
+      "complexityScore"
+    ],
+    "precision": [
+      "meanControlFalsePositiveRate",
+      "complexityScore",
+      "episodeHitRate",
+      "worstEpisodeRecall",
+      "meanEpisodeRecall"
+    ]
+  },
+  "maximumShortlistPerTask": 2,
+  "selectionPolicy": "Choose distinct coverage and precision champions from the eligible Pareto frontier using deterministic lexicographic orders.",
+  "outerOosPolicy": "Forbidden for shortlist construction, tie-breaking and replacement.",
+  "maximumLifecycle": "research-shortlisted",
+  "promotionAuthorized": false
+}

@@ -432,6 +432,31 @@ Checkpoint in corso: `docs/checkpoints/0034-fase-e-slice6-feature-baseline-redes
   vietata, l'outer OOS resta chiuso e E12 termina con zero candidati shadow.
   La data foundation resta valida, mentre le due formule non saranno ritoccate
   o riutilizzate sotto gli stessi identificativi.
+- Fase E13.1 - constrained candidate generation: congelata una grammatica
+  task-specifica e generato un manifest write-once di 16 candidati, 8
+  finanziari e 8 recessivi. ID, budget, aggregatori, persistenze e soglie sono
+  fissati prima della valutazione. Tutti restano `research-generated`; nessuna
+  label outer, classifica o fusione e' stata usata. Il prossimo valutatore e'
+  preregistrato come leave-one-episode-out entro le sole finestre inner.
+- Fase E13.2 - leave-one-episode-out: congelato il contratto di valutazione e
+  applicato il LOEO agli 8 candidati finanziari su 3 episodi inner. Le varianti
+  `noisy-or` coprono meglio gli eventi ma producono 56,5-78,3% di falsi allarmi
+  sui controlli; `top-two-mean` scende fino a 0-8,7% ma perde almeno un
+  episodio. Gli 8 recessivi sono `INSUFFICIENT_EPISODES`, perche' e'
+  osservabile soltanto la recessione COVID-19. Nessuna shortlist e zero righe
+  outer-test utilizzate.
+- Fase E13.3 - shortlist Pareto: congelato il criterio multidimensionale e
+  selezionati due estremi finanziari. `e13-financial-8ec8415452` copre 3/3
+  episodi ma genera il 78,26% di falsi allarmi sui controlli;
+  `e13-financial-7452a93533` limita i falsi allarmi al 4,35% ma copre 2/3
+  episodi. Entrambi restano `research-shortlisted`; il ramo recessivo ha zero
+  selezionati e nessuna promozione o apertura outer e' autorizzata.
+- Fase E13.4 - gate assoluto: richiesti congiuntamente hit rate 100%, recall
+  medio e worst-case almeno 50% e falsi allarmi non oltre 15%. Il profilo
+  `coverage` fallisce solo per falsi allarmi al 78,26%; il profilo `precision`
+  fallisce hit rate e recall. Entrambi sono `REJECTED_FOR_SHADOW`, il ramo
+  recessivo resta fuori per evidenza insufficiente ed E13 termina con zero
+  candidati eleggibili, senza outer OOS, fallback o fusione.
 
 ## Deviazione documentata dal piano originario
 

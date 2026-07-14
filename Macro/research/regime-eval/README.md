@@ -322,3 +322,51 @@ Entrambi gli esiti sono `REJECTED_FOR_SHADOW`. Il changepoint produce troppi
 falsi positivi e probabilita' non calibrate; il logit e' conservativo ma perde
 il positivo inner e due fold sono ineligibili per assenza di positivi nel fit.
 E11.4 consolida quindi zero shadow-candidate, senza aprire l'outer OOS.
+
+## E13 - Constrained Candidate Generation
+
+E13 cambia il modo di proporre modelli: una grammatica finita viene congelata
+prima di calcolare risultati. Il generatore espande deterministicamente le
+combinazioni ammesse per i due task separati e produce un manifest immutabile:
+
+```text
+python -m regime_eval e13-generate-candidates --protocol models/e13-candidate-generation-protocol-v1.json --output models/e13-generated-candidates-v1.json
+```
+
+Il manifest contiene 16 candidati `research-generated`, 8 per task, e nessuna
+metrica. La valutazione successiva e' vincolata a leave-one-episode-out nelle
+sole finestre inner, con shortlist Pareto massima di due candidati per task.
+L'outer OOS non puo' generare, ordinare, selezionare o tarare candidati.
+
+E13.2 congela separatamente le regole LOEO e valuta il manifest senza
+modificarlo:
+
+```text
+python -m regime_eval e13-loeo-evaluate --dataset ../../data/historical-real-v12-2008-2025/dataset/historical-dataset-2008-04-01-2025-12-31.json --plan ../../data/historical-real-v12-2008-2025/dataset/walk-forward-plan.json --stress-truth ground-truth/us-non-recession-stress-v2.json --recession-truth ground-truth/nber-us-recessions-v1.json --protocol models/e13-candidate-generation-protocol-v1.json --manifest models/e13-generated-candidates-v1.json --foundation-lock models/e12-data-foundation-lock-v1.json --evaluation-contract models/e13-loeo-evaluation-contract-v1.json --output ../../data/historical-real-v12-2008-2025/challengers/e13-loeo-evaluation-v1.json
+```
+
+Il report non produce una shortlist. Il task finanziario dispone dei tre
+episodi minimi ed espone il trade-off copertura/falsi allarmi; il task
+recessivo resta `INSUFFICIENT_EPISODES` con una sola recessione inner.
+
+E13.3 congela la shortlist Pareto finanziaria con:
+
+```text
+python -m regime_eval e13-freeze-shortlist --loeo-report ../../data/historical-real-v12-2008-2025/challengers/e13-loeo-evaluation-v1.json --evaluation-contract models/e13-loeo-evaluation-contract-v1.json --manifest models/e13-generated-candidates-v1.json --shortlist-contract models/e13-shortlist-contract-v1.json --output models/e13-financial-shortlist-v1.json
+```
+
+L'output contiene un profilo orientato alla copertura e uno alla precisione,
+le esclusioni motivate e una shortlist recessiva esplicitamente vuota. Lo
+stato massimo e' `research-shortlisted`: i gate assoluti non sono ancora stati
+eseguiti.
+
+E13.4 applica requisiti assoluti, senza classifica relativa:
+
+```text
+python -m regime_eval e13-financial-absolute-gate --shortlist models/e13-financial-shortlist-v1.json --loeo-report ../../data/historical-real-v12-2008-2025/challengers/e13-loeo-evaluation-v1.json --gate models/e13-financial-absolute-gate-v1.json --output models/e13-financial-gate-decisions-v1.json
+```
+
+Il comando restituisce exit code non zero quando nessun candidato passa. Nel
+primo run entrambi sono `REJECTED_FOR_SHADOW`: il profilo coverage ha troppi
+falsi allarmi, quello precision perde troppi episodi. Il report resta valido e
+write-once; l'exit non zero rappresenta la decisione negativa del gate.

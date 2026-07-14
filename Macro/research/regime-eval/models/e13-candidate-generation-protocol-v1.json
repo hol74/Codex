@@ -1,0 +1,38 @@
+{
+  "schemaVersion": 1,
+  "protocolId": "e13-candidate-generation-protocol-v1",
+  "frozenAt": "2026-07-14",
+  "foundationLockSha256": "28a74235ee9cd4968792a68939dc4cf9b7c09c402b5a22fd55a4671f0bdee325",
+  "candidateBudget": 16,
+  "tasks": {
+    "financial-stress-signal": {
+      "aggregators": ["noisy-or", "top-two-mean"],
+      "entryPersistenceMonths": [1, 2],
+      "recoveryPersistenceMonths": [1, 2]
+    },
+    "recession-signal": {
+      "aggregators": ["max-confirmation", "weighted-hazard"],
+      "entryPersistenceMonths": [1, 2],
+      "recoveryPersistenceMonths": [1, 2]
+    }
+  },
+  "thresholdSelection": {
+    "values": [0.35, 0.5, 0.65],
+    "scope": "inner-fit-only"
+  },
+  "selectionPolicy": {
+    "method": "leave-one-episode-out-within-inner-validation",
+    "ranking": "pareto-on-task-metrics-stability-and-complexity",
+    "maximumShortlistPerTask": 2,
+    "outerOos": "Forbidden for generation, fitting, ranking, selection and tuning."
+  },
+  "constraints": {
+    "deterministicEnumeration": true,
+    "causalFeaturesOnly": true,
+    "trainOnlyTransforms": true,
+    "missingValuesRemainExplicit": true,
+    "crossTaskFusion": false,
+    "reuseRejectedE12CandidateIds": false
+  },
+  "lifecycleBoundary": "research-generated"
+}
