@@ -63,7 +63,7 @@ public sealed class HistoricalDataPopulator
         Validate(command);
         var marketTo = command.To.AddDays(command.MaxForwardHorizonDays + 10);
         var macroHistory = await fredClient.FetchInitialReleaseHistoryAsync(
-            command.From, command.To, FredSeriesCatalog.BaselineSeriesCodes, cancellationToken).ConfigureAwait(false);
+            command.From.AddMonths(-3), command.To, FredSeriesCatalog.BaselineSeriesCodes, cancellationToken).ConfigureAwait(false);
         var marketHistory = await marketClient.FetchHistoryAsync(
             command.From.AddDays(-10), marketTo, MarketDataSeriesCatalog.BaselineSymbols, cancellationToken).ConfigureAwait(false);
 
@@ -109,9 +109,13 @@ public sealed class HistoricalDataPopulator
                     throw new InvalidDataException($"No FRED initial-release history was returned for '{code}'.");
                 }
 
-                return series.LastOrDefault(item => item.ObservationDate <= date && item.PublicationDate <= date)
+                var observation = series.LastOrDefault(item => item.ObservationDate <= date && item.PublicationDate <= date)
                     ?? throw new InvalidDataException($"No point-in-time FRED observation for '{code}' as of {date:yyyy-MM-dd}.");
-            }).ToArray();
+                ValidateMonthlyFreshness(code, date, observation);
+                return observation;
+            }).ToList();
+            snapshot.Add(DeriveThreeMonthChange(date, macroBySeries, "CPI_YOY", "CPI_YOY_3M_CHANGE"));
+            snapshot.Add(DeriveThreeMonthChange(date, macroBySeries, "YC_10Y2Y", "YC_10Y2Y_3M_CHANGE"));
             macroPaths.Add(await macroWriter.WriteAsync(snapshot, new AsOfDate(date), command.MacroDataDirectory, cancellationToken).ConfigureAwait(false));
         }
 
@@ -128,10 +132,10 @@ public sealed class HistoricalDataPopulator
             sampleDates[^1],
             "last-complete-trading-day-of-month",
             "FRED/ALFRED",
-            "monthly revisionable series use ALFRED initial releases; INDPRO YoY computed from initial-release levels; SAHM computed from UNRATE initial releases; daily financial series use current FRED history and are not vintage; HY_OAS is represented by the long-history FRED BAA10Y credit-spread proxy because BAMLH0A0HYM2 is limited to three years from April 2026",
+            "monthly revisionable series use ALFRED initial releases; INDPRO and CPI YoY are computed from initial-release levels; SAHM uses UNRATE-derived initial releases where computable and official SAHMREALTIME initial releases to fill release-history gaps; three-month CPI YoY and curve changes use only observations available at each current/prior cutoff; daily financial series use current FRED history and are not vintage; HY_OAS is represented by the long-history FRED BAA10Y credit-spread proxy because BAMLH0A0HYM2 is limited to three years from April 2026",
             "Yahoo Finance chart endpoint",
             "adjusted-close with close fallback",
-            FredSeriesCatalog.BaselineSeriesCodes,
+            FredSeriesCatalog.HistoricalSnapshotSeriesCodes,
             MarketDataSeriesCatalog.BaselineSymbols,
             sampleDates.Length,
             writtenMarketDates.Length,
@@ -141,6 +145,57 @@ public sealed class HistoricalDataPopulator
         Directory.CreateDirectory(Path.GetDirectoryName(manifestPath)!);
         await File.WriteAllTextAsync(manifestPath, JsonSerializer.Serialize(manifest, SerializerOptions), cancellationToken).ConfigureAwait(false);
         return new PopulateHistoricalDataResult(sampleDates[0], sampleDates[^1], sampleDates.Length, writtenMarketDates.Length, manifestPath);
+    }
+
+    private static FredObservation DeriveThreeMonthChange(
+        DateOnly sampleDate,
+        IReadOnlyDictionary<string, FredObservation[]> macroBySeries,
+        string sourceCode,
+        string derivedCode)
+    {
+        if (!macroBySeries.TryGetValue(sourceCode, out var series))
+        {
+            throw new InvalidDataException($"No FRED history was returned for derived source '{sourceCode}'.");
+        }
+
+        var current = series.LastOrDefault(item =>
+            item.ObservationDate <= sampleDate && item.PublicationDate <= sampleDate)
+            ?? throw new InvalidDataException($"No point-in-time '{sourceCode}' observation as of {sampleDate:yyyy-MM-dd}.");
+        var priorCutoff = sampleDate.AddMonths(-3);
+        var prior = series.LastOrDefault(item =>
+            item.ObservationDate <= priorCutoff && item.PublicationDate <= priorCutoff)
+            ?? throw new InvalidDataException($"No point-in-time '{sourceCode}' observation as of prior cutoff {priorCutoff:yyyy-MM-dd}.");
+        var metadata = FredSeriesCatalog.Resolve(derivedCode);
+
+        return new FredObservation(
+            metadata.FredSeriesId,
+            metadata.SeriesCode,
+            current.ObservationDate,
+            current.PublicationDate > prior.PublicationDate ? current.PublicationDate : prior.PublicationDate,
+            current.VintageDate > prior.VintageDate ? current.VintageDate : prior.VintageDate,
+            decimal.Round(current.Value - prior.Value, 6, MidpointRounding.ToEven),
+            metadata.Unit);
+    }
+
+    private static void ValidateMonthlyFreshness(
+        string seriesCode,
+        DateOnly asOfDate,
+        FredObservation observation)
+    {
+        var metadata = FredSeriesCatalog.Resolve(seriesCode);
+        if (!string.Equals(metadata.Frequency, "monthly", StringComparison.OrdinalIgnoreCase))
+        {
+            return;
+        }
+
+        var lagMonths = ((asOfDate.Year - observation.ObservationDate.Year) * 12)
+            + asOfDate.Month - observation.ObservationDate.Month;
+        if (lagMonths > 3)
+        {
+            throw new InvalidDataException(
+                $"Stale monthly FRED observation for '{seriesCode}' as of {asOfDate:yyyy-MM-dd}: "
+                + $"latest observation is {observation.ObservationDate:yyyy-MM-dd} ({lagMonths} months old; maximum 3).");
+        }
     }
 
     private static void Validate(PopulateHistoricalDataCommand command)

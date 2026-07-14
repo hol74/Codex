@@ -1,0 +1,150 @@
+{
+  "schemaVersion": 1,
+  "groundTruthId": "us-non-recession-stress-monthly-v1",
+  "label": "US-relevant macro-financial stress outside NBER recessions",
+  "geography": "United States with documented global spillovers",
+  "frequency": "monthly",
+  "evidenceStatus": "curated-ex-post",
+  "coverageFrom": "2008-04-01",
+  "coverageTo": "2025-12-31",
+  "scopePolicy": "Episodes must not overlap any recession month in nber-us-recessions-v1.json. Labels are multi-dimensional and may overlap each other.",
+  "sources": [
+    {
+      "id": "bis-euro-sovereign-2011",
+      "name": "BIS Quarterly Review December 2011 - Euro area sovereign crisis drives global financial markets",
+      "url": "https://www.bis.org/publ/qtrpdf/r_qt1112a.htm",
+      "role": "documents September-December 2011 global market stress and flight to quality"
+    },
+    {
+      "id": "bis-eme-2015",
+      "name": "BIS Quarterly Review September 2015 - EME vulnerabilities take centre stage",
+      "url": "https://www.bis.org/publ/qtrpdf/r_qt1509a.htm",
+      "role": "documents the August 2015 China and emerging-market shock"
+    },
+    {
+      "id": "bis-turbulence-2016",
+      "name": "BIS Quarterly Review March 2016 - Uneasy calm gives way to turbulence",
+      "url": "https://www.bis.org/publ/qtrpdf/r_qt1603a.htm",
+      "role": "documents continuation of China, growth and bank stress through February 2016"
+    },
+    {
+      "id": "fed-2018-repricing",
+      "name": "Federal Reserve 2018 Annual Report - Monetary Policy and Economic Developments",
+      "url": "https://www.federalreserve.gov/publications/2018-ar-monetary-policy.htm",
+      "role": "documents October-December 2018 risk repricing, volatility and tightening financial conditions"
+    },
+    {
+      "id": "fred-cpi",
+      "name": "FRED CPIAUCSL sourced from the U.S. Bureau of Labor Statistics",
+      "url": "https://fred.stlouisfed.org/series/CPIAUCSL",
+      "role": "supports the headline CPI year-over-year threshold boundary"
+    },
+    {
+      "id": "fed-mpr-2022",
+      "name": "Federal Reserve Monetary Policy Report June 2022",
+      "url": "https://www.federalreserve.gov/monetarypolicy/2022-06-mpr-summary.htm",
+      "role": "documents broad inflation pressure and tightening financial conditions"
+    },
+    {
+      "id": "fed-fomc-rates",
+      "name": "Federal Reserve Open Market Operations - historical target rate changes",
+      "url": "https://www.federalreserve.gov/monetarypolicy/openmarket.htm",
+      "role": "dates the March 2022 through July 2023 policy-rate hiking cycle"
+    },
+    {
+      "id": "fed-fsr-2023",
+      "name": "Federal Reserve Financial Stability Report May 2023",
+      "url": "https://www.federalreserve.gov/publications/2023-may-financial-stability-report-overview.htm",
+      "role": "documents acute banking stress beginning in March 2023 and stabilization by May"
+    }
+  ],
+  "taxonomy": [
+    {
+      "code": "financial_stress",
+      "label": "Financial-system or broad market stress",
+      "definition": "Documented disruption, flight to quality, material risk repricing or banking-sector stress.",
+      "expectedPrimaryRegimes": ["DeflationBust"]
+    },
+    {
+      "code": "growth_scare",
+      "label": "Growth scare",
+      "definition": "Documented material concern about weakening global or US growth without an NBER recession month.",
+      "expectedPrimaryRegimes": ["DeflationBust"]
+    },
+    {
+      "code": "inflation_shock",
+      "label": "Inflation shock",
+      "definition": "Headline CPI year-over-year at or above 4 percent, supported by institutional assessment of broad price pressure.",
+      "expectedPrimaryRegimes": ["LateCycleOverheating", "Stagflation"]
+    },
+    {
+      "code": "monetary_tightening",
+      "label": "Rapid monetary tightening",
+      "definition": "Federal Reserve policy-rate hiking cycle from the first hike through the final hike.",
+      "expectedPrimaryRegimes": ["LateCycleOverheating", "Stagflation"]
+    }
+  ],
+  "episodes": [
+    {
+      "id": "euro-sovereign-stress-2011",
+      "name": "Euro-area sovereign stress spillover",
+      "firstMonth": "2011-09-01",
+      "lastMonth": "2011-12-01",
+      "labels": ["financial_stress", "growth_scare"],
+      "sourceIds": ["bis-euro-sovereign-2011"],
+      "boundaryRationale": "BIS identifies early September through the beginning of December as the period dominated by sovereign-crisis news; the monthly chronology includes September-December."
+    },
+    {
+      "id": "china-eme-stress-2015-2016",
+      "name": "China and emerging-market growth stress",
+      "firstMonth": "2015-08-01",
+      "lastMonth": "2016-02-01",
+      "labels": ["financial_stress", "growth_scare"],
+      "sourceIds": ["bis-eme-2015", "bis-turbulence-2016"],
+      "boundaryRationale": "The August 2015 renminbi and risky-asset shock was followed by renewed global turbulence in January-February 2016; March reporting describes the episode ex post."
+    },
+    {
+      "id": "risk-repricing-2018q4",
+      "name": "Fourth-quarter 2018 risk repricing",
+      "firstMonth": "2018-10-01",
+      "lastMonth": "2018-12-01",
+      "labels": ["financial_stress", "growth_scare", "monetary_tightening"],
+      "sourceIds": ["fed-2018-repricing"],
+      "boundaryRationale": "The Federal Reserve dates the marked deterioration in risk appetite and decline in risky asset prices from early October through late December 2018."
+    },
+    {
+      "id": "inflation-shock-2021-2023",
+      "name": "Post-pandemic inflation shock",
+      "firstMonth": "2021-04-01",
+      "lastMonth": "2023-05-01",
+      "labels": ["inflation_shock"],
+      "sourceIds": ["fred-cpi", "fed-mpr-2022"],
+      "boundaryRationale": "Headline CPI year-over-year first reached at least 4 percent in April 2021 and remained at or above 4 percent through May 2023; the Fed documented broad, multi-decade-high inflation pressure."
+    },
+    {
+      "id": "fed-tightening-2022-2023",
+      "name": "Federal Reserve rapid tightening cycle",
+      "firstMonth": "2022-03-01",
+      "lastMonth": "2023-07-01",
+      "labels": ["monetary_tightening"],
+      "sourceIds": ["fed-fomc-rates", "fed-mpr-2022"],
+      "boundaryRationale": "The first target-range increase occurred in March 2022 and the last increase of the cycle occurred in July 2023."
+    },
+    {
+      "id": "regional-bank-stress-2023",
+      "name": "US regional banking stress",
+      "firstMonth": "2023-03-01",
+      "lastMonth": "2023-05-01",
+      "labels": ["financial_stress"],
+      "sourceIds": ["fed-fsr-2023"],
+      "boundaryRationale": "Acute bank stress began with March failures; the May Financial Stability Report records normalized markets and stabilized deposit flows while residual stress remained."
+    }
+  ],
+  "limitations": [
+    "This is a curated ex-post chronology, not an official business-cycle dating system and not a real-time model input.",
+    "Episode boundaries combine documented event windows with explicit monthly threshold policies and remain sensitive to the chosen definitions.",
+    "Expected regimes are semantic hypotheses fixed before report execution; alignment is descriptive and is not generic classification accuracy.",
+    "Only selected US-relevant episodes are included. Absence of a label does not prove absence of stress.",
+    "The chronology deliberately excludes NBER recession months and must be cross-validated against the versioned recession ground truth."
+  ]
+}

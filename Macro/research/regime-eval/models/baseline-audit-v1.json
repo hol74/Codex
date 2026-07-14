@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "name": "baseline-audit-v1",
+  "expectedFeatureCodes": [
+    "GROWTH_MOM",
+    "INFL_PRESS",
+    "RISK_APPETITE",
+    "MONETARY_COND",
+    "CREDIT_STRESS"
+  ],
+  "featureBoundaryFloor": 0.05,
+  "featureBoundaryCeiling": 0.95,
+  "maxFeatureBoundaryRate": 0.25,
+  "minPrimaryRegimeCount": 3,
+  "maxDominantPrimaryRegimeRate": 0.80,
+  "maxUncertainTransitionRate": 0.50
+}

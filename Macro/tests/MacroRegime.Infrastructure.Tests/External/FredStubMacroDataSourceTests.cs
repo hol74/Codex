@@ -13,7 +13,7 @@ public sealed class FredStubMacroDataSourceTests
     {
         var source = new FredStubMacroDataSource();
         var result = await source.FetchAsync(new FredFetchCommand(AsOf, FredSeriesSet.Baseline));
-        Assert.Equal(6, result.Count);
+        Assert.Equal(7, result.Count);
         Assert.Equal(FredSeriesCatalog.BaselineSeriesCodes, result.Select(o => o.SeriesCode).ToArray());
     }
 

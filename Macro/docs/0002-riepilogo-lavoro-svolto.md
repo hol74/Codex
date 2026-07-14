@@ -4,11 +4,11 @@ Data: 2026-07-13
 
 ## Scopo
 
-Questo documento riassume in ordine cronologico tutto il lavoro svolto sul progetto Macro-Regime Engine, dalla ricerca iniziale alla chiusura della prima release informativa (2026-07-08), alle Fasi A-D e all'avvio della Fase E con il research data gate Python (2026-07-13). Il dettaglio di ogni passaggio e' nei documenti citati.
+Questo documento riassume in ordine cronologico tutto il lavoro svolto sul progetto Macro-Regime Engine, dalla ricerca iniziale alla chiusura della prima release informativa (2026-07-08), alle Fasi A-D e alle prime cinque slice della Fase E (2026-07-13). Il dettaglio di ogni passaggio e' nei documenti citati.
 
 ## Stato attuale in una frase
 
-La prima release informativa e le Fasi A-D sono complete. La Fase E dispone ora di un research lab Python separato, dataset reale 2008-2025 validato e baseline rule-based misurata su sei fold walk-forward rolling 10/2/1. Il runtime C# resta autorevole per detector e proposte allocative; Python valida e aggrega gli artefatti senza duplicare le regole. Nessun database e nessuna rete nel runtime core; nessun challenger e' ancora implementato o promosso.
+La prima release informativa e le Fasi A-D sono complete. La Fase E dispone ora di un research lab Python separato, dataset reale 2008-2025 validato, baseline misurata, ground truth NBER e primo challenger k-means valutato con esito negativo e non promosso. Il runtime C# resta autorevole per detector e proposte allocative; Python valida e aggrega gli artefatti senza duplicare le regole. Nessun database e nessuna rete nel runtime core.
 
 ## Cronologia del lavoro
 
@@ -208,6 +208,78 @@ Checkpoint: `docs/checkpoints/0031-fase-e-slice3-baseline-walk-forward-done.md`.
 - Gli ultimi due fold risultano `UncertainTransition` al 100%, segnale di scarsa capacità discriminante o soglia/configurazione non calibrata da investigare, non da ottimizzare sul test.
 - Accuracy non calcolata: manca una ground truth NBER/crisi versionata. La baseline `0.1-demo`, efficace dal 2026-07-01, e' applicata retrospettivamente e non rappresenta performance live ex-ante.
 
+### 18. Fase E - Slice 4 - Ground truth recessiva NBER (2026-07-13)
+
+Checkpoint: `docs/checkpoints/0032-fase-e-slice4-ground-truth-nber-done.md`.
+
+- Versionato `research/regime-eval/ground-truth/nber-us-recessions-v1.json` con fonti NBER/FRED, policy peak/trough, periodi 2008-2009 e 2020 e limiti ex-post.
+- Implementato `recession-report`: verifica hash e copertura, mappa `DeflationBust` come segnale binario e produce confusion matrix, recall/FNR, specificity/FPR, precision, accuracy, balanced accuracy, F1, date di errore e detection lag.
+- Aggregato OOS su 84 date uniche: 2 mesi recessivi, 2 true positive, 3 false positive, recall 100%, precision 40%, F1 57,14%; nessun false negative.
+- L'accuracy OOS 96,43% non viene usata isolatamente: la prevalenza recessiva e' solo 2,38% e rende il risultato fragile.
+- Periodo completo 213 righe: primary recall 70,59%, precision 80%, F1 75%; operational recall 58,82%, precision 76,92%, F1 66,67%.
+- Sulla Grande Recessione il primo `DeflationBust` arriva a settembre 2008, cinque mesi dopo il primo sample disponibile di aprile; marzo-aprile 2020 sono intercettati senza lag mensile.
+- La ground truth NBER non etichetta stagflazione o stress non recessivi e non entra mai come input del detector.
+
+### 19. Fase E - Slice 5 - Primo challenger clustering (2026-07-13)
+
+Checkpoint: `docs/checkpoints/0033-fase-e-slice5-primo-challenger-clustering-done.md`.
+
+- Versionata configurazione `kmeans-recession-v1`: 4 cluster, cinque feature baseline, standardizzazione e mapping cluster/NBER solo sul train, nessun hyperparameter sweep.
+- Implementato k-means standard-library deterministico con inizializzazione mean-nearest/farthest-first, convergenza tracciata e cluster summary per fold.
+- Aggiunto comando `clustering-report`, con hash di tutti gli input, predizioni per fold, aggregato osservazioni-fold, aggregato date uniche e delta contro la baseline.
+- Test automatico: output byte-deterministico e predizioni invarianti quando cambiano solo le label test.
+- Risultato OOS date uniche: TP 0, FN 2, FP 0, TN 82; recall 0%, F1 0%, balanced accuracy 50%. L'accuracy 97,62% è un artefatto della classe maggioritaria.
+- Baseline sullo stesso campione: recall 100%, precision 40%, F1 57,14%, balanced accuracy 98,17%.
+- Risultato osservazioni-fold: recall 25%, precision 10%, F1 14,29%; cluster mapping instabile con pochi mesi recessivi train.
+- Creata model card `research/regime-eval/model-cards/kmeans-recession-v1.md`: challenger non promosso, risultato negativo conservato, vietato tuning post-hoc sugli stessi test.
+
+### 20. Fase E - Slice 6 - Feature and Baseline Redesign (avviata 2026-07-13)
+
+Checkpoint in corso: `docs/checkpoints/0034-fase-e-slice6-feature-baseline-redesign-in-progress.md`.
+
+- Sospeso il passaggio diretto all'HMM: prima devono essere risolti saturazione
+  delle feature e sbilanciamento della baseline `0.1-demo`.
+- Aggiunto `baseline-audit`, con configurazione versionata e report deterministico
+  full-history/OOS su saturazione, diversita' dei regimi, concentrazione e quota
+  `UncertainTransition`.
+- Aggiunto lo scenario archetipico mancante per la raggiungibilita' di
+  `LateCycleOverheating`; i cinque regimi primari sono ora coperti da test Domain.
+- Audit reale OOS su 84 date: 4 gate falliti. `CREDIT_STRESS` e' ai bordi nel
+  95,24% delle osservazioni, i regimi primari osservati sono 2 contro un minimo
+  di 3, `Goldilocks` domina il 94,05% contro un massimo dell'80% e
+  `UncertainTransition` raggiunge il 57,14% contro un massimo del 50%.
+- Il report negativo e' stato conservato in
+  `data/historical-real-2008-2025/baseline/baseline-audit-v1-report.json`; la
+  directory dati resta esclusa da Git e identificata tramite hash degli input.
+- Secondo incremento: creata `1.0-candidate`, selezionabile con
+  `--baseline-version v1` senza sovrascrivere la demo. Il mapping credito usa la
+  scala `BAA10Y`, la curva diventa non monotona e il breakeven usa un range piu'
+  sensibile con limite documentato sull'assenza di inflazione realizzata.
+- Sulla candidate, saturazione credito 1,19%, 3 regimi primari e Goldilocks
+  83,33%; l'incertezza peggiora al 78,57%. Il gate passa da 4 a 2 violazioni ma
+  resta negativo; model card conservata e nessuna promozione.
+- Terzo incremento: nuovo corpus separato con CPI YoY initial-release, momentum
+  CPI e variazione trimestrale della curva. La `1.1-candidate` porta Goldilocks
+  al 70,24%, Reflation al 14,29% e i gate falliti da 2 a 1; resta non promossa
+  per `UncertainTransition` al 75%.
+- Quarto incremento: aggiunta `1.2-candidate` con scoring archetipico e confidence
+  fit/margine, congelata prima del nuovo `baseline-train-gate`. Il preflight ha
+  restituito 0 fold eleggibili su 6; la candidate e' respinta senza aprire i
+  report OOS. Il gate v1 ha inoltre evidenziato la necessita' di separare
+  copertura aggregata e robustezza per-fold prima di una futura v1.3.
+- Quinto incremento: implementato il train gate v2 con validation uniche
+  aggregate per integrita'/copertura e incertezza per fold. Copertura (4 regimi,
+  dominante 57,14%) e operativita' (5/6 fold) passano; integrita' fallisce per
+  `RISK_APPETITE` al 27,38% contro il 25%. Nessuna apertura OOS.
+- Sesto incremento: `1.3-candidate` con mapping VIX logistico preregistrato.
+  Integrita' e copertura passano (`RISK_APPETITE` 1,19%), ma operativita'
+  fallisce con 2/6 fold e 60,71% di incertezza aggregata. Candidate respinta e
+  OOS non aperto.
+- Settimo incremento: `1.4-candidate` con anchor risk/cutoff divergente tradotti
+  semanticamente e confidence geometrica. Train gate 6/6; audit OOS superato con
+  4 regimi e 2,38% di incertezza. NBER recall 100%, precision 20%, F1 33,33%.
+  E6 chiusa tecnicamente; v1.4 baseline di ricerca non promossa operativamente.
+
 ## Verifiche allo stato attuale
 
 - `dotnet build MacroRegime.slnx`: build superata, 0 warning, 0 errori.
@@ -233,6 +305,66 @@ Checkpoint: `docs/checkpoints/0031-fase-e-slice3-baseline-walk-forward-done.md`.
 - Fase E - Slice 1: `python -m unittest discover -s tests -v` superato, 6 test Python; `python -m compileall -q regime_eval tests` superato.
 - Fase E - Slice 2: build 0 warning/0 errori; 216 test C# superati (Domain 80, Application 30, Infrastructure 81, Reporting 2, CLI 17, Web 6); 7 test Python superati; corpus e dataset reali validati; nessuna rete nei sorgenti Domain/Application/Web.
 - Fase E - Slice 3: build 0 warning/0 errori; 218 test C# superati (Domain 80, Application 30, Infrastructure 82, Reporting 2, CLI 18, Web 6); 8 test Python superati; evaluation e report baseline reali generati.
+- Fase E - Slice 4: 218 test C# ancora verdi; 9 test Python superati; ground truth e report NBER reali generati con hash verificati.
+- Fase E - Slice 5: 218 test C# ancora verdi; 10 test Python superati; report challenger e model card generati; k-means v1 non promosso.
+- Fase E - Slice 6, primo incremento: 219 test C# superati; 11 test Python
+  superati; compileall superato; audit reale generato con quattro gate falliti e
+  HMM sospeso fino al redesign della baseline.
+- Fase E - Slice 6, secondo incremento: build 0 errori; 226 test C# superati
+  (Domain 86, Application 30, Infrastructure 83, Reporting 2, CLI 19, Web 6);
+  11 test Python e compileall superati; evaluation, walk-forward, NBER e audit
+  della candidate v1 generati.
+- Fase E - Slice 6, terzo incremento: build 0 warning/0 errori; 231 test C#
+  superati (Domain 89, Application 30, Infrastructure 85, Reporting 2, CLI 19,
+  Web 6); 11 test Python e compileall superati; nuovo corpus/dataset v1.1
+  validato point-in-time e quattro report candidate generati.
+- Fase E - Slice 6, quarto incremento: build 0 warning/0 errori; 232 test C#
+  superati (Domain 90, Application 30, Infrastructure 85, Reporting 2, CLI 19,
+  Web 6); 12 test Python e compileall superati; v1.2 respinta dal train gate
+  (0/6 fold eleggibili), senza apertura dei report OOS.
+- Fase E - Slice 6, quinto incremento: build 0 warning/0 errori; 232 test C# e
+  13 test Python superati; train gate v2 eseguito e fermato dal solo gate di
+  integrita' `RISK_APPETITE`, senza apertura OOS.
+- Fase E - Slice 6, sesto incremento: build 0 warning/0 errori; 234 test C#
+  superati (Domain 91, Application 30, Infrastructure 86, Reporting 2, CLI 19,
+  Web 6); 13 test Python e compileall superati; v1.3 respinta dal solo gate
+  operativo, senza apertura OOS.
+- Fase E - Slice 6, settimo incremento e chiusura: build 0 warning/0 errori;
+  237 test C# superati (Domain 93, Application 30, Infrastructure 87,
+  Reporting 2, CLI 19, Web 6); 13 test Python e compileall superati; train gate
+  e audit v1.4 passati, report OOS/NBER generati senza tuning successivo.
+- Fase E - Slice 7: preregistrato e implementato Gaussian HMM v1 train-only e
+  causale; 6/6 fold convergenti. Il Model Gate lo respinge per recall 50% e F1
+  11,76%, inferiori alla baseline v1.4; configurazione, report e model card sono
+  conservati senza tuning post-hoc. Build 0 warning/0 errori; 237 test C# e 14
+  test Python superati; compileall superato.
+- Fase E - Slice 8: introdotti PredictionLedger, PredictionScore e GateDecision
+  immutabili; previsione e ground truth sono fisicamente separate, le run
+  registrano fingerprint del codice/runtime e le decisioni umane sono legate al
+  report. Le metriche binarie sono condivise da k-means, HMM e shadow score. Un
+  dry-run v1.4 su quattro mesi 2020 ha verificato il flusso; non e' shadow-live.
+  Build 0 warning/0 errori; 237 test C# e 16 test Python superati; compileall e
+  gate architetturale superati.
+- Fase E - Slice 8, prima osservazione shadow-live: acquisizione point-in-time
+  al 2026-06-30, dataset validato e ledger v1.4 congelato senza label. Il
+  preflight ha bloccato un primo candidato con SAHM fermo a settembre 2025;
+  aggiunto fallback tracciabile su `SAHMREALTIME` per i soli buchi della
+  ricostruzione `UNRATE` e un gate che rifiuta serie mensili con oltre tre mesi
+  di ritardo. Ledger SHA-256
+  `7fbcae3ca6ace977e4914edbc609003fcced936228b4a29cf9f0fdac20a520fa`;
+  240 test C# e 16 test Python superati.
+- Fase E - stress non recessivi v1: cronologia ex-post multi-label con 6
+  episodi, fonti istituzionali e controllo anti-overlap NBER. Il report v1.4
+  mostra allineamento OOS 0% su financial stress/growth scare e circa 4-5% su
+  inflation shock/tightening; risultato negativo conservato senza tuning. 240
+  test C# e 18 test Python superati.
+- Fase E9 - Shadow Operations, primo incremento: introdotti `ShadowPreflight`
+  write-once, gate su mese informativo chiuso, assenza di forward return,
+  freshness delle nove serie richieste e fingerprint delle sorgenti C#/Python.
+  Il ciclo ledger e' idempotente sugli stessi input e rifiuta conflitti;
+  `ShadowIndex` e' una vista deterministica non autorevole. L'audit
+  retrospettivo di giugno passa senza modificare o ricollegare il ledger gia'
+  congelato. 240 test C# e 22 test Python superati.
 
 ## Deviazione documentata dal piano originario
 
@@ -244,8 +376,12 @@ Il piano originario prevedeva una prima persistenza anche in chiave EF Core. Dop
 - Indice operativo incrementale per corpus storici grandi; il manifest deterministico e' disponibile.
 - Database ed EF Core, non introdotti per scelta architetturale esplicita in ADR 0003.
 - Tilt simulation con costi/turnover e stress test; la baseline descrittiva sui fold e' disponibile.
-- Ground truth esterna versionata NBER/crisi e metriche di regime accuracy.
-- HMM, clustering, Markov switching e jump model; il research lab Python e il data gate sono disponibili.
+- Estensione della cronologia stress v1 con episodi nuovi e aspettative
+  dimensionali: la prima versione multi-label e il report v1.4 sono disponibili.
+- Serie temporale shadow-live abbastanza lunga da essere valutata: la prima
+  osservazione al cutoff 2026-06-30 e' congelata, ma non e' ancora scorable.
+- Markov switching e jump model; clustering e Gaussian HMM v1 sono stati
+  valutati e respinti.
 - Autenticazione, upload file, editing configurazione da UI.
 - Fiscalita' reale dettagliata, esecuzione ordini, trading automatico.
 
@@ -254,14 +390,24 @@ Il piano originario prevedeva una prima persistenza anche in chiave EF Core. Dop
 - Le serie FRED finanziarie giornaliere del corpus storico usano la storia corrente, non vintage, e possono incorporare correzioni retrospettive.
 - `BAA10Y` e' un proxy credit-spread long-history, non un sostituto semanticamente identico dell'high-yield OAS.
 - Yahoo Finance e' un endpoint pragmatico non ufficiale e sostituibile; il corpus locale deve restare manifestato e riproducibile.
-- La baseline corrente classifica il 57,14% delle date test uniche come `UncertainTransition` e il primary regime e' `Goldilocks` in 79 casi su 84: la capacita' discriminante va verificata prima del Model Gate.
+- La baseline v1.4 supera i gate tecnici con 2,38% di `UncertainTransition`, ma
+  il benchmark e' gia' stato osservato e la ground truth NBER contiene solo due
+  mesi recessivi OOS.
+- Il Gaussian HMM v1 converge, ma la persistenza perde marzo 2020 e prolunga
+  falsi segnali dopo la recessione: convergenza numerica e qualita' del modello
+  restano dimensioni separate.
 - La baseline `0.1-demo` e' efficace dal 2026 e il backtest 2008-2025 e' retrospettivo, non una ricostruzione di segnali storicamente operativi.
 - La diagnostica import/config e' formalizzata come report markdown, ma non ha ancora export JSON dedicato o visualizzazione grafica avanzata.
 - Le run salvate prima della Fase A (schema v1) non contengono allocation e data source: restano leggibili, ma il confronto allocativo su quelle date non e' disponibile finche' la run non viene rieseguita.
 
 ## Prossimi passi
 
-I prossimi passi sono definiti nel piano operativo consolidato: `docs/0001-piano-operativo.md`. Dopo la Slice E3, la priorita' e' versionare la ground truth NBER/cronologia crisi e poi introdurre il primo challenger con model card contro la baseline misurata. Calendario release persistito, indici incrementali per corpus grandi e stress test restano tracciati e non vanno nascosti nei report intermedi.
+I prossimi passi sono definiti nel piano operativo consolidato:
+`docs/0001-piano-operativo.md`. Il contratto operativo E9 ora protegge la
+creazione dei ledger; il prossimo incremento deve orchestrare population,
+dataset build ed evaluation C#, prevedere `prepare-only` quando non esiste un
+nuovo mese eleggibile e gestire esplicitamente i fallimenti parziali. La
+baseline v1.4 resta congelata e lo scoring anticipato resta vietato.
 
 ## Riorganizzazione documentale (2026-07-09)
 

@@ -1,0 +1,43 @@
+{
+  "schemaVersion": 1,
+  "name": "baseline-v1-2-preregistered",
+  "modelVersion": "1.2-candidate",
+  "frozenAt": "2026-07-13",
+  "datasetSha256": "1a2db1c7540a2419757b37d01717de258548f9bcf301994dfcd5c83f47f17649",
+  "scoringProfile": "archetype-distance-v1",
+  "scorePower": 2,
+  "confirmationThreshold": 0.55,
+  "confidenceFitWeight": 0.55,
+  "confidenceMarginWeight": 1.5,
+  "archetypes": {
+    "Goldilocks": [0.80, 0.40, 0.80, 0.75, 0.80],
+    "Reflation": [0.70, 0.70, 0.70, 0.65, 0.70],
+    "LateCycleOverheating": [0.85, 0.85, 0.55, 0.25, 0.55],
+    "Stagflation": [0.20, 0.85, 0.25, 0.30, 0.25],
+    "DeflationBust": [0.15, 0.15, 0.15, 0.35, 0.15]
+  },
+  "featureOrder": [
+    "GROWTH_MOM",
+    "INFL_PRESS",
+    "RISK_APPETITE",
+    "MONETARY_COND",
+    "CREDIT_STRESS"
+  ],
+  "innerValidationYears": 2,
+  "minimumEligibleFoldCount": 4,
+  "expectedFeatureCodes": [
+    "GROWTH_MOM",
+    "INFL_PRESS",
+    "RISK_APPETITE",
+    "MONETARY_COND",
+    "CREDIT_STRESS"
+  ],
+  "featureBoundaryFloor": 0.05,
+  "featureBoundaryCeiling": 0.95,
+  "maxFeatureBoundaryRate": 0.25,
+  "minPrimaryRegimeCount": 3,
+  "maxDominantPrimaryRegimeRate": 0.80,
+  "maxUncertainTransitionRate": 0.50,
+  "selectionPolicy": "No parameter search. Candidate may open outer OOS only if at least four inner-validation folds pass all distribution gates.",
+  "groundTruthPolicy": "NBER is not used to calibrate non-recession regimes."
+}

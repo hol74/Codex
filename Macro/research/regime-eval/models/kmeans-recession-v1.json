@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "modelId": "kmeans-recession-v1",
+  "role": "challenger",
+  "task": "binary US recession detection",
+  "featureCodes": [
+    "GROWTH_MOM",
+    "INFL_PRESS",
+    "RISK_APPETITE",
+    "MONETARY_COND",
+    "CREDIT_STRESS"
+  ],
+  "clusterCount": 4,
+  "maxIterations": 100,
+  "convergenceTolerance": 1e-10,
+  "standardization": "train-fold mean and population standard deviation; zero-variance scale set to 1",
+  "initialization": "deterministic mean-nearest first centroid, then farthest-first",
+  "recessionClusterMapping": "among train clusters containing at least one NBER recession month, select the single cluster with highest Laplace-smoothed recession rate; deterministic tie breaks",
+  "uniqueDateAggregation": "earliest fold prediction for dates present in overlapping test windows",
+  "selectionPolicy": "configuration fixed before test evaluation; no hyperparameter sweep",
+  "limitations": [
+    "Cluster identity is not a macro-regime taxonomy and is mapped only to a binary recession task.",
+    "Each train window contains very few NBER recession months; cluster-to-label mapping is unstable by construction.",
+    "The five inputs are normalized features from the retrospective baseline evaluation, not raw real-time vintage feature engineering.",
+    "No automatic promotion is allowed; comparison requires the human Model Gate."
+  ]
+}

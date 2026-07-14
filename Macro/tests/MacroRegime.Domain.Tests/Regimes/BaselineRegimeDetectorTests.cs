@@ -71,6 +71,20 @@ public sealed class BaselineRegimeDetectorTests
     }
 
     [Fact]
+    public void Detect_ReturnsLateCycleOverheating_WhenGrowthAndInflationAreStrongAndCurveIsInverted()
+    {
+        var snapshot = Detect(Scenario(
+            industrialProductionYoY: 6m,
+            sahm: 0.0m,
+            breakeven: 3.4m,
+            vix: 32m,
+            curve: -1.0m,
+            highYieldSpread: 6.5m));
+
+        Assert.Equal(RegimeType.LateCycleOverheating, snapshot.PrimaryRegime);
+    }
+
+    [Fact]
     public void Detect_ReturnsDeflationBust_WhenGrowthInflationRiskAndCreditAreWeak()
     {
         var snapshot = Detect(Scenario(
@@ -115,6 +129,88 @@ public sealed class BaselineRegimeDetectorTests
         Assert.Equal(RegimeType.UncertainTransition, snapshot.OperationalRegime);
         Assert.Contains(snapshot.Warnings, warning => warning.Contains("MONETARY_COND", StringComparison.OrdinalIgnoreCase));
         Assert.Contains(snapshot.Warnings, warning => warning.Contains("CREDIT_STRESS", StringComparison.OrdinalIgnoreCase));
+    }
+
+    [Fact]
+    public void Detect_V12ArchetypeProfile_ConfirmsExactGoldilocksArchetype()
+    {
+        var observations = new Dictionary<string, decimal>
+        {
+            ["INDPRO_YOY"] = 3m,
+            ["SAHM"] = 0.2m,
+            ["T10YIE"] = 2.1m,
+            ["CPI_YOY"] = 3m,
+            ["CPI_YOY_3M_CHANGE"] = -0.2m,
+            ["VIX"] = 17.6m,
+            ["YC_10Y2Y"] = 1m,
+            ["YC_10Y2Y_3M_CHANGE"] = 0.375m,
+            ["HY_OAS"] = 1.6m
+        };
+
+        var snapshot = new BaselineRegimeDetector().Detect(
+            CreateSnapshot(observations),
+            CreateFeatureSetVersion("1.2-candidate"),
+            CreateModelVersion(scoringProfile: 12m));
+
+        Assert.Equal(RegimeType.Goldilocks, snapshot.PrimaryRegime);
+        Assert.Equal(RegimeType.Goldilocks, snapshot.OperationalRegime);
+        Assert.True(snapshot.Confidence.Value > 0.9m);
+    }
+
+    [Fact]
+    public void Detect_V14GeometricProfile_ConfirmsTranslatedGoldilocksArchetype()
+    {
+        var observations = new Dictionary<string, decimal>
+        {
+            ["INDPRO_YOY"] = 3m,
+            ["SAHM"] = 0.2m,
+            ["T10YIE"] = 2.1m,
+            ["CPI_YOY"] = 3m,
+            ["CPI_YOY_3M_CHANGE"] = -0.2m,
+            ["VIX"] = 17.6m,
+            ["YC_10Y2Y"] = 1m,
+            ["YC_10Y2Y_3M_CHANGE"] = 0.375m,
+            ["HY_OAS"] = 1.6m
+        };
+
+        var snapshot = new BaselineRegimeDetector().Detect(
+            CreateSnapshot(observations),
+            CreateFeatureSetVersion("1.4-candidate"),
+            CreateModelVersion(scoringProfile: 14m));
+
+        Assert.Equal(RegimeType.Goldilocks, snapshot.PrimaryRegime);
+        Assert.Equal(RegimeType.Goldilocks, snapshot.OperationalRegime);
+        Assert.True(snapshot.Confidence.Value > 0.95m);
+    }
+
+    [Fact]
+    public void Detect_V14TranslatesDivergentRiskThresholdToSameVixLevel()
+    {
+        var observations = new Dictionary<string, decimal>
+        {
+            ["INDPRO_YOY"] = 3m,
+            ["SAHM"] = 0.2m,
+            ["T10YIE"] = 2.7m,
+            ["CPI_YOY"] = 5m,
+            ["CPI_YOY_3M_CHANGE"] = 0.6m,
+            ["VIX"] = 26m,
+            ["YC_10Y2Y"] = 1m,
+            ["YC_10Y2Y_3M_CHANGE"] = 0.375m,
+            ["HY_OAS"] = 1.6m
+        };
+        var detector = new BaselineRegimeDetector();
+
+        var v13 = detector.Detect(
+            CreateSnapshot(observations),
+            CreateFeatureSetVersion("1.3-candidate"),
+            CreateModelVersion(scoringProfile: 12m));
+        var v14 = detector.Detect(
+            CreateSnapshot(observations),
+            CreateFeatureSetVersion("1.4-candidate"),
+            CreateModelVersion(scoringProfile: 14m));
+
+        Assert.Contains(v13.Warnings, warning => warning.Contains("Divergent macro signals"));
+        Assert.DoesNotContain(v14.Warnings, warning => warning.Contains("Divergent macro signals"));
     }
 
     private static RegimeSnapshot Detect(IReadOnlyDictionary<string, decimal> observations)
@@ -172,11 +268,11 @@ public sealed class BaselineRegimeDetectorTests
             Array.Empty<MarketObservation>());
     }
 
-    private static FeatureSetVersion CreateFeatureSetVersion()
+    private static FeatureSetVersion CreateFeatureSetVersion(string version = "0.1")
     {
         return new FeatureSetVersion(
             "CRS Baseline",
-            "0.1",
+            version,
             new[]
             {
                 Feature("GROWTH_MOM", "Growth momentum", EconomicDimension.Growth, FeaturePolarity.HigherIsRiskOn),
@@ -200,16 +296,24 @@ public sealed class BaselineRegimeDetectorTests
             true);
     }
 
-    private static ModelVersion CreateModelVersion()
+    private static ModelVersion CreateModelVersion(decimal? scoringProfile = null)
     {
+        var parameters = new Dictionary<string, decimal>
+        {
+            ["confirmation_threshold"] = 0.55m
+        };
+        if (scoringProfile.HasValue)
+        {
+            parameters["scoring_profile"] = scoringProfile.Value;
+            parameters["confidence_fit_weight"] = scoringProfile == 14m ? 0.75m : 0.55m;
+            parameters["confidence_margin_weight"] = scoringProfile == 14m ? 0.25m : 1.5m;
+        }
+
         return new ModelVersion(
             "CRS Rule-Based Engine",
             "0.1",
             ModelRole.Baseline,
-            new Dictionary<string, decimal>
-            {
-                ["confirmation_threshold"] = 0.55m
-            },
+            parameters,
             new DateOnly(2026, 7, 1),
             "Baseline model");
     }
@@ -221,8 +325,11 @@ public sealed class BaselineRegimeDetectorTests
             "INDPRO_YOY" => EconomicDimension.Growth,
             "SAHM" => EconomicDimension.Growth,
             "T10YIE" => EconomicDimension.Inflation,
+            "CPI_YOY" => EconomicDimension.Inflation,
+            "CPI_YOY_3M_CHANGE" => EconomicDimension.Inflation,
             "VIX" => EconomicDimension.Risk,
             "YC_10Y2Y" => EconomicDimension.Monetary,
+            "YC_10Y2Y_3M_CHANGE" => EconomicDimension.Monetary,
             "HY_OAS" => EconomicDimension.Credit,
             _ => EconomicDimension.Sentiment
         };

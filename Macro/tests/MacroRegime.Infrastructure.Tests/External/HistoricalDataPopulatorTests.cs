@@ -14,18 +14,21 @@ public sealed class HistoricalDataPopulatorTests : IDisposable
         var fredHandler = new FakeHandler(request =>
         {
             var seriesId = QueryValue(request.RequestUri!, "series_id");
-            var observations = seriesId == "INDPRO"
+            var observations = seriesId is "INDPRO" or "CPIAUCSL"
                 ? """
-                  { "count": 3, "observations": [
+                  { "count": 5, "observations": [
                     { "realtime_start": "2023-02-15", "date": "2023-01-01", "value": "90" },
+                    { "realtime_start": "2024-01-15", "date": "2023-12-01", "value": "95" },
                     { "realtime_start": "2024-02-15", "date": "2024-01-01", "value": "100" },
+                    { "realtime_start": "2025-01-15", "date": "2024-12-01", "value": "104.5" },
                     { "realtime_start": "2025-02-15", "date": "2025-01-01", "value": "110" }
                   ] }
                   """
                 : seriesId == "UNRATE"
                 ? UnemploymentHistoryResponse()
                 : """
-                  { "count": 2, "observations": [
+                  { "count": 3, "observations": [
+                    { "realtime_start": "2024-10-29", "date": "2024-10-29", "value": "0.5" },
                     { "realtime_start": "2025-01-29", "date": "2025-01-29", "value": "1" },
                     { "realtime_start": "2025-02-26", "date": "2025-02-26", "value": "2" }
                   ] }
@@ -66,6 +69,70 @@ public sealed class HistoricalDataPopulatorTests : IDisposable
         var manifest = JsonDocument.Parse(await File.ReadAllTextAsync(manifestPath));
         Assert.Equal(64, manifest.RootElement.GetProperty("aggregateSha256").GetString()!.Length);
         Assert.Equal("last-complete-trading-day-of-month", manifest.RootElement.GetProperty("sampling").GetString());
+        Assert.Contains("CPI_YOY_3M_CHANGE", manifest.RootElement.GetProperty("macroSeries").EnumerateArray().Select(item => item.GetString()));
+        var firstMacro = JsonDocument.Parse(await File.ReadAllTextAsync(
+            Path.Combine(macroDir, "macro-data-2025-01-30.json")));
+        var derivedCodes = firstMacro.RootElement.GetProperty("macroObservations").EnumerateArray()
+            .Select(item => item.GetProperty("seriesCode").GetString())
+            .ToArray();
+        Assert.Contains("CPI_YOY_3M_CHANGE", derivedCodes);
+        Assert.Contains("YC_10Y2Y_3M_CHANGE", derivedCodes);
+        var curveChange = firstMacro.RootElement.GetProperty("macroObservations").EnumerateArray()
+            .Single(item => item.GetProperty("seriesCode").GetString() == "YC_10Y2Y_3M_CHANGE");
+        Assert.Equal(0.5m, curveChange.GetProperty("value").GetDecimal());
+    }
+
+    [Fact]
+    public async Task PopulateAsync_RejectsStaleMonthlyMacroObservation()
+    {
+        var fredHandler = new FakeHandler(request =>
+        {
+            var seriesId = QueryValue(request.RequestUri!, "series_id");
+            return seriesId is "INDPRO" or "CPIAUCSL"
+                ? JsonResponse("""
+                  { "count": 2, "observations": [
+                    { "realtime_start": "2023-02-15", "date": "2023-01-01", "value": "100" },
+                    { "realtime_start": "2024-02-15", "date": "2024-01-01", "value": "110" }
+                  ] }
+                  """)
+                : seriesId == "UNRATE"
+                    ? JsonResponse(UnemploymentHistoryResponse())
+                    : JsonResponse("""
+                      { "count": 1, "observations": [
+                        { "realtime_start": "2025-02-26", "date": "2025-02-26", "value": "1" }
+                      ] }
+                      """);
+        });
+        var marketHandler = new FakeHandler(_ => JsonResponse("""
+        {
+          "chart": { "result": [{
+            "timestamp": [1740614400],
+            "indicators": {
+              "quote": [{ "close": [101] }],
+              "adjclose": [{ "adjclose": [101] }]
+            }
+          }] }
+        }
+        """));
+        var populator = new HistoricalDataPopulator(
+            new FredHistoricalDataClient(
+                new HttpClient(fredHandler),
+                new FredHistoricalDataClientOptions("key") { BaseUri = new Uri("https://fred.test") }),
+            new YahooHistoricalMarketDataClient(
+                new HttpClient(marketHandler),
+                new YahooHistoricalMarketDataClientOptions { BaseUri = new Uri("https://yahoo.test") }));
+
+        var exception = await Assert.ThrowsAsync<InvalidDataException>(() => populator.PopulateAsync(
+            new PopulateHistoricalDataCommand(
+                new DateOnly(2025, 2, 1),
+                new DateOnly(2025, 2, 28),
+                Path.Combine(directory, "stale-macro"),
+                Path.Combine(directory, "stale-market"),
+                Path.Combine(directory, "stale-manifest.json"),
+                1)));
+
+        Assert.Contains("Stale monthly FRED observation for 'INDPRO_YOY'", exception.Message);
+        Assert.Contains("13 months old", exception.Message);
     }
 
     public void Dispose()

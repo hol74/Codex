@@ -191,7 +191,7 @@ public sealed class MacroRegimeCliTests : IDisposable
         var provider = new JsonDataSnapshotProvider(dataPath, strict: true);
         var snapshot = await provider.GetSnapshotAsync(new AsOfDate(new DateOnly(2026, 7, 1)));
         Assert.NotNull(snapshot);
-        Assert.Equal(6, snapshot!.MacroObservations.Count);
+        Assert.Equal(7, snapshot!.MacroObservations.Count);
     }
 
     [Fact]
@@ -417,6 +417,87 @@ public sealed class MacroRegimeCliTests : IDisposable
         var evaluation = await File.ReadAllTextAsync(evaluationPath);
         Assert.Contains("\"modelName\": \"CRS Rule-Based Engine\"", evaluation);
         Assert.Contains("\"asOfDate\": \"2026-07-01\"", evaluation);
+    }
+
+    [Fact]
+    public async Task RunAsync_EvaluateHistoricalBaselineV1_WritesSeparateCandidateArtifact()
+    {
+        var macroDirectory = Path.Combine(directoryPath, "baseline-v1-macro");
+        var marketDirectory = Path.Combine(directoryPath, "baseline-v1-market");
+        var datasetDirectory = Path.Combine(directoryPath, "baseline-v1-dataset");
+        var outputDirectory = Path.Combine(directoryPath, "baseline-v1-output");
+        Directory.CreateDirectory(macroDirectory);
+        Directory.CreateDirectory(marketDirectory);
+        await File.WriteAllTextAsync(Path.Combine(macroDirectory, "macro-data-2026-07-01.json"), SampleMacroDataJson("2026-07-01"));
+        await File.WriteAllTextAsync(Path.Combine(marketDirectory, "market-data-2026-07-01.json"), SampleMarketDataJson("2026-07-01", 100m));
+        var buildExitCode = await global::MacroRegimeCli.RunAsync(new[]
+        {
+            "--build-historical-dataset", "--dataset-from", "2026-07-01", "--dataset-to", "2026-07-01",
+            "--macro-data-dir", macroDirectory, "--market-data-dir", marketDirectory, "--output-dir", datasetDirectory,
+        });
+
+        var exitCode = await global::MacroRegimeCli.RunAsync(new[]
+        {
+            "--evaluate-historical-baseline", "--baseline-version", "v1",
+            "--dataset-file", Path.Combine(datasetDirectory, "historical-dataset-2026-07-01-2026-07-01.json"),
+            "--output-dir", outputDirectory,
+        });
+
+        Assert.Equal(0, buildExitCode);
+        Assert.Equal(0, exitCode);
+        var evaluationPath = Path.Combine(outputDirectory, "baseline-evaluation-2026-07-01-2026-07-01-v1-candidate.json");
+        Assert.True(File.Exists(evaluationPath));
+        var evaluation = await File.ReadAllTextAsync(evaluationPath);
+        Assert.Contains("\"modelVersion\": \"1.0-candidate\"", evaluation);
+        Assert.Contains("\"featureSetVersion\": \"1.0-candidate\"", evaluation);
+
+        var v11ExitCode = await global::MacroRegimeCli.RunAsync(new[]
+        {
+            "--evaluate-historical-baseline", "--baseline-version", "v1.1",
+            "--dataset-file", Path.Combine(datasetDirectory, "historical-dataset-2026-07-01-2026-07-01.json"),
+            "--output-dir", outputDirectory,
+        });
+        Assert.Equal(0, v11ExitCode);
+        var v11Path = Path.Combine(outputDirectory, "baseline-evaluation-2026-07-01-2026-07-01-v1-1-candidate.json");
+        Assert.True(File.Exists(v11Path));
+        var v11Evaluation = await File.ReadAllTextAsync(v11Path);
+        Assert.Contains("\"modelVersion\": \"1.1-candidate\"", v11Evaluation);
+
+        var v12ExitCode = await global::MacroRegimeCli.RunAsync(new[]
+        {
+            "--evaluate-historical-baseline", "--baseline-version", "v1.2",
+            "--dataset-file", Path.Combine(datasetDirectory, "historical-dataset-2026-07-01-2026-07-01.json"),
+            "--output-dir", outputDirectory,
+        });
+        Assert.Equal(0, v12ExitCode);
+        var v12Path = Path.Combine(outputDirectory, "baseline-evaluation-2026-07-01-2026-07-01-v1-2-candidate.json");
+        Assert.True(File.Exists(v12Path));
+        var v12Evaluation = await File.ReadAllTextAsync(v12Path);
+        Assert.Contains("\"modelVersion\": \"1.2-candidate\"", v12Evaluation);
+
+        var v13ExitCode = await global::MacroRegimeCli.RunAsync(new[]
+        {
+            "--evaluate-historical-baseline", "--baseline-version", "v1.3",
+            "--dataset-file", Path.Combine(datasetDirectory, "historical-dataset-2026-07-01-2026-07-01.json"),
+            "--output-dir", outputDirectory,
+        });
+        Assert.Equal(0, v13ExitCode);
+        var v13Path = Path.Combine(outputDirectory, "baseline-evaluation-2026-07-01-2026-07-01-v1-3-candidate.json");
+        Assert.True(File.Exists(v13Path));
+        var v13Evaluation = await File.ReadAllTextAsync(v13Path);
+        Assert.Contains("\"modelVersion\": \"1.3-candidate\"", v13Evaluation);
+
+        var v14ExitCode = await global::MacroRegimeCli.RunAsync(new[]
+        {
+            "--evaluate-historical-baseline", "--baseline-version", "v1.4",
+            "--dataset-file", Path.Combine(datasetDirectory, "historical-dataset-2026-07-01-2026-07-01.json"),
+            "--output-dir", outputDirectory,
+        });
+        Assert.Equal(0, v14ExitCode);
+        var v14Path = Path.Combine(outputDirectory, "baseline-evaluation-2026-07-01-2026-07-01-v1-4-candidate.json");
+        Assert.True(File.Exists(v14Path));
+        var v14Evaluation = await File.ReadAllTextAsync(v14Path);
+        Assert.Contains("\"modelVersion\": \"1.4-candidate\"", v14Evaluation);
     }
 
     public void Dispose()

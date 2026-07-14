@@ -16,7 +16,8 @@ Sono stati aggiunti:
 - `FredHistoricalDataClient`, con richieste bulk FRED e finestre ALFRED di cinque
   anni per rispettare il limite delle vintage date;
 - ricostruzione `INDPRO_YOY` dai livelli initial-release `INDPRO`;
-- ricostruzione `SAHM` dalle initial release `UNRATE`;
+- ricostruzione `SAHM` dalle initial release `UNRATE`, con fallback successivo
+  alle initial release ufficiali `SAHMREALTIME` per i buchi non ricostruibili;
 - `YahooHistoricalMarketDataClient`, una richiesta range per simbolo;
 - `HistoricalDataPopulator`, snapshot mensili macro, snapshot market giornalieri
   e manifest aggregato SHA-256;

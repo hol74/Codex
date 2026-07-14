@@ -14,6 +14,7 @@ using MacroRegime.Infrastructure.External;
 using MacroRegime.Infrastructure.Import;
 using MacroRegime.Infrastructure.Persistence;
 using MacroRegime.Infrastructure.Reporting;
+using MacroRegime.Infrastructure.Research;
 using MacroRegime.Reporting.Markdown;
 
 return await MacroRegimeCli.RunAsync(args).ConfigureAwait(false);
@@ -151,15 +152,37 @@ internal static class MacroRegimeCli
 
     private static async Task<int> RunEvaluateHistoricalBaselineAsync(CliOptions options, string outputDirectory)
     {
+        var useResearchV1 = string.Equals(options.HistoricalBaselineVersion, "v1", StringComparison.OrdinalIgnoreCase);
+        var useResearchV11 = string.Equals(options.HistoricalBaselineVersion, "v1.1", StringComparison.OrdinalIgnoreCase);
+        var useResearchV12 = string.Equals(options.HistoricalBaselineVersion, "v1.2", StringComparison.OrdinalIgnoreCase);
+        var useResearchV13 = string.Equals(options.HistoricalBaselineVersion, "v1.3", StringComparison.OrdinalIgnoreCase);
+        var useResearchV14 = string.Equals(options.HistoricalBaselineVersion, "v1.4", StringComparison.OrdinalIgnoreCase);
         var evaluator = new HistoricalBaselineEvaluator(
             new BaselineRegimeDetector(),
-            DemoMacroRegimeInputs.CreateFeatureSetVersion(),
-            DemoMacroRegimeInputs.CreateModelVersion());
+            useResearchV14
+                ? ResearchMacroRegimeInputs.CreateFeatureSetVersionV14()
+                : useResearchV13
+                ? ResearchMacroRegimeInputs.CreateFeatureSetVersionV13()
+                : useResearchV12
+                ? ResearchMacroRegimeInputs.CreateFeatureSetVersionV12()
+                : useResearchV11
+                ? ResearchMacroRegimeInputs.CreateFeatureSetVersionV11()
+                : useResearchV1 ? ResearchMacroRegimeInputs.CreateFeatureSetVersion() : DemoMacroRegimeInputs.CreateFeatureSetVersion(),
+            useResearchV14
+                ? ResearchMacroRegimeInputs.CreateModelVersionV14()
+                : useResearchV13
+                ? ResearchMacroRegimeInputs.CreateModelVersionV13()
+                : useResearchV12
+                ? ResearchMacroRegimeInputs.CreateModelVersionV12()
+                : useResearchV11
+                ? ResearchMacroRegimeInputs.CreateModelVersionV11()
+                : useResearchV1 ? ResearchMacroRegimeInputs.CreateModelVersion() : DemoMacroRegimeInputs.CreateModelVersion());
         try
         {
             var result = await evaluator.EvaluateAsync(new EvaluateHistoricalBaselineCommand(
                 Path.GetFullPath(options.HistoricalDatasetFilePath!),
-                outputDirectory)).ConfigureAwait(false);
+                outputDirectory,
+                useResearchV14 ? "v1-4-candidate" : useResearchV13 ? "v1-3-candidate" : useResearchV12 ? "v1-2-candidate" : useResearchV11 ? "v1-1-candidate" : useResearchV1 ? "v1-candidate" : null)).ConfigureAwait(false);
             Console.WriteLine("Macro-Regime historical baseline evaluation completed.");
             Console.WriteLine($"Rows: {result.RowCount}");
             Console.WriteLine($"Dataset SHA-256: {result.DatasetSha256}");
@@ -544,6 +567,7 @@ internal sealed record CliOptions(
     IReadOnlyList<int> ForwardReturnHorizonsDays,
     bool EvaluateHistoricalBaseline,
     string? HistoricalDatasetFilePath,
+    string HistoricalBaselineVersion,
     bool ShowHelp)
 {
     public const string HelpText = """
@@ -556,7 +580,7 @@ Usage:
   dotnet run --project src/MacroRegime.Cli -- --download-market-data --as-of yyyy-MM-dd [--market-source stub|yahoo] [--output-dir path]
   dotnet run --project src/MacroRegime.Cli -- --populate-historical-data --dataset-from yyyy-MM-dd --dataset-to yyyy-MM-dd --macro-data-dir path --market-data-dir path [--fred-api-key key] [--corpus-manifest path] [--forward-return-days 28,56,91] [--output-dir path]
   dotnet run --project src/MacroRegime.Cli -- --build-historical-dataset --dataset-from yyyy-MM-dd --dataset-to yyyy-MM-dd --macro-data-dir path --market-data-dir path [--forward-return-days 28,56,91] [--output-dir path]
-  dotnet run --project src/MacroRegime.Cli -- --evaluate-historical-baseline --dataset-file path [--output-dir path]
+  dotnet run --project src/MacroRegime.Cli -- --evaluate-historical-baseline --dataset-file path [--baseline-version demo|v1|v1.1|v1.2|v1.3|v1.4] [--output-dir path]
 
 Options:
   --as-of yyyy-MM-dd             Required analysis date.
@@ -591,6 +615,7 @@ Options:
   --forward-return-days list     Comma-separated forward return horizons in calendar days. Default: 28,56,91.
   --evaluate-historical-baseline Run the authoritative rule-based baseline on every historical dataset row.
   --dataset-file path            Historical dataset used by baseline evaluation.
+  --baseline-version value      Historical baseline: demo, v1, v1.1, v1.2, v1.3 or v1.4. Default: demo.
   --help                         Show help.
 """;
 
@@ -631,6 +656,7 @@ Options:
                 new[] { 28, 56, 91 },
                 false,
                 null,
+                "demo",
                 true);
         }
 
@@ -660,6 +686,7 @@ Options:
         var buildHistoricalDataset = false;
         var evaluateHistoricalBaseline = false;
         string? historicalDatasetFilePath = null;
+        var historicalBaselineVersion = "demo";
         DateOnly? datasetFrom = null;
         DateOnly? datasetTo = null;
         string? macroDataDirectory = null;
@@ -753,6 +780,9 @@ Options:
                 case "--dataset-file":
                     historicalDatasetFilePath = NextValue(args, ref index, "--dataset-file");
                     break;
+                case "--baseline-version":
+                    historicalBaselineVersion = NextValue(args, ref index, "--baseline-version");
+                    break;
                 case "--dataset-from":
                     datasetFrom = ParseDate(NextValue(args, ref index, "--dataset-from"), "--dataset-from");
                     break;
@@ -807,6 +837,16 @@ Options:
         if (evaluateHistoricalBaseline && string.IsNullOrWhiteSpace(historicalDatasetFilePath))
         {
             throw new CliUsageException("--evaluate-historical-baseline requires --dataset-file.");
+        }
+
+        if (!string.Equals(historicalBaselineVersion, "demo", StringComparison.OrdinalIgnoreCase)
+            && !string.Equals(historicalBaselineVersion, "v1", StringComparison.OrdinalIgnoreCase)
+            && !string.Equals(historicalBaselineVersion, "v1.1", StringComparison.OrdinalIgnoreCase)
+            && !string.Equals(historicalBaselineVersion, "v1.2", StringComparison.OrdinalIgnoreCase)
+            && !string.Equals(historicalBaselineVersion, "v1.3", StringComparison.OrdinalIgnoreCase)
+            && !string.Equals(historicalBaselineVersion, "v1.4", StringComparison.OrdinalIgnoreCase))
+        {
+            throw new CliUsageException("--baseline-version must be 'demo', 'v1', 'v1.1', 'v1.2', 'v1.3' or 'v1.4'.");
         }
 
         if (buildHistoricalDataset || populateHistoricalData)
@@ -887,6 +927,7 @@ Options:
             forwardReturnHorizonsDays,
             evaluateHistoricalBaseline,
             historicalDatasetFilePath,
+            historicalBaselineVersion.ToLowerInvariant(),
             false);
     }
 

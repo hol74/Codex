@@ -1,0 +1,40 @@
+{
+  "schemaVersion": 1,
+  "name": "baseline-v1-4-preregistered",
+  "modelVersion": "1.4-candidate",
+  "frozenAt": "2026-07-13",
+  "datasetSha256": "1a2db1c7540a2419757b37d01717de258548f9bcf301994dfcd5c83f47f17649",
+  "changeScope": "semantic risk-anchor translation and geometric confidence",
+  "scoringProfile": "archetype-distance-v2",
+  "scorePower": 2,
+  "featureOrder": [
+    "GROWTH_MOM",
+    "INFL_PRESS",
+    "RISK_APPETITE",
+    "MONETARY_COND",
+    "CREDIT_STRESS"
+  ],
+  "riskAnchorTranslation": {
+    "legacyVixFormula": "VIX = 40 - 28 * legacyRiskScore",
+    "newRiskFormula": "1 / (1 + exp((VIX - 20) / 7))",
+    "policy": "Preserve the VIX level implied by every v1.2 archetype; do not estimate anchors from historical outcomes."
+  },
+  "archetypes": {
+    "Goldilocks": [0.80, 0.40, 0.58488439, 0.75, 0.80],
+    "Reflation": [0.70, 0.70, 0.48571817, 0.65, 0.70],
+    "LateCycleOverheating": [0.85, 0.85, 0.34138172, 0.25, 0.55],
+    "Stagflation": [0.20, 0.85, 0.13503642, 0.30, 0.25],
+    "DeflationBust": [0.15, 0.15, 0.09473512, 0.35, 0.15]
+  },
+  "confidenceProfile": "geometric-fit-separation-v1",
+  "confidenceFormula": "0.75 * topFit + 0.25 * ((topFit - secondFit) / (1 - secondFit))",
+  "confidenceFitShare": 0.75,
+  "confidenceSeparationShare": 0.25,
+  "confirmationThreshold": 0.55,
+  "divergentRiskThreshold": 0.22146613,
+  "divergentRiskPolicy": "Translate the legacy risk threshold 0.40 through its implied VIX 28.8 onto the logistic scale; growth, inflation and credit thresholds remain unchanged.",
+  "penaltyPolicy": "Retain v1.2 missing-feature and divergent-signal penalties after geometric confidence.",
+  "selectionPolicy": "No archetype coordinate, confidence share, model threshold or gate threshold may change after train-gate evaluation.",
+  "evaluationPolicy": "Generate the fixed candidate evaluation, bind its SHA-256 into a gate-v2 config, and inspect only the train-gate report unless eligible.",
+  "outerOosPolicy": "No baseline, audit or NBER OOS report may be opened unless train gate v2 passes."
+}
