@@ -86,7 +86,7 @@ Le regole di dipendenza complete sono in `docs/adr/0002-dipendenze-layer.md`.
     orchestratore mensile, layout standard, `prepare-only/full`, stato
     recuperabile, log/hash dei processi C# e recovery dai fallimenti parziali.
 
-Il dettaglio per ogni step e' in `docs/checkpoints/` (progressivi 0001-0044).
+Il dettaglio per ogni step e' in `docs/checkpoints/` (progressivi 0001-0045).
 
 ## Piano operativo da seguire
 
@@ -354,6 +354,17 @@ Checkpoint stress non recessivi v1:
 
    Checkpoint secondo incremento:
    `docs/checkpoints/0044-fase-e9-shadow-operations-incremento2-done.md`.
+
+   Consolidamento repository (COMPLETATO, 2026-07-14):
+
+   - esclusi globalmente dal tracciamento Git gli artefatti runtime `.tmp`;
+   - rimossi dall'indice, ma conservati localmente, output di smoke, batch,
+     report e chiavi ASP.NET Core Data Protection generate in sviluppo;
+   - nessuna riscrittura della cronologia: l'eventuale purge dei commit storici
+     resta un intervento separato, distruttivo e soggetto ad autorizzazione.
+
+   Checkpoint consolidamento:
+   `docs/checkpoints/0045-git-hygiene-runtime-artifacts-done.md`.
 
 
 

@@ -371,6 +371,10 @@ Checkpoint in corso: `docs/checkpoints/0034-fase-e-slice6-feature-baseline-redes
   completati. Lo smoke reale del 2026-07-14 rileva correttamente che non esiste
   un nuovo mese eleggibile: zero processi avviati e nessun nuovo ledger. 25 test
   Python superati; il primo ciclo prospettico resta previsto dopo luglio.
+- Consolidamento Git post-E9.2: gli artefatti runtime `.tmp` non sono piu'
+  versionati. Output temporanei e chiavi ASP.NET Core Data Protection sono stati
+  rimossi dall'indice preservando le copie locali. La cronologia pregressa non
+  e' stata riscritta; un eventuale purge richiede un intervento separato.
 
 ## Deviazione documentata dal piano originario
 
@@ -412,7 +416,9 @@ I prossimi passi sono definiti nel piano operativo consolidato:
 `docs/0001-piano-operativo.md`. E9.2 ha completato l'orchestrazione tecnica; il
 prossimo passo non e' un nuovo tuning ma il primo ciclo prospettico `full` sul
 cutoff 2026-07-31, soltanto dopo la chiusura del mese e la disponibilita' degli
-input. La baseline v1.4 resta congelata e lo scoring anticipato resta vietato.
+input. Nel frattempo e' stato completato il consolidamento Git degli artefatti
+runtime `.tmp`. La baseline v1.4 resta congelata e lo scoring anticipato resta
+vietato.
 
 ## Riorganizzazione documentale (2026-07-09)
 
