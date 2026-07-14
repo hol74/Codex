@@ -9,8 +9,10 @@ from .baseline import write_baseline_report
 from .baseline_audit import write_baseline_audit
 from .challenger import write_clustering_challenger_report
 from .dataset import DatasetValidationError, load_dataset, write_manifest
+from .dimensional_baseline import write_dimensional_baseline_gate
 from .dual_timescale_challenger import write_dual_timescale_report
 from .evidence import write_model_evidence_report
+from .e11_challengers import write_e11_challenger_gate
 from .ground_truth import write_recession_report
 from .hmm_challenger import write_hmm_challenger_report
 from .preregistration import write_preregistration_manifest
@@ -36,6 +38,37 @@ def main(argv: list[str] | None = None) -> int:
             )
             print(output)
             return 0
+        if args.command == "e11-dimensional-baseline-gate":
+            output = write_dimensional_baseline_gate(
+                args.evaluation,
+                args.dataset,
+                args.plan,
+                args.recession_truth,
+                args.stress_truth,
+                args.candidate,
+                args.geometry,
+                args.gate,
+                args.manifest,
+                args.output,
+            )
+            print(output)
+            report = json.loads(output.read_text(encoding="utf-8"))
+            return 0 if report["gate"]["passed"] else 3
+        if args.command == "e11-challenger-gate":
+            output = write_e11_challenger_gate(
+                args.evaluation,
+                args.dataset,
+                args.plan,
+                args.recession_truth,
+                args.stress_truth,
+                args.candidate,
+                args.gate,
+                args.manifest,
+                args.output,
+            )
+            print(output)
+            report = json.loads(output.read_text(encoding="utf-8"))
+            return 0 if report["gate"]["passed"] else 3
         if args.command == "baseline-report":
             output = write_baseline_report(args.evaluation, args.dataset, args.plan, args.output)
             print(output)
@@ -239,6 +272,33 @@ def _parser() -> argparse.ArgumentParser:
     preregistration.add_argument("--gate", required=True)
     preregistration.add_argument("--model-config", action="append", required=True)
     preregistration.add_argument("--output", required=True)
+    dimensional = subparsers.add_parser(
+        "e11-dimensional-baseline-gate",
+        help="run the preregistered v1.5 baseline on nested inner validation only",
+    )
+    dimensional.add_argument("--evaluation", required=True)
+    dimensional.add_argument("--dataset", required=True)
+    dimensional.add_argument("--plan", required=True)
+    dimensional.add_argument("--recession-truth", required=True)
+    dimensional.add_argument("--stress-truth", required=True)
+    dimensional.add_argument("--candidate", required=True)
+    dimensional.add_argument("--geometry", required=True)
+    dimensional.add_argument("--gate", required=True)
+    dimensional.add_argument("--manifest", required=True)
+    dimensional.add_argument("--output", required=True)
+    challenger_gate = subparsers.add_parser(
+        "e11-challenger-gate",
+        help="run a preregistered E11 challenger on nested inner validation only",
+    )
+    challenger_gate.add_argument("--evaluation", required=True)
+    challenger_gate.add_argument("--dataset", required=True)
+    challenger_gate.add_argument("--plan", required=True)
+    challenger_gate.add_argument("--recession-truth", required=True)
+    challenger_gate.add_argument("--stress-truth", required=True)
+    challenger_gate.add_argument("--candidate", required=True)
+    challenger_gate.add_argument("--gate", required=True)
+    challenger_gate.add_argument("--manifest", required=True)
+    challenger_gate.add_argument("--output", required=True)
     baseline = subparsers.add_parser("baseline-report", help="summarize baseline results over walk-forward folds")
     baseline.add_argument("--evaluation", required=True)
     baseline.add_argument("--dataset", required=True)

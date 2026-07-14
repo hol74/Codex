@@ -390,6 +390,20 @@ Checkpoint in corso: `docs/checkpoints/0034-fase-e-slice6-feature-baseline-redes
   outer OOS per selezione e limita l'esito pre-prospettico a
   `shadow-candidate`. Nessun risultato dei nuovi modelli e' stato aperto. Suite
   verdi: 30 test Python e 240 test C#.
+- Fase E11.2 - baseline dimensionale v1.5: implementati impulsi causali di
+  crescita e stress finanziario, geometria v1.4 riusata senza modifiche,
+  scenari archetipici e gate nested inner-only vincolato al manifest E11.1. La
+  candidate conserva recall/F1 della v1.4 e migliora average precision di
+  0,125, ma peggiora Brier di 0,00081972 e manca entrambi i mesi repo protetti;
+  esito `REJECTED_FOR_SHADOW`, senza tuning post-hoc e senza outer OOS. Suite
+  verdi: 32 test Python e 240 test C#.
+- Fase E11.3-E11.4 - challenger e chiusura inner gate: implementati il filtro
+  changepoint-duration causale con scaling robusto train-only e il rare-event
+  logit L2 con standardizzazione train-only e sole tre soglie dichiarate. Il
+  changepoint conserva recall ma produce 40 falsi positivi; il logit migliora
+  Brier ma perde il positivo inner disponibile. Entrambi sono
+  `REJECTED_FOR_SHADOW`; nessun candidato E11 passa allo shadow e l'outer OOS
+  resta chiuso. Suite verdi: 35 test Python e 240 test C#.
 
 ## Deviazione documentata dal piano originario
 

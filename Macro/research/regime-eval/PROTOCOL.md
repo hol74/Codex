@@ -419,3 +419,52 @@ validation.
 Il superamento del gate inner-only autorizza al massimo `shadow-candidate`.
 Nessuna diagnostica storica autorizza `operational-approved`, che resta
 subordinato a Evidence v2 prospettica su outcome nuovi.
+
+### E11.2 - Baseline dimensionale v1.5
+
+Per ogni mese la v1.5 calcola le quattro dimensioni E10 e usa soltanto il mese
+precedente per derivare gli impulsi positivi di deterioramento della crescita e
+stress finanziario. Gli impulsi modificano le tre feature dichiarate; la
+geometria, la confidence, la soglia di conferma e la divergence policy v1.4
+restano identiche. Il primo mese ha impulso nullo.
+
+La validazione interna usa, per ciascun outer train, una coda lunga quanto il
+`testYears` del piano walk-forward. Nessuna riga del corrispondente outer test
+entra nel report. Le date duplicate sono aggregate assegnandole al primo fold
+eleggibile. Tutte le predizioni vengono congelate prima di associare la ground
+truth.
+
+Il runner verifica che gate e configurazione coincidano con gli hash del
+manifest E11.1. Il report reale non supera il gate: le metriche binarie sono
+invariate, average precision migliora, ma Brier peggiora e nessuna delle due
+osservazioni repo-stress protette raggiunge la soglia dimensionale. La candidate
+e' quindi `REJECTED_FOR_SHADOW`; il risultato non autorizza tuning o apertura
+dell'outer OOS.
+
+### E11.3 - Changepoint-duration e rare-event logit
+
+Il changepoint stima mediana e MAD delle differenze mensili esclusivamente
+sull'inner-fit. L'inferenza e' un filtro forward con durata e uscita esplicite.
+La probabilita' rende eseguibile la formula preregistrata senza nuovi
+parametri: `sigmoid(max(changeScore/2,5, financialStress/0,65) - 1)`. Ne segue
+che una soglia dichiarata corrisponde a probabilita' 0,5.
+
+Il logit costruisce cinque livelli e quattro differenze causali, standardizza
+sull'inner-fit e usa batch gradient descent deterministico L2. Il peso positivo
+e' calcolato solo dalle label di fit e limitato a 10. Un fold senza positivi di
+fit e' ineligibile. Le probabilita' validation sono congelate prima delle label;
+la label validation puo' selezionare soltanto 0,25, 0,35 o 0,50 secondo F1,
+recall, Brier e tie-break gia' dichiarati.
+
+I due report condividono metriche, calibrazione a cinque bin, stress v2 e gate
+manifestato. Il changepoint fallisce F1, Brier, ECE, durata dei falsi positivi e
+stress protetto. Il logit fallisce recall, F1, average precision e copertura
+stress protetta. Entrambi restano respinti.
+
+### E11.4 - Chiusura del gate inner-only
+
+I tre candidati E11 sono stati valutati con zero righe dei rispettivi outer
+test: baseline v1.5, changepoint-duration v1 e rare-event-logit v1 sono tutti
+`REJECTED_FOR_SHADOW`. L'outer OOS 2008-2025 non viene aperto perche' nessun
+modello ha superato il prerequisito inner. Il laboratorio si chiude senza
+shadow-candidate e senza modifiche post-hoc.

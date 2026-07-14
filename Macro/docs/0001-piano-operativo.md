@@ -424,7 +424,7 @@ Checkpoint: `docs/checkpoints/0047-fase-e10-model-evidence-dual-timescale-done.m
 
 
 
-### Fase E11 - Controlled Candidate Lab (IN CORSO, 2026-07-14)
+### Fase E11 - Controlled Candidate Lab (COMPLETATA, 2026-07-14)
 
 Obiettivo: usare il periodo precedente al cutoff 2026-07-31 per confrontare un
 numero limitato di nuove ipotesi senza trasformare il benchmark gia' osservato
@@ -444,12 +444,18 @@ in un meccanismo di selezione post-hoc.
      esplicita, senza backward smoothing;
    - `rare-event-logit-v1`: benchmark supervisionato regolarizzato, train-only,
      con trattamento preregistrato della classe rara.
-3. E11.2 - implementazione delle feature temporali e della baseline v1.5, con
-   scenari archetipici, causalita' e train gate prima di ogni diagnostica.
-4. E11.3 - implementazione dei due challenger, con label independence, nested
-   validation e metriche probabilistiche condivise.
-5. E11.4 - esecuzione del gate inner-only. Solo i modelli eleggibili diventano
-   `shadow-candidate`; un fallimento viene conservato senza cambio di soglie.
+3. E11.2 - implementazione delle feature temporali e della baseline v1.5
+   (COMPLETATA, 2026-07-14): scenari archetipici e causalita' superati; gate
+   inner-only `REJECTED_FOR_SHADOW` per Brier peggiore e mancata copertura dello
+   stress protetto. Nessun parametro e' stato modificato e l'outer OOS e'
+   rimasto chiuso.
+4. E11.3 - implementazione dei due challenger (COMPLETATA, 2026-07-14), con
+   label independence, nested validation e metriche probabilistiche condivise.
+   Changepoint-duration v1 e rare-event-logit v1 sono entrambi
+   `REJECTED_FOR_SHADOW`.
+5. E11.4 - esecuzione consolidata del gate inner-only (COMPLETATA, 2026-07-14).
+   Nessuno dei tre modelli e' eleggibile; i fallimenti sono conservati senza
+   cambio di soglie e l'outer OOS resta chiuso.
 6. Al primo cutoff eleggibile, la baseline v1.4 e gli eventuali shadow-candidate
    congelano previsioni parallele. Una singola osservazione non produce
    promozione operativa.
@@ -460,6 +466,12 @@ e manifest diversi prima dell'esecuzione.
 
 Checkpoint E11.1:
 `docs/checkpoints/0048-fase-e11-1-preregistrazione-candidate-done.md`.
+
+Checkpoint E11.2:
+`docs/checkpoints/0049-fase-e11-2-baseline-dimensionale-done.md`.
+
+Checkpoint E11.3-E11.4:
+`docs/checkpoints/0050-fase-e11-3-challenger-inner-gates-done.md`.
 
 
 

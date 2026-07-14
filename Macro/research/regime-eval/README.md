@@ -263,3 +263,27 @@ python -m regime_eval e11-preregister --gate models/e11-shadow-candidate-gate-v1
 Il gate lega gli hash degli input, del contratto e delle tre configurazioni.
 Prima di nuovi outcome il massimo lifecycle ottenibile e' `shadow-candidate`;
 `operational-approved` richiede evidenza prospettica e decisione umana.
+
+E11.2 implementa la baseline dimensionale e la valuta soltanto sulle inner
+validation derivate dalle finestre walk-forward:
+
+```text
+python -m regime_eval e11-dimensional-baseline-gate --evaluation ../../data/historical-real-v11-2008-2025/baseline/baseline-evaluation-2008-04-01-2025-12-31-v1-4-candidate.json --dataset ../../data/historical-real-v11-2008-2025/dataset/historical-dataset-2008-04-01-2025-12-31.json --plan ../../data/historical-real-v11-2008-2025/dataset/walk-forward-plan.json --recession-truth ground-truth/nber-us-recessions-v1.json --stress-truth ground-truth/us-non-recession-stress-v2.json --candidate models/baseline-v1-5-dimensional.json --geometry models/baseline-v1-4-preregistered.json --gate models/e11-shadow-candidate-gate-v1.json --manifest models/e11-preregistration-manifest.json --output ../../data/historical-real-v11-2008-2025/challengers/baseline-v1-5-dimensional-inner-gate.json
+```
+
+Il runner verifica il manifest preregistrato, non riceve righe outer-test e
+calcola tutte le predizioni prima di applicare le label. L'esito reale e'
+`REJECTED_FOR_SHADOW`: Brier delta `+0.00081972` e protected-stress hit rate
+`0/2`. Le soglie e le formule restano congelate.
+
+E11.3 usa un runner condiviso per i due challenger preregistrati:
+
+```text
+python -m regime_eval e11-challenger-gate --evaluation ../../data/historical-real-v11-2008-2025/baseline/baseline-evaluation-2008-04-01-2025-12-31-v1-4-candidate.json --dataset ../../data/historical-real-v11-2008-2025/dataset/historical-dataset-2008-04-01-2025-12-31.json --plan ../../data/historical-real-v11-2008-2025/dataset/walk-forward-plan.json --recession-truth ground-truth/nber-us-recessions-v1.json --stress-truth ground-truth/us-non-recession-stress-v2.json --candidate models/changepoint-duration-v1.json --gate models/e11-shadow-candidate-gate-v1.json --manifest models/e11-preregistration-manifest.json --output ../../data/historical-real-v11-2008-2025/challengers/changepoint-duration-v1-inner-gate.json
+python -m regime_eval e11-challenger-gate --evaluation ../../data/historical-real-v11-2008-2025/baseline/baseline-evaluation-2008-04-01-2025-12-31-v1-4-candidate.json --dataset ../../data/historical-real-v11-2008-2025/dataset/historical-dataset-2008-04-01-2025-12-31.json --plan ../../data/historical-real-v11-2008-2025/dataset/walk-forward-plan.json --recession-truth ground-truth/nber-us-recessions-v1.json --stress-truth ground-truth/us-non-recession-stress-v2.json --candidate models/rare-event-logit-v1.json --gate models/e11-shadow-candidate-gate-v1.json --manifest models/e11-preregistration-manifest.json --output ../../data/historical-real-v11-2008-2025/challengers/rare-event-logit-v1-inner-gate.json
+```
+
+Entrambi gli esiti sono `REJECTED_FOR_SHADOW`. Il changepoint produce troppi
+falsi positivi e probabilita' non calibrate; il logit e' conservativo ma perde
+il positivo inner e due fold sono ineligibili per assenza di positivi nel fit.
+E11.4 consolida quindi zero shadow-candidate, senza aprire l'outer OOS.
