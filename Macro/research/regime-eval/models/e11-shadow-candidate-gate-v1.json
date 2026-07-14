@@ -1,0 +1,40 @@
+{
+  "schemaVersion": 1,
+  "contractId": "e11-shadow-candidate-gate-v1",
+  "frozenAt": "2026-07-14",
+  "targetLifecycle": "shadow-candidate",
+  "forbiddenLifecycle": "operational-approved",
+  "maximumRegisteredCandidates": 3,
+  "registeredModelIds": [
+    "baseline-v1-5-dimensional",
+    "changepoint-duration-v1",
+    "rare-event-logit-v1"
+  ],
+  "selectionDataPolicy": {
+    "allowed": "nested inner rolling validation contained entirely inside each outer train window",
+    "forbidden": "outer OOS 2008-2025 metrics, shadow outcomes, future observations and test-label-driven feature design",
+    "outerOosAfterFreeze": "optional diagnostic only; cannot select, rank or promote a candidate",
+    "freshProspectiveRequirement": "required for operational-candidate and operational-approved"
+  },
+  "innerValidation": {
+    "minimumEligibleFolds": 4,
+    "aggregation": "unique inner-validation dates; earliest eligible fold wins",
+    "minimumRecallDeltaVsBaseline": 0.0,
+    "minimumF1DeltaVsBaseline": 0.0,
+    "maximumBrierDeltaVsBaseline": 0.0,
+    "minimumAveragePrecisionDeltaVsBaseline": 0.0,
+    "maximumExpectedCalibrationError": 0.2,
+    "maximumFalsePositiveRunDeltaMonths": 0,
+    "minimumProtectedStressDimensionHitRate": 0.25
+  },
+  "technicalRequirements": {
+    "deterministicOutput": true,
+    "testLabelIndependence": true,
+    "causalPrediction": true,
+    "trainOnlyTransforms": true,
+    "configurationHashBound": true,
+    "modelCardRequired": true,
+    "humanReviewRequired": true
+  },
+  "decisionPolicy": "All requirements are conjunctive. A failed requirement produces REJECTED_FOR_SHADOW without parameter changes. Passing produces ELIGIBLE_FOR_SHADOW_REVIEW, never operational approval."
+}

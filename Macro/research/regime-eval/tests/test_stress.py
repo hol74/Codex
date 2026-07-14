@@ -87,6 +87,49 @@ class StressReportTests(unittest.TestCase):
                     root / "report.json",
                 )
 
+    def test_v2_reports_dimensions_and_keeps_protected_partition_separate(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            dataset_path = root / "dataset.json"
+            dataset_path.write_text(json.dumps(_dataset()), encoding="utf-8")
+            dataset_sha = hashlib.sha256(dataset_path.read_bytes()).hexdigest()
+            evaluation = _evaluation(dataset_sha)
+            values = [0.2, 0.8, 0.7, 0.6]
+            for row, inflation in zip(evaluation["rows"], values):
+                row["featureScores"] = [
+                    {"featureCode": "GROWTH_MOM", "normalizedScore": 0.7},
+                    {"featureCode": "INFL_PRESS", "normalizedScore": inflation},
+                    {"featureCode": "RISK_APPETITE", "normalizedScore": 0.5},
+                    {"featureCode": "MONETARY_COND", "normalizedScore": 0.5},
+                    {"featureCode": "CREDIT_STRESS", "normalizedScore": 0.5},
+                ]
+            stress = _stress()
+            stress["schemaVersion"] = 2
+            stress["groundTruthId"] = "test-stress-v2"
+            stress["taxonomy"][0]["expectedDimensions"] = {"inflationPressure": {"minimum": 0.65}}
+            stress["episodes"][0]["validationRole"] = "protected-v2"
+            evaluation_path = root / "evaluation.json"
+            evaluation_path.write_text(json.dumps(evaluation), encoding="utf-8")
+            plan_path = root / "plan.json"
+            plan_path.write_text(json.dumps(_plan()), encoding="utf-8")
+            stress_path = root / "stress.json"
+            stress_path.write_text(json.dumps(stress), encoding="utf-8")
+            recession_path = root / "recession.json"
+            recession_path.write_text(json.dumps(_recession([])), encoding="utf-8")
+
+            output = write_stress_report(
+                evaluation_path, dataset_path, plan_path, stress_path, recession_path, root / "report.json"
+            )
+            report = json.loads(output.read_text(encoding="utf-8"))
+            label = report["aggregateOutOfSample"]["labels"]["inflation_shock"]
+
+            self.assertEqual(2, report["reportVersion"])
+            self.assertEqual(1.0, label["dimensionalAlignment"]["allExpectedDimensionsHitRate"])
+            self.assertEqual(
+                1,
+                report["aggregateOutOfSample"]["validationPartitions"]["protected-v2"]["episodeCount"],
+            )
+
 
 def _dataset() -> dict[str, object]:
     dates = ["2020-01-31", "2020-02-29", "2020-03-31", "2020-04-30"]

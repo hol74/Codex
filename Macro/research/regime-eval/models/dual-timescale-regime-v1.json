@@ -1,0 +1,50 @@
+{
+  "schemaVersion": 1,
+  "role": "challenger",
+  "lifecycleStatus": "research-challenger",
+  "modelId": "dual-timescale-regime-v1",
+  "modelFamily": "Causal dual-timescale dimensional filter",
+  "frozenAt": "2026-07-14",
+  "benchmarkScope": "development-diagnostic-only",
+  "baselineModelVersion": "1.4-candidate",
+  "expectedInputs": {
+    "datasetSha256": "1a2db1c7540a2419757b37d01717de258548f9bcf301994dfcd5c83f47f17649",
+    "baselineEvaluationSha256": "643eaafc9cc30ac8beb1358ccea564afe8eca5d2622605a5335b95c75b8de0f8",
+    "walkForwardPlanSha256": "da4155c2639d4870a9e1bcb475b53f81a0491cef8bd8c8e572851c2419a73fed",
+    "recessionGroundTruthSha256": "7285b4b88d3f1a269a33241ffad212747be7033dbf557f38cb594c53170da59a",
+    "stressGroundTruthSha256": "e210915f31301e3b0b2082b2ec94f51c3f959782dd06a2fec96a40713d4bc708"
+  },
+  "featureCodes": ["GROWTH_MOM", "INFL_PRESS", "RISK_APPETITE", "MONETARY_COND", "CREDIT_STRESS"],
+  "dimensionFormulaVersion": "macro-financial-dimensions-v1",
+  "slowComponent": {
+    "formula": "0.75 * growthDeterioration + 0.25 * monetaryRestriction",
+    "growthWeight": 0.75,
+    "monetaryWeight": 0.25,
+    "causalEwmaAlpha": 0.25
+  },
+  "fastComponent": {
+    "formula": "financialStress = 1 - sqrt(RISK_APPETITE * CREDIT_STRESS)",
+    "causalEwmaAlpha": 0.65
+  },
+  "recessionProbability": {
+    "formula": "sqrt(filteredSlowContraction * filteredFastStress)",
+    "entryThreshold": 0.55,
+    "exitThreshold": 0.45,
+    "hysteresis": true
+  },
+  "testInference": "train history initializes state; test rows are processed once in chronological order with no backward smoothing",
+  "labelUse": "NBER and stress labels are read only after all predictions are frozen; no label is used for fitting or threshold selection",
+  "uniqueDateAggregation": "earliest eligible fold prediction wins",
+  "promotionPolicy": {
+    "historicalBenchmarkCanPromote": false,
+    "freshProspectiveEvidenceRequired": true,
+    "humanModelGateRequired": true,
+    "allocationUtilityRequired": true
+  },
+  "selectionPolicy": "All formulas, weights, alphas and hysteresis thresholds are semantic hypotheses frozen before execution. They cannot be changed after reading the 2008-2025 diagnostic report; a change requires a new model id.",
+  "limitations": [
+    "The output is an uncalibrated probability-like score until sufficient prospective outcomes exist.",
+    "The model is intentionally simple and tests the two-timescale abstraction, not a broad hyperparameter family.",
+    "Historical results cannot authorize operational promotion."
+  ]
+}

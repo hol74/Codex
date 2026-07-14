@@ -23,6 +23,8 @@ python -m regime_eval baseline-report --evaluation baseline-evaluation.json --da
 python -m regime_eval baseline-audit --evaluation baseline-evaluation.json --dataset historical-dataset.json --plan walk-forward-plan.json --config models/baseline-audit-v1.json --output baseline-audit-v1-report.json
 python -m regime_eval recession-report --evaluation baseline-evaluation.json --dataset historical-dataset.json --plan walk-forward-plan.json --ground-truth ground-truth/nber-us-recessions-v1.json --output baseline-nber-recession-report.json
 python -m regime_eval stress-report --evaluation baseline-evaluation.json --dataset historical-dataset.json --plan walk-forward-plan.json --stress-truth ground-truth/us-non-recession-stress-v1.json --recession-truth ground-truth/nber-us-recessions-v1.json --output baseline-stress-report.json
+python -m regime_eval evidence-report --evaluation baseline-evaluation.json --dataset historical-dataset.json --plan walk-forward-plan.json --ground-truth ground-truth/nber-us-recessions-v1.json --policy models/baseline-v1-4-evidence-v2-preregistered.json --output baseline-evidence-v2-report.json
+python -m regime_eval dual-timescale-report --evaluation baseline-evaluation.json --dataset historical-dataset.json --plan walk-forward-plan.json --recession-truth ground-truth/nber-us-recessions-v1.json --stress-truth ground-truth/us-non-recession-stress-v2.json --config models/dual-timescale-regime-v1.json --output dual-timescale-regime-v1-report.json
 python -m regime_eval clustering-report --evaluation baseline-evaluation.json --dataset historical-dataset.json --plan walk-forward-plan.json --ground-truth ground-truth/nber-us-recessions-v1.json --config models/kmeans-recession-v1.json --output kmeans-recession-v1-report.json
 python -m unittest discover -s tests -v
 ```
@@ -225,3 +227,39 @@ atomico e non autorevole: registra tentativi, exit code e hash e permette di
 saltare gli step gia' completati e invariati. Ogni invocazione produce invece
 una receipt `ShadowOperationsRun` write-once. Un risultato
 `no-eligible-month` non avvia alcun processo e non crea directory di ciclo.
+
+## E10 - Evidence v2 e stress dimensionale
+
+`evidence-report` separa il superamento tecnico dalla sufficienza dell'evidenza
+operativa e aggiunge scoring probabilistico, average precision, calibrazione,
+bootstrap a blocchi ed errori temporali per episodio. Sul corpus reale la v1.4
+restituisce `INSUFFICIENT_EVIDENCE`: 84 date OOS ma soltanto due mesi positivi e
+un episodio recessivo.
+
+`us-non-recession-stress-v2.json` valuta quattro dimensioni prima del regime
+composito e separa gli episodi v1 da due episodi protetti v2. Il primo report
+conferma il blind spot finanziario sulla partizione protetta.
+
+`dual-timescale-regime-v1` e' un filtro causale preregistrato con componente
+macro lenta e finanziaria rapida. Il diagnostico storico e' negativo (recall e
+F1 0%) e il modello e' respinto senza modifica dei parametri. Il comando scrive
+comunque il report, ma restituisce exit code non zero perche' non supera alcun
+gate di promozione.
+
+## E11 - Controlled Candidate Lab
+
+E11.1 congela il contratto sperimentale prima di implementare o valutare i
+modelli. Sono ammesse esattamente tre configurazioni: baseline dimensionale
+v1.5, changepoint con durata v1 e rare-event logit v1. La selezione usa soltanto
+inner rolling validation; l'outer OOS 2008-2025 puo' diventare una diagnostica
+successiva ma non puo' selezionare, ordinare o promuovere un candidato.
+
+Il manifest write-once si genera una sola volta con:
+
+```text
+python -m regime_eval e11-preregister --gate models/e11-shadow-candidate-gate-v1.json --model-config models/baseline-v1-5-dimensional.json --model-config models/changepoint-duration-v1.json --model-config models/rare-event-logit-v1.json --output models/e11-preregistration-manifest.json
+```
+
+Il gate lega gli hash degli input, del contratto e delle tre configurazioni.
+Prima di nuovi outcome il massimo lifecycle ottenibile e' `shadow-candidate`;
+`operational-approved` richiede evidenza prospettica e decisione umana.

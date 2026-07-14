@@ -1,6 +1,6 @@
 # Macro-Regime Engine - Piano operativo completo
 
-Data: 2026-07-13
+Data: 2026-07-14
 
 ## Scopo
 
@@ -376,6 +376,90 @@ Checkpoint stress non recessivi v1:
 
    Checkpoint release:
    `docs/checkpoints/0046-release-e9-2-ci-done.md`.
+
+
+
+### Fase E10 - Model Evidence v2 e challenger dual-timescale (COMPLETATA, 2026-07-14)
+
+E10 trasforma i risultati della baseline v1.4 e dei challenger respinti in un
+nuovo ciclo di ricerca senza riaprire il tuning sul benchmark 2008-2025.
+
+1. Congelare gli stati esistenti: v1.4 resta `research-baseline`; k-means v1 e
+   Gaussian HMM v1 restano `rejected`. Nessun artefatto precedente viene
+   sovrascritto.
+2. Introdurre un Evidence & Promotion Contract v2 con lifecycle distinti
+   (`research-baseline`, `shadow-candidate`, `operational-candidate`,
+   `operational-approved`), esito `INSUFFICIENT_EVIDENCE`, metriche
+   probabilistiche, precision-recall, calibrazione ed errori per episodio.
+3. Versionare uno stress contract v2 dimensionale: crescita, inflazione, stress
+   finanziario e restrizione monetaria sono valutati separatamente prima della
+   composizione in un regime. La cronologia v1 resta congelata.
+4. Preregistrare `dual-timescale-regime-v1`, con componente macro lenta e
+   componente finanziaria rapida, filtro esclusivamente causale e output
+   probabilistico dimensionale. Il modello ha nuovo id e nuova model card; non
+   e' una variante post-hoc dei challenger respinti.
+5. Eseguire il nuovo challenger sul 2008-2025 esclusivamente come diagnostica di
+   sviluppo. Il benchmark gia' osservato non puo' produrre promozione.
+6. Usare inner rolling validation per ogni scelta futura e riservare la
+   decisione operativa ai ledger shadow-live prodotti dopo la preregistrazione.
+7. Eseguire il primo ciclo E9 `full` sul cutoff 2026-07-31 solo dopo la chiusura
+   del mese e la disponibilita' point-in-time degli input. Fino ad allora lo
+   step e' temporalmente bloccato, non fallito.
+8. Ammettere una promozione solo dopo evidenza prospettica sufficiente, utilita'
+   allocativa della Fase F e decisione umana persistita. La mera convergenza o
+   il miglioramento sul benchmark storico non sono sufficienti.
+
+Ogni incremento E10 produce configurazione preregistrata, test, report e model
+card/checkpoint. I report storici devono riportare esplicitamente
+`development-diagnostic-only` e non possono generare una decisione
+`operational-approved`.
+
+Esito: Evidence v2 conferma `INSUFFICIENT_EVIDENCE` per la v1.4; lo stress
+dimensionale v2 migliora la diagnosi ma conferma il blind spot finanziario; il
+dual-timescale v1 perde entrambi i mesi recessivi OOS e viene respinto senza
+tuning. Il punto 7 resta un'attivita' E9 temporalmente vincolata, da eseguire
+dopo il 31 luglio 2026, e non impedisce la chiusura tecnica di E10.
+
+Checkpoint: `docs/checkpoints/0047-fase-e10-model-evidence-dual-timescale-done.md`.
+
+
+
+### Fase E11 - Controlled Candidate Lab (IN CORSO, 2026-07-14)
+
+Obiettivo: usare il periodo precedente al cutoff 2026-07-31 per confrontare un
+numero limitato di nuove ipotesi senza trasformare il benchmark gia' osservato
+in un meccanismo di selezione post-hoc.
+
+1. E11.1 - preregistrazione e shadow-candidate gate (COMPLETATA, 2026-07-14):
+   - massimo tre famiglie e nessuno sweep non dichiarato;
+   - target massimo ottenibile prima di nuovi outcome: `shadow-candidate`;
+   - `operational-approved` vietato senza Evidence v2 prospettica;
+   - selezione e calibrazione solo su inner rolling validation;
+   - outer OOS 2008-2025 escluso dalla selezione;
+   - manifest write-once con hash del gate e delle configurazioni.
+2. Candidate preregistrate:
+   - `baseline-v1-5-dimensional`: baseline rule-based con livello e impulso
+     delle dimensioni macro-finanziarie;
+   - `changepoint-duration-v1`: rilevazione causale degli shock e durata
+     esplicita, senza backward smoothing;
+   - `rare-event-logit-v1`: benchmark supervisionato regolarizzato, train-only,
+     con trattamento preregistrato della classe rara.
+3. E11.2 - implementazione delle feature temporali e della baseline v1.5, con
+   scenari archetipici, causalita' e train gate prima di ogni diagnostica.
+4. E11.3 - implementazione dei due challenger, con label independence, nested
+   validation e metriche probabilistiche condivise.
+5. E11.4 - esecuzione del gate inner-only. Solo i modelli eleggibili diventano
+   `shadow-candidate`; un fallimento viene conservato senza cambio di soglie.
+6. Al primo cutoff eleggibile, la baseline v1.4 e gli eventuali shadow-candidate
+   congelano previsioni parallele. Una singola osservazione non produce
+   promozione operativa.
+
+E11 non autorizza la modifica di v1.4, k-means v1, Gaussian HMM v1 o
+dual-timescale v1. Ogni nuova formula o soglia richiede model id, configurazione
+e manifest diversi prima dell'esecuzione.
+
+Checkpoint E11.1:
+`docs/checkpoints/0048-fase-e11-1-preregistrazione-candidate-done.md`.
 
 
 

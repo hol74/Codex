@@ -9,8 +9,11 @@ from .baseline import write_baseline_report
 from .baseline_audit import write_baseline_audit
 from .challenger import write_clustering_challenger_report
 from .dataset import DatasetValidationError, load_dataset, write_manifest
+from .dual_timescale_challenger import write_dual_timescale_report
+from .evidence import write_model_evidence_report
 from .ground_truth import write_recession_report
 from .hmm_challenger import write_hmm_challenger_report
+from .preregistration import write_preregistration_manifest
 from .shadow import (
     write_baseline_prediction_ledger,
     write_gate_decision,
@@ -27,6 +30,12 @@ def main(argv: list[str] | None = None) -> int:
     parser = _parser()
     args = parser.parse_args(argv)
     try:
+        if args.command == "e11-preregister":
+            output = write_preregistration_manifest(
+                args.gate, args.model_config, args.output
+            )
+            print(output)
+            return 0
         if args.command == "baseline-report":
             output = write_baseline_report(args.evaluation, args.dataset, args.plan, args.output)
             print(output)
@@ -62,6 +71,18 @@ def main(argv: list[str] | None = None) -> int:
             )
             print(output)
             return 0
+        if args.command == "evidence-report":
+            output = write_model_evidence_report(
+                args.evaluation,
+                args.dataset,
+                args.plan,
+                args.ground_truth,
+                args.policy,
+                args.output,
+            )
+            print(output)
+            report = json.loads(output.read_text(encoding="utf-8"))
+            return 0 if report["promotionGate"]["status"] == "ELIGIBLE_FOR_HUMAN_REVIEW" else 3
         if args.command == "clustering-report":
             output = write_clustering_challenger_report(
                 args.evaluation, args.dataset, args.plan, args.ground_truth, args.config, args.output
@@ -74,6 +95,18 @@ def main(argv: list[str] | None = None) -> int:
             )
             print(output)
             return 0
+        if args.command == "dual-timescale-report":
+            output = write_dual_timescale_report(
+                args.evaluation,
+                args.dataset,
+                args.plan,
+                args.recession_truth,
+                args.stress_truth,
+                args.config,
+                args.output,
+            )
+            print(output)
+            return 3
         if args.command == "shadow-predict":
             output = write_baseline_prediction_ledger(
                 args.evaluation,
@@ -200,6 +233,12 @@ def _parser() -> argparse.ArgumentParser:
     plan.add_argument("--test-years", type=int, default=2)
     plan.add_argument("--step-years", type=int, default=1)
     plan.add_argument("--output")
+    preregistration = subparsers.add_parser(
+        "e11-preregister", help="freeze the E11 candidate gate and exactly three model configs"
+    )
+    preregistration.add_argument("--gate", required=True)
+    preregistration.add_argument("--model-config", action="append", required=True)
+    preregistration.add_argument("--output", required=True)
     baseline = subparsers.add_parser("baseline-report", help="summarize baseline results over walk-forward folds")
     baseline.add_argument("--evaluation", required=True)
     baseline.add_argument("--dataset", required=True)
@@ -232,6 +271,15 @@ def _parser() -> argparse.ArgumentParser:
     stress.add_argument("--stress-truth", required=True)
     stress.add_argument("--recession-truth", required=True)
     stress.add_argument("--output", required=True)
+    evidence = subparsers.add_parser(
+        "evidence-report", help="evaluate probabilistic evidence and operational-promotion sufficiency"
+    )
+    evidence.add_argument("--evaluation", required=True)
+    evidence.add_argument("--dataset", required=True)
+    evidence.add_argument("--plan", required=True)
+    evidence.add_argument("--ground-truth", required=True)
+    evidence.add_argument("--policy", required=True)
+    evidence.add_argument("--output", required=True)
     clustering = subparsers.add_parser("clustering-report", help="run deterministic train-only k-means challenger")
     clustering.add_argument("--evaluation", required=True)
     clustering.add_argument("--dataset", required=True)
@@ -246,6 +294,16 @@ def _parser() -> argparse.ArgumentParser:
     hmm.add_argument("--ground-truth", required=True)
     hmm.add_argument("--config", required=True)
     hmm.add_argument("--output", required=True)
+    dual = subparsers.add_parser(
+        "dual-timescale-report", help="run the preregistered causal dual-timescale challenger"
+    )
+    dual.add_argument("--evaluation", required=True)
+    dual.add_argument("--dataset", required=True)
+    dual.add_argument("--plan", required=True)
+    dual.add_argument("--recession-truth", required=True)
+    dual.add_argument("--stress-truth", required=True)
+    dual.add_argument("--config", required=True)
+    dual.add_argument("--output", required=True)
     shadow_predict = subparsers.add_parser(
         "shadow-predict", help="freeze baseline predictions without outcome labels"
     )

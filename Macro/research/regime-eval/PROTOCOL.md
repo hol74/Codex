@@ -374,3 +374,48 @@ aggiornabile e non autorevole; ledger, preflight e receipt restano write-once.
 Population e' l'unico step che puo' attivare la rete e lo fa tramite la CLI C#
 e gli adapter Infrastructure. La chiave FRED non compare mai nel comando o
 nello stato. Ne' orchestratore, stato, preflight o ledger ricevono ground truth.
+
+## E10 - Model Evidence v2 e dual-timescale
+
+Il gate tecnico della baseline e la promozione operativa sono contratti
+distinti. `model-evidence-and-promotion-v2` introduce lifecycle espliciti,
+`INSUFFICIENT_EVIDENCE`, Brier score, log loss, average precision, calibrazione,
+bootstrap temporale e diagnostica di onset/recovery. Il benchmark 2008-2025 e'
+`development-diagnostic-only` e non puo' autorizzare promozione.
+
+Lo stress contract v2 valuta prima quattro dimensioni: growth deterioration,
+inflation pressure, financial stress e monetary restriction. Conserva gli
+episodi v1 come development e riserva taper shock 2013 e repo stress 2019 a una
+partizione `protected-v2`. Anche questa partizione resta storica e diagnostica.
+
+`dual-timescale-regime-v1` separa filtro macro lento e filtro finanziario rapido
+senza usare label per fitting o soglie. Il risultato diagnostico e' negativo:
+recall e F1 OOS nulli, con falsi segnali persistenti dopo la recessione. Il
+modello e' respinto senza tuning post-hoc; ogni variante richiede nuovo id.
+
+Il primo ciclo E9 `full` sul cutoff 2026-07-31 resta temporalmente non
+eseguibile fino alla chiusura del mese e alla disponibilita' degli input. Questo
+vincolo non e' un fallimento di E10.
+
+## E11 - Preregistrazione del Controlled Candidate Lab
+
+Prima dell'implementazione, E11.1 congela in un manifest immutabile il gate e
+le sole tre famiglie ammesse. Il registro contiene hash delle configurazioni,
+degli input comuni e del codice che valida la preregistrazione. Un file gia'
+esistente non viene mai aggiornato o sostituito.
+
+Le decisioni di feature, parametri e soglia devono avvenire esclusivamente in
+inner rolling validation contenuta nell'outer train. I risultati outer OOS
+2008-2025, gia' osservati, sono esclusi da selezione e ranking. Dopo il freeze
+possono essere aperti soltanto come diagnostica di sviluppo, senza cambiare le
+specifiche in risposta all'esito.
+
+I requisiti comuni sono: trasformazioni train-only, inferenza causale,
+determinismo, indipendenza dalle label di test, hash della configurazione,
+model card e revisione umana. Sono vietati sweep non dichiarati. Il logit puo'
+confrontare soltanto le tre soglie preregistrate 0,25, 0,35 e 0,50 nell'inner
+validation.
+
+Il superamento del gate inner-only autorizza al massimo `shadow-candidate`.
+Nessuna diagnostica storica autorizza `operational-approved`, che resta
+subordinato a Evidence v2 prospettica su outcome nuovi.

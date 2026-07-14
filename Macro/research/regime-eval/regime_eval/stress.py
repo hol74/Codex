@@ -4,10 +4,12 @@ import hashlib
 import json
 from collections import Counter
 from datetime import date
+from statistics import fmean
 from pathlib import Path
 from typing import Any
 
 from .dataset import DatasetValidationError, load_dataset
+from .dimensions import DIMENSION_NAMES, dimension_scores
 from .ground_truth import is_recession, validate_recession_truth
 
 
@@ -56,9 +58,10 @@ def write_stress_report(
             key for key in evaluation_rows if test_from <= date.fromisoformat(key) <= test_to
         )
 
+    schema_version = stress_truth["schemaVersion"]
     report = {
-        "reportVersion": 1,
-        "reportType": "NonRecessionStressAlignment",
+        "reportVersion": schema_version,
+        "reportType": "DimensionalNonRecessionStressAlignment" if schema_version == 2 else "NonRecessionStressAlignment",
         "inputs": {
             "datasetFileName": dataset.path.name,
             "datasetSha256": dataset.sha256,
@@ -86,14 +89,19 @@ def write_stress_report(
             "multiLabel": True,
             "negativeClassMetrics": "not computed",
             "purpose": "descriptive regime alignment; not generic accuracy and not a promotion gate",
+            **({
+                "dimensionPolicy": "evaluate preregistered dimensions before composite regime alignment",
+                "dimensionFormulaVersion": "macro-financial-dimensions-v1",
+                "promotionUse": "development-diagnostic-only",
+            } if schema_version == 2 else {}),
         },
         "coverage": {
             "fullDatasetRowCount": len(dataset_dates),
             "uniqueOutOfSampleRowCount": len(unique_test_dates),
         },
-        "fullDataset": _scope_report(dataset_dates, evaluation_rows, taxonomy, episodes),
+        "fullDataset": _scope_report(dataset_dates, evaluation_rows, taxonomy, episodes, schema_version),
         "aggregateOutOfSample": _scope_report(
-            sorted(unique_test_dates), evaluation_rows, taxonomy, episodes
+            sorted(unique_test_dates), evaluation_rows, taxonomy, episodes, schema_version
         ),
     }
     destination = Path(output_path).resolve()
@@ -103,7 +111,7 @@ def write_stress_report(
 
 
 def validate_stress_truth(truth: Any) -> tuple[dict[str, dict[str, Any]], list[dict[str, Any]]]:
-    if not isinstance(truth, dict) or truth.get("schemaVersion") != 1:
+    if not isinstance(truth, dict) or truth.get("schemaVersion") not in {1, 2}:
         raise DatasetValidationError("Unsupported stress chronology schema.")
     required = (
         "groundTruthId",
@@ -140,6 +148,19 @@ def validate_stress_truth(truth: Any) -> tuple[dict[str, dict[str, Any]], list[d
             value not in REGIMES for value in expected
         ):
             raise DatasetValidationError(f"taxonomy[{index}] has invalid code or expected regimes.")
+        if truth["schemaVersion"] == 2:
+            dimensions = item.get("expectedDimensions")
+            if not isinstance(dimensions, dict) or not dimensions:
+                raise DatasetValidationError(f"taxonomy[{index}] requires expected dimensions.")
+            for dimension, bounds in dimensions.items():
+                if dimension not in DIMENSION_NAMES or not isinstance(bounds, dict):
+                    raise DatasetValidationError(f"taxonomy[{index}] has an invalid dimension.")
+                minimum, maximum = bounds.get("minimum"), bounds.get("maximum")
+                if (minimum is None) == (maximum is None):
+                    raise DatasetValidationError(f"taxonomy[{index}] dimension must define one bound.")
+                bound = minimum if minimum is not None else maximum
+                if isinstance(bound, bool) or not isinstance(bound, (int, float)) or not 0 <= bound <= 1:
+                    raise DatasetValidationError(f"taxonomy[{index}] dimension bound is invalid.")
         taxonomy[code] = item
 
     raw_episodes = truth.get("episodes")
@@ -167,6 +188,7 @@ def validate_stress_truth(truth: Any) -> tuple[dict[str, dict[str, Any]], list[d
             or any(source_id not in source_ids for source_id in references)
             or not isinstance(item.get("boundaryRationale"), str)
             or not item["boundaryRationale"].strip()
+            or (truth["schemaVersion"] == 2 and item.get("validationRole") not in {"development-v1", "protected-v2"})
         ):
             raise DatasetValidationError(f"episodes[{index}] has invalid boundaries or references.")
         episode_ids.add(item["id"])
@@ -179,6 +201,7 @@ def _scope_report(
     evaluation_rows: dict[str, dict[str, Any]],
     taxonomy: dict[str, dict[str, Any]],
     episodes: list[dict[str, Any]],
+    schema_version: int,
 ) -> dict[str, Any]:
     labels_by_date = {key: _labels_for_date(key, episodes) for key in dates}
     labeled_dates = [key for key, labels in labels_by_date.items() if labels]
@@ -189,6 +212,9 @@ def _scope_report(
             "label": definition["label"],
             "expectedPrimaryRegimes": definition["expectedPrimaryRegimes"],
             **_alignment(selected, evaluation_rows, set(definition["expectedPrimaryRegimes"])),
+            **({"dimensionalAlignment": _dimensional_alignment(
+                selected, evaluation_rows, definition["expectedDimensions"]
+            )} if schema_version == 2 else {}),
         }
 
     episode_reports = []
@@ -209,7 +235,7 @@ def _scope_report(
             **_alignment(selected, evaluation_rows, expected),
         })
 
-    return {
+    report = {
         "rowCount": len(dates),
         "labeledRowCount": len(labeled_dates),
         "unlabeledRowCount": len(dates) - len(labeled_dates),
@@ -217,6 +243,66 @@ def _scope_report(
         "labels": label_reports,
         "episodes": episode_reports,
     }
+    if schema_version == 2:
+        report["validationPartitions"] = {
+            role: _partition_report(dates, evaluation_rows, taxonomy, episodes, role)
+            for role in ("development-v1", "protected-v2")
+        }
+    return report
+
+
+def _dimensional_alignment(
+    dates: list[str],
+    evaluation_rows: dict[str, dict[str, Any]],
+    expectations: dict[str, dict[str, float]],
+) -> dict[str, Any]:
+    per_dimension: dict[str, Any] = {}
+    all_hits: list[str] = []
+    scores_by_date = {key: dimension_scores(evaluation_rows[key]) for key in dates}
+    for dimension, bounds in sorted(expectations.items()):
+        hits = [key for key in dates if _dimension_hit(scores_by_date[key][dimension], bounds)]
+        per_dimension[dimension] = {
+            "expectation": bounds,
+            "rowCount": len(dates),
+            "meanScore": round(fmean(scores_by_date[key][dimension] for key in dates), 8) if dates else None,
+            "hitCount": len(hits),
+            "hitRate": _ratio(len(hits), len(dates)),
+            "mismatchDates": [key for key in dates if key not in hits],
+        }
+    all_hits = [
+        key for key in dates
+        if all(_dimension_hit(scores_by_date[key][dimension], bounds) for dimension, bounds in expectations.items())
+    ]
+    return {
+        "allExpectedDimensionsHitCount": len(all_hits),
+        "allExpectedDimensionsHitRate": _ratio(len(all_hits), len(dates)),
+        "dimensions": per_dimension,
+    }
+
+
+def _partition_report(
+    dates: list[str],
+    evaluation_rows: dict[str, dict[str, Any]],
+    taxonomy: dict[str, dict[str, Any]],
+    episodes: list[dict[str, Any]],
+    role: str,
+) -> dict[str, Any]:
+    selected_episodes = [item for item in episodes if item.get("validationRole") == role]
+    selected_dates = [key for key in dates if any(_contains(item, key) for item in selected_episodes)]
+    label_results: dict[str, Any] = {}
+    for code, definition in sorted(taxonomy.items()):
+        label_dates = [
+            key for key in selected_dates
+            if any(_contains(item, key) and code in item["labels"] for item in selected_episodes)
+        ]
+        label_results[code] = _dimensional_alignment(
+            label_dates, evaluation_rows, definition["expectedDimensions"]
+        )
+    return {"episodeCount": len(selected_episodes), "rowCount": len(set(selected_dates)), "labels": label_results}
+
+
+def _dimension_hit(value: float, bounds: dict[str, float]) -> bool:
+    return value >= float(bounds["minimum"]) if "minimum" in bounds else value <= float(bounds["maximum"])
 
 
 def _alignment(

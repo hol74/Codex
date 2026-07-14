@@ -379,6 +379,17 @@ Checkpoint in corso: `docs/checkpoints/0034-fase-e-slice6-feature-baseline-redes
   versionati. Output temporanei e chiavi ASP.NET Core Data Protection sono stati
   rimossi dall'indice preservando le copie locali. La cronologia pregressa non
   e' stata riscritta; un eventuale purge richiede un intervento separato.
+- Fase E10 - Model Evidence v2 e challenger dual-timescale: introdotti gate di
+  evidenza insufficiente, metriche probabilistiche/calibrazione/bootstrap,
+  stress contract dimensionale v2 e un nuovo challenger causale preregistrato.
+  La v1.4 resta research baseline; il dual-timescale v1 e' respinto con recall e
+  F1 OOS nulli, senza tuning post-hoc. 28 test Python e 240 test C# superati.
+- Fase E11.1 - Controlled Candidate Lab: congelati prima dell'implementazione
+  il gate `e11-shadow-candidate-gate-v1` e tre sole configurazioni candidate.
+  Il manifest write-once lega gate, input, configurazioni e validatore; vieta
+  outer OOS per selezione e limita l'esito pre-prospettico a
+  `shadow-candidate`. Nessun risultato dei nuovi modelli e' stato aperto. Suite
+  verdi: 30 test Python e 240 test C#.
 
 ## Deviazione documentata dal piano originario
 

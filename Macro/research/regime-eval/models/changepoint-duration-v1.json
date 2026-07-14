@@ -1,0 +1,47 @@
+{
+  "schemaVersion": 1,
+  "role": "challenger",
+  "lifecycleStatus": "research-challenger",
+  "promotionTarget": "shadow-candidate",
+  "modelId": "changepoint-duration-v1",
+  "modelFamily": "Causal robust changepoint detector with explicit duration",
+  "frozenAt": "2026-07-14",
+  "benchmarkScope": "inner-validation-only",
+  "expectedInputs": {
+    "datasetSha256": "1a2db1c7540a2419757b37d01717de258548f9bcf301994dfcd5c83f47f17649",
+    "baselineEvaluationSha256": "643eaafc9cc30ac8beb1358ccea564afe8eca5d2622605a5335b95c75b8de0f8",
+    "walkForwardPlanSha256": "da4155c2639d4870a9e1bcb475b53f81a0491cef8bd8c8e572851c2419a73fed",
+    "recessionGroundTruthSha256": "7285b4b88d3f1a269a33241ffad212747be7033dbf557f38cb594c53170da59a",
+    "stressGroundTruthSha256": "e210915f31301e3b0b2082b2ec94f51c3f959782dd06a2fec96a40713d4bc708"
+  },
+  "inputDimensions": ["growthDeterioration", "financialStress", "monetaryRestriction"],
+  "trainOnlyRobustScaling": {
+    "center": "median monthly difference",
+    "scale": "1.4826 * median absolute deviation",
+    "minimumScale": 0.000001
+  },
+  "changeScore": "max positive robust-z innovation across growthDeterioration and financialStress",
+  "entryPolicy": {
+    "robustZThreshold": 2.5,
+    "minimumFinancialStressLevel": 0.45,
+    "extremeFinancialStressLevel": 0.65,
+    "rule": "enter when changeScore >= 2.5 and financialStress >= 0.45, or financialStress >= 0.65"
+  },
+  "durationPolicy": {
+    "minimumStateMonths": 1,
+    "maximumStateMonths": 18,
+    "exitFinancialStressLevel": 0.45,
+    "exitGrowthDeteriorationLevel": 0.45,
+    "consecutiveExitMonths": 2,
+    "maximumDurationOverride": "remain active beyond 18 months only when financialStress >= 0.70"
+  },
+  "probabilityPolicy": "Deterministic logistic transform of the larger of normalized changeScore and financialStress level; parameters fixed by this config.",
+  "testInference": "causal forward filter only; no backward smoothing or future-dependent segmentation",
+  "labelUse": "NBER and stress labels are read only after predictions are frozen; robust scaling uses train features only.",
+  "outerOosPolicy": "Forbidden for selection or parameter changes; optional diagnostic only after implementation and config hashes are frozen.",
+  "selectionPolicy": "No threshold, duration or scale rule may change after inner validation. Any change requires a new model id.",
+  "limitations": [
+    "Monthly sampling can delay within-month changes.",
+    "A changepoint is not equivalent to a recession and must be evaluated on both recession and stress tasks."
+  ]
+}

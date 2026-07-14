@@ -1,0 +1,37 @@
+{
+  "schemaVersion": 1,
+  "role": "challenger-baseline",
+  "lifecycleStatus": "research-challenger",
+  "promotionTarget": "shadow-candidate",
+  "modelId": "baseline-v1-5-dimensional",
+  "modelFamily": "Rule-based dimensional baseline with causal impulses",
+  "frozenAt": "2026-07-14",
+  "benchmarkScope": "inner-validation-only",
+  "baseModelId": "baseline-v1-4-preregistered",
+  "baseModelConfigSha256": "eb8da8dd1a29bc3fa23e94498d2576b8f9a2567d232fea663b583ba2e3b7cc70",
+  "expectedInputs": {
+    "datasetSha256": "1a2db1c7540a2419757b37d01717de258548f9bcf301994dfcd5c83f47f17649",
+    "baselineEvaluationSha256": "643eaafc9cc30ac8beb1358ccea564afe8eca5d2622605a5335b95c75b8de0f8",
+    "walkForwardPlanSha256": "da4155c2639d4870a9e1bcb475b53f81a0491cef8bd8c8e572851c2419a73fed",
+    "recessionGroundTruthSha256": "7285b4b88d3f1a269a33241ffad212747be7033dbf557f38cb594c53170da59a",
+    "stressGroundTruthSha256": "e210915f31301e3b0b2082b2ec94f51c3f959782dd06a2fec96a40713d4bc708"
+  },
+  "featureCodes": ["GROWTH_MOM", "INFL_PRESS", "RISK_APPETITE", "MONETARY_COND", "CREDIT_STRESS"],
+  "dimensionFormulaVersion": "macro-financial-dimensions-v1",
+  "causalImpulsePolicy": {
+    "firstObservationImpulse": 0.0,
+    "financialStressImpulse": "max(0, financialStress[t] - financialStress[t-1])",
+    "growthDeteriorationImpulse": "max(0, growthDeterioration[t] - growthDeterioration[t-1])",
+    "riskAppetiteAdjustment": "clamp01(RISK_APPETITE - 0.50 * financialStressImpulse)",
+    "creditStressAdjustment": "clamp01(CREDIT_STRESS - 0.50 * financialStressImpulse)",
+    "growthAdjustment": "clamp01(GROWTH_MOM - 0.35 * growthDeteriorationImpulse)"
+  },
+  "regimeGeometry": "Reuse v1.4 archetypes, score power, confidence formula, confirmation threshold and divergence policy without modification.",
+  "labelUse": "Labels are used only by the inner-validation evaluator after predictions are frozen; formulas are not fitted to outcomes.",
+  "outerOosPolicy": "Forbidden for selection or parameter changes; optional diagnostic only after implementation and config hashes are frozen.",
+  "selectionPolicy": "No impulse weight, archetype, threshold or confidence term may change after inner validation. Any change requires a new model id.",
+  "limitations": [
+    "Uses monthly first differences and may miss shocks that reverse within a month.",
+    "Reuses the v1.4 regime geometry and therefore tests temporal feature adjustment, not a new taxonomy."
+  ]
+}
