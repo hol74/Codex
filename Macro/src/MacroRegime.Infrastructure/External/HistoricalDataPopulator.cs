@@ -34,6 +34,7 @@ public sealed record HistoricalDataCorpusManifest(
     string MarketPricePolicy,
     IReadOnlyList<string> MacroSeries,
     IReadOnlyList<string> MarketSymbols,
+    IReadOnlyDictionary<string, int> IntramonthFeatureObservationCounts,
     int MacroSnapshotCount,
     int MarketSnapshotCount,
     long TotalBytes,
@@ -41,7 +42,7 @@ public sealed record HistoricalDataCorpusManifest(
 
 public sealed class HistoricalDataPopulator
 {
-    private const int ManifestSchemaVersion = 1;
+    private const int ManifestSchemaVersion = 2;
     private static readonly JsonSerializerOptions SerializerOptions = new(JsonSerializerDefaults.Web) { WriteIndented = true };
     private readonly FredHistoricalDataClient fredClient;
     private readonly YahooHistoricalMarketDataClient marketClient;
@@ -63,7 +64,7 @@ public sealed class HistoricalDataPopulator
         Validate(command);
         var marketTo = command.To.AddDays(command.MaxForwardHorizonDays + 10);
         var macroHistory = await fredClient.FetchInitialReleaseHistoryAsync(
-            command.From.AddMonths(-3), command.To, FredSeriesCatalog.BaselineSeriesCodes, cancellationToken).ConfigureAwait(false);
+            command.From.AddMonths(-3), command.To, FredSeriesCatalog.HistoricalSourceSeriesCodes, cancellationToken).ConfigureAwait(false);
         var marketHistory = await marketClient.FetchHistoryAsync(
             command.From.AddDays(-10), marketTo, MarketDataSeriesCatalog.BaselineSymbols, cancellationToken).ConfigureAwait(false);
 
@@ -100,6 +101,8 @@ public sealed class HistoricalDataPopulator
             .GroupBy(item => item.SeriesCode, StringComparer.OrdinalIgnoreCase)
             .ToDictionary(group => group.Key, group => group.OrderBy(item => item.ObservationDate).ToArray(), StringComparer.OrdinalIgnoreCase);
         var macroPaths = new List<string>();
+        var intramonthFeatureObservationCounts = FredSeriesCatalog.HistoricalIntramonthDerivedSeriesCodes
+            .ToDictionary(code => code, _ => 0, StringComparer.OrdinalIgnoreCase);
         foreach (var date in sampleDates)
         {
             var snapshot = FredSeriesCatalog.BaselineSeriesCodes.Select(code =>
@@ -116,6 +119,10 @@ public sealed class HistoricalDataPopulator
             }).ToList();
             snapshot.Add(DeriveThreeMonthChange(date, macroBySeries, "CPI_YOY", "CPI_YOY_3M_CHANGE"));
             snapshot.Add(DeriveThreeMonthChange(date, macroBySeries, "YC_10Y2Y", "YC_10Y2Y_3M_CHANGE"));
+            AddIfAvailable(snapshot, DeriveMonthlyMaximum(date, macroBySeries, "VIX", "VIX_MONTHLY_MAX"), intramonthFeatureObservationCounts);
+            AddIfAvailable(snapshot, DeriveMonthlyFundingSpreadMaximum(date, macroBySeries), intramonthFeatureObservationCounts);
+            AddIfAvailable(snapshot, DeriveMonthlyMarketDrawdown(date, marketHistory, "SPY", "SPY_MONTHLY_MAX_DRAWDOWN"), intramonthFeatureObservationCounts);
+            AddIfAvailable(snapshot, DeriveMonthlyMarketDrawdown(date, marketHistory, "HYG", "HYG_MONTHLY_MAX_DRAWDOWN"), intramonthFeatureObservationCounts);
             macroPaths.Add(await macroWriter.WriteAsync(snapshot, new AsOfDate(date), command.MacroDataDirectory, cancellationToken).ConfigureAwait(false));
         }
 
@@ -132,11 +139,12 @@ public sealed class HistoricalDataPopulator
             sampleDates[^1],
             "last-complete-trading-day-of-month",
             "FRED/ALFRED",
-            "monthly revisionable series use ALFRED initial releases; INDPRO and CPI YoY are computed from initial-release levels; SAHM uses UNRATE-derived initial releases where computable and official SAHMREALTIME initial releases to fill release-history gaps; three-month CPI YoY and curve changes use only observations available at each current/prior cutoff; daily financial series use current FRED history and are not vintage; HY_OAS is represented by the long-history FRED BAA10Y credit-spread proxy because BAMLH0A0HYM2 is limited to three years from April 2026",
+            "monthly revisionable series use ALFRED initial releases; INDPRO and CPI YoY are computed from initial-release levels; SAHM uses UNRATE-derived initial releases where computable and official SAHMREALTIME initial releases to fill release-history gaps; three-month changes use only observations available at each cutoff; VIX maximum, SOFR-EFFR maximum spread and SPY/HYG maximum drawdowns aggregate only observations from the current calendar month available by the sample date; daily financial series use current history and are not vintage; missing SOFR-era features remain absent and are counted explicitly; HY_OAS uses the long-history FRED BAA10Y proxy",
             "Yahoo Finance chart endpoint",
             "adjusted-close with close fallback",
             FredSeriesCatalog.HistoricalSnapshotSeriesCodes,
             MarketDataSeriesCatalog.BaselineSymbols,
+            intramonthFeatureObservationCounts,
             sampleDates.Length,
             writtenMarketDates.Length,
             totalBytes,
@@ -145,6 +153,121 @@ public sealed class HistoricalDataPopulator
         Directory.CreateDirectory(Path.GetDirectoryName(manifestPath)!);
         await File.WriteAllTextAsync(manifestPath, JsonSerializer.Serialize(manifest, SerializerOptions), cancellationToken).ConfigureAwait(false);
         return new PopulateHistoricalDataResult(sampleDates[0], sampleDates[^1], sampleDates.Length, writtenMarketDates.Length, manifestPath);
+    }
+
+    private static void AddIfAvailable(
+        ICollection<FredObservation> snapshot,
+        FredObservation? observation,
+        IDictionary<string, int> coverage)
+    {
+        if (observation is null)
+        {
+            return;
+        }
+
+        snapshot.Add(observation);
+        coverage[observation.SeriesCode]++;
+    }
+
+    private static FredObservation? DeriveMonthlyMaximum(
+        DateOnly sampleDate,
+        IReadOnlyDictionary<string, FredObservation[]> macroBySeries,
+        string sourceCode,
+        string derivedCode)
+    {
+        if (!macroBySeries.TryGetValue(sourceCode, out var series))
+        {
+            return null;
+        }
+
+        var window = series.Where(item =>
+                item.ObservationDate.Year == sampleDate.Year
+                && item.ObservationDate.Month == sampleDate.Month
+                && item.ObservationDate <= sampleDate
+                && item.PublicationDate <= sampleDate)
+            .ToArray();
+        if (window.Length == 0)
+        {
+            return null;
+        }
+
+        var maximum = window.OrderByDescending(item => item.Value).ThenBy(item => item.ObservationDate).First();
+        var metadata = FredSeriesCatalog.Resolve(derivedCode);
+        return new FredObservation(metadata.FredSeriesId, derivedCode, maximum.ObservationDate, sampleDate, sampleDate, maximum.Value, metadata.Unit);
+    }
+
+    private static FredObservation? DeriveMonthlyFundingSpreadMaximum(
+        DateOnly sampleDate,
+        IReadOnlyDictionary<string, FredObservation[]> macroBySeries)
+    {
+        if (!macroBySeries.TryGetValue("SOFR", out var sofr) || !macroBySeries.TryGetValue("EFFR", out var effr))
+        {
+            return null;
+        }
+
+        var effrByDate = effr.Where(item => item.ObservationDate <= sampleDate && item.PublicationDate <= sampleDate)
+            .GroupBy(item => item.ObservationDate)
+            .ToDictionary(group => group.Key, group => group.Last());
+        var spreads = sofr.Where(item =>
+                item.ObservationDate.Year == sampleDate.Year
+                && item.ObservationDate.Month == sampleDate.Month
+                && item.ObservationDate <= sampleDate
+                && item.PublicationDate <= sampleDate
+                && effrByDate.ContainsKey(item.ObservationDate))
+            .Select(item => (item.ObservationDate, Value: (item.Value - effrByDate[item.ObservationDate].Value) * 100m))
+            .ToArray();
+        if (spreads.Length == 0)
+        {
+            return null;
+        }
+
+        var maximum = spreads.OrderByDescending(item => item.Value).ThenBy(item => item.ObservationDate).First();
+        var metadata = FredSeriesCatalog.Resolve("SOFR_EFFR_MONTHLY_MAX");
+        return new FredObservation(metadata.FredSeriesId, metadata.SeriesCode, maximum.ObservationDate, sampleDate, sampleDate,
+            decimal.Round(maximum.Value, 6, MidpointRounding.ToEven), metadata.Unit);
+    }
+
+    private static FredObservation? DeriveMonthlyMarketDrawdown(
+        DateOnly sampleDate,
+        IReadOnlyList<MarketDataObservation> marketHistory,
+        string symbol,
+        string derivedCode)
+    {
+        var window = marketHistory.Where(item =>
+                string.Equals(item.Symbol, symbol, StringComparison.OrdinalIgnoreCase)
+                && item.ObservationDate.Year == sampleDate.Year
+                && item.ObservationDate.Month == sampleDate.Month
+                && item.ObservationDate <= sampleDate
+                && item.AvailabilityDate <= sampleDate)
+            .OrderBy(item => item.ObservationDate)
+            .ToArray();
+        if (window.Length == 0)
+        {
+            return null;
+        }
+
+        var peak = window[0].Value;
+        var maximumDrawdown = 0m;
+        var maximumDate = window[0].ObservationDate;
+        foreach (var observation in window)
+        {
+            peak = Math.Max(peak, observation.Value);
+            if (peak == 0m)
+            {
+                continue;
+            }
+
+            var drawdown = ((peak - observation.Value) / peak) * 100m;
+            if (drawdown > maximumDrawdown)
+            {
+                maximumDrawdown = drawdown;
+                maximumDate = observation.ObservationDate;
+            }
+        }
+
+        var metadata = FredSeriesCatalog.Resolve(derivedCode);
+        return new FredObservation(metadata.FredSeriesId, metadata.SeriesCode, maximumDate, sampleDate, sampleDate,
+            decimal.Round(maximumDrawdown, 6, MidpointRounding.ToEven), metadata.Unit);
     }
 
     private static FredObservation DeriveThreeMonthChange(

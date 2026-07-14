@@ -475,6 +475,57 @@ Checkpoint E11.3-E11.4:
 
 
 
+### Fase E12 - Event-aware task-specific candidates (COMPLETATA, 2026-07-14)
+
+Obiettivo: provare nuovi candidati eleggibili correggendo prima il blind spot
+informativo del campionamento month-end e separando i task che hanno ground
+truth e costi di errore diversi.
+
+1. E12.1 - data foundation e lifecycle (COMPLETATA, 2026-07-14):
+   - aggregati point-in-time `VIX_MONTHLY_MAX`, `SOFR_EFFR_MONTHLY_MAX`,
+     `SPY_MONTHLY_MAX_DRAWDOWN`, `HYG_MONTHLY_MAX_DRAWDOWN`;
+   - manifest corpus v2 con coverage esplicita e nessuna imputazione della
+     storia SOFR mancante;
+   - contratto `e12-task-lifecycle-v1` con ruoli `recession-signal` e
+     `financial-stress-signal` separati;
+   - compatibilita' preservata con dataset schema v1 e baseline v1.4.
+2. E12.2 - corpus reale e freeze degli input (COMPLETATA, 2026-07-14):
+   - ripopolare in un nuovo layout, senza sovrascrivere il corpus v1.1;
+   - costruire e validare dataset e coverage per data/fold;
+   - congelare manifest e hash prima di implementare i candidate.
+3. E12.3 - `event-aware-financial-stress-v1` (COMPLETATA, RESPINTA, 2026-07-14):
+   - usare onset intramese, funding spread, drawdown equity/credit e HY proxy;
+   - valutare inner-only contro episodi di stress protetti e falsi positivi;
+   - esito massimo `ELIGIBLE_FOR_SHADOW_REVIEW`.
+4. E12.4 - `sahm-yield-hazard-v1` (COMPLETATA, RESPINTA, 2026-07-14):
+   - usare SAHM real-time, deterioramento INDPRO e curva dei rendimenti;
+   - valutare inner-only contro NBER con metriche probabilistiche;
+   - nessuna scelta basata sull'outer OOS.
+5. E12.5 - decisione indipendente (COMPLETATA, 2026-07-14):
+   - congelare esiti e fallimenti senza tuning post-hoc;
+   - vietare la fusione se i componenti non hanno evidenza autonoma;
+   - richiedere dati prospettici Evidence v2 e revisione umana per ogni stato
+     oltre `shadow-candidate`.
+   - esito: entrambi i componenti respinti, zero candidati shadow, fusione
+     vietata e outer OOS mai aperto.
+
+Checkpoint E12.1:
+`docs/checkpoints/0051-fase-e12-1-event-aware-data-foundation-done.md`.
+
+Checkpoint E12.2:
+`docs/checkpoints/0052-fase-e12-2-corpus-coverage-freeze-done.md`.
+
+Checkpoint E12.3:
+`docs/checkpoints/0053-fase-e12-3-event-aware-financial-stress-rejected.md`.
+
+Checkpoint E12.4:
+`docs/checkpoints/0054-fase-e12-4-sahm-yield-hazard-rejected.md`.
+
+Checkpoint E12.5:
+`docs/checkpoints/0055-fase-e12-5-independent-decision-done.md`.
+
+
+
 ### Fase F - Ottimizzazione vincolata e stress test
 
 1. Ottimizzazione allocativa vincolata: bande IPS, turnover massimo, costi, fiscalita', penalita' per portafogli estremi, shrinkage sugli expected return.

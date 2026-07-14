@@ -69,7 +69,11 @@ public sealed class FredHistoricalDataClient
                 {
                     var unemployment = await FetchSeriesAsync(metadata, "UNRATE", from, to, cancellationToken).ConfigureAwait(false);
                     var derived = TransformSahm(metadata, unemployment);
-                    var official = await FetchSeriesAsync(metadata, metadata.FredSeriesId, from, to, cancellationToken).ConfigureAwait(false);
+                    // SAHMREALTIME is a FRED-only real-time indicator rather than an
+                    // ALFRED vintage series. Its historical values already encode the
+                    // real-time rule and are used only where UNRATE initial releases
+                    // cannot reconstruct the indicator.
+                    var official = await FetchCurrentSeriesAsync(metadata, metadata.FredSeriesId, from, to, cancellationToken).ConfigureAwait(false);
                     observations.AddRange(MergeSahmHistory(derived, official));
                     continue;
                 }

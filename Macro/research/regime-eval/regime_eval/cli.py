@@ -13,6 +13,15 @@ from .dimensional_baseline import write_dimensional_baseline_gate
 from .dual_timescale_challenger import write_dual_timescale_report
 from .evidence import write_model_evidence_report
 from .e11_challengers import write_e11_challenger_gate
+from .e12_foundation import write_e12_foundation_report
+from .e12_financial_stress import (
+    write_e12_financial_preregistration,
+    write_e12_financial_stress_gate,
+)
+from .e12_recession_hazard import (
+    write_e12_recession_hazard_gate,
+    write_e12_recession_preregistration,
+)
 from .ground_truth import write_recession_report
 from .hmm_challenger import write_hmm_challenger_report
 from .preregistration import write_preregistration_manifest
@@ -32,6 +41,46 @@ def main(argv: list[str] | None = None) -> int:
     parser = _parser()
     args = parser.parse_args(argv)
     try:
+        if args.command == "e12-preregister-recession-hazard":
+            output = write_e12_recession_preregistration(
+                args.candidate, args.gate, args.foundation_lock, args.output
+            )
+            print(output)
+            return 0
+        if args.command == "e12-recession-hazard-gate":
+            output = write_e12_recession_hazard_gate(
+                args.dataset, args.plan, args.recession_truth, args.candidate,
+                args.gate, args.foundation_lock, args.foundation_freeze,
+                args.preregistration, args.output,
+            )
+            print(output)
+            report = json.loads(output.read_text(encoding="utf-8"))
+            return 0 if report["gate"]["passed"] else 3
+        if args.command == "e12-preregister-financial-stress":
+            output = write_e12_financial_preregistration(
+                args.candidate, args.gate, args.foundation_lock, args.output
+            )
+            print(output)
+            return 0
+        if args.command == "e12-financial-stress-gate":
+            output = write_e12_financial_stress_gate(
+                args.dataset, args.plan, args.stress_truth, args.candidate,
+                args.gate, args.foundation_lock, args.foundation_freeze,
+                args.preregistration, args.output,
+            )
+            print(output)
+            report = json.loads(output.read_text(encoding="utf-8"))
+            return 0 if report["gate"]["passed"] else 3
+        if args.command == "e12-freeze-foundation":
+            output = write_e12_foundation_report(
+                args.corpus_manifest,
+                args.dataset,
+                args.plan,
+                args.lifecycle,
+                args.output,
+            )
+            print(output)
+            return 0
         if args.command == "e11-preregister":
             output = write_preregistration_manifest(
                 args.gate, args.model_config, args.output
@@ -260,6 +309,57 @@ def _parser() -> argparse.ArgumentParser:
     manifest = subparsers.add_parser("manifest", help="write a reproducibility manifest")
     manifest.add_argument("dataset")
     manifest.add_argument("--output", required=True)
+    e12_foundation = subparsers.add_parser(
+        "e12-freeze-foundation",
+        help="validate E12 feature coverage by fold and freeze all foundation input hashes",
+    )
+    e12_foundation.add_argument("--corpus-manifest", required=True)
+    e12_foundation.add_argument("--dataset", required=True)
+    e12_foundation.add_argument("--plan", required=True)
+    e12_foundation.add_argument("--lifecycle", required=True)
+    e12_foundation.add_argument("--output", required=True)
+    e12_preregister = subparsers.add_parser(
+        "e12-preregister-financial-stress",
+        help="freeze the E12 financial-stress candidate, gate and foundation lock",
+    )
+    e12_preregister.add_argument("--candidate", required=True)
+    e12_preregister.add_argument("--gate", required=True)
+    e12_preregister.add_argument("--foundation-lock", required=True)
+    e12_preregister.add_argument("--output", required=True)
+    e12_financial = subparsers.add_parser(
+        "e12-financial-stress-gate",
+        help="run the preregistered event-aware financial-stress inner gate",
+    )
+    e12_financial.add_argument("--dataset", required=True)
+    e12_financial.add_argument("--plan", required=True)
+    e12_financial.add_argument("--stress-truth", required=True)
+    e12_financial.add_argument("--candidate", required=True)
+    e12_financial.add_argument("--gate", required=True)
+    e12_financial.add_argument("--foundation-lock", required=True)
+    e12_financial.add_argument("--foundation-freeze", required=True)
+    e12_financial.add_argument("--preregistration", required=True)
+    e12_financial.add_argument("--output", required=True)
+    e12_recession_preregister = subparsers.add_parser(
+        "e12-preregister-recession-hazard",
+        help="freeze the E12 recession-hazard candidate, gate and foundation lock",
+    )
+    e12_recession_preregister.add_argument("--candidate", required=True)
+    e12_recession_preregister.add_argument("--gate", required=True)
+    e12_recession_preregister.add_argument("--foundation-lock", required=True)
+    e12_recession_preregister.add_argument("--output", required=True)
+    e12_recession = subparsers.add_parser(
+        "e12-recession-hazard-gate",
+        help="run the preregistered SAHM/yield recession inner gate",
+    )
+    e12_recession.add_argument("--dataset", required=True)
+    e12_recession.add_argument("--plan", required=True)
+    e12_recession.add_argument("--recession-truth", required=True)
+    e12_recession.add_argument("--candidate", required=True)
+    e12_recession.add_argument("--gate", required=True)
+    e12_recession.add_argument("--foundation-lock", required=True)
+    e12_recession.add_argument("--foundation-freeze", required=True)
+    e12_recession.add_argument("--preregistration", required=True)
+    e12_recession.add_argument("--output", required=True)
     plan = subparsers.add_parser("plan-walk-forward", help="build rolling train/test folds")
     plan.add_argument("dataset")
     plan.add_argument("--train-years", type=int, default=10)

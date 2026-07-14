@@ -121,6 +121,9 @@ public sealed class FredHistoricalDataClientTests
         Assert.Equal(2, handler.RequestUris.Count);
         Assert.Contains(handler.RequestUris, uri => uri.Query.Contains("series_id=UNRATE", StringComparison.Ordinal));
         Assert.Contains(handler.RequestUris, uri => uri.Query.Contains("series_id=SAHMREALTIME", StringComparison.Ordinal));
+        Assert.DoesNotContain(handler.RequestUris,
+            uri => uri.Query.Contains("series_id=SAHMREALTIME", StringComparison.Ordinal)
+                && uri.Query.Contains("output_type=4", StringComparison.Ordinal));
     }
 
     private static HttpResponseMessage JsonResponse(string json) => new(HttpStatusCode.OK)

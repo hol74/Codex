@@ -10,6 +10,8 @@ public sealed class FredSeriesCatalogTests
         var codes = FredSeriesCatalog.BaselineSeriesCodes;
         Assert.Equal(new[] { "INDPRO_YOY", "SAHM", "CPI_YOY", "T10YIE", "VIX", "YC_10Y2Y", "HY_OAS" }, codes);
         Assert.Equal(new[] { "CPI_YOY_3M_CHANGE", "YC_10Y2Y_3M_CHANGE" }, FredSeriesCatalog.HistoricalDerivedSeriesCodes);
+        Assert.Equal(new[] { "SOFR", "EFFR" }, FredSeriesCatalog.HistoricalIntramonthSourceSeriesCodes);
+        Assert.Equal(4, FredSeriesCatalog.HistoricalIntramonthDerivedSeriesCodes.Count);
     }
 
     [Fact]

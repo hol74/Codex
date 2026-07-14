@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "contractId": "e12-financial-stress-gate-v1",
+  "taskRole": "financial-stress-signal",
+  "registeredModelId": "event-aware-financial-stress-v1",
+  "frozenAt": "2026-07-14",
+  "targetLifecycle": "shadow-candidate",
+  "forbiddenLifecycle": "operational-approved",
+  "scope": "unique nested inner-validation dates; earliest fold wins; outer test rows forbidden",
+  "classificationUniverse": "months with at least one curated stress-v2 label; absence of a label is not a true negative",
+  "requirements": {
+    "minimumEligibleFolds": 4,
+    "minimumCuratedFinancialStressRecall": 0.5,
+    "minimumCuratedF1": 0.35,
+    "maximumCuratedBrierScore": 0.25,
+    "minimumCuratedAveragePrecision": 0.5,
+    "maximumExpectedCalibrationError": 0.25,
+    "minimumProtectedEpisodeHitRate": 0.5,
+    "repoStressMustHit": true,
+    "maximumAlertRunMonths": 4,
+    "outerTestRowCountUsed": 0
+  },
+  "technicalRequirements": {
+    "deterministicOutput": true,
+    "causalPrediction": true,
+    "testLabelIndependence": true,
+    "missingFundingNeverImputed": true,
+    "configurationHashBound": true,
+    "humanReviewRequired": true
+  },
+  "decisionPolicy": "All requirements are conjunctive. Passing yields ELIGIBLE_FOR_SHADOW_REVIEW only; fresh prospective Evidence v2 remains mandatory for operational approval."
+}

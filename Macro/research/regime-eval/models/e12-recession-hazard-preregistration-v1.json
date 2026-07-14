@@ -1,0 +1,38 @@
+{
+  "artifactType": "E12RecessionHazardPreregistration",
+  "candidate": {
+    "fileName": "sahm-yield-hazard-v1.json",
+    "sha256": "b3b0c1b9c1e27baa2fd1e6ff1288af5cc1a0b07c83d58b5da402e1b2e8311052",
+    "sizeBytes": 1797
+  },
+  "expectedInputs": {
+    "datasetSha256": "4b42c41c875dc8cb19168c6529fd935017120da6640d605da99c64a5eeaad30f",
+    "foundationFreezeSha256": "712454f92299278318055a813685426c15a31e015c018630d274fa3c2a13cef9",
+    "foundationLockSha256": "28a74235ee9cd4968792a68939dc4cf9b7c09c402b5a22fd55a4671f0bdee325",
+    "recessionGroundTruthSha256": "7285b4b88d3f1a269a33241ffad212747be7033dbf557f38cb594c53170da59a",
+    "walkForwardPlanSha256": "051615f663ba1e85744dd77ec2662b138c06c9094feb59f5c331a7f9b76b7abb"
+  },
+  "foundationLock": {
+    "fileName": "e12-data-foundation-lock-v1.json",
+    "sha256": "28a74235ee9cd4968792a68939dc4cf9b7c09c402b5a22fd55a4671f0bdee325",
+    "sizeBytes": 1285
+  },
+  "frozenAt": "2026-07-14",
+  "gate": {
+    "contractId": "e12-recession-hazard-gate-v1",
+    "fileName": "e12-recession-hazard-gate-v1.json",
+    "sha256": "3b95c4ef436f2d4fd7174bd650c2ed36d515e1ff7c69154a89e6223e108f36ce",
+    "sizeBytes": 1135
+  },
+  "implementation": {
+    "module": "regime_eval.e12_recession_hazard",
+    "sourceSha256": "7a7bcd3a9f0b34d629dfc4aeba17a43f79cef772cfb0b5c8334b373706327a85"
+  },
+  "maximumLifecycle": "shadow-candidate",
+  "modelId": "sahm-yield-hazard-v1",
+  "outerOosPolicy": "Forbidden for selection, ranking, tuning or gate execution.",
+  "registrationId": "d4960bc1ace064a23f5d4438",
+  "schemaVersion": 1,
+  "status": "preregistered",
+  "taskRole": "recession-signal"
+}

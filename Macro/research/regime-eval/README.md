@@ -57,6 +57,41 @@ La Slice E2 ha prodotto localmente `data/historical-real-2008-2025/`:
 La directory `data/` e' esclusa da Git. Va rigenerata con le credenziali FRED e
 non deve essere confusa con un fixture versionato.
 
+## E12 - foundation event-aware
+
+E12.2 usa un layout separato `data/historical-real-v12-2008-2025/` e aggiunge
+massimi intramese VIX/SOFR-EFFR e drawdown SPY/HYG senza cambiare il dataset
+schema v1. Dopo population e build, il freeze si esegue dal laboratorio con:
+
+```text
+python -m regime_eval e12-freeze-foundation --corpus-manifest ../../data/historical-real-v12-2008-2025/corpus-manifest.json --dataset ../../data/historical-real-v12-2008-2025/dataset/historical-dataset-2008-04-01-2025-12-31.json --plan ../../data/historical-real-v12-2008-2025/dataset/walk-forward-plan.json --lifecycle models/e12-task-lifecycle-v1.json --output ../../data/historical-real-v12-2008-2025/e12-data-foundation-freeze.json
+```
+
+Il report e' write-once, verifica i conteggi dichiarati dal corpus e registra
+coverage totale e train/test per fold. Il lock versionato
+`models/e12-data-foundation-lock-v1.json` conserva gli hash autorevoli per le
+configurazioni candidate successive.
+
+Il primo candidato task-specifico si esegue solo dopo la preregistrazione:
+
+```text
+python -m regime_eval e12-preregister-financial-stress --candidate models/event-aware-financial-stress-v1.json --gate models/e12-financial-stress-gate-v1.json --foundation-lock models/e12-data-foundation-lock-v1.json --output models/e12-financial-stress-preregistration-v1.json
+python -m regime_eval e12-financial-stress-gate --dataset ../../data/historical-real-v12-2008-2025/dataset/historical-dataset-2008-04-01-2025-12-31.json --plan ../../data/historical-real-v12-2008-2025/dataset/walk-forward-plan.json --stress-truth ground-truth/us-non-recession-stress-v2.json --candidate models/event-aware-financial-stress-v1.json --gate models/e12-financial-stress-gate-v1.json --foundation-lock models/e12-data-foundation-lock-v1.json --foundation-freeze ../../data/historical-real-v12-2008-2025/e12-data-foundation-freeze.json --preregistration models/e12-financial-stress-preregistration-v1.json --output ../../data/historical-real-v12-2008-2025/challengers/event-aware-financial-stress-v1-inner-gate.json
+```
+
+La v1 e' stata respinta dal gate inner-only; il report resta un artefatto di
+sviluppo e non autorizza modifiche post-hoc o promozione.
+
+Il candidato recessivo E12.4 segue lo stesso confine:
+
+```text
+python -m regime_eval e12-preregister-recession-hazard --candidate models/sahm-yield-hazard-v1.json --gate models/e12-recession-hazard-gate-v1.json --foundation-lock models/e12-data-foundation-lock-v1.json --output models/e12-recession-hazard-preregistration-v1.json
+python -m regime_eval e12-recession-hazard-gate --dataset ../../data/historical-real-v12-2008-2025/dataset/historical-dataset-2008-04-01-2025-12-31.json --plan ../../data/historical-real-v12-2008-2025/dataset/walk-forward-plan.json --recession-truth ground-truth/nber-us-recessions-v1.json --candidate models/sahm-yield-hazard-v1.json --gate models/e12-recession-hazard-gate-v1.json --foundation-lock models/e12-data-foundation-lock-v1.json --foundation-freeze ../../data/historical-real-v12-2008-2025/e12-data-foundation-freeze.json --preregistration models/e12-recession-hazard-preregistration-v1.json --output ../../data/historical-real-v12-2008-2025/challengers/sahm-yield-hazard-v1-inner-gate.json
+```
+
+Anche questa v1 e' stata respinta. Il gate finanziario e quello recessivo
+restano semanticamente e operativamente separati.
+
 ## Baseline walk-forward
 
 La Slice E3 mantiene due responsabilita' separate:

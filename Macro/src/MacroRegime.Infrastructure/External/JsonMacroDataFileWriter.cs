@@ -37,6 +37,11 @@ public sealed class JsonMacroDataFileWriter : IMacroDataFileWriter
         var usesAlternateProvider = !string.Equals(observation.SeriesId, meta.FredSeriesId, StringComparison.OrdinalIgnoreCase);
         var isHistoricalProxy = usesAlternateProvider
             && string.Equals(observation.SeriesCode, "HY_OAS", StringComparison.OrdinalIgnoreCase);
+        var source = observation.SeriesId.StartsWith("DERIVED:MARKET:", StringComparison.OrdinalIgnoreCase)
+            ? "Derived:Yahoo Finance"
+            : observation.SeriesId.StartsWith("DERIVED:FRED:", StringComparison.OrdinalIgnoreCase)
+                ? "Derived:FRED"
+                : usesAlternateProvider ? $"FRED:{observation.SeriesId}" : "FRED";
         return new JsonMacroObservationRecord(
             observation.SeriesCode,
             isHistoricalProxy ? "Baa corporate minus 10-year Treasury credit-spread proxy" : meta.Name,
@@ -45,7 +50,7 @@ public sealed class JsonMacroDataFileWriter : IMacroDataFileWriter
             observation.PublicationDate,
             observation.VintageDate,
             observation.Value,
-            usesAlternateProvider ? $"FRED:{observation.SeriesId}" : "FRED",
+            source,
             observation.Unit);
     }
 }

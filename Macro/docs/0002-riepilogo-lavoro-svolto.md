@@ -404,6 +404,34 @@ Checkpoint in corso: `docs/checkpoints/0034-fase-e-slice6-feature-baseline-redes
   Brier ma perde il positivo inner disponibile. Entrambi sono
   `REJECTED_FOR_SHADOW`; nessun candidato E11 passa allo shadow e l'outer OOS
   resta chiuso. Suite verdi: 35 test Python e 240 test C#.
+- Fase E12.1 - event-aware data foundation: il population storico conserva ora
+  massimi intramese VIX e SOFR-EFFR e drawdown massimi SPY/HYG, tutti causali e
+  disponibili all'as-of. Il manifest corpus v2 conta la copertura e lascia
+  esplicita l'assenza pre-SOFR. Congelato un lifecycle separato per segnale
+  recessivo e stress finanziario, senza cambiare dataset schema v1 o baseline
+  v1.4. Suite .NET verde: 240/240 test.
+  Suite research verde: 35/35 test Python e compileall superato.
+- Fase E12.2 - corpus reale e coverage freeze: generato un nuovo corpus v12
+  isolato con 213 snapshot macro e 4.536 market, dataset point-in-time da 213
+  righe e 6 fold. VIX max e drawdown SPY/HYG coprono il 100%; SOFR-EFFR copre
+  93 mesi dal 2018 e il 100% dei test set, ma solo 0-50,4% dei train set. Il
+  freeze `15eef71e961b3dd01f2dbf88` lega corpus, dataset, piano e lifecycle;
+  nessun candidato o outer OOS e' stato aperto.
+- Fase E12.3 - event-aware financial stress v1: formula, gate e manifest sono
+  stati congelati prima dell'esecuzione. Il candidato riconosce lo shock repo,
+  passa F1, Brier, ECE, durata e tutti i gate tecnici, ma viene respinto per
+  recall `28,57%` e average precision `0,4661`. Lo stress bancario regionale
+  2023 resta perso; zero righe outer-test e nessun tuning post-hoc.
+- Fase E12.4 - SAHM yield hazard v1: candidato recessivo causale congelato e
+  valutato su 84 date inner, senza outer OOS. Rileva aprile 2020 con un mese di
+  ritardo e recall 50%, ma viene respinto per F1 `0,1333`, average precision
+  `0,0625` e 12 mesi consecutivi di falsi positivi dopo la breve recessione.
+  Nessuna policy di uscita e' stata aggiunta post-hoc.
+- Fase E12.5 - decisione indipendente: congelati in un unico contratto gli
+  esiti `REJECTED_FOR_SHADOW` dei due task e gli hash dei report. La fusione e'
+  vietata, l'outer OOS resta chiuso e E12 termina con zero candidati shadow.
+  La data foundation resta valida, mentre le due formule non saranno ritoccate
+  o riutilizzate sotto gli stessi identificativi.
 
 ## Deviazione documentata dal piano originario
 

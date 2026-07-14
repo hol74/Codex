@@ -26,6 +26,22 @@ public sealed class HistoricalDataPopulatorTests : IDisposable
                   """
                 : seriesId == "UNRATE"
                 ? UnemploymentHistoryResponse()
+                : seriesId == "SOFR"
+                ? """
+                  { "count": 3, "observations": [
+                    { "realtime_start": "2024-10-29", "date": "2024-10-29", "value": "1" },
+                    { "realtime_start": "2025-01-29", "date": "2025-01-29", "value": "5" },
+                    { "realtime_start": "2025-02-26", "date": "2025-02-26", "value": "2" }
+                  ] }
+                  """
+                : seriesId == "EFFR"
+                ? """
+                  { "count": 3, "observations": [
+                    { "realtime_start": "2024-10-29", "date": "2024-10-29", "value": "1" },
+                    { "realtime_start": "2025-01-29", "date": "2025-01-29", "value": "2" },
+                    { "realtime_start": "2025-02-26", "date": "2025-02-26", "value": "2" }
+                  ] }
+                  """
                 : """
                   { "count": 3, "observations": [
                     { "realtime_start": "2024-10-29", "date": "2024-10-29", "value": "0.5" },
@@ -38,10 +54,10 @@ public sealed class HistoricalDataPopulatorTests : IDisposable
         var marketHandler = new FakeHandler(_ => JsonResponse("""
         {
           "chart": { "result": [{
-            "timestamp": [1738195200, 1740614400, 1741564800],
+            "timestamp": [1737331200, 1738195200, 1740614400, 1741564800],
             "indicators": {
-              "quote": [{ "close": [100, 101, 102] }],
-              "adjclose": [{ "adjclose": [100, 101, 102] }]
+              "quote": [{ "close": [110, 100, 101, 102] }],
+              "adjclose": [{ "adjclose": [110, 100, 101, 102] }]
             }
           }] }
         }
@@ -61,15 +77,17 @@ public sealed class HistoricalDataPopulatorTests : IDisposable
             new DateOnly(2025, 1, 1), new DateOnly(2025, 2, 28), macroDir, marketDir, manifestPath, 1));
 
         Assert.Equal(2, result.MacroSnapshotCount);
-        Assert.Equal(3, result.MarketSnapshotCount);
+        Assert.Equal(4, result.MarketSnapshotCount);
         Assert.Equal(new DateOnly(2025, 1, 30), result.FirstSampleDate);
         Assert.Equal(new DateOnly(2025, 2, 27), result.LastSampleDate);
         Assert.Equal(2, Directory.GetFiles(macroDir).Length);
-        Assert.Equal(3, Directory.GetFiles(marketDir).Length);
+        Assert.Equal(4, Directory.GetFiles(marketDir).Length);
         var manifest = JsonDocument.Parse(await File.ReadAllTextAsync(manifestPath));
+        Assert.Equal(2, manifest.RootElement.GetProperty("schemaVersion").GetInt32());
         Assert.Equal(64, manifest.RootElement.GetProperty("aggregateSha256").GetString()!.Length);
         Assert.Equal("last-complete-trading-day-of-month", manifest.RootElement.GetProperty("sampling").GetString());
         Assert.Contains("CPI_YOY_3M_CHANGE", manifest.RootElement.GetProperty("macroSeries").EnumerateArray().Select(item => item.GetString()));
+        Assert.Equal(2, manifest.RootElement.GetProperty("intramonthFeatureObservationCounts").GetProperty("VIX_MONTHLY_MAX").GetInt32());
         var firstMacro = JsonDocument.Parse(await File.ReadAllTextAsync(
             Path.Combine(macroDir, "macro-data-2025-01-30.json")));
         var derivedCodes = firstMacro.RootElement.GetProperty("macroObservations").EnumerateArray()
@@ -77,9 +95,21 @@ public sealed class HistoricalDataPopulatorTests : IDisposable
             .ToArray();
         Assert.Contains("CPI_YOY_3M_CHANGE", derivedCodes);
         Assert.Contains("YC_10Y2Y_3M_CHANGE", derivedCodes);
+        Assert.Contains("VIX_MONTHLY_MAX", derivedCodes);
+        Assert.Contains("SOFR_EFFR_MONTHLY_MAX", derivedCodes);
+        Assert.Contains("SPY_MONTHLY_MAX_DRAWDOWN", derivedCodes);
+        Assert.Contains("HYG_MONTHLY_MAX_DRAWDOWN", derivedCodes);
         var curveChange = firstMacro.RootElement.GetProperty("macroObservations").EnumerateArray()
             .Single(item => item.GetProperty("seriesCode").GetString() == "YC_10Y2Y_3M_CHANGE");
         Assert.Equal(0.5m, curveChange.GetProperty("value").GetDecimal());
+        var fundingMaximum = firstMacro.RootElement.GetProperty("macroObservations").EnumerateArray()
+            .Single(item => item.GetProperty("seriesCode").GetString() == "SOFR_EFFR_MONTHLY_MAX");
+        Assert.Equal(300m, fundingMaximum.GetProperty("value").GetDecimal());
+        Assert.Equal("2025-01-30", fundingMaximum.GetProperty("publicationDate").GetString());
+        var spyDrawdown = firstMacro.RootElement.GetProperty("macroObservations").EnumerateArray()
+            .Single(item => item.GetProperty("seriesCode").GetString() == "SPY_MONTHLY_MAX_DRAWDOWN");
+        Assert.Equal(9.090909m, spyDrawdown.GetProperty("value").GetDecimal());
+        Assert.Equal("Derived:Yahoo Finance", spyDrawdown.GetProperty("source").GetString());
     }
 
     [Fact]

@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 1,
+  "contractId": "e12-recession-hazard-gate-v1",
+  "taskRole": "recession-signal",
+  "registeredModelId": "sahm-yield-hazard-v1",
+  "frozenAt": "2026-07-14",
+  "targetLifecycle": "shadow-candidate",
+  "forbiddenLifecycle": "operational-approved",
+  "scope": "unique nested inner-validation dates; earliest fold wins; outer test rows forbidden",
+  "requirements": {
+    "minimumEligibleFolds": 4,
+    "minimumPositiveMonths": 2,
+    "minimumRecall": 0.5,
+    "minimumF1": 0.15,
+    "maximumBrierScore": 0.15,
+    "minimumAveragePrecision": 0.1,
+    "maximumExpectedCalibrationError": 0.15,
+    "maximumFalsePositiveRunMonths": 6,
+    "maximumDetectionLagMonths": 1,
+    "outerTestRowCountUsed": 0
+  },
+  "technicalRequirements": {
+    "deterministicOutput": true,
+    "causalPrediction": true,
+    "testLabelIndependence": true,
+    "pointInTimeInputs": true,
+    "configurationHashBound": true,
+    "humanReviewRequired": true
+  },
+  "decisionPolicy": "All requirements are conjunctive. Passing yields ELIGIBLE_FOR_SHADOW_REVIEW only; fresh prospective Evidence v2 remains mandatory for operational approval."
+}
