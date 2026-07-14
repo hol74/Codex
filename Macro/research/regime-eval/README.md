@@ -204,3 +204,24 @@ e registra fingerprint deterministici delle sorgenti C# e Python.
 esistente senza riscriverlo; se path, date o hash sono incompatibili, termina
 con errore. `shadow-index` ricostruisce una vista non autorevole dai soli ledger
 `shadow-live` immutabili. Nessuno di questi comandi riceve ground truth.
+
+### Orchestrazione mensile E9.2
+
+Il comando end-to-end determina il mese successivo all'ultimo ledger e non
+consente salti nella serie temporale:
+
+```text
+python -m regime_eval shadow-operations --source-root ../.. --operations-root ../../data/shadow-live-2026 --model-config models/baseline-v1-4-preregistered.json --generated-at-utc 2026-08-01T08:00:00Z --mode prepare-only --result ../../data/shadow-live-2026/operations-audit/shadow-operations-2026-08-01.json
+```
+
+`prepare-only` esegue population, dataset build, evaluation e preflight, ma non
+crea il ledger. `full` aggiunge il freeze del ledger e la ricostruzione
+dell'indice. Gli step C# sono eseguiti senza shell e senza API key negli
+argomenti; FRED continua a leggere la credenziale dall'ambiente o da `.env`.
+
+Ogni ciclo usa `cycles/yyyy-MM/` con sottodirectory `source`, `dataset`,
+`evaluation`, `preflight` e `logs`. `cycle-state.json` e' uno stato operativo
+atomico e non autorevole: registra tentativi, exit code e hash e permette di
+saltare gli step gia' completati e invariati. Ogni invocazione produce invece
+una receipt `ShadowOperationsRun` write-once. Un risultato
+`no-eligible-month` non avvia alcun processo e non crea directory di ciclo.

@@ -365,6 +365,12 @@ Checkpoint in corso: `docs/checkpoints/0034-fase-e-slice6-feature-baseline-redes
   `ShadowIndex` e' una vista deterministica non autorevole. L'audit
   retrospettivo di giugno passa senza modificare o ricollegare il ledger gia'
   congelato. 240 test C# e 22 test Python superati.
+- Fase E9 - Shadow Operations, secondo incremento: `shadow-operations`
+  orchestra population, dataset build, evaluation, preflight e freeze con
+  layout mensile, stato atomico, log/hash per tentativo e recovery degli step
+  completati. Lo smoke reale del 2026-07-14 rileva correttamente che non esiste
+  un nuovo mese eleggibile: zero processi avviati e nessun nuovo ledger. 25 test
+  Python superati; il primo ciclo prospettico resta previsto dopo luglio.
 
 ## Deviazione documentata dal piano originario
 
@@ -403,11 +409,10 @@ Il piano originario prevedeva una prima persistenza anche in chiave EF Core. Dop
 ## Prossimi passi
 
 I prossimi passi sono definiti nel piano operativo consolidato:
-`docs/0001-piano-operativo.md`. Il contratto operativo E9 ora protegge la
-creazione dei ledger; il prossimo incremento deve orchestrare population,
-dataset build ed evaluation C#, prevedere `prepare-only` quando non esiste un
-nuovo mese eleggibile e gestire esplicitamente i fallimenti parziali. La
-baseline v1.4 resta congelata e lo scoring anticipato resta vietato.
+`docs/0001-piano-operativo.md`. E9.2 ha completato l'orchestrazione tecnica; il
+prossimo passo non e' un nuovo tuning ma il primo ciclo prospettico `full` sul
+cutoff 2026-07-31, soltanto dopo la chiusura del mese e la disponibilita' degli
+input. La baseline v1.4 resta congelata e lo scoring anticipato resta vietato.
 
 ## Riorganizzazione documentale (2026-07-09)
 

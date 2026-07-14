@@ -17,6 +17,7 @@ from .shadow import (
     write_shadow_score,
 )
 from .shadow_ops import ensure_shadow_ledger, write_shadow_index, write_shadow_preflight
+from .shadow_orchestrator import run_shadow_operations
 from .stress import write_stress_report
 from .train_gate import write_baseline_train_gate
 from .walk_forward import WalkForwardConfig, build_walk_forward_plan
@@ -116,6 +117,19 @@ def main(argv: list[str] | None = None) -> int:
             output = write_shadow_index(args.ledger_dir, args.output)
             print(output)
             return 0
+        if args.command == "shadow-operations":
+            output = run_shadow_operations(
+                args.source_root,
+                args.operations_root,
+                args.model_config,
+                args.generated_at_utc,
+                args.mode,
+                args.result,
+                args.dotnet,
+            )
+            print(output)
+            result = json.loads(output.read_text(encoding="utf-8"))
+            return 4 if result["status"] == "failed" else 0
         if args.command == "shadow-score":
             output = write_shadow_score(
                 args.ledger,
@@ -269,6 +283,16 @@ def _parser() -> argparse.ArgumentParser:
     )
     shadow_index.add_argument("--ledger-dir", required=True)
     shadow_index.add_argument("--output", required=True)
+    shadow_operations = subparsers.add_parser(
+        "shadow-operations", help="orchestrate the monthly C# preparation and shadow freeze"
+    )
+    shadow_operations.add_argument("--source-root", required=True)
+    shadow_operations.add_argument("--operations-root", required=True)
+    shadow_operations.add_argument("--model-config", required=True)
+    shadow_operations.add_argument("--generated-at-utc", required=True)
+    shadow_operations.add_argument("--mode", choices=("prepare-only", "full"), required=True)
+    shadow_operations.add_argument("--result", required=True)
+    shadow_operations.add_argument("--dotnet", default="dotnet")
     shadow_score = subparsers.add_parser(
         "shadow-score", help="score an immutable prediction ledger against later ground truth"
     )

@@ -347,3 +347,30 @@ versione del protocollo. Il preflight retrospettivo del cutoff 2026-06-30 e'
 quindi evidenza di audit separata e non fa parte della catena del ledger gia'
 congelato. Un retry con hash differenti deve fallire, non produrre una variante
 silenziosa.
+
+### E9.2 - Orchestratore e recovery
+
+`shadow-operations` seleziona sempre il mese successivo all'ultimo ledger. Se
+quel mese non e' ancora chiuso, emette `no-eligible-month` senza avviare processi
+o creare un ciclo; non puo' saltare direttamente a un mese successivo.
+
+La state machine operativa e':
+
+1. `initialized` o `resuming`;
+2. population C#;
+3. dataset build C#;
+4. evaluation v1.4 C#;
+5. preflight Python;
+6. `prepared` in modalita' `prepare-only`;
+7. ledger e indice in modalita' `full`;
+8. `ledger-frozen`.
+
+Un exit code non zero produce `failed`, conserva stdout/stderr separati e i
+relativi SHA-256. Una retry con lo stesso cutoff e model config valida gli hash
+degli artefatti completati e riparte dal primo step incompleto. Un artefatto
+completato ma modificato viene rifiutato. Lo stato del ciclo e' atomico,
+aggiornabile e non autorevole; ledger, preflight e receipt restano write-once.
+
+Population e' l'unico step che puo' attivare la rete e lo fa tramite la CLI C#
+e gli adapter Infrastructure. La chiave FRED non compare mai nel comando o
+nello stato. Ne' orchestratore, stato, preflight o ledger ricevono ground truth.

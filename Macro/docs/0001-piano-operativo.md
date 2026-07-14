@@ -82,8 +82,11 @@ Le regole di dipendenza complete sono in `docs/adr/0002-dipendenze-layer.md`.
 24. Fase E9 - Shadow Operations, primo incremento chiuso il 2026-07-13:
     preflight immutabile, gate su mese chiuso/freshness/assenza label,
     fingerprint C#/Python, retry idempotente e indice derivato dei ledger.
+25. Fase E9 - Shadow Operations, secondo incremento implementato il 2026-07-14:
+    orchestratore mensile, layout standard, `prepare-only/full`, stato
+    recuperabile, log/hash dei processi C# e recovery dai fallimenti parziali.
 
-Il dettaglio per ogni step e' in `docs/checkpoints/` (progressivi 0001-0043).
+Il dettaglio per ogni step e' in `docs/checkpoints/` (progressivi 0001-0044).
 
 ## Piano operativo da seguire
 
@@ -322,12 +325,25 @@ Checkpoint stress non recessivi v1:
    - 22 test Python superati, inclusi mese aperto, staleness, retry identica e
      conflitto con artefatto immutabile.
 
-   Secondo incremento pianificato:
+   Secondo incremento (IMPLEMENTATO, 2026-07-14):
 
-   - orchestrazione dei comandi C# di population, dataset build ed evaluation;
-   - modalita' `prepare-only` quando non esiste ancora un nuovo mese eleggibile;
-   - layout mensile standard e gestione esplicita dei fallimenti parziali;
-   - smoke reale sul primo cutoff successivo disponibile, senza scoring.
+   - comando `shadow-operations` che determina il prossimo cutoff senza saltare
+     mesi e orchestra i processi C# di population, dataset build ed evaluation;
+   - modalita' `prepare-only`, che si ferma al preflight, e `full`, che congela
+     ledger e indice solo dopo tutti i gate;
+   - layout `cycles/yyyy-MM/{source,dataset,evaluation,preflight,logs}` e stato
+     atomico `cycle-state.json`;
+   - comando, exit code, timestamp e SHA-256 di stdout/stderr e artefatti per
+     ogni tentativo, senza API key nella command line;
+   - retry che valida e salta gli step completati, riprendendo dal primo step
+     fallito senza sovrascrivere ledger;
+   - receipt immutabile `ShadowOperationsRun`, sempre senza outcome;
+   - smoke reale al 2026-07-14: `no-eligible-month`, zero comandi eseguiti e
+     nessun secondo ledger di giugno.
+
+   Attivazione prospettica ancora da eseguire: il primo cutoff nuovo possibile
+   e' 2026-07-31, non prima della chiusura del mese e della disponibilita' degli
+   input. E9 resta in corso fino a quel primo ciclo `full` reale senza scoring.
 
    Gate E9: nessuna sovrascrittura dei ledger, nessuna label nel ciclo di
    previsione, indice interamente derivabile, rete confinata in Infrastructure e
@@ -335,6 +351,9 @@ Checkpoint stress non recessivi v1:
 
    Checkpoint primo incremento:
    `docs/checkpoints/0043-fase-e9-shadow-operations-incremento1-done.md`.
+
+   Checkpoint secondo incremento:
+   `docs/checkpoints/0044-fase-e9-shadow-operations-incremento2-done.md`.
 
 
 
