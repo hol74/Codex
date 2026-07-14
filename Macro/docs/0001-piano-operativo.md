@@ -366,6 +366,17 @@ Checkpoint stress non recessivi v1:
    Checkpoint consolidamento:
    `docs/checkpoints/0045-git-hygiene-runtime-artifacts-done.md`.
 
+   Release tecnica E9.2 (COMPLETATA, 2026-07-14):
+
+   - CI GitHub per build/test .NET e laboratorio Python;
+   - release notes versionate;
+   - integrazione fast-forward in `main` e tag annotato
+     `macro-regime-e9.2`;
+   - nessuna modifica alla baseline o apertura anticipata del cutoff luglio.
+
+   Checkpoint release:
+   `docs/checkpoints/0046-release-e9-2-ci-done.md`.
+
 
 
 ### Fase F - Ottimizzazione vincolata e stress test

@@ -1,0 +1,50 @@
+name: Macro-Regime CI
+
+on:
+  push:
+    paths:
+      - "Macro/**"
+      - ".github/workflows/macro-regime-ci.yml"
+  pull_request:
+    paths:
+      - "Macro/**"
+      - ".github/workflows/macro-regime-ci.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET 10
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "10.0.x"
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Restore .NET
+        run: dotnet restore Macro/MacroRegime.slnx
+
+      - name: Build .NET
+        run: dotnet build Macro/MacroRegime.slnx --configuration Release --no-restore
+
+      - name: Test .NET
+        run: dotnet test Macro/MacroRegime.slnx --configuration Release --no-build
+
+      - name: Compile Python
+        working-directory: Macro/research/regime-eval
+        run: python -m compileall -q regime_eval tests
+
+      - name: Test Python
+        working-directory: Macro/research/regime-eval
+        run: python -m unittest discover -s tests -v
