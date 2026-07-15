@@ -758,3 +758,37 @@ alternativo, perche' contiene un solo episodio funding positivo. Lo stato
 `FOUR_DETECTOR_READINESS_V2_PASSED_PROTOCOL_V2_DESIGN_AUTHORIZED_FITTING_CLOSED`
 autorizza solo la progettazione del protocollo v2; manifest generation,
 fitting, evaluation, ranking, outer OOS e promozione restano chiusi.
+
+E14.6d congela il protocollo v2 consumando il roster senza ricalcolare gli ID:
+
+```text
+python -m regime_eval e14-freeze-candidate-protocol-v2 --contract models/e14-four-detector-protocol-readiness-contract-v2.json --taxonomy ground-truth/us-financial-stress-v5.json --foundation ../../data/historical-real-v12-2008-2025/e14-feature-foundation-v2/e14-mechanism-feature-foundation-v2.json --foundation-lock models/e14-mechanism-feature-foundation-lock-v2.json --foundation-audit ../../data/historical-real-v12-2008-2025/challengers/e14-mechanism-feature-foundation-audit-v2.json --readiness-roster models/e14-four-detector-readiness-roster-v2.json --readiness-audit ../../data/historical-real-v12-2008-2025/challengers/e14-four-detector-readiness-audit-v2.json --readiness-policy models/e14-four-detector-readiness-policy-v2.json --protocol-plan models/e14-four-detector-candidate-protocol-plan-v2.json --protocol-schema models/e14-four-detector-candidate-protocol-schema-v2.json --protocol-output models/e14-four-detector-candidate-generation-protocol-v2.json --output ../../data/historical-real-v12-2008-2025/challengers/e14-four-detector-protocol-readiness-audit-v2.json
+```
+
+Il protocollo contiene esattamente i 28 ID del roster nello stesso ordine, 7
+profili e quattro combinazioni entry/recovery per profilo. I 16 ID broad sono
+preservati, i 12 ID v2 non sono ricalcolati e i 24 ID ritirati restano vietati.
+Feature binding, eligibility e profili devono essere copiati verbatim nel
+futuro manifest. Sono congelati anche as-of semantics, lag `availableOn`,
+missingness, sensitivity funding 2019 e rischio revisioni current-history.
+
+Lo stato
+`RESEARCH_CANDIDATE_PROTOCOL_V2_READY_MANIFEST_GENERATION_AUTHORIZED_FITTING_CLOSED`
+autorizza soltanto E14.6e, cioe' la materializzazione write-once del manifest
+v2. Trasformazione delle feature, fitting, evaluation, ranking, composizione,
+outer OOS e promozione restano chiusi.
+
+E14.6e materializza il manifest v2 senza generare nuove configurazioni:
+
+```text
+python -m regime_eval e14-materialize-candidate-manifest-v2 --contract models/e14-four-detector-candidate-manifest-contract-v2.json --taxonomy ground-truth/us-financial-stress-v5.json --foundation ../../data/historical-real-v12-2008-2025/e14-feature-foundation-v2/e14-mechanism-feature-foundation-v2.json --foundation-lock models/e14-mechanism-feature-foundation-lock-v2.json --readiness-roster models/e14-four-detector-readiness-roster-v2.json --readiness-audit ../../data/historical-real-v12-2008-2025/challengers/e14-four-detector-readiness-audit-v2.json --candidate-protocol models/e14-four-detector-candidate-generation-protocol-v2.json --protocol-audit ../../data/historical-real-v12-2008-2025/challengers/e14-four-detector-protocol-readiness-audit-v2.json --manifest-schema models/e14-four-detector-candidate-manifest-schema-v2.json --manifest-output models/e14-generated-four-detector-candidates-v2.json --output ../../data/historical-real-v12-2008-2025/challengers/e14-four-detector-candidate-manifest-audit-v2.json
+```
+
+Il comando copia i 28 ingressi nello stesso ordine, conserva ID, profili,
+feature binding, persistenza, eligibility e identity policy e cambia soltanto
+il lifecycle in `research-generated-not-fit`. Il manifest ha generation ID
+`1c9829675e0fba3101029b5c` e stato
+`GENERATED_V2_NOT_TRANSFORMED_NOT_FIT_NOT_EVALUATED_OUTER_OOS_CLOSED`.
+L'audit conferma zero trasformazioni e zero righe outer. Il prossimo passo
+E14.6f deve preregistrare fitting inner-only e LOEO v2 prima di calcolare
+qualsiasi feature o soglia.

@@ -33,6 +33,8 @@ from .e14_candidate_readiness import write_e14_candidate_readiness_gate
 from .e14_feature_foundation import write_e14_feature_foundation
 from .e14_feature_foundation_v2 import write_e14_feature_foundation_v2
 from .e14_readiness_v2 import write_e14_readiness_v2
+from .e14_candidate_protocol_v2 import write_e14_candidate_protocol_v2
+from .e14_candidate_manifest_v2 import write_e14_candidate_manifest_v2
 from .e14_candidate_protocol import write_e14_candidate_protocol_readiness
 from .e14_candidate_generator import write_e14_candidate_manifest
 from .e14_loeo_preregistration import write_e14_loeo_preregistration_audit
@@ -76,6 +78,30 @@ def main(argv: list[str] | None = None) -> int:
     parser = _parser()
     args = parser.parse_args(argv)
     try:
+        if args.command == "e14-materialize-candidate-manifest-v2":
+            manifest, output = write_e14_candidate_manifest_v2(
+                args.contract, args.taxonomy, args.foundation,
+                args.foundation_lock, args.readiness_roster,
+                args.readiness_audit, args.candidate_protocol,
+                args.protocol_audit, args.manifest_schema,
+                args.manifest_output, args.output,
+            )
+            print(manifest)
+            print(output)
+            report = json.loads(output.read_text(encoding="utf-8"))
+            return 0 if report["decision"]["candidateManifestV2Materialized"] else 3
+        if args.command == "e14-freeze-candidate-protocol-v2":
+            protocol, output = write_e14_candidate_protocol_v2(
+                args.contract, args.taxonomy, args.foundation,
+                args.foundation_lock, args.foundation_audit,
+                args.readiness_roster, args.readiness_audit,
+                args.readiness_policy, args.protocol_plan,
+                args.protocol_schema, args.protocol_output, args.output,
+            )
+            print(protocol)
+            print(output)
+            report = json.loads(output.read_text(encoding="utf-8"))
+            return 0 if report["decision"]["candidateProtocolV2Ready"] else 3
         if args.command == "e14-readiness-gate-v2":
             roster, output = write_e14_readiness_v2(
                 args.contract, args.taxonomy, args.foundation,
@@ -906,6 +932,37 @@ def _parser() -> argparse.ArgumentParser:
     e14_readiness_v2.add_argument("--roster-schema", required=True)
     e14_readiness_v2.add_argument("--roster-output", required=True)
     e14_readiness_v2.add_argument("--output", required=True)
+    e14_protocol_v2 = subparsers.add_parser(
+        "e14-freeze-candidate-protocol-v2",
+        help="freeze the E14.6d 28-ID protocol without materializing or fitting candidates",
+    )
+    e14_protocol_v2.add_argument("--contract", required=True)
+    e14_protocol_v2.add_argument("--taxonomy", required=True)
+    e14_protocol_v2.add_argument("--foundation", required=True)
+    e14_protocol_v2.add_argument("--foundation-lock", required=True)
+    e14_protocol_v2.add_argument("--foundation-audit", required=True)
+    e14_protocol_v2.add_argument("--readiness-roster", required=True)
+    e14_protocol_v2.add_argument("--readiness-audit", required=True)
+    e14_protocol_v2.add_argument("--readiness-policy", required=True)
+    e14_protocol_v2.add_argument("--protocol-plan", required=True)
+    e14_protocol_v2.add_argument("--protocol-schema", required=True)
+    e14_protocol_v2.add_argument("--protocol-output", required=True)
+    e14_protocol_v2.add_argument("--output", required=True)
+    e14_manifest_v2 = subparsers.add_parser(
+        "e14-materialize-candidate-manifest-v2",
+        help="materialize the immutable E14.6e 28-candidate manifest without transforming or fitting",
+    )
+    e14_manifest_v2.add_argument("--contract", required=True)
+    e14_manifest_v2.add_argument("--taxonomy", required=True)
+    e14_manifest_v2.add_argument("--foundation", required=True)
+    e14_manifest_v2.add_argument("--foundation-lock", required=True)
+    e14_manifest_v2.add_argument("--readiness-roster", required=True)
+    e14_manifest_v2.add_argument("--readiness-audit", required=True)
+    e14_manifest_v2.add_argument("--candidate-protocol", required=True)
+    e14_manifest_v2.add_argument("--protocol-audit", required=True)
+    e14_manifest_v2.add_argument("--manifest-schema", required=True)
+    e14_manifest_v2.add_argument("--manifest-output", required=True)
+    e14_manifest_v2.add_argument("--output", required=True)
     e14_taxonomy_v4 = subparsers.add_parser(
         "e14-materialize-taxonomy-v4",
         help="version the accepted E14 foundation proposal into an immutable mechanism-aware taxonomy v4",

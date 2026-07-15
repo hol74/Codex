@@ -1,0 +1,1468 @@
+{
+  "artifactType": "E14FourDetectorGeneratedCandidateManifest",
+  "authorizations": {
+    "candidateEvaluationAuthorized": false,
+    "candidateFittingAuthorized": false,
+    "candidateManifestMaterializationAuthorized": true,
+    "candidateRankingAuthorized": false,
+    "crossMechanismCompositionAuthorized": false,
+    "featureTransformationAuthorized": false,
+    "outerOosAuthorized": false,
+    "promotionAuthorized": false
+  },
+  "candidateCount": 28,
+  "candidateCountByMechanism": {
+    "banking-credit": 4,
+    "broad-market-repricing": 16,
+    "cross-border-growth": 4,
+    "funding-liquidity": 4
+  },
+  "candidateIds": [
+    "e14-broad-40812f9e8d61",
+    "e14-broad-d914f56e649b",
+    "e14-broad-182327efc1c2",
+    "e14-broad-aebcbf4855ea",
+    "e14-broad-bb98047423d4",
+    "e14-broad-1d3f9292459f",
+    "e14-broad-61de85156660",
+    "e14-broad-c4df5bb5e6de",
+    "e14-broad-363f5cbd811e",
+    "e14-broad-67724d37ba54",
+    "e14-broad-7bcb8dbe826e",
+    "e14-broad-b83cb89abefe",
+    "e14-broad-61cde4fecf5c",
+    "e14-broad-2070c166a646",
+    "e14-broad-d7b2965a1fa7",
+    "e14-broad-1a3f2a978c6b",
+    "e14-banking-v2-747c479c4341",
+    "e14-banking-v2-fafdbc5dab63",
+    "e14-banking-v2-1eed8d4b188c",
+    "e14-banking-v2-d7492ff66379",
+    "e14-cross-border-v2-6b34d73b50ff",
+    "e14-cross-border-v2-4c42c1cfbe69",
+    "e14-cross-border-v2-1f3878befaac",
+    "e14-cross-border-v2-877a406c802c",
+    "e14-funding-v2-784c284a69d4",
+    "e14-funding-v2-429e2f943f7f",
+    "e14-funding-v2-b06890d7383a",
+    "e14-funding-v2-1813610b438b"
+  ],
+  "candidates": [
+    {
+      "candidateId": "e14-broad-40812f9e8d61",
+      "detectorId": "e14-broad-market-repricing-detector",
+      "eligibility": {
+        "matureScoringMonth": "1990-12-01",
+        "observableHardNegativeEpisodeCount": 2,
+        "observableHardNegativeEpisodeIds": [
+          "brexit-contained-transmission-2016",
+          "regional-bank-stress-2023"
+        ],
+        "observablePositiveEpisodeCount": 6,
+        "observablePositiveEpisodeIds": [
+          "china-eme-stress-2015-2016",
+          "euro-sovereign-stress-2011",
+          "mexico-bond-turbulence-1994",
+          "risk-repricing-2018q4",
+          "russia-ltcm-1998",
+          "taper-tantrum-2013"
+        ],
+        "plannedLeaveOneOutFoldCount": 6,
+        "structurallyEligible": true
+      },
+      "featureBindings": [
+        {
+          "fitScope": "inner-only",
+          "seriesId": "e14-baa10y-monthly-maximum",
+          "sourceId": "fred-baa10y",
+          "transform": "causal-rolling-percentile"
+        }
+      ],
+      "identityPolicy": "preserved-exactly-from-candidate-manifest-v1",
+      "lifecycleStatus": "research-generated-not-fit",
+      "mechanism": "broad-market-repricing",
+      "persistence": {
+        "entryPersistenceMonths": 1,
+        "hysteresisRequired": true,
+        "recoveryPersistenceMonths": 1
+      },
+      "profile": {
+        "aggregator": "identity",
+        "profileId": "baa10y-only",
+        "seriesIds": [
+          "e14-baa10y-monthly-maximum"
+        ]
+      }
+    },
+    {
+      "candidateId": "e14-broad-d914f56e649b",
+      "detectorId": "e14-broad-market-repricing-detector",
+      "eligibility": {
+        "matureScoringMonth": "1990-12-01",
+        "observableHardNegativeEpisodeCount": 2,
+        "observableHardNegativeEpisodeIds": [
+          "brexit-contained-transmission-2016",
+          "regional-bank-stress-2023"
+        ],
+        "observablePositiveEpisodeCount": 6,
+        "observablePositiveEpisodeIds": [
+          "china-eme-stress-2015-2016",
+          "euro-sovereign-stress-2011",
+          "mexico-bond-turbulence-1994",
+          "risk-repricing-2018q4",
+          "russia-ltcm-1998",
+          "taper-tantrum-2013"
+        ],
+        "plannedLeaveOneOutFoldCount": 6,
+        "structurallyEligible": true
+      },
+      "featureBindings": [
+        {
+          "fitScope": "inner-only",
+          "seriesId": "e14-baa10y-monthly-maximum",
+          "sourceId": "fred-baa10y",
+          "transform": "causal-rolling-percentile"
+        }
+      ],
+      "identityPolicy": "preserved-exactly-from-candidate-manifest-v1",
+      "lifecycleStatus": "research-generated-not-fit",
+      "mechanism": "broad-market-repricing",
+      "persistence": {
+        "entryPersistenceMonths": 1,
+        "hysteresisRequired": true,
+        "recoveryPersistenceMonths": 2
+      },
+      "profile": {
+        "aggregator": "identity",
+        "profileId": "baa10y-only",
+        "seriesIds": [
+          "e14-baa10y-monthly-maximum"
+        ]
+      }
+    },
+    {
+      "candidateId": "e14-broad-182327efc1c2",
+      "detectorId": "e14-broad-market-repricing-detector",
+      "eligibility": {
+        "matureScoringMonth": "1990-12-01",
+        "observableHardNegativeEpisodeCount": 2,
+        "observableHardNegativeEpisodeIds": [
+          "brexit-contained-transmission-2016",
+          "regional-bank-stress-2023"
+        ],
+        "observablePositiveEpisodeCount": 6,
+        "observablePositiveEpisodeIds": [
+          "china-eme-stress-2015-2016",
+          "euro-sovereign-stress-2011",
+          "mexico-bond-turbulence-1994",
+          "risk-repricing-2018q4",
+          "russia-ltcm-1998",
+          "taper-tantrum-2013"
+        ],
+        "plannedLeaveOneOutFoldCount": 6,
+        "structurallyEligible": true
+      },
+      "featureBindings": [
+        {
+          "fitScope": "inner-only",
+          "seriesId": "e14-baa10y-monthly-maximum",
+          "sourceId": "fred-baa10y",
+          "transform": "causal-rolling-percentile"
+        }
+      ],
+      "identityPolicy": "preserved-exactly-from-candidate-manifest-v1",
+      "lifecycleStatus": "research-generated-not-fit",
+      "mechanism": "broad-market-repricing",
+      "persistence": {
+        "entryPersistenceMonths": 2,
+        "hysteresisRequired": true,
+        "recoveryPersistenceMonths": 1
+      },
+      "profile": {
+        "aggregator": "identity",
+        "profileId": "baa10y-only",
+        "seriesIds": [
+          "e14-baa10y-monthly-maximum"
+        ]
+      }
+    },
+    {
+      "candidateId": "e14-broad-aebcbf4855ea",
+      "detectorId": "e14-broad-market-repricing-detector",
+      "eligibility": {
+        "matureScoringMonth": "1990-12-01",
+        "observableHardNegativeEpisodeCount": 2,
+        "observableHardNegativeEpisodeIds": [
+          "brexit-contained-transmission-2016",
+          "regional-bank-stress-2023"
+        ],
+        "observablePositiveEpisodeCount": 6,
+        "observablePositiveEpisodeIds": [
+          "china-eme-stress-2015-2016",
+          "euro-sovereign-stress-2011",
+          "mexico-bond-turbulence-1994",
+          "risk-repricing-2018q4",
+          "russia-ltcm-1998",
+          "taper-tantrum-2013"
+        ],
+        "plannedLeaveOneOutFoldCount": 6,
+        "structurallyEligible": true
+      },
+      "featureBindings": [
+        {
+          "fitScope": "inner-only",
+          "seriesId": "e14-baa10y-monthly-maximum",
+          "sourceId": "fred-baa10y",
+          "transform": "causal-rolling-percentile"
+        }
+      ],
+      "identityPolicy": "preserved-exactly-from-candidate-manifest-v1",
+      "lifecycleStatus": "research-generated-not-fit",
+      "mechanism": "broad-market-repricing",
+      "persistence": {
+        "entryPersistenceMonths": 2,
+        "hysteresisRequired": true,
+        "recoveryPersistenceMonths": 2
+      },
+      "profile": {
+        "aggregator": "identity",
+        "profileId": "baa10y-only",
+        "seriesIds": [
+          "e14-baa10y-monthly-maximum"
+        ]
+      }
+    },
+    {
+      "candidateId": "e14-broad-bb98047423d4",
+      "detectorId": "e14-broad-market-repricing-detector",
+      "eligibility": {
+        "matureScoringMonth": "1994-12-01",
+        "observableHardNegativeEpisodeCount": 2,
+        "observableHardNegativeEpisodeIds": [
+          "brexit-contained-transmission-2016",
+          "regional-bank-stress-2023"
+        ],
+        "observablePositiveEpisodeCount": 6,
+        "observablePositiveEpisodeIds": [
+          "china-eme-stress-2015-2016",
+          "euro-sovereign-stress-2011",
+          "mexico-bond-turbulence-1994",
+          "risk-repricing-2018q4",
+          "russia-ltcm-1998",
+          "taper-tantrum-2013"
+        ],
+        "plannedLeaveOneOutFoldCount": 6,
+        "structurallyEligible": true
+      },
+      "featureBindings": [
+        {
+          "fitScope": "inner-only",
+          "seriesId": "e14-vix-monthly-maximum",
+          "sourceId": "cboe-vix-history",
+          "transform": "causal-rolling-percentile"
+        },
+        {
+          "fitScope": "inner-only",
+          "seriesId": "e14-baa10y-monthly-maximum",
+          "sourceId": "fred-baa10y",
+          "transform": "causal-rolling-percentile"
+        }
+      ],
+      "identityPolicy": "preserved-exactly-from-candidate-manifest-v1",
+      "lifecycleStatus": "research-generated-not-fit",
+      "mechanism": "broad-market-repricing",
+      "persistence": {
+        "entryPersistenceMonths": 1,
+        "hysteresisRequired": true,
+        "recoveryPersistenceMonths": 1
+      },
+      "profile": {
+        "aggregator": "maximum",
+        "profileId": "joint-maximum",
+        "seriesIds": [
+          "e14-vix-monthly-maximum",
+          "e14-baa10y-monthly-maximum"
+        ]
+      }
+    },
+    {
+      "candidateId": "e14-broad-1d3f9292459f",
+      "detectorId": "e14-broad-market-repricing-detector",
+      "eligibility": {
+        "matureScoringMonth": "1994-12-01",
+        "observableHardNegativeEpisodeCount": 2,
+        "observableHardNegativeEpisodeIds": [
+          "brexit-contained-transmission-2016",
+          "regional-bank-stress-2023"
+        ],
+        "observablePositiveEpisodeCount": 6,
+        "observablePositiveEpisodeIds": [
+          "china-eme-stress-2015-2016",
+          "euro-sovereign-stress-2011",
+          "mexico-bond-turbulence-1994",
+          "risk-repricing-2018q4",
+          "russia-ltcm-1998",
+          "taper-tantrum-2013"
+        ],
+        "plannedLeaveOneOutFoldCount": 6,
+        "structurallyEligible": true
+      },
+      "featureBindings": [
+        {
+          "fitScope": "inner-only",
+          "seriesId": "e14-vix-monthly-maximum",
+          "sourceId": "cboe-vix-history",
+          "transform": "causal-rolling-percentile"
+        },
+        {
+          "fitScope": "inner-only",
+          "seriesId": "e14-baa10y-monthly-maximum",
+          "sourceId": "fred-baa10y",
+          "transform": "causal-rolling-percentile"
+        }
+      ],
+      "identityPolicy": "preserved-exactly-from-candidate-manifest-v1",
+      "lifecycleStatus": "research-generated-not-fit",
+      "mechanism": "broad-market-repricing",
+      "persistence": {
+        "entryPersistenceMonths": 1,
+        "hysteresisRequired": true,
+        "recoveryPersistenceMonths": 2
+      },
+      "profile": {
+        "aggregator": "maximum",
+        "profileId": "joint-maximum",
+        "seriesIds": [
+          "e14-vix-monthly-maximum",
+          "e14-baa10y-monthly-maximum"
+        ]
+      }
+    },
+    {
+      "candidateId": "e14-broad-61de85156660",
+      "detectorId": "e14-broad-market-repricing-detector",
+      "eligibility": {
+        "matureScoringMonth": "1994-12-01",
+        "observableHardNegativeEpisodeCount": 2,
+        "observableHardNegativeEpisodeIds": [
+          "brexit-contained-transmission-2016",
+          "regional-bank-stress-2023"
+        ],
+        "observablePositiveEpisodeCount": 6,
+        "observablePositiveEpisodeIds": [
+          "china-eme-stress-2015-2016",
+          "euro-sovereign-stress-2011",
+          "mexico-bond-turbulence-1994",
+          "risk-repricing-2018q4",
+          "russia-ltcm-1998",
+          "taper-tantrum-2013"
+        ],
+        "plannedLeaveOneOutFoldCount": 6,
+        "structurallyEligible": true
+      },
+      "featureBindings": [
+        {
+          "fitScope": "inner-only",
+          "seriesId": "e14-vix-monthly-maximum",
+          "sourceId": "cboe-vix-history",
+          "transform": "causal-rolling-percentile"
+        },
+        {
+          "fitScope": "inner-only",
+          "seriesId": "e14-baa10y-monthly-maximum",
+          "sourceId": "fred-baa10y",
+          "transform": "causal-rolling-percentile"
+        }
+      ],
+      "identityPolicy": "preserved-exactly-from-candidate-manifest-v1",
+      "lifecycleStatus": "research-generated-not-fit",
+      "mechanism": "broad-market-repricing",
+      "persistence": {
+        "entryPersistenceMonths": 2,
+        "hysteresisRequired": true,
+        "recoveryPersistenceMonths": 1
+      },
+      "profile": {
+        "aggregator": "maximum",
+        "profileId": "joint-maximum",
+        "seriesIds": [
+          "e14-vix-monthly-maximum",
+          "e14-baa10y-monthly-maximum"
+        ]
+      }
+    },
+    {
+      "candidateId": "e14-broad-c4df5bb5e6de",
+      "detectorId": "e14-broad-market-repricing-detector",
+      "eligibility": {
+        "matureScoringMonth": "1994-12-01",
+        "observableHardNegativeEpisodeCount": 2,
+        "observableHardNegativeEpisodeIds": [
+          "brexit-contained-transmission-2016",
+          "regional-bank-stress-2023"
+        ],
+        "observablePositiveEpisodeCount": 6,
+        "observablePositiveEpisodeIds": [
+          "china-eme-stress-2015-2016",
+          "euro-sovereign-stress-2011",
+          "mexico-bond-turbulence-1994",
+          "risk-repricing-2018q4",
+          "russia-ltcm-1998",
+          "taper-tantrum-2013"
+        ],
+        "plannedLeaveOneOutFoldCount": 6,
+        "structurallyEligible": true
+      },
+      "featureBindings": [
+        {
+          "fitScope": "inner-only",
+          "seriesId": "e14-vix-monthly-maximum",
+          "sourceId": "cboe-vix-history",
+          "transform": "causal-rolling-percentile"
+        },
+        {
+          "fitScope": "inner-only",
+          "seriesId": "e14-baa10y-monthly-maximum",
+          "sourceId": "fred-baa10y",
+          "transform": "causal-rolling-percentile"
+        }
+      ],
+      "identityPolicy": "preserved-exactly-from-candidate-manifest-v1",
+      "lifecycleStatus": "research-generated-not-fit",
+      "mechanism": "broad-market-repricing",
+      "persistence": {
+        "entryPersistenceMonths": 2,
+        "hysteresisRequired": true,
+        "recoveryPersistenceMonths": 2
+      },
+      "profile": {
+        "aggregator": "maximum",
+        "profileId": "joint-maximum",
+        "seriesIds": [
+          "e14-vix-monthly-maximum",
+          "e14-baa10y-monthly-maximum"
+        ]
+      }
+    },
+    {
+      "candidateId": "e14-broad-363f5cbd811e",
+      "detectorId": "e14-broad-market-repricing-detector",
+      "eligibility": {
+        "matureScoringMonth": "1994-12-01",
+        "observableHardNegativeEpisodeCount": 2,
+        "observableHardNegativeEpisodeIds": [
+          "brexit-contained-transmission-2016",
+          "regional-bank-stress-2023"
+        ],
+        "observablePositiveEpisodeCount": 6,
+        "observablePositiveEpisodeIds": [
+          "china-eme-stress-2015-2016",
+          "euro-sovereign-stress-2011",
+          "mexico-bond-turbulence-1994",
+          "risk-repricing-2018q4",
+          "russia-ltcm-1998",
+          "taper-tantrum-2013"
+        ],
+        "plannedLeaveOneOutFoldCount": 6,
+        "structurallyEligible": true
+      },
+      "featureBindings": [
+        {
+          "fitScope": "inner-only",
+          "seriesId": "e14-vix-monthly-maximum",
+          "sourceId": "cboe-vix-history",
+          "transform": "causal-rolling-percentile"
+        },
+        {
+          "fitScope": "inner-only",
+          "seriesId": "e14-baa10y-monthly-maximum",
+          "sourceId": "fred-baa10y",
+          "transform": "causal-rolling-percentile"
+        }
+      ],
+      "identityPolicy": "preserved-exactly-from-candidate-manifest-v1",
+      "lifecycleStatus": "research-generated-not-fit",
+      "mechanism": "broad-market-repricing",
+      "persistence": {
+        "entryPersistenceMonths": 1,
+        "hysteresisRequired": true,
+        "recoveryPersistenceMonths": 1
+      },
+      "profile": {
+        "aggregator": "mean",
+        "profileId": "joint-mean",
+        "seriesIds": [
+          "e14-vix-monthly-maximum",
+          "e14-baa10y-monthly-maximum"
+        ]
+      }
+    },
+    {
+      "candidateId": "e14-broad-67724d37ba54",
+      "detectorId": "e14-broad-market-repricing-detector",
+      "eligibility": {
+        "matureScoringMonth": "1994-12-01",
+        "observableHardNegativeEpisodeCount": 2,
+        "observableHardNegativeEpisodeIds": [
+          "brexit-contained-transmission-2016",
+          "regional-bank-stress-2023"
+        ],
+        "observablePositiveEpisodeCount": 6,
+        "observablePositiveEpisodeIds": [
+          "china-eme-stress-2015-2016",
+          "euro-sovereign-stress-2011",
+          "mexico-bond-turbulence-1994",
+          "risk-repricing-2018q4",
+          "russia-ltcm-1998",
+          "taper-tantrum-2013"
+        ],
+        "plannedLeaveOneOutFoldCount": 6,
+        "structurallyEligible": true
+      },
+      "featureBindings": [
+        {
+          "fitScope": "inner-only",
+          "seriesId": "e14-vix-monthly-maximum",
+          "sourceId": "cboe-vix-history",
+          "transform": "causal-rolling-percentile"
+        },
+        {
+          "fitScope": "inner-only",
+          "seriesId": "e14-baa10y-monthly-maximum",
+          "sourceId": "fred-baa10y",
+          "transform": "causal-rolling-percentile"
+        }
+      ],
+      "identityPolicy": "preserved-exactly-from-candidate-manifest-v1",
+      "lifecycleStatus": "research-generated-not-fit",
+      "mechanism": "broad-market-repricing",
+      "persistence": {
+        "entryPersistenceMonths": 1,
+        "hysteresisRequired": true,
+        "recoveryPersistenceMonths": 2
+      },
+      "profile": {
+        "aggregator": "mean",
+        "profileId": "joint-mean",
+        "seriesIds": [
+          "e14-vix-monthly-maximum",
+          "e14-baa10y-monthly-maximum"
+        ]
+      }
+    },
+    {
+      "candidateId": "e14-broad-7bcb8dbe826e",
+      "detectorId": "e14-broad-market-repricing-detector",
+      "eligibility": {
+        "matureScoringMonth": "1994-12-01",
+        "observableHardNegativeEpisodeCount": 2,
+        "observableHardNegativeEpisodeIds": [
+          "brexit-contained-transmission-2016",
+          "regional-bank-stress-2023"
+        ],
+        "observablePositiveEpisodeCount": 6,
+        "observablePositiveEpisodeIds": [
+          "china-eme-stress-2015-2016",
+          "euro-sovereign-stress-2011",
+          "mexico-bond-turbulence-1994",
+          "risk-repricing-2018q4",
+          "russia-ltcm-1998",
+          "taper-tantrum-2013"
+        ],
+        "plannedLeaveOneOutFoldCount": 6,
+        "structurallyEligible": true
+      },
+      "featureBindings": [
+        {
+          "fitScope": "inner-only",
+          "seriesId": "e14-vix-monthly-maximum",
+          "sourceId": "cboe-vix-history",
+          "transform": "causal-rolling-percentile"
+        },
+        {
+          "fitScope": "inner-only",
+          "seriesId": "e14-baa10y-monthly-maximum",
+          "sourceId": "fred-baa10y",
+          "transform": "causal-rolling-percentile"
+        }
+      ],
+      "identityPolicy": "preserved-exactly-from-candidate-manifest-v1",
+      "lifecycleStatus": "research-generated-not-fit",
+      "mechanism": "broad-market-repricing",
+      "persistence": {
+        "entryPersistenceMonths": 2,
+        "hysteresisRequired": true,
+        "recoveryPersistenceMonths": 1
+      },
+      "profile": {
+        "aggregator": "mean",
+        "profileId": "joint-mean",
+        "seriesIds": [
+          "e14-vix-monthly-maximum",
+          "e14-baa10y-monthly-maximum"
+        ]
+      }
+    },
+    {
+      "candidateId": "e14-broad-b83cb89abefe",
+      "detectorId": "e14-broad-market-repricing-detector",
+      "eligibility": {
+        "matureScoringMonth": "1994-12-01",
+        "observableHardNegativeEpisodeCount": 2,
+        "observableHardNegativeEpisodeIds": [
+          "brexit-contained-transmission-2016",
+          "regional-bank-stress-2023"
+        ],
+        "observablePositiveEpisodeCount": 6,
+        "observablePositiveEpisodeIds": [
+          "china-eme-stress-2015-2016",
+          "euro-sovereign-stress-2011",
+          "mexico-bond-turbulence-1994",
+          "risk-repricing-2018q4",
+          "russia-ltcm-1998",
+          "taper-tantrum-2013"
+        ],
+        "plannedLeaveOneOutFoldCount": 6,
+        "structurallyEligible": true
+      },
+      "featureBindings": [
+        {
+          "fitScope": "inner-only",
+          "seriesId": "e14-vix-monthly-maximum",
+          "sourceId": "cboe-vix-history",
+          "transform": "causal-rolling-percentile"
+        },
+        {
+          "fitScope": "inner-only",
+          "seriesId": "e14-baa10y-monthly-maximum",
+          "sourceId": "fred-baa10y",
+          "transform": "causal-rolling-percentile"
+        }
+      ],
+      "identityPolicy": "preserved-exactly-from-candidate-manifest-v1",
+      "lifecycleStatus": "research-generated-not-fit",
+      "mechanism": "broad-market-repricing",
+      "persistence": {
+        "entryPersistenceMonths": 2,
+        "hysteresisRequired": true,
+        "recoveryPersistenceMonths": 2
+      },
+      "profile": {
+        "aggregator": "mean",
+        "profileId": "joint-mean",
+        "seriesIds": [
+          "e14-vix-monthly-maximum",
+          "e14-baa10y-monthly-maximum"
+        ]
+      }
+    },
+    {
+      "candidateId": "e14-broad-61cde4fecf5c",
+      "detectorId": "e14-broad-market-repricing-detector",
+      "eligibility": {
+        "matureScoringMonth": "1994-12-01",
+        "observableHardNegativeEpisodeCount": 2,
+        "observableHardNegativeEpisodeIds": [
+          "brexit-contained-transmission-2016",
+          "regional-bank-stress-2023"
+        ],
+        "observablePositiveEpisodeCount": 6,
+        "observablePositiveEpisodeIds": [
+          "china-eme-stress-2015-2016",
+          "euro-sovereign-stress-2011",
+          "mexico-bond-turbulence-1994",
+          "risk-repricing-2018q4",
+          "russia-ltcm-1998",
+          "taper-tantrum-2013"
+        ],
+        "plannedLeaveOneOutFoldCount": 6,
+        "structurallyEligible": true
+      },
+      "featureBindings": [
+        {
+          "fitScope": "inner-only",
+          "seriesId": "e14-vix-monthly-maximum",
+          "sourceId": "cboe-vix-history",
+          "transform": "causal-rolling-percentile"
+        }
+      ],
+      "identityPolicy": "preserved-exactly-from-candidate-manifest-v1",
+      "lifecycleStatus": "research-generated-not-fit",
+      "mechanism": "broad-market-repricing",
+      "persistence": {
+        "entryPersistenceMonths": 1,
+        "hysteresisRequired": true,
+        "recoveryPersistenceMonths": 1
+      },
+      "profile": {
+        "aggregator": "identity",
+        "profileId": "vix-only",
+        "seriesIds": [
+          "e14-vix-monthly-maximum"
+        ]
+      }
+    },
+    {
+      "candidateId": "e14-broad-2070c166a646",
+      "detectorId": "e14-broad-market-repricing-detector",
+      "eligibility": {
+        "matureScoringMonth": "1994-12-01",
+        "observableHardNegativeEpisodeCount": 2,
+        "observableHardNegativeEpisodeIds": [
+          "brexit-contained-transmission-2016",
+          "regional-bank-stress-2023"
+        ],
+        "observablePositiveEpisodeCount": 6,
+        "observablePositiveEpisodeIds": [
+          "china-eme-stress-2015-2016",
+          "euro-sovereign-stress-2011",
+          "mexico-bond-turbulence-1994",
+          "risk-repricing-2018q4",
+          "russia-ltcm-1998",
+          "taper-tantrum-2013"
+        ],
+        "plannedLeaveOneOutFoldCount": 6,
+        "structurallyEligible": true
+      },
+      "featureBindings": [
+        {
+          "fitScope": "inner-only",
+          "seriesId": "e14-vix-monthly-maximum",
+          "sourceId": "cboe-vix-history",
+          "transform": "causal-rolling-percentile"
+        }
+      ],
+      "identityPolicy": "preserved-exactly-from-candidate-manifest-v1",
+      "lifecycleStatus": "research-generated-not-fit",
+      "mechanism": "broad-market-repricing",
+      "persistence": {
+        "entryPersistenceMonths": 1,
+        "hysteresisRequired": true,
+        "recoveryPersistenceMonths": 2
+      },
+      "profile": {
+        "aggregator": "identity",
+        "profileId": "vix-only",
+        "seriesIds": [
+          "e14-vix-monthly-maximum"
+        ]
+      }
+    },
+    {
+      "candidateId": "e14-broad-d7b2965a1fa7",
+      "detectorId": "e14-broad-market-repricing-detector",
+      "eligibility": {
+        "matureScoringMonth": "1994-12-01",
+        "observableHardNegativeEpisodeCount": 2,
+        "observableHardNegativeEpisodeIds": [
+          "brexit-contained-transmission-2016",
+          "regional-bank-stress-2023"
+        ],
+        "observablePositiveEpisodeCount": 6,
+        "observablePositiveEpisodeIds": [
+          "china-eme-stress-2015-2016",
+          "euro-sovereign-stress-2011",
+          "mexico-bond-turbulence-1994",
+          "risk-repricing-2018q4",
+          "russia-ltcm-1998",
+          "taper-tantrum-2013"
+        ],
+        "plannedLeaveOneOutFoldCount": 6,
+        "structurallyEligible": true
+      },
+      "featureBindings": [
+        {
+          "fitScope": "inner-only",
+          "seriesId": "e14-vix-monthly-maximum",
+          "sourceId": "cboe-vix-history",
+          "transform": "causal-rolling-percentile"
+        }
+      ],
+      "identityPolicy": "preserved-exactly-from-candidate-manifest-v1",
+      "lifecycleStatus": "research-generated-not-fit",
+      "mechanism": "broad-market-repricing",
+      "persistence": {
+        "entryPersistenceMonths": 2,
+        "hysteresisRequired": true,
+        "recoveryPersistenceMonths": 1
+      },
+      "profile": {
+        "aggregator": "identity",
+        "profileId": "vix-only",
+        "seriesIds": [
+          "e14-vix-monthly-maximum"
+        ]
+      }
+    },
+    {
+      "candidateId": "e14-broad-1a3f2a978c6b",
+      "detectorId": "e14-broad-market-repricing-detector",
+      "eligibility": {
+        "matureScoringMonth": "1994-12-01",
+        "observableHardNegativeEpisodeCount": 2,
+        "observableHardNegativeEpisodeIds": [
+          "brexit-contained-transmission-2016",
+          "regional-bank-stress-2023"
+        ],
+        "observablePositiveEpisodeCount": 6,
+        "observablePositiveEpisodeIds": [
+          "china-eme-stress-2015-2016",
+          "euro-sovereign-stress-2011",
+          "mexico-bond-turbulence-1994",
+          "risk-repricing-2018q4",
+          "russia-ltcm-1998",
+          "taper-tantrum-2013"
+        ],
+        "plannedLeaveOneOutFoldCount": 6,
+        "structurallyEligible": true
+      },
+      "featureBindings": [
+        {
+          "fitScope": "inner-only",
+          "seriesId": "e14-vix-monthly-maximum",
+          "sourceId": "cboe-vix-history",
+          "transform": "causal-rolling-percentile"
+        }
+      ],
+      "identityPolicy": "preserved-exactly-from-candidate-manifest-v1",
+      "lifecycleStatus": "research-generated-not-fit",
+      "mechanism": "broad-market-repricing",
+      "persistence": {
+        "entryPersistenceMonths": 2,
+        "hysteresisRequired": true,
+        "recoveryPersistenceMonths": 2
+      },
+      "profile": {
+        "aggregator": "identity",
+        "profileId": "vix-only",
+        "seriesIds": [
+          "e14-vix-monthly-maximum"
+        ]
+      }
+    },
+    {
+      "candidateId": "e14-banking-v2-747c479c4341",
+      "detectorId": "e14-banking-credit-detector-v2",
+      "eligibility": {
+        "matureScoringMonth": "1944-05-01",
+        "observableHardNegativeEpisodeCount": 2,
+        "observableHardNegativeEpisodeIds": [
+          "mexico-banking-containment-1994",
+          "stock-market-break-1987"
+        ],
+        "observablePositiveEpisodeCount": 3,
+        "observablePositiveEpisodeIds": [
+          "continental-illinois-1984",
+          "euro-sovereign-stress-2011",
+          "regional-bank-stress-2023"
+        ],
+        "plannedLeaveOneOutFoldCount": 3,
+        "structurallyEligible": true
+      },
+      "featureBindings": [
+        {
+          "fitScope": "inner-only",
+          "seriesId": "e14-fdic-failed-assisted-assets-monthly",
+          "sourceId": "fdic-bank-failures-and-assistance",
+          "transform": "causal-rolling-percentile"
+        }
+      ],
+      "identityPolicy": "new-v2-readiness-namespace-not-yet-generated",
+      "lifecycleStatus": "research-generated-not-fit",
+      "mechanism": "banking-credit",
+      "persistence": {
+        "entryPersistenceMonths": 1,
+        "hysteresisRequired": true,
+        "recoveryPersistenceMonths": 1
+      },
+      "profile": {
+        "aggregator": "identity",
+        "profileId": "fdic-failed-assisted-assets-only",
+        "seriesIds": [
+          "e14-fdic-failed-assisted-assets-monthly"
+        ]
+      }
+    },
+    {
+      "candidateId": "e14-banking-v2-fafdbc5dab63",
+      "detectorId": "e14-banking-credit-detector-v2",
+      "eligibility": {
+        "matureScoringMonth": "1944-05-01",
+        "observableHardNegativeEpisodeCount": 2,
+        "observableHardNegativeEpisodeIds": [
+          "mexico-banking-containment-1994",
+          "stock-market-break-1987"
+        ],
+        "observablePositiveEpisodeCount": 3,
+        "observablePositiveEpisodeIds": [
+          "continental-illinois-1984",
+          "euro-sovereign-stress-2011",
+          "regional-bank-stress-2023"
+        ],
+        "plannedLeaveOneOutFoldCount": 3,
+        "structurallyEligible": true
+      },
+      "featureBindings": [
+        {
+          "fitScope": "inner-only",
+          "seriesId": "e14-fdic-failed-assisted-assets-monthly",
+          "sourceId": "fdic-bank-failures-and-assistance",
+          "transform": "causal-rolling-percentile"
+        }
+      ],
+      "identityPolicy": "new-v2-readiness-namespace-not-yet-generated",
+      "lifecycleStatus": "research-generated-not-fit",
+      "mechanism": "banking-credit",
+      "persistence": {
+        "entryPersistenceMonths": 1,
+        "hysteresisRequired": true,
+        "recoveryPersistenceMonths": 2
+      },
+      "profile": {
+        "aggregator": "identity",
+        "profileId": "fdic-failed-assisted-assets-only",
+        "seriesIds": [
+          "e14-fdic-failed-assisted-assets-monthly"
+        ]
+      }
+    },
+    {
+      "candidateId": "e14-banking-v2-1eed8d4b188c",
+      "detectorId": "e14-banking-credit-detector-v2",
+      "eligibility": {
+        "matureScoringMonth": "1944-05-01",
+        "observableHardNegativeEpisodeCount": 2,
+        "observableHardNegativeEpisodeIds": [
+          "mexico-banking-containment-1994",
+          "stock-market-break-1987"
+        ],
+        "observablePositiveEpisodeCount": 3,
+        "observablePositiveEpisodeIds": [
+          "continental-illinois-1984",
+          "euro-sovereign-stress-2011",
+          "regional-bank-stress-2023"
+        ],
+        "plannedLeaveOneOutFoldCount": 3,
+        "structurallyEligible": true
+      },
+      "featureBindings": [
+        {
+          "fitScope": "inner-only",
+          "seriesId": "e14-fdic-failed-assisted-assets-monthly",
+          "sourceId": "fdic-bank-failures-and-assistance",
+          "transform": "causal-rolling-percentile"
+        }
+      ],
+      "identityPolicy": "new-v2-readiness-namespace-not-yet-generated",
+      "lifecycleStatus": "research-generated-not-fit",
+      "mechanism": "banking-credit",
+      "persistence": {
+        "entryPersistenceMonths": 2,
+        "hysteresisRequired": true,
+        "recoveryPersistenceMonths": 1
+      },
+      "profile": {
+        "aggregator": "identity",
+        "profileId": "fdic-failed-assisted-assets-only",
+        "seriesIds": [
+          "e14-fdic-failed-assisted-assets-monthly"
+        ]
+      }
+    },
+    {
+      "candidateId": "e14-banking-v2-d7492ff66379",
+      "detectorId": "e14-banking-credit-detector-v2",
+      "eligibility": {
+        "matureScoringMonth": "1944-05-01",
+        "observableHardNegativeEpisodeCount": 2,
+        "observableHardNegativeEpisodeIds": [
+          "mexico-banking-containment-1994",
+          "stock-market-break-1987"
+        ],
+        "observablePositiveEpisodeCount": 3,
+        "observablePositiveEpisodeIds": [
+          "continental-illinois-1984",
+          "euro-sovereign-stress-2011",
+          "regional-bank-stress-2023"
+        ],
+        "plannedLeaveOneOutFoldCount": 3,
+        "structurallyEligible": true
+      },
+      "featureBindings": [
+        {
+          "fitScope": "inner-only",
+          "seriesId": "e14-fdic-failed-assisted-assets-monthly",
+          "sourceId": "fdic-bank-failures-and-assistance",
+          "transform": "causal-rolling-percentile"
+        }
+      ],
+      "identityPolicy": "new-v2-readiness-namespace-not-yet-generated",
+      "lifecycleStatus": "research-generated-not-fit",
+      "mechanism": "banking-credit",
+      "persistence": {
+        "entryPersistenceMonths": 2,
+        "hysteresisRequired": true,
+        "recoveryPersistenceMonths": 2
+      },
+      "profile": {
+        "aggregator": "identity",
+        "profileId": "fdic-failed-assisted-assets-only",
+        "seriesIds": [
+          "e14-fdic-failed-assisted-assets-monthly"
+        ]
+      }
+    },
+    {
+      "candidateId": "e14-cross-border-v2-6b34d73b50ff",
+      "detectorId": "e14-cross-border-growth-detector-v2",
+      "eligibility": {
+        "matureScoringMonth": "1978-02-01",
+        "observableHardNegativeEpisodeCount": 2,
+        "observableHardNegativeEpisodeIds": [
+          "brexit-contained-transmission-2016",
+          "flash-crash-2010"
+        ],
+        "observablePositiveEpisodeCount": 5,
+        "observablePositiveEpisodeIds": [
+          "asian-financial-crisis-1997",
+          "china-eme-stress-2015-2016",
+          "mexico-bond-turbulence-1994",
+          "russia-ltcm-1998",
+          "taper-tantrum-2013"
+        ],
+        "plannedLeaveOneOutFoldCount": 5,
+        "structurallyEligible": true
+      },
+      "featureBindings": [
+        {
+          "fitScope": "inner-only",
+          "seriesId": "e14-twexbmth-monthly-absolute-change",
+          "sourceId": "fred-twexbmth",
+          "transform": "causal-rolling-percentile"
+        }
+      ],
+      "identityPolicy": "new-v2-readiness-namespace-not-yet-generated",
+      "lifecycleStatus": "research-generated-not-fit",
+      "mechanism": "cross-border-growth",
+      "persistence": {
+        "entryPersistenceMonths": 1,
+        "hysteresisRequired": true,
+        "recoveryPersistenceMonths": 1
+      },
+      "profile": {
+        "aggregator": "identity",
+        "profileId": "twexbmth-absolute-change-only",
+        "seriesIds": [
+          "e14-twexbmth-monthly-absolute-change"
+        ]
+      }
+    },
+    {
+      "candidateId": "e14-cross-border-v2-4c42c1cfbe69",
+      "detectorId": "e14-cross-border-growth-detector-v2",
+      "eligibility": {
+        "matureScoringMonth": "1978-02-01",
+        "observableHardNegativeEpisodeCount": 2,
+        "observableHardNegativeEpisodeIds": [
+          "brexit-contained-transmission-2016",
+          "flash-crash-2010"
+        ],
+        "observablePositiveEpisodeCount": 5,
+        "observablePositiveEpisodeIds": [
+          "asian-financial-crisis-1997",
+          "china-eme-stress-2015-2016",
+          "mexico-bond-turbulence-1994",
+          "russia-ltcm-1998",
+          "taper-tantrum-2013"
+        ],
+        "plannedLeaveOneOutFoldCount": 5,
+        "structurallyEligible": true
+      },
+      "featureBindings": [
+        {
+          "fitScope": "inner-only",
+          "seriesId": "e14-twexbmth-monthly-absolute-change",
+          "sourceId": "fred-twexbmth",
+          "transform": "causal-rolling-percentile"
+        }
+      ],
+      "identityPolicy": "new-v2-readiness-namespace-not-yet-generated",
+      "lifecycleStatus": "research-generated-not-fit",
+      "mechanism": "cross-border-growth",
+      "persistence": {
+        "entryPersistenceMonths": 1,
+        "hysteresisRequired": true,
+        "recoveryPersistenceMonths": 2
+      },
+      "profile": {
+        "aggregator": "identity",
+        "profileId": "twexbmth-absolute-change-only",
+        "seriesIds": [
+          "e14-twexbmth-monthly-absolute-change"
+        ]
+      }
+    },
+    {
+      "candidateId": "e14-cross-border-v2-1f3878befaac",
+      "detectorId": "e14-cross-border-growth-detector-v2",
+      "eligibility": {
+        "matureScoringMonth": "1978-02-01",
+        "observableHardNegativeEpisodeCount": 2,
+        "observableHardNegativeEpisodeIds": [
+          "brexit-contained-transmission-2016",
+          "flash-crash-2010"
+        ],
+        "observablePositiveEpisodeCount": 5,
+        "observablePositiveEpisodeIds": [
+          "asian-financial-crisis-1997",
+          "china-eme-stress-2015-2016",
+          "mexico-bond-turbulence-1994",
+          "russia-ltcm-1998",
+          "taper-tantrum-2013"
+        ],
+        "plannedLeaveOneOutFoldCount": 5,
+        "structurallyEligible": true
+      },
+      "featureBindings": [
+        {
+          "fitScope": "inner-only",
+          "seriesId": "e14-twexbmth-monthly-absolute-change",
+          "sourceId": "fred-twexbmth",
+          "transform": "causal-rolling-percentile"
+        }
+      ],
+      "identityPolicy": "new-v2-readiness-namespace-not-yet-generated",
+      "lifecycleStatus": "research-generated-not-fit",
+      "mechanism": "cross-border-growth",
+      "persistence": {
+        "entryPersistenceMonths": 2,
+        "hysteresisRequired": true,
+        "recoveryPersistenceMonths": 1
+      },
+      "profile": {
+        "aggregator": "identity",
+        "profileId": "twexbmth-absolute-change-only",
+        "seriesIds": [
+          "e14-twexbmth-monthly-absolute-change"
+        ]
+      }
+    },
+    {
+      "candidateId": "e14-cross-border-v2-877a406c802c",
+      "detectorId": "e14-cross-border-growth-detector-v2",
+      "eligibility": {
+        "matureScoringMonth": "1978-02-01",
+        "observableHardNegativeEpisodeCount": 2,
+        "observableHardNegativeEpisodeIds": [
+          "brexit-contained-transmission-2016",
+          "flash-crash-2010"
+        ],
+        "observablePositiveEpisodeCount": 5,
+        "observablePositiveEpisodeIds": [
+          "asian-financial-crisis-1997",
+          "china-eme-stress-2015-2016",
+          "mexico-bond-turbulence-1994",
+          "russia-ltcm-1998",
+          "taper-tantrum-2013"
+        ],
+        "plannedLeaveOneOutFoldCount": 5,
+        "structurallyEligible": true
+      },
+      "featureBindings": [
+        {
+          "fitScope": "inner-only",
+          "seriesId": "e14-twexbmth-monthly-absolute-change",
+          "sourceId": "fred-twexbmth",
+          "transform": "causal-rolling-percentile"
+        }
+      ],
+      "identityPolicy": "new-v2-readiness-namespace-not-yet-generated",
+      "lifecycleStatus": "research-generated-not-fit",
+      "mechanism": "cross-border-growth",
+      "persistence": {
+        "entryPersistenceMonths": 2,
+        "hysteresisRequired": true,
+        "recoveryPersistenceMonths": 2
+      },
+      "profile": {
+        "aggregator": "identity",
+        "profileId": "twexbmth-absolute-change-only",
+        "seriesIds": [
+          "e14-twexbmth-monthly-absolute-change"
+        ]
+      }
+    },
+    {
+      "candidateId": "e14-funding-v2-784c284a69d4",
+      "detectorId": "e14-funding-liquidity-detector-v2",
+      "eligibility": {
+        "matureScoringMonth": "1959-07-01",
+        "observableHardNegativeEpisodeCount": 2,
+        "observableHardNegativeEpisodeIds": [
+          "brexit-contained-transmission-2016",
+          "risk-repricing-2018q4"
+        ],
+        "observablePositiveEpisodeCount": 3,
+        "observablePositiveEpisodeIds": [
+          "regional-bank-stress-2023",
+          "repo-stress-2019",
+          "russia-ltcm-1998"
+        ],
+        "plannedLeaveOneOutFoldCount": 3,
+        "structurallyEligible": true
+      },
+      "featureBindings": [
+        {
+          "fitScope": "inner-only",
+          "seriesId": "e14-fedfunds-minus-tbill-monthly",
+          "sourceId": "fred-tb3smffm",
+          "transform": "causal-rolling-percentile"
+        }
+      ],
+      "identityPolicy": "new-v2-readiness-namespace-not-yet-generated",
+      "lifecycleStatus": "research-generated-not-fit",
+      "mechanism": "funding-liquidity",
+      "persistence": {
+        "entryPersistenceMonths": 1,
+        "hysteresisRequired": true,
+        "recoveryPersistenceMonths": 1
+      },
+      "profile": {
+        "aggregator": "identity",
+        "profileId": "fedfunds-minus-tbill-only",
+        "seriesIds": [
+          "e14-fedfunds-minus-tbill-monthly"
+        ]
+      }
+    },
+    {
+      "candidateId": "e14-funding-v2-429e2f943f7f",
+      "detectorId": "e14-funding-liquidity-detector-v2",
+      "eligibility": {
+        "matureScoringMonth": "1959-07-01",
+        "observableHardNegativeEpisodeCount": 2,
+        "observableHardNegativeEpisodeIds": [
+          "brexit-contained-transmission-2016",
+          "risk-repricing-2018q4"
+        ],
+        "observablePositiveEpisodeCount": 3,
+        "observablePositiveEpisodeIds": [
+          "regional-bank-stress-2023",
+          "repo-stress-2019",
+          "russia-ltcm-1998"
+        ],
+        "plannedLeaveOneOutFoldCount": 3,
+        "structurallyEligible": true
+      },
+      "featureBindings": [
+        {
+          "fitScope": "inner-only",
+          "seriesId": "e14-fedfunds-minus-tbill-monthly",
+          "sourceId": "fred-tb3smffm",
+          "transform": "causal-rolling-percentile"
+        }
+      ],
+      "identityPolicy": "new-v2-readiness-namespace-not-yet-generated",
+      "lifecycleStatus": "research-generated-not-fit",
+      "mechanism": "funding-liquidity",
+      "persistence": {
+        "entryPersistenceMonths": 1,
+        "hysteresisRequired": true,
+        "recoveryPersistenceMonths": 2
+      },
+      "profile": {
+        "aggregator": "identity",
+        "profileId": "fedfunds-minus-tbill-only",
+        "seriesIds": [
+          "e14-fedfunds-minus-tbill-monthly"
+        ]
+      }
+    },
+    {
+      "candidateId": "e14-funding-v2-b06890d7383a",
+      "detectorId": "e14-funding-liquidity-detector-v2",
+      "eligibility": {
+        "matureScoringMonth": "1959-07-01",
+        "observableHardNegativeEpisodeCount": 2,
+        "observableHardNegativeEpisodeIds": [
+          "brexit-contained-transmission-2016",
+          "risk-repricing-2018q4"
+        ],
+        "observablePositiveEpisodeCount": 3,
+        "observablePositiveEpisodeIds": [
+          "regional-bank-stress-2023",
+          "repo-stress-2019",
+          "russia-ltcm-1998"
+        ],
+        "plannedLeaveOneOutFoldCount": 3,
+        "structurallyEligible": true
+      },
+      "featureBindings": [
+        {
+          "fitScope": "inner-only",
+          "seriesId": "e14-fedfunds-minus-tbill-monthly",
+          "sourceId": "fred-tb3smffm",
+          "transform": "causal-rolling-percentile"
+        }
+      ],
+      "identityPolicy": "new-v2-readiness-namespace-not-yet-generated",
+      "lifecycleStatus": "research-generated-not-fit",
+      "mechanism": "funding-liquidity",
+      "persistence": {
+        "entryPersistenceMonths": 2,
+        "hysteresisRequired": true,
+        "recoveryPersistenceMonths": 1
+      },
+      "profile": {
+        "aggregator": "identity",
+        "profileId": "fedfunds-minus-tbill-only",
+        "seriesIds": [
+          "e14-fedfunds-minus-tbill-monthly"
+        ]
+      }
+    },
+    {
+      "candidateId": "e14-funding-v2-1813610b438b",
+      "detectorId": "e14-funding-liquidity-detector-v2",
+      "eligibility": {
+        "matureScoringMonth": "1959-07-01",
+        "observableHardNegativeEpisodeCount": 2,
+        "observableHardNegativeEpisodeIds": [
+          "brexit-contained-transmission-2016",
+          "risk-repricing-2018q4"
+        ],
+        "observablePositiveEpisodeCount": 3,
+        "observablePositiveEpisodeIds": [
+          "regional-bank-stress-2023",
+          "repo-stress-2019",
+          "russia-ltcm-1998"
+        ],
+        "plannedLeaveOneOutFoldCount": 3,
+        "structurallyEligible": true
+      },
+      "featureBindings": [
+        {
+          "fitScope": "inner-only",
+          "seriesId": "e14-fedfunds-minus-tbill-monthly",
+          "sourceId": "fred-tb3smffm",
+          "transform": "causal-rolling-percentile"
+        }
+      ],
+      "identityPolicy": "new-v2-readiness-namespace-not-yet-generated",
+      "lifecycleStatus": "research-generated-not-fit",
+      "mechanism": "funding-liquidity",
+      "persistence": {
+        "entryPersistenceMonths": 2,
+        "hysteresisRequired": true,
+        "recoveryPersistenceMonths": 2
+      },
+      "profile": {
+        "aggregator": "identity",
+        "profileId": "fedfunds-minus-tbill-only",
+        "seriesIds": [
+          "e14-fedfunds-minus-tbill-monthly"
+        ]
+      }
+    }
+  ],
+  "fundingBoundarySensitivity": {
+    "boundaryMonth": "2019-01-01",
+    "diagnosticReferenceWindow": "observations-before-2019-01-only",
+    "distributionEquivalenceClaimForbidden": true,
+    "missingSensitivityReportBlocksRanking": true,
+    "pre2019WindowIsNotAnAlternativeEligibilityGate": true,
+    "primaryWindow": "all-observations-through-2025-12-subject-to-inner-fold",
+    "requiredFutureReports": [
+      "training-threshold-q80-q90-q95-full-versus-pre2019",
+      "normalized-threshold-shift-by-pre2019-iqr",
+      "alert-rate-before-versus-after-boundary",
+      "episode-metrics-split-by-pre-and-post-boundary-labels",
+      "insufficient-positive-episodes-in-pre2019-window-explicit"
+    ],
+    "sensitivityUsesInnerRowsOnly": true,
+    "seriesId": "e14-fedfunds-minus-tbill-monthly"
+  },
+  "generationId": "1c9829675e0fba3101029b5c",
+  "immutable": true,
+  "implementation": {
+    "module": "regime_eval.e14_candidate_manifest_v2",
+    "sourceSha256": "bdb553731f45707933d6223315a11ff4fde5e8908bf79ab826fe1a961888a330"
+  },
+  "inputs": {
+    "candidateProtocolV2": {
+      "fileName": "e14-four-detector-candidate-generation-protocol-v2.json",
+      "sha256": "edf3cbeb9bb77d502109fc25ccdb463d9f39f7496f7c24039468c70e7c379955",
+      "sizeBytes": 17618
+    },
+    "featureFoundationLockV2": {
+      "fileName": "e14-mechanism-feature-foundation-lock-v2.json",
+      "sha256": "110cec532fa0a479a975c36d927f36a08bf8daa4e53dafd598b8c5306fcecf85",
+      "sizeBytes": 2330
+    },
+    "featureFoundationV2": {
+      "fileName": "e14-mechanism-feature-foundation-v2.json",
+      "sha256": "c069de82199f203786c405ef65c559f232f92053d47a8da4280cfde2b14f3127",
+      "sizeBytes": 808600
+    },
+    "manifestContractV2": {
+      "fileName": "e14-four-detector-candidate-manifest-contract-v2.json",
+      "sha256": "e5e4a5a39d79aef3211fce8f0e261313bbdfe15c01020ff81de984820f1248e7",
+      "sizeBytes": 2247
+    },
+    "manifestSchemaV2": {
+      "fileName": "e14-four-detector-candidate-manifest-schema-v2.json",
+      "sha256": "db8658eb995bdfce1be4d910045227c20606a329497649f0aef2b940cac27fc8",
+      "sizeBytes": 1673
+    },
+    "protocolReadinessAuditV2": {
+      "fileName": "e14-four-detector-protocol-readiness-audit-v2.json",
+      "sha256": "565ccb0d6f7d28443d650f705c0e7f8f14656b2b1b8986c2a90a13fe4625a3e8",
+      "sizeBytes": 4599
+    },
+    "readinessAuditV2": {
+      "fileName": "e14-four-detector-readiness-audit-v2.json",
+      "sha256": "e297db22a11903294fb6c27af65711a77762ffe50e87b67ef4fbbbe16c5e497e",
+      "sizeBytes": 6792
+    },
+    "readinessRosterV2": {
+      "fileName": "e14-four-detector-readiness-roster-v2.json",
+      "sha256": "82f556f92fbdf0967b4b7c43c0edf75c59d165e7c3b0beab1b88529b1331105d",
+      "sizeBytes": 47382
+    },
+    "taxonomyV5": {
+      "fileName": "us-financial-stress-v5.json",
+      "sha256": "d141416d08b68e932bc6cd2a25b9cd0eab06d159b8904907b7fff29d8c637d50",
+      "sizeBytes": 27662
+    }
+  },
+  "manifestId": "e14-generated-four-detector-candidates-v2",
+  "researchBoundary": "nested-inner-development-only-current-history-revision-limited",
+  "retiredCandidateIds": [
+    "e14-banking-861dce1776f4",
+    "e14-banking-df78bda67e3e",
+    "e14-banking-4ec575533103",
+    "e14-banking-63cec754717f",
+    "e14-banking-73b05a51e27c",
+    "e14-banking-745d2cf93e37",
+    "e14-banking-ba40f5d12b8a",
+    "e14-banking-76f919df3142",
+    "e14-banking-69c313bb3c81",
+    "e14-banking-7247858fcb3f",
+    "e14-banking-29ac6eadee52",
+    "e14-banking-a9a7978ffa4f",
+    "e14-banking-eab78cdccb1c",
+    "e14-banking-bd1bcd7bf13a",
+    "e14-banking-0e8fbadd21ea",
+    "e14-banking-3fd67f8fca38",
+    "e14-cross-border-bf9de0a8481d",
+    "e14-cross-border-1f2a1bb2212b",
+    "e14-cross-border-ee7d9461ee5c",
+    "e14-cross-border-5b27c7c67f4c",
+    "e14-funding-89d0cd3f2b51",
+    "e14-funding-36836b8d935f",
+    "e14-funding-e05b8c966beb",
+    "e14-funding-bbf52db46775"
+  ],
+  "schemaVersion": 2,
+  "status": "GENERATED_V2_NOT_TRANSFORMED_NOT_FIT_NOT_EVALUATED_OUTER_OOS_CLOSED"
+}

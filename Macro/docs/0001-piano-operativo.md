@@ -833,7 +833,7 @@ copertura degli episodi.
      v1 ritirati e 12 nuovi ID v2 pianificati ma non generati;
    - policy funding 2019 congelata come sensitivity inner obbligatoria e non
      come gate alternativo; protocol design aperto, manifest generation chiusa.
-10. E14.6d - protocollo di candidate generation v2 (PROSSIMO PASSO):
+10. E14.6d - protocollo di candidate generation v2 (COMPLETATO):
    - congelare grammatica, profili, persistenza e soglie sui 28 ID del roster;
    - preservare esattamente i 16 oggetti broad compatibili e usare i 12 ID v2
      senza ricalcolarli o riusare i 24 ID ritirati;
@@ -841,6 +841,30 @@ copertura degli episodi.
      e rischio revisioni current-history nel protocollo;
    - autorizzare al massimo la successiva materializzazione del manifest v2,
      mantenendo fitting, evaluation, ranking e outer OOS chiusi.
+   - esito reale: protocollo congelato su 28 ID nello stesso ordine del roster,
+     7 profili e quattro combinazioni di persistenza per profilo;
+   - aperta soltanto la materializzazione write-once del manifest v2.
+11. E14.6e - materializzazione candidate manifest v2 (COMPLETATO):
+   - copiare verbatim i 28 ingressi del roster nel manifest, cambiando soltanto
+     il lifecycle in `research-generated-not-fit`;
+   - verificare identita', ordine, profili, binding, eligibility e persistenza
+     contro protocollo v2 e roster, senza ricalcolo degli ID;
+   - produrre manifest e generation audit write-once hash-bound;
+   - mantenere trasformazione, fitting, evaluation, ranking, composizione e
+     outer OOS chiusi.
+   - esito reale: manifest write-once materializzato con 28 candidati
+     (4 banking, 16 broad, 4 cross-border, 4 funding) nello stesso ordine di
+     roster e protocollo;
+   - tutti i campi sono copiati verbatim; la sola transizione e'
+     `readiness-planned-not-generated-not-fit` -> `research-generated-not-fit`;
+   - generation audit positivo, zero feature trasformate, zero righe outer e
+     fitting/evaluation/ranking ancora chiusi.
+12. E14.6f - preregistrazione fitting e LOEO v2 (PROSSIMO PASSO):
+   - congelare dataset, fold leave-one-episode-out, trasformazioni train-only,
+     gate assoluti per meccanismo e sensitivity funding 2019;
+   - autorizzare il fitting inner-only soltanto dopo verifica hash-bound di
+     manifest, protocollo e foundation v2;
+   - mantenere outer OOS, composizione e promozione chiusi.
 
 Analisi E14:
 `docs/e14-riesame-problema-informativo.md`.
@@ -922,6 +946,12 @@ Checkpoint E14.6b:
 
 Checkpoint E14.6c:
 `docs/checkpoints/0085-fase-e14-6c-readiness-v2-passed.md`.
+
+Checkpoint E14.6d:
+`docs/checkpoints/0086-fase-e14-6d-protocol-v2-ready.md`.
+
+Checkpoint E14.6e:
+`docs/checkpoints/0087-fase-e14-6e-candidate-manifest-v2-generated.md`.
 
 
 

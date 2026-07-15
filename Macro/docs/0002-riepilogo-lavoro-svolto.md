@@ -742,6 +742,25 @@ Checkpoint in corso: `docs/checkpoints/0034-fase-e-slice6-feature-baseline-redes
   Lo stato autorizza soltanto la progettazione del protocollo v2; manifest,
   fitting, evaluation, ranking e outer OOS restano chiusi. La regressione
   completa supera 123/123 test Python.
+- Fase E14.6d - candidate protocol v2: congelato il protocollo sui 28 ID del
+  roster nello stesso ordine, senza ricalcolarli. La grammatica contiene 7
+  profili e le quattro combinazioni entry/recovery per ciascuno; preserva 16 ID
+  broad, usa i 12 ID v2 e mantiene vietati i 24 ID ritirati. Il futuro manifest
+  deve copiare verbatim profili, feature binding ed eligibility, variando solo
+  il lifecycle. As-of semantics, lag, missingness, sensitivity funding 2019 e
+  rischio di revisione current-history sono parti vincolanti del protocollo.
+  E' autorizzata soltanto la futura materializzazione del manifest v2; fitting,
+  evaluation, ranking e outer OOS restano chiusi. La regressione completa
+  supera 126/126 test Python.
+- Fase E14.6e - candidate manifest v2: materializzato in modo write-once il
+  manifest hash-bound di 28 candidati, con distribuzione 4 banking, 16 broad,
+  4 cross-border e 4 funding. Ordine e ID coincidono con roster e protocollo;
+  profili, binding, persistenza, eligibility e identity policy sono copiati
+  verbatim. L'unica modifica ammessa e osservata e' il lifecycle da
+  `readiness-planned-not-generated-not-fit` a `research-generated-not-fit`.
+  L'audit registra zero feature trasformate e zero righe outer; fitting,
+  evaluation, ranking, composizione e promozione restano chiusi. La regressione
+  completa supera 129/129 test Python.
 
 ## Deviazione documentata dal piano originario
 

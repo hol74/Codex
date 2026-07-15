@@ -1,0 +1,529 @@
+{
+  "authorizations": {
+    "candidateEvaluationAuthorized": false,
+    "candidateFittingAuthorized": false,
+    "candidateManifestGenerationAuthorizedOnPass": true,
+    "candidateRankingAuthorized": false,
+    "crossMechanismCompositionAuthorized": false,
+    "featureTransformationAuthorized": false,
+    "outerOosAuthorized": false,
+    "promotionAuthorized": false,
+    "protocolFreezeAuthorized": true
+  },
+  "availabilityPolicy": {
+    "asOfSemanticsRequired": true,
+    "availabilityLagDerivedFromFoundationObservations": true,
+    "availableOnMustNotExceedScoringMonthEnd": true,
+    "carryBeyondMethodologyCoverageEndForbidden": true,
+    "missingObservationCannotBeCarriedAcrossItsCalendarSlot": true,
+    "zeroImputationForbidden": true
+  },
+  "candidateBudget": 28,
+  "candidateIds": [
+    "e14-broad-40812f9e8d61",
+    "e14-broad-d914f56e649b",
+    "e14-broad-182327efc1c2",
+    "e14-broad-aebcbf4855ea",
+    "e14-broad-bb98047423d4",
+    "e14-broad-1d3f9292459f",
+    "e14-broad-61de85156660",
+    "e14-broad-c4df5bb5e6de",
+    "e14-broad-363f5cbd811e",
+    "e14-broad-67724d37ba54",
+    "e14-broad-7bcb8dbe826e",
+    "e14-broad-b83cb89abefe",
+    "e14-broad-61cde4fecf5c",
+    "e14-broad-2070c166a646",
+    "e14-broad-d7b2965a1fa7",
+    "e14-broad-1a3f2a978c6b",
+    "e14-banking-v2-747c479c4341",
+    "e14-banking-v2-fafdbc5dab63",
+    "e14-banking-v2-1eed8d4b188c",
+    "e14-banking-v2-d7492ff66379",
+    "e14-cross-border-v2-6b34d73b50ff",
+    "e14-cross-border-v2-4c42c1cfbe69",
+    "e14-cross-border-v2-1f3878befaac",
+    "e14-cross-border-v2-877a406c802c",
+    "e14-funding-v2-784c284a69d4",
+    "e14-funding-v2-429e2f943f7f",
+    "e14-funding-v2-b06890d7383a",
+    "e14-funding-v2-1813610b438b"
+  ],
+  "compositionPolicy": {
+    "compositionAuthorized": false,
+    "requiredBeforeComposition": "each-detector-passes-absolute-mechanism-gate-and-required-sensitivity-reports"
+  },
+  "constraints": {
+    "causalFeaturesOnly": true,
+    "crossMechanismFusion": false,
+    "crossMethodologySplicingForbidden": true,
+    "missingValuesRemainExplicit": true,
+    "outerOosForbidden": true,
+    "trainOnlyTransforms": true
+  },
+  "detectors": {
+    "banking-credit": {
+      "candidateCount": 4,
+      "detectorId": "e14-banking-credit-detector-v2",
+      "profileCount": 1,
+      "profiles": [
+        {
+          "aggregator": "identity",
+          "candidateIds": [
+            "e14-banking-v2-747c479c4341",
+            "e14-banking-v2-fafdbc5dab63",
+            "e14-banking-v2-1eed8d4b188c",
+            "e14-banking-v2-d7492ff66379"
+          ],
+          "featureBindings": [
+            {
+              "fitScope": "inner-only",
+              "seriesId": "e14-fdic-failed-assisted-assets-monthly",
+              "sourceId": "fdic-bank-failures-and-assistance",
+              "transform": "causal-rolling-percentile"
+            }
+          ],
+          "persistenceCombinations": [
+            {
+              "entryPersistenceMonths": 1,
+              "hysteresisRequired": true,
+              "recoveryPersistenceMonths": 1
+            },
+            {
+              "entryPersistenceMonths": 1,
+              "hysteresisRequired": true,
+              "recoveryPersistenceMonths": 2
+            },
+            {
+              "entryPersistenceMonths": 2,
+              "hysteresisRequired": true,
+              "recoveryPersistenceMonths": 1
+            },
+            {
+              "entryPersistenceMonths": 2,
+              "hysteresisRequired": true,
+              "recoveryPersistenceMonths": 2
+            }
+          ],
+          "profileId": "fdic-failed-assisted-assets-only",
+          "seriesIds": [
+            "e14-fdic-failed-assisted-assets-monthly"
+          ]
+        }
+      ]
+    },
+    "broad-market-repricing": {
+      "candidateCount": 16,
+      "detectorId": "e14-broad-market-repricing-detector",
+      "profileCount": 4,
+      "profiles": [
+        {
+          "aggregator": "identity",
+          "candidateIds": [
+            "e14-broad-40812f9e8d61",
+            "e14-broad-d914f56e649b",
+            "e14-broad-182327efc1c2",
+            "e14-broad-aebcbf4855ea"
+          ],
+          "featureBindings": [
+            {
+              "fitScope": "inner-only",
+              "seriesId": "e14-baa10y-monthly-maximum",
+              "sourceId": "fred-baa10y",
+              "transform": "causal-rolling-percentile"
+            }
+          ],
+          "persistenceCombinations": [
+            {
+              "entryPersistenceMonths": 1,
+              "hysteresisRequired": true,
+              "recoveryPersistenceMonths": 1
+            },
+            {
+              "entryPersistenceMonths": 1,
+              "hysteresisRequired": true,
+              "recoveryPersistenceMonths": 2
+            },
+            {
+              "entryPersistenceMonths": 2,
+              "hysteresisRequired": true,
+              "recoveryPersistenceMonths": 1
+            },
+            {
+              "entryPersistenceMonths": 2,
+              "hysteresisRequired": true,
+              "recoveryPersistenceMonths": 2
+            }
+          ],
+          "profileId": "baa10y-only",
+          "seriesIds": [
+            "e14-baa10y-monthly-maximum"
+          ]
+        },
+        {
+          "aggregator": "identity",
+          "candidateIds": [
+            "e14-broad-61cde4fecf5c",
+            "e14-broad-2070c166a646",
+            "e14-broad-d7b2965a1fa7",
+            "e14-broad-1a3f2a978c6b"
+          ],
+          "featureBindings": [
+            {
+              "fitScope": "inner-only",
+              "seriesId": "e14-vix-monthly-maximum",
+              "sourceId": "cboe-vix-history",
+              "transform": "causal-rolling-percentile"
+            }
+          ],
+          "persistenceCombinations": [
+            {
+              "entryPersistenceMonths": 1,
+              "hysteresisRequired": true,
+              "recoveryPersistenceMonths": 1
+            },
+            {
+              "entryPersistenceMonths": 1,
+              "hysteresisRequired": true,
+              "recoveryPersistenceMonths": 2
+            },
+            {
+              "entryPersistenceMonths": 2,
+              "hysteresisRequired": true,
+              "recoveryPersistenceMonths": 1
+            },
+            {
+              "entryPersistenceMonths": 2,
+              "hysteresisRequired": true,
+              "recoveryPersistenceMonths": 2
+            }
+          ],
+          "profileId": "vix-only",
+          "seriesIds": [
+            "e14-vix-monthly-maximum"
+          ]
+        },
+        {
+          "aggregator": "maximum",
+          "candidateIds": [
+            "e14-broad-bb98047423d4",
+            "e14-broad-1d3f9292459f",
+            "e14-broad-61de85156660",
+            "e14-broad-c4df5bb5e6de"
+          ],
+          "featureBindings": [
+            {
+              "fitScope": "inner-only",
+              "seriesId": "e14-vix-monthly-maximum",
+              "sourceId": "cboe-vix-history",
+              "transform": "causal-rolling-percentile"
+            },
+            {
+              "fitScope": "inner-only",
+              "seriesId": "e14-baa10y-monthly-maximum",
+              "sourceId": "fred-baa10y",
+              "transform": "causal-rolling-percentile"
+            }
+          ],
+          "persistenceCombinations": [
+            {
+              "entryPersistenceMonths": 1,
+              "hysteresisRequired": true,
+              "recoveryPersistenceMonths": 1
+            },
+            {
+              "entryPersistenceMonths": 1,
+              "hysteresisRequired": true,
+              "recoveryPersistenceMonths": 2
+            },
+            {
+              "entryPersistenceMonths": 2,
+              "hysteresisRequired": true,
+              "recoveryPersistenceMonths": 1
+            },
+            {
+              "entryPersistenceMonths": 2,
+              "hysteresisRequired": true,
+              "recoveryPersistenceMonths": 2
+            }
+          ],
+          "profileId": "joint-maximum",
+          "seriesIds": [
+            "e14-vix-monthly-maximum",
+            "e14-baa10y-monthly-maximum"
+          ]
+        },
+        {
+          "aggregator": "mean",
+          "candidateIds": [
+            "e14-broad-363f5cbd811e",
+            "e14-broad-67724d37ba54",
+            "e14-broad-7bcb8dbe826e",
+            "e14-broad-b83cb89abefe"
+          ],
+          "featureBindings": [
+            {
+              "fitScope": "inner-only",
+              "seriesId": "e14-vix-monthly-maximum",
+              "sourceId": "cboe-vix-history",
+              "transform": "causal-rolling-percentile"
+            },
+            {
+              "fitScope": "inner-only",
+              "seriesId": "e14-baa10y-monthly-maximum",
+              "sourceId": "fred-baa10y",
+              "transform": "causal-rolling-percentile"
+            }
+          ],
+          "persistenceCombinations": [
+            {
+              "entryPersistenceMonths": 1,
+              "hysteresisRequired": true,
+              "recoveryPersistenceMonths": 1
+            },
+            {
+              "entryPersistenceMonths": 1,
+              "hysteresisRequired": true,
+              "recoveryPersistenceMonths": 2
+            },
+            {
+              "entryPersistenceMonths": 2,
+              "hysteresisRequired": true,
+              "recoveryPersistenceMonths": 1
+            },
+            {
+              "entryPersistenceMonths": 2,
+              "hysteresisRequired": true,
+              "recoveryPersistenceMonths": 2
+            }
+          ],
+          "profileId": "joint-mean",
+          "seriesIds": [
+            "e14-vix-monthly-maximum",
+            "e14-baa10y-monthly-maximum"
+          ]
+        }
+      ]
+    },
+    "cross-border-growth": {
+      "candidateCount": 4,
+      "detectorId": "e14-cross-border-growth-detector-v2",
+      "profileCount": 1,
+      "profiles": [
+        {
+          "aggregator": "identity",
+          "candidateIds": [
+            "e14-cross-border-v2-6b34d73b50ff",
+            "e14-cross-border-v2-4c42c1cfbe69",
+            "e14-cross-border-v2-1f3878befaac",
+            "e14-cross-border-v2-877a406c802c"
+          ],
+          "featureBindings": [
+            {
+              "fitScope": "inner-only",
+              "seriesId": "e14-twexbmth-monthly-absolute-change",
+              "sourceId": "fred-twexbmth",
+              "transform": "causal-rolling-percentile"
+            }
+          ],
+          "persistenceCombinations": [
+            {
+              "entryPersistenceMonths": 1,
+              "hysteresisRequired": true,
+              "recoveryPersistenceMonths": 1
+            },
+            {
+              "entryPersistenceMonths": 1,
+              "hysteresisRequired": true,
+              "recoveryPersistenceMonths": 2
+            },
+            {
+              "entryPersistenceMonths": 2,
+              "hysteresisRequired": true,
+              "recoveryPersistenceMonths": 1
+            },
+            {
+              "entryPersistenceMonths": 2,
+              "hysteresisRequired": true,
+              "recoveryPersistenceMonths": 2
+            }
+          ],
+          "profileId": "twexbmth-absolute-change-only",
+          "seriesIds": [
+            "e14-twexbmth-monthly-absolute-change"
+          ]
+        }
+      ]
+    },
+    "funding-liquidity": {
+      "candidateCount": 4,
+      "detectorId": "e14-funding-liquidity-detector-v2",
+      "profileCount": 1,
+      "profiles": [
+        {
+          "aggregator": "identity",
+          "candidateIds": [
+            "e14-funding-v2-784c284a69d4",
+            "e14-funding-v2-429e2f943f7f",
+            "e14-funding-v2-b06890d7383a",
+            "e14-funding-v2-1813610b438b"
+          ],
+          "featureBindings": [
+            {
+              "fitScope": "inner-only",
+              "seriesId": "e14-fedfunds-minus-tbill-monthly",
+              "sourceId": "fred-tb3smffm",
+              "transform": "causal-rolling-percentile"
+            }
+          ],
+          "persistenceCombinations": [
+            {
+              "entryPersistenceMonths": 1,
+              "hysteresisRequired": true,
+              "recoveryPersistenceMonths": 1
+            },
+            {
+              "entryPersistenceMonths": 1,
+              "hysteresisRequired": true,
+              "recoveryPersistenceMonths": 2
+            },
+            {
+              "entryPersistenceMonths": 2,
+              "hysteresisRequired": true,
+              "recoveryPersistenceMonths": 1
+            },
+            {
+              "entryPersistenceMonths": 2,
+              "hysteresisRequired": true,
+              "recoveryPersistenceMonths": 2
+            }
+          ],
+          "profileId": "fedfunds-minus-tbill-only",
+          "seriesIds": [
+            "e14-fedfunds-minus-tbill-monthly"
+          ]
+        }
+      ]
+    }
+  },
+  "evaluationPolicy": {
+    "aggregateSeparatelyPerMechanism": true,
+    "foldMethod": "leave-one-independent-positive-episode-out-within-mechanism",
+    "missingMetricCannotPass": true,
+    "positiveAndHardNegativeRequiredPerMechanism": true,
+    "requiredMetrics": [
+      "episode-hit-rate",
+      "episode-recall",
+      "worst-episode-recall",
+      "onset-delay-months",
+      "recovery-lag-months",
+      "hard-negative-alert-rate",
+      "unlabeled-alert-count-reported-not-scored"
+    ],
+    "unlabeledMonthsAreNotNegatives": true
+  },
+  "frozenAt": "2026-07-15",
+  "fundingBoundarySensitivity": {
+    "boundaryMonth": "2019-01-01",
+    "diagnosticReferenceWindow": "observations-before-2019-01-only",
+    "distributionEquivalenceClaimForbidden": true,
+    "missingSensitivityReportBlocksRanking": true,
+    "pre2019WindowIsNotAnAlternativeEligibilityGate": true,
+    "primaryWindow": "all-observations-through-2025-12-subject-to-inner-fold",
+    "requiredFutureReports": [
+      "training-threshold-q80-q90-q95-full-versus-pre2019",
+      "normalized-threshold-shift-by-pre2019-iqr",
+      "alert-rate-before-versus-after-boundary",
+      "episode-metrics-split-by-pre-and-post-boundary-labels",
+      "insufficient-positive-episodes-in-pre2019-window-explicit"
+    ],
+    "sensitivityUsesInnerRowsOnly": true,
+    "seriesId": "e14-fedfunds-minus-tbill-monthly"
+  },
+  "generationPolicy": {
+    "deterministicWriteOnceManifestRequired": true,
+    "eligibilityMutationForbidden": true,
+    "featureBindingMutationForbidden": true,
+    "futureManifestConsumesRosterEntriesVerbatim": true,
+    "onlyLifecycleTransitionAllowed": "readiness-planned-not-generated-not-fit-to-research-generated-not-fit"
+  },
+  "identityTransitionPolicy": {
+    "candidateIdRecomputationForbidden": true,
+    "candidateIdsCopiedExactlyFromReadinessRoster": true,
+    "newV2CandidateIdCount": 12,
+    "preservedBroadCandidateIdCount": 16,
+    "retiredCandidateIds": [
+      "e14-banking-861dce1776f4",
+      "e14-banking-df78bda67e3e",
+      "e14-banking-4ec575533103",
+      "e14-banking-63cec754717f",
+      "e14-banking-73b05a51e27c",
+      "e14-banking-745d2cf93e37",
+      "e14-banking-ba40f5d12b8a",
+      "e14-banking-76f919df3142",
+      "e14-banking-69c313bb3c81",
+      "e14-banking-7247858fcb3f",
+      "e14-banking-29ac6eadee52",
+      "e14-banking-a9a7978ffa4f",
+      "e14-banking-eab78cdccb1c",
+      "e14-banking-bd1bcd7bf13a",
+      "e14-banking-0e8fbadd21ea",
+      "e14-banking-3fd67f8fca38",
+      "e14-cross-border-bf9de0a8481d",
+      "e14-cross-border-1f2a1bb2212b",
+      "e14-cross-border-ee7d9461ee5c",
+      "e14-cross-border-5b27c7c67f4c",
+      "e14-funding-89d0cd3f2b51",
+      "e14-funding-36836b8d935f",
+      "e14-funding-e05b8c966beb",
+      "e14-funding-bbf52db46775"
+    ],
+    "retiredIdReuseForbidden": true,
+    "retiredV1CandidateIdCount": 24
+  },
+  "inputHashes": {
+    "featureFoundationAuditV2Sha256": "9940caae99522c994ec6ae5405af5b173fb2b75ca980195ecc90d707d9ded735",
+    "featureFoundationLockV2Sha256": "110cec532fa0a479a975c36d927f36a08bf8daa4e53dafd598b8c5306fcecf85",
+    "featureFoundationV2Sha256": "c069de82199f203786c405ef65c559f232f92053d47a8da4280cfde2b14f3127",
+    "protocolPlanV2Sha256": "a12a3a09dce11d8dfd7d157d5196fa6a7f07510dec4892b5d34e8d477c75639b",
+    "protocolSchemaV2Sha256": "89df14f795faf7c6444860a6d0566469e86b5bf9bcf5d326e6bb3a8c31e8f8c1",
+    "readinessAuditV2Sha256": "e297db22a11903294fb6c27af65711a77762ffe50e87b67ef4fbbbe16c5e497e",
+    "readinessPolicyV2Sha256": "a66a3ff573e5c27acbf12c6b738358cd324db51607ce7c1311f72313c252ad4f",
+    "readinessRosterV2Sha256": "82f556f92fbdf0967b4b7c43c0edf75c59d165e7c3b0beab1b88529b1331105d",
+    "taxonomyV5Sha256": "d141416d08b68e932bc6cd2a25b9cd0eab06d159b8904907b7fff29d8c637d50"
+  },
+  "persistence": {
+    "allFourCombinationsRequiredPerProfile": true,
+    "entryPersistenceMonths": [
+      1,
+      2
+    ],
+    "hysteresisRequired": true,
+    "recoveryPersistenceMonths": [
+      1,
+      2
+    ]
+  },
+  "protocolId": "e14-four-detector-candidate-generation-protocol-v2",
+  "researchBoundary": "nested-inner-development-only-current-history-revision-limited",
+  "schemaVersion": 2,
+  "thresholdSelection": {
+    "direction": "higher-is-more-stress",
+    "heldOutLabelsForbidden": true,
+    "minimumHistoryObservations": 60,
+    "quantiles": [
+      0.8,
+      0.9,
+      0.95
+    ],
+    "scope": "inner-train-within-leave-one-independent-positive-episode-out",
+    "selectedSeparatelyPerDetectorProfile": true
+  },
+  "vintageRiskPolicy": {
+    "currentHistoryAcceptedForNestedInnerResearch": true,
+    "futureSnapshotDriftMustBeHashComparedBeforeEvaluation": true,
+    "operationalPromotionFromThisProtocolForbidden": true,
+    "revisionLimitationMustRemainInManifest": true,
+    "strictVintageReady": false
+  }
+}

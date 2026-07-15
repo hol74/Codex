@@ -1,0 +1,49 @@
+{
+  "schemaVersion": 2,
+  "contractId": "e14-four-detector-protocol-readiness-contract-v2",
+  "frozenAt": "2026-07-15",
+  "inputHashes": {
+    "taxonomyV5Sha256": "d141416d08b68e932bc6cd2a25b9cd0eab06d159b8904907b7fff29d8c637d50",
+    "featureFoundationV2Sha256": "c069de82199f203786c405ef65c559f232f92053d47a8da4280cfde2b14f3127",
+    "featureFoundationLockV2Sha256": "110cec532fa0a479a975c36d927f36a08bf8daa4e53dafd598b8c5306fcecf85",
+    "featureFoundationAuditV2Sha256": "9940caae99522c994ec6ae5405af5b173fb2b75ca980195ecc90d707d9ded735",
+    "readinessRosterV2Sha256": "82f556f92fbdf0967b4b7c43c0edf75c59d165e7c3b0beab1b88529b1331105d",
+    "readinessAuditV2Sha256": "e297db22a11903294fb6c27af65711a77762ffe50e87b67ef4fbbbe16c5e497e",
+    "readinessPolicyV2Sha256": "a66a3ff573e5c27acbf12c6b738358cd324db51607ce7c1311f72313c252ad4f",
+    "protocolPlanV2Sha256": "a12a3a09dce11d8dfd7d157d5196fa6a7f07510dec4892b5d34e8d477c75639b",
+    "protocolSchemaV2Sha256": "89df14f795faf7c6444860a6d0566469e86b5bf9bcf5d326e6bb3a8c31e8f8c1"
+  },
+  "expectedCandidateCounts": {
+    "banking-credit": 4,
+    "broad-market-repricing": 16,
+    "cross-border-growth": 4,
+    "funding-liquidity": 4
+  },
+  "expectedProfileCounts": {
+    "banking-credit": 1,
+    "broad-market-repricing": 4,
+    "cross-border-growth": 1,
+    "funding-liquidity": 1
+  },
+  "identityPolicy": {
+    "candidateIdsMustEqualRosterInOrder": true,
+    "candidateIdRecomputationForbidden": true,
+    "preservedBroadCandidateIdCount": 16,
+    "newV2CandidateIdCount": 12,
+    "retiredV1CandidateIdCount": 24,
+    "retiredIdReuseForbidden": true
+  },
+  "authorizationPolicy": {
+    "protocolFreezeAuthorized": true,
+    "candidateManifestGenerationAuthorizedOnPass": true,
+    "featureTransformationAuthorized": false,
+    "candidateFittingAuthorized": false,
+    "candidateEvaluationAuthorized": false,
+    "candidateRankingAuthorized": false,
+    "crossMechanismCompositionAuthorized": false,
+    "outerOosAuthorized": false,
+    "promotionAuthorized": false
+  },
+  "expectedStatus": "RESEARCH_CANDIDATE_PROTOCOL_V2_READY_MANIFEST_GENERATION_AUTHORIZED_FITTING_CLOSED",
+  "nextAllowedAction": "E14.6e materialize the immutable 28-candidate manifest v2 by consuming roster entries verbatim; do not transform, fit, evaluate or rank candidates"
+}

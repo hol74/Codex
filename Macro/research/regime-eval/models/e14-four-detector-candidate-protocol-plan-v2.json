@@ -1,0 +1,101 @@
+{
+  "schemaVersion": 2,
+  "planId": "e14-four-detector-candidate-protocol-plan-v2",
+  "frozenAt": "2026-07-15",
+  "researchBoundary": "nested-inner-development-only-current-history-revision-limited",
+  "candidateBudget": 28,
+  "profilePolicy": {
+    "deriveProfilesExactlyFromReadinessRoster": true,
+    "crossMechanismProfileForbidden": true,
+    "profileMutationDuringManifestGenerationForbidden": true
+  },
+  "thresholdSelection": {
+    "quantiles": [0.8, 0.9, 0.95],
+    "scope": "inner-train-within-leave-one-independent-positive-episode-out",
+    "direction": "higher-is-more-stress",
+    "minimumHistoryObservations": 60,
+    "selectedSeparatelyPerDetectorProfile": true,
+    "heldOutLabelsForbidden": true
+  },
+  "persistence": {
+    "entryPersistenceMonths": [1, 2],
+    "recoveryPersistenceMonths": [1, 2],
+    "hysteresisRequired": true,
+    "allFourCombinationsRequiredPerProfile": true
+  },
+  "availabilityPolicy": {
+    "availabilityLagDerivedFromFoundationObservations": true,
+    "availableOnMustNotExceedScoringMonthEnd": true,
+    "missingObservationCannotBeCarriedAcrossItsCalendarSlot": true,
+    "carryBeyondMethodologyCoverageEndForbidden": true,
+    "zeroImputationForbidden": true,
+    "asOfSemanticsRequired": true
+  },
+  "evaluationPolicy": {
+    "foldMethod": "leave-one-independent-positive-episode-out-within-mechanism",
+    "requiredMetrics": [
+      "episode-hit-rate",
+      "episode-recall",
+      "worst-episode-recall",
+      "onset-delay-months",
+      "recovery-lag-months",
+      "hard-negative-alert-rate",
+      "unlabeled-alert-count-reported-not-scored"
+    ],
+    "positiveAndHardNegativeRequiredPerMechanism": true,
+    "unlabeledMonthsAreNotNegatives": true,
+    "aggregateSeparatelyPerMechanism": true,
+    "missingMetricCannotPass": true
+  },
+  "fundingBoundarySensitivityPolicy": {
+    "mustMatchReadinessPolicyExactly": true,
+    "missingSensitivityReportBlocksRanking": true,
+    "pre2019WindowIsNotAlternativeEligibilityGate": true,
+    "distributionEquivalenceClaimForbidden": true
+  },
+  "identityTransitionPolicy": {
+    "candidateIdsCopiedExactlyFromReadinessRoster": true,
+    "candidateIdRecomputationForbidden": true,
+    "preservedBroadCandidateIdCount": 16,
+    "newV2CandidateIdCount": 12,
+    "retiredV1CandidateIdCount": 24,
+    "retiredIdReuseForbidden": true
+  },
+  "generationPolicy": {
+    "futureManifestConsumesRosterEntriesVerbatim": true,
+    "onlyLifecycleTransitionAllowed": "readiness-planned-not-generated-not-fit-to-research-generated-not-fit",
+    "featureBindingMutationForbidden": true,
+    "eligibilityMutationForbidden": true,
+    "deterministicWriteOnceManifestRequired": true
+  },
+  "vintageRiskPolicy": {
+    "strictVintageReady": false,
+    "currentHistoryAcceptedForNestedInnerResearch": true,
+    "futureSnapshotDriftMustBeHashComparedBeforeEvaluation": true,
+    "revisionLimitationMustRemainInManifest": true,
+    "operationalPromotionFromThisProtocolForbidden": true
+  },
+  "constraints": {
+    "causalFeaturesOnly": true,
+    "trainOnlyTransforms": true,
+    "missingValuesRemainExplicit": true,
+    "crossMethodologySplicingForbidden": true,
+    "crossMechanismFusion": false,
+    "outerOosForbidden": true
+  },
+  "compositionPolicy": {
+    "compositionAuthorized": false,
+    "requiredBeforeComposition": "each-detector-passes-absolute-mechanism-gate-and-required-sensitivity-reports"
+  },
+  "authorizationPolicy": {
+    "protocolFreezeAuthorized": true,
+    "candidateManifestGenerationAuthorizedOnPass": true,
+    "featureTransformationAuthorized": false,
+    "candidateFittingAuthorized": false,
+    "candidateEvaluationAuthorized": false,
+    "candidateRankingAuthorized": false,
+    "crossMechanismCompositionAuthorized": false,
+    "outerOosAuthorized": false,
+    "promotionAuthorized": false
+  }
+}

@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://macro-regime.local/schemas/e14-four-detector-candidate-manifest-v2.json",
+  "title": "E14 four-detector generated candidate manifest v2",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "artifactType",
+    "manifestId",
+    "immutable",
+    "status",
+    "generationId",
+    "inputs",
+    "candidateCount",
+    "candidateCountByMechanism",
+    "candidateIds",
+    "researchBoundary",
+    "fundingBoundarySensitivity",
+    "retiredCandidateIds",
+    "authorizations",
+    "candidates",
+    "implementation"
+  ],
+  "properties": {
+    "schemaVersion": {"const": 2},
+    "artifactType": {"const": "E14FourDetectorGeneratedCandidateManifest"},
+    "manifestId": {"const": "e14-generated-four-detector-candidates-v2"},
+    "immutable": {"const": true},
+    "status": {"const": "GENERATED_V2_NOT_TRANSFORMED_NOT_FIT_NOT_EVALUATED_OUTER_OOS_CLOSED"},
+    "generationId": {"type": "string", "minLength": 24, "maxLength": 24},
+    "inputs": {"type": "object"},
+    "candidateCount": {"const": 28},
+    "candidateCountByMechanism": {"type": "object"},
+    "candidateIds": {"type": "array", "minItems": 28, "maxItems": 28, "uniqueItems": true},
+    "researchBoundary": {"const": "nested-inner-development-only-current-history-revision-limited"},
+    "fundingBoundarySensitivity": {"type": "object"},
+    "retiredCandidateIds": {"type": "array", "minItems": 24, "maxItems": 24, "uniqueItems": true},
+    "authorizations": {"type": "object"},
+    "candidates": {"type": "array", "minItems": 28, "maxItems": 28},
+    "implementation": {"type": "object"}
+  }
+}

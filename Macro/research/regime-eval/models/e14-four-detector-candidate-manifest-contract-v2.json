@@ -1,0 +1,46 @@
+{
+  "schemaVersion": 2,
+  "contractId": "e14-four-detector-candidate-manifest-contract-v2",
+  "frozenAt": "2026-07-15",
+  "inputHashes": {
+    "taxonomyV5Sha256": "d141416d08b68e932bc6cd2a25b9cd0eab06d159b8904907b7fff29d8c637d50",
+    "featureFoundationV2Sha256": "c069de82199f203786c405ef65c559f232f92053d47a8da4280cfde2b14f3127",
+    "featureFoundationLockV2Sha256": "110cec532fa0a479a975c36d927f36a08bf8daa4e53dafd598b8c5306fcecf85",
+    "readinessRosterV2Sha256": "82f556f92fbdf0967b4b7c43c0edf75c59d165e7c3b0beab1b88529b1331105d",
+    "readinessAuditV2Sha256": "e297db22a11903294fb6c27af65711a77762ffe50e87b67ef4fbbbe16c5e497e",
+    "candidateProtocolV2Sha256": "edf3cbeb9bb77d502109fc25ccdb463d9f39f7496f7c24039468c70e7c379955",
+    "protocolReadinessAuditV2Sha256": "565ccb0d6f7d28443d650f705c0e7f8f14656b2b1b8986c2a90a13fe4625a3e8",
+    "manifestSchemaV2Sha256": "db8658eb995bdfce1be4d910045227c20606a329497649f0aef2b940cac27fc8"
+  },
+  "expectedCandidateCounts": {
+    "banking-credit": 4,
+    "broad-market-repricing": 16,
+    "cross-border-growth": 4,
+    "funding-liquidity": 4
+  },
+  "identityPolicy": {
+    "candidateIdsMustEqualRosterAndProtocolInOrder": true,
+    "onlyLifecycleStatusTransitionAllowed": true,
+    "sourceLifecycleStatus": "readiness-planned-not-generated-not-fit",
+    "generatedLifecycleStatus": "research-generated-not-fit",
+    "candidateIdRecomputationForbidden": true,
+    "profileMutationForbidden": true,
+    "featureBindingMutationForbidden": true,
+    "persistenceMutationForbidden": true,
+    "eligibilityMutationForbidden": true,
+    "retiredIdReuseForbidden": true,
+    "writeOnce": true
+  },
+  "authorizationPolicy": {
+    "candidateManifestMaterializationAuthorized": true,
+    "featureTransformationAuthorized": false,
+    "candidateFittingAuthorized": false,
+    "candidateEvaluationAuthorized": false,
+    "candidateRankingAuthorized": false,
+    "crossMechanismCompositionAuthorized": false,
+    "outerOosAuthorized": false,
+    "promotionAuthorized": false
+  },
+  "expectedStatus": "GENERATED_V2_NOT_TRANSFORMED_NOT_FIT_NOT_EVALUATED_OUTER_OOS_CLOSED",
+  "nextAllowedAction": "E14.6f preregister the v2 inner-only fitting and leave-one-episode-out evaluation gate before any transform or fit"
+}
