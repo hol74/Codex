@@ -1,0 +1,60 @@
+{
+  "schemaVersion": 1,
+  "contractId": "e14-vintage-policy-decision-contract-v1",
+  "frozenAt": "2026-07-15",
+  "inputHashes": {
+    "taxonomyV5Sha256": "d141416d08b68e932bc6cd2a25b9cd0eab06d159b8904907b7fff29d8c637d50",
+    "hypothesisPlanV1Sha256": "e6097e1cc9977ac87e24a5649a3d41d4e029bf597f6c3bbb94ff1df779a19e4d",
+    "replacementFeasibilityContractV1Sha256": "5211d85c472680d93483c787e457381ccb120d7801c0f0a36f9e1e76ae7bbafc",
+    "replacementFeasibilityAuditV1Sha256": "7dcfaa24e9df9c46f0e0ddfd499acf4eeab8f5343c85b970ddf268a7e0c36413",
+    "vintagePolicyPlanV1Sha256": "3932629ce1e6c4ebdacc4f47efbfbe6f8a394d8fcc0e2640db082b0447b252af",
+    "vintagePolicySchemaV1Sha256": "9b5ce1b2028adb6455000534b17f85fab94961858fdf58270801fef5fa8ca23a"
+  },
+  "expectedAlternativeCount": 3,
+  "expectedSelectedPolicy": "separately-versioned-post-2005-research-scope",
+  "expectedCutoffInclusive": "2006-01-01",
+  "expectedUniquePositiveEpisodeCount": 6,
+  "expectedPositiveMechanismAssignmentCount": 10,
+  "expectedUniqueHardNegativeEpisodeCount": 4,
+  "expectedHardNegativeMechanismAssignmentCount": 6,
+  "expectedPositiveEpisodeCounts": {
+    "banking-credit": 2,
+    "broad-market-repricing": 4,
+    "cross-border-growth": 2,
+    "funding-liquidity": 2
+  },
+  "expectedHardNegativeEpisodeCounts": {
+    "banking-credit": 0,
+    "broad-market-repricing": 2,
+    "cross-border-growth": 2,
+    "funding-liquidity": 2
+  },
+  "decisionPolicy": {
+    "legacyE14MustRemainClosed": true,
+    "eventTimeStandardCannotBeRelaxed": true,
+    "cutoffMustDeriveFromAvailabilityEvidence": true,
+    "minimumTwoPositiveEpisodesPerMechanism": true,
+    "minimumTwoHardNegativesPerMechanismBeforeTaxonomyProposal": true,
+    "post2005ScopeMustUseNewVersionIdentifiers": true,
+    "archivePathCannotBeSelectedWithinCurrentWindow": true,
+    "bankingControlGapMustRemainBlocking": true
+  },
+  "authorizationPolicy": {
+    "vintagePolicyDecisionPreregistrationAuthorized": true,
+    "post2005ScopeFeasibilityDesignAuthorized": true,
+    "bankingHardNegativeFeasibilityDesignAuthorized": true,
+    "sourceAcquisitionAuthorized": false,
+    "historicalArchiveAcquisitionAuthorized": false,
+    "featureFoundationMaterializationAuthorized": false,
+    "taxonomyMutationAuthorized": false,
+    "candidateGenerationAuthorized": false,
+    "candidateFittingAuthorized": false,
+    "candidateEvaluationAuthorized": false,
+    "candidateRankingAuthorized": false,
+    "crossMechanismCompositionAuthorized": false,
+    "outerOosAuthorized": false,
+    "promotionAuthorized": false
+  },
+  "expectedStatus": "VINTAGE_POLICY_POST_2005_SCOPE_SELECTED_BANKING_CONTROLS_REQUIRED",
+  "nextAllowedAction": "E14.7e preregister post-2005 scope feasibility and at least two independent banking-credit hard-negative dossiers; do not mutate taxonomy or acquire source observations"
+}

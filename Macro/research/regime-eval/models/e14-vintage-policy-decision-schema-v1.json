@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "e14-vintage-policy-decision-schema-v1",
+  "title": "E14.7d Vintage Policy Decision",
+  "type": "object",
+  "required": [
+    "schemaVersion", "planId", "frozenAt", "decisionBoundary", "alternatives",
+    "selectedPolicy", "post2005Scope", "governance", "authorizations"
+  ],
+  "properties": {
+    "schemaVersion": {"const": 1},
+    "planId": {"const": "e14-vintage-policy-decision-plan-v1"},
+    "frozenAt": {"type": "string", "format": "date"},
+    "decisionBoundary": {"type": "string", "minLength": 1},
+    "alternatives": {"type": "array", "minItems": 3, "maxItems": 3},
+    "selectedPolicy": {"const": "separately-versioned-post-2005-research-scope"},
+    "post2005Scope": {"type": "object"},
+    "governance": {"type": "object"},
+    "authorizations": {"type": "object"}
+  },
+  "additionalProperties": false
+}

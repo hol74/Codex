@@ -901,13 +901,106 @@ copertura degli episodi.
    - chiusa con no-go l'intera famiglia v2 esistente; autorizzato soltanto il
      design preregistrato di una nuova ipotesi informativa, senza materializzare
      dati, generare o rivalutare candidati.
-15. E14.7 - preregistrazione nuova ipotesi informativa (PROSSIMO PASSO):
+15. E14.7 - preregistrazione nuova ipotesi informativa (COMPLETATO):
    - definire famiglie feature complementari per meccanismo con firme attese
      episodio per episodio e fonti verificabili;
    - separare onset, intensita' e recovery e congelare direzione, trasformazione
      e ablation prima di popolare nuovi dati;
    - mantenere taxonomy v5, gate, fitting, ranking, composizione e outer OOS
      immutati/chiusi fino a un nuovo readiness audit.
+   - esito: congelate 8 famiglie informative, due per meccanismo, basate su 10
+     fonti verificabili e accompagnate da 17 firme onset/intensita'/recovery,
+     una per ogni episodio positivo usato nel LOEO v2;
+   - banking aggiunge deterioramento patrimoniale e flussi di bilancio;
+     broad aggiunge drawdown azionario e dispersione creditizia; cross-border
+     aggiunge dollar shock BIS e contrazione dei flussi bancari internazionali;
+     funding aggiunge tiering commercial paper e dislocazione repo SOFR-era;
+   - preregistrate falsification condition, regimi metodologici, missingness e
+     ablation prima della popolazione. Nessuna fonte e' stata scaricata e
+     taxonomy, foundation, generation, fitting, evaluation e outer restano
+     chiusi.
+16. E14.7a - source and vintage feasibility audit (COMPLETATO, BLOCCATO):
+   - verificare accessibilita', licenza, copertura episodio per episodio,
+     release/vintage semantics e correzioni delle 10 fonti preregistrate;
+   - classificare ogni famiglia `ready`, `conditional` o `blocked` senza
+     sostituzioni fallback suggerite dai risultati;
+   - autorizzare l'acquisizione soltanto con un successivo contratto separato;
+     E14.7a resta read-only rispetto ai dati di ricerca.
+   - esito fonti: 1 `ready`, 5 `conditional`, 4 `blocked`; esito famiglie:
+     0 `ready`, 3 `conditional`, 5 `blocked`;
+   - i tre blocchi strutturali di storia causale sono FDIC aggregate per
+     Continental Illinois (4/60 mesi), commercial paper per Russia/LTCM
+     (19/60) e SOFR repo per settembre 2019 (17/36); si aggiungono i blocchi
+     licenza Nasdaq/Moody's e la copertura storica incompleta del volume CP;
+   - restano condizionali H.8, BIS effective exchange rates e BIS locational
+     banking statistics per vintage/release semantics non ancora provati;
+   - nessuna acquisizione autorizzata. Le cinque famiglie bloccate sono
+     ritirate senza fallback e le tre condizionali restano congelate.
+17. E14.7b - feasibility remediation preregistration (COMPLETATO):
+   - conservare immutate le tre famiglie condizionali e definire i soli task
+     documentali necessari per vintage, release archive e methodology manifest;
+   - ritirare formalmente le cinque famiglie bloccate e preregistrare eventuali
+     sostituzioni motivate indipendentemente, senza riutilizzare i dati o gli
+     esiti LOEO per scegliere ex post la fonte;
+   - mantenere download, foundation, candidati, fitting, evaluation e outer OOS
+     chiusi fino a un nuovo gate di fattibilita' completo.
+   - esito: preservate esattamente le 3 famiglie condizionali con task
+     documentali espliciti e ritirate senza fallback le 5 famiglie bloccate;
+   - preregistrate 5 sostituzioni indipendenti basate su 7 fonti ufficiali:
+     statistiche storiche annuali FDIC, Z.1 Fed, DGS2/DGS10, DCD90/DTB3 e
+     statistiche primary dealer della New York Fed;
+   - tutte le sostituzioni rispettano nominalmente la storia causale minima
+     congelata, ma la copertura nominale non costituisce readiness: licenza,
+     vintage, release semantics e metodologia devono essere riesaminati;
+   - nessuna osservazione scaricata, nessun dato di valutazione/outer usato e
+     nessuna modifica a taxonomy, soglie o gate.
+18. E14.7c - replacement and conditional source feasibility re-audit
+    (COMPLETATO, BLOCCATO):
+   - raccogliere e congelare prove provider-primary per le 3 famiglie
+     condizionali e le 7 fonti delle 5 sostituzioni;
+   - verificare licenza, copertura componente, data di pubblicazione, vintage,
+     revisioni e regimi metodologici senza scaricare osservazioni di ricerca;
+   - autorizzare una successiva acquisizione solo se ogni famiglia risulta
+     `ready`; in caso contrario chiudere il ramo o preregistrare un'ulteriore
+     remediation senza fallback post-hoc.
+   - esito fonti: 1 `ready` (`fred-dtb3`) e 9 `blocked`; esito famiglie:
+     0 `ready` e 8 `blocked`;
+   - H.8 non prova release pre-1984; gli archivi online Z.1 iniziano nel 1996
+     e ALFRED documenta DGS2/DGS10/DTB3 soltanto dal 2005; BIS EER/LBS non
+     offre vintages provider-primary completi per tutti gli episodi;
+   - FDIC annual historical e primary dealer NY Fed hanno copertura nominale,
+     ma non chiudono insieme componenti, termini di snapshot, revisioni e
+     release storiche immutabili;
+   - nessuna acquisizione autorizzata: la copertura osservazionale lunga non
+     sostituisce la disponibilita' event-time verificabile.
+19. E14.7d - vintage-policy decision preregistration (COMPLETATO):
+   - scegliere prima di qualsiasi dato fra chiusura E14, ricostruzione
+     archivistica finanziata mantenendo lo standard corrente, oppure uno scope
+     di ricerca post-2005 separatamente versionato;
+   - quantificare perdita di episodi e identificabilita' per ogni opzione,
+     senza usare osservazioni, LOEO o outer OOS per scegliere la policy;
+   - vietare qualsiasi rilassamento implicito della causalita' o sostituzione
+     della publication availability con la sola observation date.
+   - esito: selezionato condizionalmente uno scope di ricerca separato con
+     cutoff immutabile `2006-01-01`; il ramo E14 storico resta chiuso;
+   - scartata la chiusura immediata perche' esiste ancora un esperimento
+     identificabile; ricostruzione archivistica rinviata a backlog finanziato
+     perche' incompatibile con la finestra fino al 31 luglio;
+   - preservati 6 eventi positivi unici e 10 assegnazioni meccanismo-evento,
+     con almeno 2 positivi per ciascun meccanismo;
+   - hard negative post-cutoff: banking 0, broad 2, cross-border 2, funding 2;
+     lo scope non e' attivo e servono 2 nuovi controlli banking indipendenti;
+   - taxonomy v5, fonti, dataset, fitting, evaluation e outer OOS restano
+     immutati/chiusi.
+20. E14.7e - post-2005 scope and banking hard-negative feasibility
+    (PROSSIMO PASSO):
+   - preregistrare criteri e candidati documentali per almeno 2 hard negative
+     banking-credit post-2005, indipendenti dai positivi e dagli esiti modello;
+   - riesaminare la disponibilita' source/vintage nel nuovo scope senza
+     acquisire osservazioni e senza ereditare automaticamente le famiglie
+     bloccate E14.7c;
+   - autorizzare una proposta di taxonomy separata soltanto se positivi,
+     controlli e fonti raggiungono la fattibilita' minima congelata.
 
 Analisi E14:
 `docs/e14-riesame-problema-informativo.md`.
@@ -1004,6 +1097,21 @@ Checkpoint E14.6g:
 
 Checkpoint E14.6h:
 `docs/checkpoints/0090-fase-e14-6h-no-go-diagnostic.md`.
+
+Checkpoint E14.7:
+`docs/checkpoints/0091-fase-e14-7-new-information-preregistered.md`.
+
+Checkpoint E14.7a:
+`docs/checkpoints/0092-fase-e14-7a-source-vintage-feasibility-blocked.md`.
+
+Checkpoint E14.7b:
+`docs/checkpoints/0093-fase-e14-7b-feasibility-remediation-preregistered.md`.
+
+Checkpoint E14.7c:
+`docs/checkpoints/0094-fase-e14-7c-replacement-source-feasibility-blocked.md`.
+
+Checkpoint E14.7d:
+`docs/checkpoints/0095-fase-e14-7d-vintage-policy-post-2005-selected.md`.
 
 
 

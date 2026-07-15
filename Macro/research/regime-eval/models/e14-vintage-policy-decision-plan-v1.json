@@ -1,0 +1,88 @@
+{
+  "schemaVersion": 1,
+  "planId": "e14-vintage-policy-decision-plan-v1",
+  "frozenAt": "2026-07-15",
+  "decisionBoundary": "Choose the next research-policy branch after E14.7c using only frozen taxonomy metadata, source-feasibility evidence, causal integrity, identifiability and execution feasibility. The legacy E14 no-go, taxonomy v5, thresholds, scores and outer OOS remain immutable.",
+  "alternatives": [
+    {
+      "alternativeId": "close-e14-research-branch",
+      "preservesEventTimeStandard": true,
+      "requiresHistoricalObservationAcquisition": false,
+      "canCompleteDesignBy2026-07-31": true,
+      "retainsFurtherCandidateResearch": false,
+      "decision": "not-selected",
+      "reason": "Scientifically valid but prematurely abandons a separately versioned recent-history experiment that can be designed without weakening the legacy result."
+    },
+    {
+      "alternativeId": "fund-provider-primary-archival-reconstruction",
+      "preservesEventTimeStandard": true,
+      "requiresHistoricalObservationAcquisition": true,
+      "canCompleteDesignBy2026-07-31": false,
+      "retainsFurtherCandidateResearch": true,
+      "decision": "deferred-backlog",
+      "reason": "Potentially valid for a future funded project, but nine blocked sources and observation-bearing archive work make it incompatible with the current two-week research window."
+    },
+    {
+      "alternativeId": "separately-versioned-post-2005-research-scope",
+      "preservesEventTimeStandard": true,
+      "requiresHistoricalObservationAcquisition": false,
+      "canCompleteDesignBy2026-07-31": true,
+      "retainsFurtherCandidateResearch": true,
+      "decision": "selected-conditionally",
+      "reason": "Retains at least two frozen positive episodes per mechanism after the cutoff, leaves legacy E14 unchanged and permits a new availability-aware source design; banking hard-negative coverage must be repaired before any taxonomy proposal."
+    }
+  ],
+  "selectedPolicy": "separately-versioned-post-2005-research-scope",
+  "post2005Scope": {
+    "scopeId": "e14-post-2005-research-scope-proposal-v1",
+    "cutoffInclusive": "2006-01-01",
+    "cutoffBasis": "First full calendar year after the June 2005 start of ALFRED metadata for key H.15 series; the cutoff is selected from availability evidence, never from model scores.",
+    "minimumPositiveEpisodesPerMechanism": 2,
+    "minimumHardNegativeEpisodesPerMechanism": 2,
+    "expectedPositiveEpisodeCounts": {
+      "banking-credit": 2,
+      "broad-market-repricing": 4,
+      "cross-border-growth": 2,
+      "funding-liquidity": 2
+    },
+    "expectedHardNegativeEpisodeCounts": {
+      "banking-credit": 0,
+      "broad-market-repricing": 2,
+      "cross-border-growth": 2,
+      "funding-liquidity": 2
+    },
+    "requiredBankingHardNegativeAdditions": 2,
+    "positiveIdentifiabilitySatisfied": true,
+    "hardNegativeIdentifiabilitySatisfied": false,
+    "scopeActivationStatus": "blocked-pending-banking-hard-negative-feasibility",
+    "nextRequiredArtifact": "E14.7e post-2005 scope and banking hard-negative feasibility preregistration"
+  },
+  "governance": {
+    "legacyE14ClosedAndImmutable": true,
+    "legacyTaxonomyV5Unchanged": true,
+    "selectedUsingSeriesObservations": false,
+    "selectedUsingLoeoScores": false,
+    "selectedUsingOuterOos": false,
+    "observationDateCannotReplacePublicationAvailability": true,
+    "cutoffCannotBeRetunedAfterEvaluation": true,
+    "post2005ScopeMustUseNewVersionIdentifiers": true,
+    "bankingHardNegativeGapMustBlockTaxonomyProposal": true,
+    "archivalReconstructionRetainedOnlyAsUnfundedBacklog": true
+  },
+  "authorizations": {
+    "vintagePolicyDecisionPreregistrationAuthorized": true,
+    "post2005ScopeFeasibilityDesignAuthorized": true,
+    "bankingHardNegativeFeasibilityDesignAuthorized": true,
+    "sourceAcquisitionAuthorized": false,
+    "historicalArchiveAcquisitionAuthorized": false,
+    "featureFoundationMaterializationAuthorized": false,
+    "taxonomyMutationAuthorized": false,
+    "candidateGenerationAuthorized": false,
+    "candidateFittingAuthorized": false,
+    "candidateEvaluationAuthorized": false,
+    "candidateRankingAuthorized": false,
+    "crossMechanismCompositionAuthorized": false,
+    "outerOosAuthorized": false,
+    "promotionAuthorized": false
+  }
+}

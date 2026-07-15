@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "e14-source-vintage-feasibility-evidence-schema-v1",
+  "title": "E14.7a Source and Vintage Feasibility Evidence",
+  "type": "object",
+  "required": ["schemaVersion", "evidencePackId", "checkedAtUtc", "networkPolicy", "sources"],
+  "properties": {
+    "schemaVersion": {"const": 1},
+    "evidencePackId": {"const": "e14-source-vintage-feasibility-evidence-v1"},
+    "checkedAtUtc": {"type": "string", "format": "date-time"},
+    "networkPolicy": {"const": "metadata-only-no-series-download"},
+    "sources": {
+      "type": "array", "minItems": 10, "maxItems": 10,
+      "items": {
+        "type": "object",
+        "required": [
+          "sourceId", "providerPrimaryPageReachable", "coverageClaimVerified",
+          "componentCoverageStatus", "licensingStatus", "vintageStatus",
+          "releaseSemanticsStatus", "methodologyStatus", "evidenceUrls", "evidenceNotes"
+        ],
+        "properties": {
+          "sourceId": {"type": "string", "minLength": 1},
+          "providerPrimaryPageReachable": {"type": "boolean"},
+          "coverageClaimVerified": {"type": "boolean"},
+          "componentCoverageStatus": {"enum": ["complete", "partial", "unverified"]},
+          "licensingStatus": {"enum": ["permitted-with-attribution", "permission-required", "provider-terms-review-required"]},
+          "vintageStatus": {"enum": ["event-time-snapshot-adequate", "same-day-revision-flags-adequate", "current-history-vintage-proof-required", "release-archive-proof-required"]},
+          "releaseSemanticsStatus": {"enum": ["documented", "publication-date-join-required", "historical-release-coverage-incomplete"]},
+          "methodologyStatus": {"enum": ["stable-with-manifest", "breaks-documented-manifest-required", "current-history-reconstructed", "component-definition-break"]},
+          "evidenceUrls": {"type": "array", "minItems": 1, "items": {"type": "string", "pattern": "^https://"}},
+          "evidenceNotes": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}}
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}

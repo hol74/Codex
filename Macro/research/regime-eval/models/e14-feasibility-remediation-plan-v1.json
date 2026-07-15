@@ -1,0 +1,235 @@
+{
+  "schemaVersion": 1,
+  "planId": "e14-feasibility-remediation-plan-v1",
+  "frozenAt": "2026-07-15",
+  "researchBoundary": "Design-only remediation after the failed E14.7a feasibility gate. Conditional families are preserved without acquisition, blocked families are retired without fallback, and independently motivated replacements are preregistered for a new metadata-only feasibility audit.",
+  "preservedConditionalFamilies": [
+    {
+      "familyId": "bank-balance-sheet-flow",
+      "mechanism": "banking-credit",
+      "requiredEvidenceTasks": [
+        "Locate and hash provider-primary H.8 releases covering the 60-month causal history before Continental Illinois 1984.",
+        "Prove observation-date, publication-date and revision semantics for deposits, borrowings and bank credit.",
+        "Freeze a field-definition and benchmark-revision manifest without downloading research observations."
+      ],
+      "acquisitionStatus": "closed-pending-reaudit"
+    },
+    {
+      "familyId": "cross-dollar-shock",
+      "mechanism": "cross-border-growth",
+      "requiredEvidenceTasks": [
+        "Freeze distinct BIS narrow and broad EER methodology regimes and applicable episode mapping.",
+        "Prove release-calendar and historical-vintage semantics for every applicable episode.",
+        "Record attribution and API/export terms in a source contract."
+      ],
+      "acquisitionStatus": "closed-pending-reaudit"
+    },
+    {
+      "familyId": "cross-bank-flow-contraction",
+      "mechanism": "cross-border-growth",
+      "requiredEvidenceTasks": [
+        "Freeze BIS LBS reporting-population and methodology breaks for each required geography and quarter.",
+        "Prove publication-date joins and locate immutable historical release snapshots.",
+        "Confirm availability of break- and exchange-rate-adjusted flows for every applicable episode."
+      ],
+      "acquisitionStatus": "closed-pending-reaudit"
+    }
+  ],
+  "retiredFamilies": [
+    {
+      "familyId": "bank-loss-absorption",
+      "mechanism": "banking-credit",
+      "retirementReason": "Only 4 of 60 causal-history months exist before Continental Illinois and the current workbook does not prove the original release vintage.",
+      "fallbackAuthorized": false
+    },
+    {
+      "familyId": "broad-equity-drawdown",
+      "mechanism": "broad-market-repricing",
+      "retirementReason": "NASDAQCOM requires third-party permission for the intended immutable research snapshot.",
+      "fallbackAuthorized": false
+    },
+    {
+      "familyId": "broad-credit-quality-dispersion",
+      "mechanism": "broad-market-repricing",
+      "retirementReason": "Both Moody's legs remain proprietary and cannot be frozen without permission.",
+      "fallbackAuthorized": false
+    },
+    {
+      "familyId": "funding-unsecured-tiering",
+      "mechanism": "funding-liquidity",
+      "retirementReason": "Only 19 of 60 causal-history months exist before Russia/LTCM and complete historical issuance-volume coverage is unproven.",
+      "fallbackAuthorized": false
+    },
+    {
+      "familyId": "funding-secured-repo-dislocation",
+      "mechanism": "funding-liquidity",
+      "retirementReason": "SOFR-era history supplies only 17 of 36 required months before repo-stress 2019.",
+      "fallbackAuthorized": false
+    }
+  ],
+  "replacementSources": [
+    {
+      "sourceId": "fdic-annual-historical-summaries",
+      "provider": "Federal Deposit Insurance Corporation",
+      "url": "https://banks.data.fdic.gov/bankfind-suite/historical",
+      "coverageFrom": "1934-12-31",
+      "frequency": "annual",
+      "licensingExpectation": "provider-terms-review-required",
+      "vintageExpectation": "historical-release-proof-required",
+      "selectionBasis": "Official annual aggregate financial and structural banking statistics provide pre-event structural fragility history unavailable in the retired quarterly family."
+    },
+    {
+      "sourceId": "federal-reserve-z1-corporate-equities",
+      "provider": "Board of Governors of the Federal Reserve System",
+      "url": "https://www.federalreserve.gov/datadownload/Choose.aspx?rel=Z1",
+      "coverageFrom": "1945-10-01",
+      "frequency": "quarterly",
+      "licensingExpectation": "permitted-with-attribution",
+      "vintageExpectation": "historical-release-proof-required",
+      "selectionBasis": "Official market-value aggregates and dated Z.1 release archives provide a public replacement for the licensed equity index."
+    },
+    {
+      "sourceId": "fred-dgs2",
+      "provider": "Board of Governors of the Federal Reserve System via FRED",
+      "url": "https://fred.stlouisfed.org/series/DGS2",
+      "coverageFrom": "1976-06-01",
+      "frequency": "daily",
+      "licensingExpectation": "public-domain-citation-requested",
+      "vintageExpectation": "event-time-snapshot-and-correction-manifest",
+      "selectionBasis": "Public-domain short Treasury maturity used to measure rate repricing and curve rotation without proprietary corporate spreads."
+    },
+    {
+      "sourceId": "fred-dgs10",
+      "provider": "Board of Governors of the Federal Reserve System via FRED",
+      "url": "https://fred.stlouisfed.org/series/DGS10",
+      "coverageFrom": "1962-01-02",
+      "frequency": "daily",
+      "licensingExpectation": "public-domain-citation-requested",
+      "vintageExpectation": "event-time-snapshot-and-correction-manifest",
+      "selectionBasis": "Public-domain long Treasury maturity paired with DGS2 to capture broad rate dislocation and curve rotation."
+    },
+    {
+      "sourceId": "fred-dcd90",
+      "provider": "Board of Governors of the Federal Reserve System via FRED",
+      "url": "https://fred.stlouisfed.org/series/DCD90",
+      "coverageFrom": "1964-06-01",
+      "coverageTo": "2013-06-28",
+      "frequency": "daily",
+      "licensingExpectation": "public-domain-citation-requested",
+      "vintageExpectation": "event-time-snapshot-and-correction-manifest",
+      "selectionBasis": "The public-domain secondary-market CD rate supplies a long unsecured bank-funding leg for Russia/LTCM without changing the 60-month history rule."
+    },
+    {
+      "sourceId": "fred-dtb3",
+      "provider": "Board of Governors of the Federal Reserve System via FRED",
+      "url": "https://fred.stlouisfed.org/series/DTB3",
+      "coverageFrom": "1954-01-04",
+      "frequency": "daily",
+      "licensingExpectation": "public-domain-citation-requested",
+      "vintageExpectation": "event-time-snapshot-and-correction-manifest",
+      "selectionBasis": "The already-ready Treasury-bill leg is retained only as the matched risk-free reference for DCD90."
+    },
+    {
+      "sourceId": "new-york-fed-primary-dealer-statistics",
+      "provider": "Federal Reserve Bank of New York",
+      "url": "https://www.newyorkfed.org/markets/counterparties/primary-dealers-statistics",
+      "coverageFrom": "1998-01-28",
+      "frequency": "weekly",
+      "licensingExpectation": "provider-terms-review-required",
+      "vintageExpectation": "dated-release-and-revision-manifest-required",
+      "selectionBasis": "Official dealer financing and fails data predate the SOFR regime and provide secured-market balance-sheet information for 2019 and 2023."
+    }
+  ],
+  "replacementFamilies": [
+    {
+      "replacementFamilyId": "bank-preexisting-structural-fragility",
+      "replacesFamilyId": "bank-loss-absorption",
+      "mechanism": "banking-credit",
+      "sourceIds": ["fdic-annual-historical-summaries"],
+      "components": ["negative-institution-count-change", "asset-concentration", "failure-and-assistance-asset-share"],
+      "informationRole": "Pre-event structural fragility only; never an onset label or contemporaneous event proxy.",
+      "allowedTransform": "causal-annual-change-percentile",
+      "minimumHistoryMonths": 60,
+      "applicableEpisodeIds": ["continental-illinois-1984", "euro-sovereign-stress-2011", "regional-bank-stress-2023"],
+      "phaseRole": "intensity-context-only",
+      "status": "proposal-not-acquired"
+    },
+    {
+      "replacementFamilyId": "broad-public-equity-valuation-drawdown",
+      "replacesFamilyId": "broad-equity-drawdown",
+      "mechanism": "broad-market-repricing",
+      "sourceIds": ["federal-reserve-z1-corporate-equities"],
+      "components": ["market-value-quarterly-drawdown", "negative-quarterly-market-value-change"],
+      "informationRole": "Public quarterly breadth proxy, release-available only and never backfilled within the quarter.",
+      "allowedTransform": "causal-quarterly-drawdown",
+      "minimumHistoryMonths": 60,
+      "applicableEpisodeIds": ["china-eme-stress-2015-2016", "euro-sovereign-stress-2011", "mexico-bond-turbulence-1994", "risk-repricing-2018q4", "russia-ltcm-1998", "taper-tantrum-2013"],
+      "phaseRole": "intensity-and-recovery",
+      "status": "proposal-not-acquired"
+    },
+    {
+      "replacementFamilyId": "broad-treasury-rate-dislocation",
+      "replacesFamilyId": "broad-credit-quality-dispersion",
+      "mechanism": "broad-market-repricing",
+      "sourceIds": ["fred-dgs2", "fred-dgs10"],
+      "components": ["maximum-absolute-daily-yield-change", "two-ten-curve-rotation", "one-month-yield-range"],
+      "informationRole": "Public rate-repricing dimension; it does not claim to reproduce proprietary credit dispersion.",
+      "allowedTransform": "causal-rolling-percentile",
+      "minimumHistoryMonths": 60,
+      "applicableEpisodeIds": ["china-eme-stress-2015-2016", "euro-sovereign-stress-2011", "mexico-bond-turbulence-1994", "risk-repricing-2018q4", "russia-ltcm-1998", "taper-tantrum-2013"],
+      "phaseRole": "onset-and-intensity",
+      "status": "proposal-not-acquired"
+    },
+    {
+      "replacementFamilyId": "funding-cd-tbill-tiering",
+      "replacesFamilyId": "funding-unsecured-tiering",
+      "mechanism": "funding-liquidity",
+      "sourceIds": ["fred-dcd90", "fred-dtb3"],
+      "components": ["dcd90-minus-dtb3-spread", "one-month-spread-change"],
+      "informationRole": "LIBOR-era unsecured bank-funding signal applicable only through the DCD90 discontinuation boundary.",
+      "allowedTransform": "causal-rolling-percentile",
+      "minimumHistoryMonths": 60,
+      "applicableEpisodeIds": ["russia-ltcm-1998"],
+      "phaseRole": "onset-intensity-and-recovery",
+      "status": "proposal-not-acquired"
+    },
+    {
+      "replacementFamilyId": "funding-primary-dealer-repo-balance",
+      "replacesFamilyId": "funding-secured-repo-dislocation",
+      "mechanism": "funding-liquidity",
+      "sourceIds": ["new-york-fed-primary-dealer-statistics"],
+      "components": ["net-repo-financing-change", "securities-financing-volume-change", "settlement-fails-rate"],
+      "informationRole": "Secured dealer-balance-sheet and market-function signal; data-structure regimes remain separate.",
+      "allowedTransform": "causal-rolling-percentile",
+      "minimumHistoryMonths": 36,
+      "applicableEpisodeIds": ["repo-stress-2019", "regional-bank-stress-2023"],
+      "phaseRole": "onset-intensity-and-recovery",
+      "status": "proposal-not-acquired"
+    }
+  ],
+  "governance": {
+    "replacementSelectionUsedSeriesObservations": false,
+    "replacementSelectionUsedLoeoScores": false,
+    "replacementSelectionUsedOuterOos": false,
+    "thresholdsChanged": false,
+    "absoluteGatesChanged": false,
+    "minimumHistoryRulesChanged": false,
+    "blockedSourceReuseForbidden": true,
+    "readyReferenceLegReuseAllowedOnlyWithSameSemantics": true,
+    "nextRequiredArtifact": "E14.7c replacement-and-conditional source feasibility reaudit"
+  },
+  "authorizations": {
+    "feasibilityRemediationPreregistrationAuthorized": true,
+    "sourceFeasibilityReauditAuthorized": true,
+    "sourceAcquisitionAuthorized": false,
+    "featureFoundationMaterializationAuthorized": false,
+    "taxonomyMutationAuthorized": false,
+    "candidateGenerationAuthorized": false,
+    "candidateFittingAuthorized": false,
+    "candidateEvaluationAuthorized": false,
+    "candidateRankingAuthorized": false,
+    "crossMechanismCompositionAuthorized": false,
+    "outerOosAuthorized": false,
+    "promotionAuthorized": false
+  }
+}

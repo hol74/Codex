@@ -1,0 +1,58 @@
+{
+  "schemaVersion": 1,
+  "contractId": "e14-replacement-source-feasibility-contract-v1",
+  "frozenAt": "2026-07-15",
+  "inputHashes": {
+    "hypothesisPlanV1Sha256": "e6097e1cc9977ac87e24a5649a3d41d4e029bf597f6c3bbb94ff1df779a19e4d",
+    "priorFeasibilityAuditV1Sha256": "5851dac52554a0885e93cadcac33de68f92b418911f12ad36f61c68b392329b1",
+    "remediationContractV1Sha256": "930a9dd09a991e260698e8b776b653f208750b6b36ff2dfb236bf795d36b64e1",
+    "remediationPlanV1Sha256": "8ce7b3dc0edcbd9c4fb09a21d0a8515d48fb8789b6d82dca6bc576798dccc741",
+    "remediationAuditV1Sha256": "275cd32b58d12829e46542930be44fe1589931814c95c39a1be138c93b6b47a3",
+    "reauditEvidenceV1Sha256": "f54245536d99e16b75444bd8eade56ca1eec433eee04b5fbfc953d654dee52dc",
+    "reauditEvidenceSchemaV1Sha256": "1871522a7d2416a4cb01cc9875130b3fed65c7289e38e9e9fcdfceeb0e25bda1"
+  },
+  "expectedSourceCount": 10,
+  "expectedFamilyCount": 8,
+  "expectedSourceStatusCounts": {"ready": 1, "blocked": 9},
+  "expectedFamilyStatusCounts": {"ready": 0, "blocked": 8},
+  "expectedReadySourceIds": ["fred-dtb3"],
+  "expectedBlockedFamilyIds": [
+    "bank-balance-sheet-flow",
+    "bank-preexisting-structural-fragility",
+    "broad-public-equity-valuation-drawdown",
+    "broad-treasury-rate-dislocation",
+    "cross-dollar-shock",
+    "cross-bank-flow-contraction",
+    "funding-cd-tbill-tiering",
+    "funding-primary-dealer-repo-balance"
+  ],
+  "readinessPolicy": {
+    "providerPrimaryPageMustBeReachable": true,
+    "coverageMustBeVerified": true,
+    "licensingMustBeCleared": true,
+    "componentCoverageMustBeVerified": true,
+    "releaseProofMustBeComplete": true,
+    "vintageProofMustBeComplete": true,
+    "methodologyManifestMustBeComplete": true,
+    "blockingReasonRosterMustBeEmpty": true,
+    "everyFamilySourceMustBeReady": true,
+    "longNominalCoverageCannotSubstituteForEventTimeVintage": true,
+    "priorReadyReferenceLegMayBeReusedOnlyWithSameSemantics": true
+  },
+  "authorizationPolicy": {
+    "replacementSourceFeasibilityReauditAuthorized": true,
+    "vintagePolicyDecisionPreregistrationAuthorizedOnFailure": true,
+    "sourceAcquisitionAuthorized": false,
+    "featureFoundationMaterializationAuthorized": false,
+    "taxonomyMutationAuthorized": false,
+    "candidateGenerationAuthorized": false,
+    "candidateFittingAuthorized": false,
+    "candidateEvaluationAuthorized": false,
+    "candidateRankingAuthorized": false,
+    "crossMechanismCompositionAuthorized": false,
+    "outerOosAuthorized": false,
+    "promotionAuthorized": false
+  },
+  "expectedStatus": "REPLACEMENT_SOURCE_FEASIBILITY_BLOCKED_VINTAGE_POLICY_DECISION_REQUIRED",
+  "nextAllowedAction": "E14.7d preregister a vintage-policy decision without changing data or scores: close E14, fund archival reconstruction under the existing standard, or define a separately versioned post-2005 research scope; no source acquisition is authorized"
+}

@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "e14-replacement-source-feasibility-evidence-schema-v1",
+  "title": "E14.7c Replacement and Conditional Source Feasibility Evidence",
+  "type": "object",
+  "required": ["schemaVersion", "evidencePackId", "checkedAtUtc", "networkPolicy", "sources"],
+  "properties": {
+    "schemaVersion": {"const": 1},
+    "evidencePackId": {"const": "e14-replacement-source-feasibility-evidence-v1"},
+    "checkedAtUtc": {"type": "string", "format": "date-time"},
+    "networkPolicy": {"const": "provider-metadata-only-no-series-observation-download"},
+    "sources": {
+      "type": "array", "minItems": 10, "maxItems": 10,
+      "items": {
+        "type": "object",
+        "required": [
+          "sourceId", "lineage", "providerPrimaryPageReachable", "coverageVerified",
+          "licensingCleared", "componentCoverageVerified", "releaseProofComplete",
+          "vintageProofComplete", "methodologyManifestComplete", "evidenceUrls",
+          "evidenceNotes", "blockingReasons"
+        ],
+        "properties": {
+          "sourceId": {"type": "string", "minLength": 1},
+          "lineage": {"enum": ["preserved-conditional", "replacement"]},
+          "providerPrimaryPageReachable": {"type": "boolean"},
+          "coverageVerified": {"type": "boolean"},
+          "licensingCleared": {"type": "boolean"},
+          "componentCoverageVerified": {"type": "boolean"},
+          "releaseProofComplete": {"type": "boolean"},
+          "vintageProofComplete": {"type": "boolean"},
+          "methodologyManifestComplete": {"type": "boolean"},
+          "evidenceUrls": {"type": "array", "minItems": 1, "items": {"type": "string", "pattern": "^https://"}},
+          "evidenceNotes": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+          "blockingReasons": {"type": "array", "items": {"type": "string", "minLength": 1}}
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}

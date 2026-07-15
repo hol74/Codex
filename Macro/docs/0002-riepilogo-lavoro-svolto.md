@@ -794,6 +794,64 @@ Checkpoint in corso: `docs/checkpoints/0034-fase-e-slice6-feature-baseline-redes
   cioe' il design preregistrato di nuove firme informative complementari per
   meccanismo; taxonomy, materializzazione, fitting, evaluation, composizione e
   outer OOS restano chiusi. La regressione completa supera 139/139 test Python.
+- Fase E14.7 - nuova ipotesi informativa: preregistrato un piano hash-bound con
+  8 famiglie finite, 10 fonti e 17 firme episodio-specifiche che separano
+  onset, intensita' e recovery. Il piano introduce deterioramento e flussi di
+  bilancio bancari, drawdown e dispersione creditizia, dollar shock e flussi
+  bancari BIS, tiering commercial paper e dislocazione repo. Ogni famiglia ha
+  direzione, trasformazione, missingness, regime metodologico, falsification
+  condition e ablation congelati. L'audit reale ha SHA-256
+  `4da83787c02b1f8af5f751234fa6805fe75d6e1ff2ce8092056118ac45ad6cae`;
+  autorizza soltanto E14.7a, un audit di fattibilita' source/vintage. Nessun
+  dato e' stato acquisito e tutti i gate modellistici e outer restano chiusi.
+- Fase E14.7a - source/vintage feasibility: verificati soltanto metadati e
+  condizioni dei provider, senza scaricare osservazioni. Su 10 fonti, 1 e'
+  `ready`, 5 sono `conditional` e 4 `blocked`; sulle 8 famiglie il risultato e'
+  0 `ready`, 3 `conditional` e 5 `blocked`. I blocchi includono licenze
+  Nasdaq/Moody's, volume CP storico incompleto e storia causale insufficiente:
+  4/60 mesi FDIC per Continental Illinois, 19/60 commercial paper per
+  Russia/LTCM e 17/36 SOFR per repo-stress 2019. H.8 e le due famiglie BIS
+  restano condizionali a prova vintage/release. L'audit SHA-256 e'
+  `5851dac52554a0885e93cadcac33de68f92b418911f12ad36f61c68b392329b1`;
+  acquisizione e modellazione restano chiuse e il solo passo autorizzato e'
+  E14.7b, preregistrazione della remediation.
+- Fase E14.7b - remediation di fattibilita': preservate esattamente le 3
+  famiglie condizionali con i rispettivi task documentali e ritirate senza
+  fallback le 5 famiglie bloccate. Sono state preregistrate 5 sostituzioni
+  indipendentemente motivate su 7 fonti ufficiali: fragilita' bancaria storica
+  FDIC, market value equity Z.1, dislocazione Treasury DGS2/DGS10, tiering
+  DCD90-DTB3 e bilancio repo dei primary dealer New York Fed. Tutte superano il
+  controllo nominale della storia causale minima, ma non sono dichiarate
+  `ready`: serve E14.7c per provare accesso, licenza, vintage, release e regimi
+  metodologici. L'audit reale ha SHA-256
+  `275cd32b58d12829e46542930be44fe1589931814c95c39a1be138c93b6b47a3`.
+  Nessuna osservazione e' stata scaricata, nessun LOEO/outer e' stato usato per
+  scegliere le sostituzioni e acquisizione, foundation e modellazione restano
+  chiuse. La regressione completa supera 150/150 test Python.
+- Fase E14.7c - re-audit source/vintage: riesaminate con evidenza
+  provider-primary le 3 famiglie preservate e le 5 sostituzioni, senza
+  scaricare osservazioni. Solo `fred-dtb3` resta `ready`; le altre 9 fonti e
+  tutte le 8 famiglie sono `blocked`. Il limite dominante e' la disponibilita'
+  event-time: H.8 non prova release pre-1984, l'archivio online Z.1 parte nel
+  1996, ALFRED documenta i metadati H.15 dal 2005, BIS non espone vintages
+  storici completi e FDIC/NY Fed non chiudono snapshot, revisioni e termini.
+  La lunga copertura nominale non e' stata accettata come sostituto della
+  causalita'. L'audit reale SHA-256 e'
+  `7dcfaa24e9df9c46f0e0ddfd499acf4eeab8f5343c85b970ddf268a7e0c36413`;
+  autorizza soltanto E14.7d, una decisione preregistrata sulla politica dei
+  vintages. Acquisizione e modellazione restano chiuse. La regressione completa
+  supera 154/154 test Python.
+- Fase E14.7d - decisione vintage policy: confrontate senza dati o score la
+  chiusura E14, la ricostruzione archivistica e uno scope post-2005 separato.
+  Selezionato condizionalmente lo scope con cutoff `2006-01-01`; il legacy E14
+  resta chiuso e la ricostruzione provider-primary e' conservata solo come
+  backlog finanziato. Lo scope trattiene 6 positivi unici e 10 assegnazioni,
+  con conteggi banking 2, broad 4, cross-border 2 e funding 2. I controlli
+  post-cutoff sono invece 0/2/2/2: mancano 2 hard negative banking-credit e lo
+  scope non puo' ancora attivarsi. L'audit reale SHA-256 e'
+  `98af6a7b301240d2ff9ba763dc1f4e579676774361237dc1c61296e1c64eda69`;
+  autorizza soltanto E14.7e, design di scope/fonti e controlli banking senza
+  mutare taxonomy o acquisire osservazioni. La regressione supera 158/158 test.
 
 ## Deviazione documentata dal piano originario
 

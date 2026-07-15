@@ -1,0 +1,50 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "e14-feasibility-remediation-schema-v1",
+  "title": "E14.7b Feasibility Remediation Plan",
+  "type": "object",
+  "required": [
+    "schemaVersion", "planId", "frozenAt", "researchBoundary",
+    "preservedConditionalFamilies", "retiredFamilies", "replacementSources",
+    "replacementFamilies", "governance", "authorizations"
+  ],
+  "properties": {
+    "schemaVersion": {"const": 1},
+    "planId": {"const": "e14-feasibility-remediation-plan-v1"},
+    "frozenAt": {"type": "string", "format": "date"},
+    "researchBoundary": {"type": "string", "minLength": 1},
+    "preservedConditionalFamilies": {
+      "type": "array", "minItems": 3, "maxItems": 3,
+      "items": {
+        "type": "object",
+        "required": ["familyId", "mechanism", "requiredEvidenceTasks", "acquisitionStatus"],
+        "properties": {
+          "familyId": {"type": "string"},
+          "mechanism": {"type": "string"},
+          "requiredEvidenceTasks": {"type": "array", "minItems": 2, "items": {"type": "string", "minLength": 1}},
+          "acquisitionStatus": {"const": "closed-pending-reaudit"}
+        },
+        "additionalProperties": false
+      }
+    },
+    "retiredFamilies": {
+      "type": "array", "minItems": 5, "maxItems": 5,
+      "items": {
+        "type": "object",
+        "required": ["familyId", "mechanism", "retirementReason", "fallbackAuthorized"],
+        "properties": {
+          "familyId": {"type": "string"},
+          "mechanism": {"type": "string"},
+          "retirementReason": {"type": "string", "minLength": 1},
+          "fallbackAuthorized": {"const": false}
+        },
+        "additionalProperties": false
+      }
+    },
+    "replacementSources": {"type": "array", "minItems": 7, "maxItems": 7},
+    "replacementFamilies": {"type": "array", "minItems": 5, "maxItems": 5},
+    "governance": {"type": "object"},
+    "authorizations": {"type": "object"}
+  },
+  "additionalProperties": false
+}

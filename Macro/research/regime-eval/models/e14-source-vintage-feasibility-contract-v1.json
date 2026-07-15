@@ -1,0 +1,45 @@
+{
+  "schemaVersion": 1,
+  "contractId": "e14-source-vintage-feasibility-contract-v1",
+  "frozenAt": "2026-07-15",
+  "inputHashes": {
+    "taxonomyV5Sha256": "d141416d08b68e932bc6cd2a25b9cd0eab06d159b8904907b7fff29d8c637d50",
+    "hypothesisContractV1Sha256": "5f69766ba34a30179bc7d993c3e012306c88c6b60964faa5bd07ce87d3cb5028",
+    "hypothesisPlanV1Sha256": "e6097e1cc9977ac87e24a5649a3d41d4e029bf597f6c3bbb94ff1df779a19e4d",
+    "hypothesisSchemaV1Sha256": "404d3ef8807b0096152d914bbf943b14c1698b9a9d98621216d94e684fe98426",
+    "hypothesisAuditV1Sha256": "4da83787c02b1f8af5f751234fa6805fe75d6e1ff2ce8092056118ac45ad6cae",
+    "feasibilityEvidenceV1Sha256": "180c240680730b3c251fa6d43f25a0b3580a5b46fd4314ec73fc2a3cbb18f510",
+    "feasibilityEvidenceSchemaV1Sha256": "12aeb42c5c8d83618af460aa59fa0dde47bfb4af956734c9ca34d3f734c2652d"
+  },
+  "expectedSourceCount": 10,
+  "expectedFeatureFamilyCount": 8,
+  "expectedSourceStatusCounts": {"ready": 1, "conditional": 5, "blocked": 4},
+  "expectedFamilyStatusCounts": {"ready": 0, "conditional": 3, "blocked": 5},
+  "classificationPolicy": {
+    "permissionRequiredBlocksSource": true,
+    "partialComponentCoverageBlocksSource": true,
+    "insufficientCausalHistoryBlocksFamily": true,
+    "unprovenVintageOrReleaseSemanticsMakesConditional": true,
+    "providerTermsReviewMakesConditional": true,
+    "blockedSourceBlocksFamily": true,
+    "conditionalSourceMakesFamilyConditional": true,
+    "allFamiliesMustBeReadyBeforeAcquisition": true,
+    "blockedFamilyIsRetiredWithoutFallback": true
+  },
+  "authorizationPolicy": {
+    "sourceVintageFeasibilityAuditAuthorized": true,
+    "feasibilityRemediationPreregistrationAuthorizedOnFailure": true,
+    "sourceAcquisitionAuthorized": false,
+    "featureFoundationMaterializationAuthorized": false,
+    "taxonomyMutationAuthorized": false,
+    "candidateGenerationAuthorized": false,
+    "candidateFittingAuthorized": false,
+    "candidateEvaluationAuthorized": false,
+    "candidateRankingAuthorized": false,
+    "crossMechanismCompositionAuthorized": false,
+    "outerOosAuthorized": false,
+    "promotionAuthorized": false
+  },
+  "expectedStatus": "SOURCE_VINTAGE_FEASIBILITY_BLOCKED_REMEDIATION_PREREGISTRATION_REQUIRED",
+  "nextAllowedAction": "E14.7b preregister a feasibility-remediation plan: retire the five blocked families, preserve the three conditional families without acquisition, and define evidence tasks or independently motivated replacements before any data download"
+}

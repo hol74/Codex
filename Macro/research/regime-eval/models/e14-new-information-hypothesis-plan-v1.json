@@ -1,0 +1,297 @@
+{
+  "schemaVersion": 1,
+  "planId": "e14-new-information-hypothesis-plan-v1",
+  "frozenAt": "2026-07-15",
+  "researchBoundary": "Design-only preregistration after E14.6h. Source acquisition, feature materialization, taxonomy mutation, candidate generation, fitting, evaluation, ranking, composition, outer OOS and promotion are forbidden.",
+  "sourceCatalog": [
+    {
+      "sourceId": "fdic-aggregate-time-series",
+      "provider": "Federal Deposit Insurance Corporation",
+      "url": "https://www.fdic.gov/bank-data-guide/data-downloads",
+      "coverageFrom": "1984-01-01",
+      "frequency": "quarterly",
+      "availabilityClass": "release-archived",
+      "role": "Aggregate loss absorption, asset quality, capital and liability composition for banking-credit.",
+      "knownLimitations": ["Quarterly observations require release-date joins and explicit age.", "Field definitions and population changes require a break manifest."]
+    },
+    {
+      "sourceId": "federal-reserve-h8",
+      "provider": "Board of Governors of the Federal Reserve System",
+      "url": "https://www.federalreserve.gov/datadownload/Choose.aspx?rel=H8",
+      "coverageFrom": "1973-01-03",
+      "frequency": "weekly",
+      "availabilityClass": "vintage-proof-required",
+      "role": "Deposit outflow, borrowing and bank-credit contraction signals for banking-credit.",
+      "knownLimitations": ["Current histories are revised and benchmarked to Call Reports.", "Strict point-in-time use requires archived releases or immutable historical vintages."]
+    },
+    {
+      "sourceId": "fred-nasdaqcom",
+      "provider": "Nasdaq, Inc. via Federal Reserve Bank of St. Louis",
+      "url": "https://fred.stlouisfed.org/series/NASDAQCOM",
+      "coverageFrom": "1971-02-05",
+      "frequency": "daily-close",
+      "availabilityClass": "event-time-snapshot-required",
+      "role": "Long-history equity drawdown and breadth proxy for broad-market repricing.",
+      "knownLimitations": ["Copyright and redistribution terms require review.", "A Nasdaq-only universe is an imperfect proxy for the full U.S. market."]
+    },
+    {
+      "sourceId": "fred-aaa10y",
+      "provider": "Federal Reserve Bank of St. Louis / Moody's",
+      "url": "https://fred.stlouisfed.org/series/AAA10Y",
+      "coverageFrom": "1986-01-02",
+      "frequency": "daily",
+      "availabilityClass": "event-time-snapshot-required",
+      "role": "High-grade credit leg used with BAA10Y to distinguish credit-quality dispersion from a common Treasury move.",
+      "knownLimitations": ["Moody's licensing restrictions require an eligibility review.", "Treasury source-component changes require an explicit manifest."]
+    },
+    {
+      "sourceId": "fred-baa10y",
+      "provider": "Federal Reserve Bank of St. Louis / Moody's",
+      "url": "https://fred.stlouisfed.org/series/BAA10Y",
+      "coverageFrom": "1986-01-02",
+      "frequency": "daily",
+      "availabilityClass": "event-time-snapshot-required",
+      "role": "Reused lower-grade credit leg; only the preregistered cross-quality dispersion is new.",
+      "knownLimitations": ["This source was already present in E14.6 and cannot constitute the new hypothesis alone.", "Moody's licensing and source-component changes require review."]
+    },
+    {
+      "sourceId": "bis-effective-exchange-rates",
+      "provider": "Bank for International Settlements",
+      "url": "https://data.bis.org/topics/EER",
+      "coverageFrom": "1964-01-01",
+      "frequency": "monthly-and-daily",
+      "availabilityClass": "methodology-regime-specific",
+      "role": "Long-history narrow and post-1994 broad dollar effective-rate shock measures for cross-border growth.",
+      "knownLimitations": ["Broad and narrow indices have different coverage and must not be silently spliced.", "Time-varying trade weights and revisions require a methodology manifest."]
+    },
+    {
+      "sourceId": "bis-locational-banking-statistics",
+      "provider": "Bank for International Settlements",
+      "url": "https://data.bis.org/topics/LBS",
+      "coverageFrom": "1977-12-31",
+      "frequency": "quarterly",
+      "availabilityClass": "methodology-regime-specific",
+      "role": "Break- and exchange-rate-adjusted cross-border bank flows for transmission intensity.",
+      "knownLimitations": ["Reporting populations and methodology breaks remain explicit.", "Quarterly releases require publication-date joins and cannot be backfilled into prior months."]
+    },
+    {
+      "sourceId": "federal-reserve-commercial-paper",
+      "provider": "Board of Governors of the Federal Reserve System",
+      "url": "https://www.federalreserve.gov/datadownload/Choose.aspx?rel=CP",
+      "coverageFrom": "1997-01-02",
+      "frequency": "daily",
+      "availabilityClass": "event-time-snapshot-required",
+      "role": "Unsecured financial commercial-paper tiering and volume for funding-liquidity.",
+      "knownLimitations": ["Category definitions and issuer classifications have changed.", "Historical corrections require immutable snapshots and a correction audit."]
+    },
+    {
+      "sourceId": "fred-dtb3",
+      "provider": "Board of Governors of the Federal Reserve System via FRED",
+      "url": "https://fred.stlouisfed.org/series/DTB3",
+      "coverageFrom": "1954-01-04",
+      "frequency": "daily",
+      "availabilityClass": "event-time-snapshot-required",
+      "role": "Matched Treasury-bill reference leg for commercial-paper spread construction.",
+      "knownLimitations": ["Discount-basis alignment must be frozen before spread construction."]
+    },
+    {
+      "sourceId": "new-york-fed-reference-rates",
+      "provider": "Federal Reserve Bank of New York",
+      "url": "https://www.newyorkfed.org/markets/reference-rates/sofr",
+      "coverageFrom": "2018-04-03",
+      "frequency": "daily",
+      "availabilityClass": "methodology-regime-specific",
+      "role": "SOFR, TGCR, BGCR, percentiles and volumes for secured funding dislocation after 2018.",
+      "knownLimitations": ["SOFR-era features are not valid for 1998 and cannot be spliced to LIBOR-era proxies.", "Revisions and reduced-volume flags remain explicit."]
+    }
+  ],
+  "mechanisms": [
+    {
+      "mechanism": "banking-credit",
+      "diagnosedGap": "Failure counts and assistance assets detect only some events; they do not represent system balance-sheet deterioration, deposit pressure or credit contraction across all banking episodes.",
+      "featureFamilies": [
+        {
+          "familyId": "bank-loss-absorption",
+          "informationClass": "asset-quality-and-capital-deterioration",
+          "sourceIds": ["fdic-aggregate-time-series"],
+          "components": ["noncurrent-loan-share", "net-chargeoff-rate", "negative-equity-capital-ratio-change"],
+          "stressDirection": "adverse-increase-after-component-normalization",
+          "aggregation": "release-available-quarterly-carried-with-age",
+          "allowedTransform": "causal-quarterly-change-percentile",
+          "minimumHistoryMonths": 60,
+          "missingnessPolicy": "explicit-missing-no-zero-imputation",
+          "regimePolicy": "Quarterly field-definition breaks are separate regimes; no retrospective carry before publication month."
+        },
+        {
+          "familyId": "bank-balance-sheet-flow",
+          "informationClass": "deposit-outflow-borrowing-and-credit-contraction",
+          "sourceIds": ["federal-reserve-h8"],
+          "components": ["negative-deposit-growth", "borrowings-growth", "negative-bank-credit-growth"],
+          "stressDirection": "adverse-increase-after-component-normalization",
+          "aggregation": "monthly-maximum-of-weekly-adverse-change",
+          "allowedTransform": "causal-rolling-percentile",
+          "minimumHistoryMonths": 60,
+          "missingnessPolicy": "explicit-missing-no-zero-imputation",
+          "regimePolicy": "Foundation remains blocked until release-vintage semantics and benchmark revisions are manifested."
+        }
+      ],
+      "episodeSignatures": [
+        {"episodeId": "continental-illinois-1984", "onset": {"familyIds": ["bank-balance-sheet-flow"], "expectedDirection": "rise", "windowMonths": [-1, 1]}, "intensity": {"familyIds": ["bank-balance-sheet-flow", "bank-loss-absorption"], "expectedDirection": "remain-elevated", "windowMonths": [0, 3]}, "recovery": {"familyIds": ["bank-balance-sheet-flow"], "expectedDirection": "fall", "windowMonths": [1, 6]}, "falsificationCondition": "Neither deposit/borrowing pressure nor release-available loss absorption rises around the frozen episode."},
+        {"episodeId": "euro-sovereign-stress-2011", "onset": {"familyIds": ["bank-balance-sheet-flow"], "expectedDirection": "rise", "windowMonths": [-1, 2]}, "intensity": {"familyIds": ["bank-balance-sheet-flow", "bank-loss-absorption"], "expectedDirection": "remain-elevated", "windowMonths": [0, 4]}, "recovery": {"familyIds": ["bank-balance-sheet-flow"], "expectedDirection": "fall", "windowMonths": [1, 6]}, "falsificationCondition": "U.S. bank flows and release-available asset-quality measures remain within their prior causal regimes."},
+        {"episodeId": "regional-bank-stress-2023", "onset": {"familyIds": ["bank-balance-sheet-flow"], "expectedDirection": "rise", "windowMonths": [-1, 1]}, "intensity": {"familyIds": ["bank-balance-sheet-flow", "bank-loss-absorption"], "expectedDirection": "remain-elevated", "windowMonths": [0, 3]}, "recovery": {"familyIds": ["bank-balance-sheet-flow"], "expectedDirection": "fall", "windowMonths": [1, 6]}, "falsificationCondition": "Deposit outflow and borrowing pressure fail to rise despite the documented banking episode."}
+      ],
+      "ablationIds": ["bank-loss-only", "bank-flow-only", "bank-leave-one-family-out", "bank-new-only-vs-new-plus-legacy"]
+    },
+    {
+      "mechanism": "broad-market-repricing",
+      "diagnosedGap": "VIX maxima and Baa-Treasury levels respond to Russia/LTCM but miss five heterogeneous repricing episodes; breadth/drawdown and cross-quality dispersion are absent.",
+      "featureFamilies": [
+        {
+          "familyId": "broad-equity-drawdown",
+          "informationClass": "equity-loss-depth-and-duration",
+          "sourceIds": ["fred-nasdaqcom"],
+          "components": ["peak-to-trough-drawdown", "negative-one-month-return", "drawdown-duration"],
+          "stressDirection": "adverse-increase-after-component-normalization",
+          "aggregation": "monthly-maximum-adverse-daily-state",
+          "allowedTransform": "causal-drawdown",
+          "minimumHistoryMonths": 60,
+          "missingnessPolicy": "explicit-missing-no-zero-imputation",
+          "regimePolicy": "Nasdaq composition and licensing are manifested; no proxy substitution after seeing evaluation results."
+        },
+        {
+          "familyId": "broad-credit-quality-dispersion",
+          "informationClass": "lower-vs-high-grade-credit-repricing",
+          "sourceIds": ["fred-baa10y", "fred-aaa10y"],
+          "components": ["baa-minus-aaa-spread", "one-month-spread-change"],
+          "stressDirection": "adverse-increase-after-component-normalization",
+          "aggregation": "monthly-maximum-daily-spread-and-change",
+          "allowedTransform": "causal-rolling-percentile",
+          "minimumHistoryMonths": 60,
+          "missingnessPolicy": "explicit-missing-no-zero-imputation",
+          "regimePolicy": "The reused BAA leg is admissible only jointly with the newly preregistered AAA dispersion leg."
+        }
+      ],
+      "episodeSignatures": [
+        {"episodeId": "china-eme-stress-2015-2016", "onset": {"familyIds": ["broad-equity-drawdown"], "expectedDirection": "rise", "windowMonths": [-1, 2]}, "intensity": {"familyIds": ["broad-equity-drawdown", "broad-credit-quality-dispersion"], "expectedDirection": "remain-elevated", "windowMonths": [0, 5]}, "recovery": {"familyIds": ["broad-equity-drawdown"], "expectedDirection": "fall", "windowMonths": [1, 6]}, "falsificationCondition": "Neither drawdown duration nor cross-quality dispersion rises during the frozen episode."},
+        {"episodeId": "euro-sovereign-stress-2011", "onset": {"familyIds": ["broad-credit-quality-dispersion"], "expectedDirection": "rise", "windowMonths": [-1, 2]}, "intensity": {"familyIds": ["broad-equity-drawdown", "broad-credit-quality-dispersion"], "expectedDirection": "remain-elevated", "windowMonths": [0, 4]}, "recovery": {"familyIds": ["broad-credit-quality-dispersion"], "expectedDirection": "fall", "windowMonths": [1, 6]}, "falsificationCondition": "Credit-quality dispersion and equity drawdown remain within prior causal regimes."},
+        {"episodeId": "mexico-bond-turbulence-1994", "onset": {"familyIds": ["broad-credit-quality-dispersion"], "expectedDirection": "rise", "windowMonths": [-1, 3]}, "intensity": {"familyIds": ["broad-credit-quality-dispersion"], "expectedDirection": "remain-elevated", "windowMonths": [0, 6]}, "recovery": {"familyIds": ["broad-credit-quality-dispersion"], "expectedDirection": "fall", "windowMonths": [1, 9]}, "falsificationCondition": "Lower-vs-high-grade repricing does not widen through the frozen bond-turbulence window."},
+        {"episodeId": "risk-repricing-2018q4", "onset": {"familyIds": ["broad-equity-drawdown"], "expectedDirection": "rise", "windowMonths": [-1, 1]}, "intensity": {"familyIds": ["broad-equity-drawdown", "broad-credit-quality-dispersion"], "expectedDirection": "remain-elevated", "windowMonths": [0, 3]}, "recovery": {"familyIds": ["broad-equity-drawdown"], "expectedDirection": "fall", "windowMonths": [1, 4]}, "falsificationCondition": "The equity drawdown does not deepen or persist during 2018Q4."},
+        {"episodeId": "russia-ltcm-1998", "onset": {"familyIds": ["broad-equity-drawdown", "broad-credit-quality-dispersion"], "expectedDirection": "rise", "windowMonths": [-1, 1]}, "intensity": {"familyIds": ["broad-equity-drawdown", "broad-credit-quality-dispersion"], "expectedDirection": "remain-elevated", "windowMonths": [0, 3]}, "recovery": {"familyIds": ["broad-credit-quality-dispersion"], "expectedDirection": "fall", "windowMonths": [1, 5]}, "falsificationCondition": "New families add no episode information beyond the already successful VIX-only profile."},
+        {"episodeId": "taper-tantrum-2013", "onset": {"familyIds": ["broad-credit-quality-dispersion"], "expectedDirection": "rise", "windowMonths": [-1, 2]}, "intensity": {"familyIds": ["broad-credit-quality-dispersion"], "expectedDirection": "remain-elevated", "windowMonths": [0, 4]}, "recovery": {"familyIds": ["broad-credit-quality-dispersion"], "expectedDirection": "fall", "windowMonths": [1, 5]}, "falsificationCondition": "Cross-quality credit dispersion remains flat despite the frozen broad repricing label."}
+      ],
+      "ablationIds": ["broad-drawdown-only", "broad-dispersion-only", "broad-leave-one-family-out", "broad-new-only-vs-new-plus-legacy"]
+    },
+    {
+      "mechanism": "cross-border-growth",
+      "diagnosedGap": "A single U.S. dollar absolute-change proxy detects Mexico and part of Asia but misses China/EME, Russia/LTCM and taper; cross-border bank-flow transmission is absent.",
+      "featureFamilies": [
+        {
+          "familyId": "cross-dollar-shock",
+          "informationClass": "effective-dollar-appreciation-speed-and-acceleration",
+          "sourceIds": ["bis-effective-exchange-rates"],
+          "components": ["usd-neer-one-month-change", "usd-neer-three-month-change", "usd-neer-acceleration"],
+          "stressDirection": "adverse-increase-after-component-normalization",
+          "aggregation": "monthly-end-and-monthly-maximum-change",
+          "allowedTransform": "causal-rolling-percentile",
+          "minimumHistoryMonths": 60,
+          "missingnessPolicy": "explicit-missing-no-zero-imputation",
+          "regimePolicy": "Narrow and broad BIS indices remain separate methodology regimes and are evaluated as prespecified sensitivity branches."
+        },
+        {
+          "familyId": "cross-bank-flow-contraction",
+          "informationClass": "cross-border-bank-claims-flow-contraction",
+          "sourceIds": ["bis-locational-banking-statistics"],
+          "components": ["negative-break-adjusted-cross-border-claims-flow", "negative-eme-claims-flow"],
+          "stressDirection": "adverse-increase-after-component-normalization",
+          "aggregation": "release-available-quarterly-carried-with-age",
+          "allowedTransform": "causal-quarterly-change-percentile",
+          "minimumHistoryMonths": 60,
+          "missingnessPolicy": "explicit-missing-no-zero-imputation",
+          "regimePolicy": "Reporting-population breaks remain explicit and quarterly values enter only after publication."
+        }
+      ],
+      "episodeSignatures": [
+        {"episodeId": "asian-financial-crisis-1997", "onset": {"familyIds": ["cross-dollar-shock"], "expectedDirection": "rise", "windowMonths": [-1, 2]}, "intensity": {"familyIds": ["cross-dollar-shock", "cross-bank-flow-contraction"], "expectedDirection": "remain-elevated", "windowMonths": [0, 6]}, "recovery": {"familyIds": ["cross-bank-flow-contraction"], "expectedDirection": "fall", "windowMonths": [1, 9]}, "falsificationCondition": "Neither effective-dollar pressure nor break-adjusted bank-flow contraction is present."},
+        {"episodeId": "china-eme-stress-2015-2016", "onset": {"familyIds": ["cross-dollar-shock"], "expectedDirection": "rise", "windowMonths": [-2, 2]}, "intensity": {"familyIds": ["cross-dollar-shock", "cross-bank-flow-contraction"], "expectedDirection": "remain-elevated", "windowMonths": [0, 6]}, "recovery": {"familyIds": ["cross-dollar-shock"], "expectedDirection": "fall", "windowMonths": [1, 6]}, "falsificationCondition": "Dollar acceleration and EME bank-flow contraction both remain within prior regimes."},
+        {"episodeId": "mexico-bond-turbulence-1994", "onset": {"familyIds": ["cross-dollar-shock"], "expectedDirection": "rise", "windowMonths": [-1, 3]}, "intensity": {"familyIds": ["cross-dollar-shock", "cross-bank-flow-contraction"], "expectedDirection": "remain-elevated", "windowMonths": [0, 6]}, "recovery": {"familyIds": ["cross-bank-flow-contraction"], "expectedDirection": "fall", "windowMonths": [1, 9]}, "falsificationCondition": "The new BIS families fail to reproduce the episode already partly detected by the legacy dollar proxy."},
+        {"episodeId": "russia-ltcm-1998", "onset": {"familyIds": ["cross-dollar-shock", "cross-bank-flow-contraction"], "expectedDirection": "rise", "windowMonths": [-1, 2]}, "intensity": {"familyIds": ["cross-bank-flow-contraction"], "expectedDirection": "remain-elevated", "windowMonths": [0, 4]}, "recovery": {"familyIds": ["cross-bank-flow-contraction"], "expectedDirection": "fall", "windowMonths": [1, 6]}, "falsificationCondition": "Break-adjusted cross-border claims do not contract around Russia/LTCM."},
+        {"episodeId": "taper-tantrum-2013", "onset": {"familyIds": ["cross-dollar-shock"], "expectedDirection": "rise", "windowMonths": [-1, 2]}, "intensity": {"familyIds": ["cross-dollar-shock", "cross-bank-flow-contraction"], "expectedDirection": "remain-elevated", "windowMonths": [0, 4]}, "recovery": {"familyIds": ["cross-dollar-shock"], "expectedDirection": "fall", "windowMonths": [1, 5]}, "falsificationCondition": "No dollar acceleration or cross-border bank-flow contraction appears during the frozen transmission episode."}
+      ],
+      "ablationIds": ["cross-dollar-only", "cross-bank-flow-only", "cross-leave-one-family-out", "cross-new-only-vs-new-plus-legacy"]
+    },
+    {
+      "mechanism": "funding-liquidity",
+      "diagnosedGap": "The fed-funds-minus-T-bill state proxy detects none of the three funding episodes; unsecured tiering and secured repo market-function information are missing.",
+      "featureFamilies": [
+        {
+          "familyId": "funding-unsecured-tiering",
+          "informationClass": "financial-commercial-paper-risk-and-volume",
+          "sourceIds": ["federal-reserve-commercial-paper", "fred-dtb3"],
+          "components": ["financial-cp-minus-tbill-spread", "a2p2-minus-aa-spread", "negative-cp-issuance-volume-change"],
+          "stressDirection": "adverse-increase-after-component-normalization",
+          "aggregation": "monthly-maximum-daily-spread-and-adverse-volume-change",
+          "allowedTransform": "causal-rolling-percentile",
+          "minimumHistoryMonths": 60,
+          "missingnessPolicy": "explicit-missing-no-zero-imputation",
+          "regimePolicy": "Commercial-paper category-definition changes are separate regimes; no backcast across a documented break."
+        },
+        {
+          "familyId": "funding-secured-repo-dislocation",
+          "informationClass": "secured-overnight-rate-dispersion-and-volume",
+          "sourceIds": ["new-york-fed-reference-rates"],
+          "components": ["sofr-minus-tgcr", "sofr-75th-minus-25th-percentile", "negative-repo-volume-change"],
+          "stressDirection": "adverse-increase-after-component-normalization",
+          "aggregation": "monthly-maximum-daily-dispersion-and-adverse-volume-change",
+          "allowedTransform": "causal-robust-z-score",
+          "minimumHistoryMonths": 36,
+          "missingnessPolicy": "explicit-missing-no-zero-imputation",
+          "regimePolicy": "Applicable only from the SOFR publication regime; structurally not applicable before 2018 and never spliced to LIBOR-era data."
+        }
+      ],
+      "episodeSignatures": [
+        {"episodeId": "regional-bank-stress-2023", "onset": {"familyIds": ["funding-secured-repo-dislocation", "funding-unsecured-tiering"], "expectedDirection": "rise", "windowMonths": [-1, 1]}, "intensity": {"familyIds": ["funding-secured-repo-dislocation", "funding-unsecured-tiering"], "expectedDirection": "remain-elevated", "windowMonths": [0, 3]}, "recovery": {"familyIds": ["funding-secured-repo-dislocation"], "expectedDirection": "fall", "windowMonths": [1, 5]}, "falsificationCondition": "Neither unsecured tiering nor secured-rate dispersion rises around the frozen funding episode."},
+        {"episodeId": "repo-stress-2019", "onset": {"familyIds": ["funding-secured-repo-dislocation"], "expectedDirection": "rise", "windowMonths": [-1, 1]}, "intensity": {"familyIds": ["funding-secured-repo-dislocation"], "expectedDirection": "remain-elevated", "windowMonths": [0, 2]}, "recovery": {"familyIds": ["funding-secured-repo-dislocation"], "expectedDirection": "fall", "windowMonths": [1, 3]}, "falsificationCondition": "SOFR/TGCR dispersion and repo-volume pressure do not register the documented repo disruption."},
+        {"episodeId": "russia-ltcm-1998", "onset": {"familyIds": ["funding-unsecured-tiering"], "expectedDirection": "rise", "windowMonths": [-1, 1]}, "intensity": {"familyIds": ["funding-unsecured-tiering"], "expectedDirection": "remain-elevated", "windowMonths": [0, 3]}, "recovery": {"familyIds": ["funding-unsecured-tiering"], "expectedDirection": "fall", "windowMonths": [1, 5]}, "falsificationCondition": "Commercial-paper tiering and volume remain normal through Russia/LTCM; the SOFR family is explicitly not applicable."}
+      ],
+      "ablationIds": ["funding-unsecured-only", "funding-secured-only-applicable-era", "funding-leave-one-family-out", "funding-new-only-vs-new-plus-legacy"]
+    }
+  ],
+  "phasePolicy": {
+    "states": ["calm", "onset", "active", "recovery"],
+    "onsetScoredSeparately": true,
+    "intensityScoredSeparately": true,
+    "recoveryScoredSeparately": true,
+    "phaseWindowsAreDiagnosticNotLabels": true,
+    "episodeBoundariesRemainTaxonomyV5": true
+  },
+  "ablationPolicy": {
+    "frozenDesigns": ["each-new-family-alone", "leave-one-new-family-out", "all-new-families", "all-new-plus-legacy"],
+    "ablationSelectionMayUseOuterOos": false,
+    "failedAblationMayNotTriggerPostHocFeatureSubstitution": true,
+    "candidateBudgetDeferredUntilReadiness": true
+  },
+  "readinessPolicy": {
+    "nextRequiredArtifact": "E14.7a source-and-vintage feasibility audit",
+    "allSourceUrlsMustResolve": true,
+    "coverageMustIncludeEveryApplicableFrozenEpisode": true,
+    "releaseOrEventTimeSemanticsMustBeProven": true,
+    "methodologyBreaksMustBeManifested": true,
+    "licensingMustPermitResearchSnapshot": true,
+    "noSilentSplicing": true,
+    "failureClosesFamilyWithoutFallback": true
+  },
+  "authorizations": {
+    "hypothesisPreregistrationAuthorized": true,
+    "sourceFeasibilityAuditAuthorized": true,
+    "sourceAcquisitionAuthorized": false,
+    "featureFoundationMaterializationAuthorized": false,
+    "taxonomyMutationAuthorized": false,
+    "candidateGenerationAuthorized": false,
+    "candidateFittingAuthorized": false,
+    "candidateEvaluationAuthorized": false,
+    "candidateRankingAuthorized": false,
+    "crossMechanismCompositionAuthorized": false,
+    "outerOosAuthorized": false,
+    "promotionAuthorized": false
+  }
+}

@@ -1,0 +1,100 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "e14-new-information-hypothesis-schema-v1",
+  "title": "E14 New Information Hypothesis Plan",
+  "type": "object",
+  "required": [
+    "schemaVersion", "planId", "frozenAt", "researchBoundary", "sourceCatalog",
+    "mechanisms", "phasePolicy", "ablationPolicy", "readinessPolicy", "authorizations"
+  ],
+  "properties": {
+    "schemaVersion": {"const": 1},
+    "planId": {"const": "e14-new-information-hypothesis-plan-v1"},
+    "frozenAt": {"type": "string", "format": "date"},
+    "researchBoundary": {"type": "string", "minLength": 1},
+    "sourceCatalog": {
+      "type": "array", "minItems": 8, "maxItems": 16,
+      "items": {
+        "type": "object",
+        "required": ["sourceId", "provider", "url", "coverageFrom", "frequency", "availabilityClass", "role", "knownLimitations"],
+        "properties": {
+          "sourceId": {"type": "string", "minLength": 1},
+          "provider": {"type": "string", "minLength": 1},
+          "url": {"type": "string", "pattern": "^https://"},
+          "coverageFrom": {"type": "string", "format": "date"},
+          "coverageTo": {"type": "string", "format": "date"},
+          "frequency": {"type": "string", "minLength": 1},
+          "availabilityClass": {"enum": ["event-time-snapshot-required", "release-archived", "vintage-proof-required", "methodology-regime-specific"]},
+          "role": {"type": "string", "minLength": 1},
+          "knownLimitations": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}}
+        },
+        "additionalProperties": false
+      }
+    },
+    "mechanisms": {
+      "type": "array", "minItems": 4, "maxItems": 4,
+      "items": {
+        "type": "object",
+        "required": ["mechanism", "diagnosedGap", "featureFamilies", "episodeSignatures", "ablationIds"],
+        "properties": {
+          "mechanism": {"enum": ["banking-credit", "broad-market-repricing", "cross-border-growth", "funding-liquidity"]},
+          "diagnosedGap": {"type": "string", "minLength": 1},
+          "featureFamilies": {
+            "type": "array", "minItems": 2, "maxItems": 3,
+            "items": {
+              "type": "object",
+              "required": ["familyId", "informationClass", "sourceIds", "components", "stressDirection", "aggregation", "allowedTransform", "minimumHistoryMonths", "missingnessPolicy", "regimePolicy"],
+              "properties": {
+                "familyId": {"type": "string", "minLength": 1},
+                "informationClass": {"type": "string", "minLength": 1},
+                "sourceIds": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+                "components": {"type": "array", "minItems": 1, "maxItems": 4, "items": {"type": "string", "minLength": 1}},
+                "stressDirection": {"const": "adverse-increase-after-component-normalization"},
+                "aggregation": {"type": "string", "minLength": 1},
+                "allowedTransform": {"enum": ["causal-drawdown", "causal-rolling-percentile", "causal-robust-z-score", "causal-quarterly-change-percentile"]},
+                "minimumHistoryMonths": {"type": "integer", "minimum": 36, "maximum": 120},
+                "missingnessPolicy": {"const": "explicit-missing-no-zero-imputation"},
+                "regimePolicy": {"type": "string", "minLength": 1}
+              },
+              "additionalProperties": false
+            }
+          },
+          "episodeSignatures": {
+            "type": "array", "minItems": 3,
+            "items": {
+              "type": "object",
+              "required": ["episodeId", "onset", "intensity", "recovery", "falsificationCondition"],
+              "properties": {
+                "episodeId": {"type": "string", "minLength": 1},
+                "onset": {"$ref": "#/$defs/phaseSignature"},
+                "intensity": {"$ref": "#/$defs/phaseSignature"},
+                "recovery": {"$ref": "#/$defs/phaseSignature"},
+                "falsificationCondition": {"type": "string", "minLength": 1}
+              },
+              "additionalProperties": false
+            }
+          },
+          "ablationIds": {"type": "array", "minItems": 3, "items": {"type": "string", "minLength": 1}}
+        },
+        "additionalProperties": false
+      }
+    },
+    "phasePolicy": {"type": "object"},
+    "ablationPolicy": {"type": "object"},
+    "readinessPolicy": {"type": "object"},
+    "authorizations": {"type": "object"}
+  },
+  "$defs": {
+    "phaseSignature": {
+      "type": "object",
+      "required": ["familyIds", "expectedDirection", "windowMonths"],
+      "properties": {
+        "familyIds": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+        "expectedDirection": {"enum": ["rise", "remain-elevated", "fall"]},
+        "windowMonths": {"type": "array", "minItems": 2, "maxItems": 2, "items": {"type": "integer", "minimum": -6, "maximum": 12}}
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

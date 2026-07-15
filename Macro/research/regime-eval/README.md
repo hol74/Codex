@@ -848,3 +848,99 @@ l'attuale famiglia v2. Autorizza soltanto E14.7, il design preregistrato di
 nuove firme informative complementari; non autorizza modifica taxonomy,
 materializzazione foundation, generation, fitting, evaluation, ranking,
 composizione o outer OOS.
+
+E14.7 congela la nuova ipotesi informativa senza acquisire dati:
+
+```text
+python -m regime_eval e14-preregister-new-information --contract models/e14-new-information-hypothesis-contract-v1.json --taxonomy ground-truth/us-financial-stress-v5.json --mechanism-contract models/e14-mechanism-detector-contract-v1.json --historical-source-catalog models/e14-historical-source-catalog-v1.json --no-go-diagnostic ../../data/historical-real-v12-2008-2025/challengers/e14-loeo-no-go-diagnostic-v1.json --hypothesis-plan models/e14-new-information-hypothesis-plan-v1.json --hypothesis-schema models/e14-new-information-hypothesis-schema-v1.json --output ../../data/historical-real-v12-2008-2025/challengers/e14-new-information-hypothesis-audit-v1.json
+```
+
+Il piano contiene esattamente 8 famiglie e 17 firme episodio-specifiche. Per
+banking usa FDIC aggregate time series e H.8; per broad NASDAQCOM e dispersione
+BAA-AAA; per cross-border effective exchange rates e locational banking
+statistics BIS; per funding commercial paper Fed e reference rates repo della
+New York Fed. Fonti, limitazioni, licenze da verificare e break metodologici
+sono parte del piano, non assunzioni implicite.
+
+Lo stato
+`NEW_INFORMATION_HYPOTHESIS_PREREGISTERED_SOURCE_FEASIBILITY_REQUIRED`
+autorizza soltanto E14.7a: verificare accesso, licenza, copertura, vintage e
+release semantics. Download, materializzazione, generazione candidati, fitting,
+evaluation, ranking, composizione e outer OOS restano chiusi.
+
+E14.7a esegue il gate source/vintage sui soli metadati congelati:
+
+```text
+python -m regime_eval e14-audit-source-vintage-feasibility --contract models/e14-source-vintage-feasibility-contract-v1.json --taxonomy ground-truth/us-financial-stress-v5.json --hypothesis-contract models/e14-new-information-hypothesis-contract-v1.json --hypothesis-plan models/e14-new-information-hypothesis-plan-v1.json --hypothesis-schema models/e14-new-information-hypothesis-schema-v1.json --hypothesis-audit ../../data/historical-real-v12-2008-2025/challengers/e14-new-information-hypothesis-audit-v1.json --evidence models/e14-source-vintage-feasibility-evidence-v1.json --evidence-schema models/e14-source-vintage-feasibility-evidence-schema-v1.json --output ../../data/historical-real-v12-2008-2025/challengers/e14-source-vintage-feasibility-audit-v1.json
+```
+
+Il comando restituisce un gate non superato: 0 famiglie `ready`, 3
+`conditional` e 5 `blocked`. Applica senza rilassamenti i minimi storici
+preregistrati e rileva 4/60 mesi per FDIC/Continental Illinois, 19/60 per
+commercial paper/Russia-LTCM e 17/36 per SOFR/repo-stress 2019. Nasdaq e i due
+leg Moody's richiedono permesso; il volume CP storico non e' completo. H.8,
+BIS EER e BIS LBS restano condizionali a prova di vintage e release semantics.
+
+Lo stato
+`SOURCE_VINTAGE_FEASIBILITY_BLOCKED_REMEDIATION_PREREGISTRATION_REQUIRED`
+autorizza soltanto E14.7b. Nessuna osservazione e' stata scaricata; le famiglie
+bloccate sono ritirate senza fallback, quelle condizionali restano congelate e
+source acquisition, foundation, candidati, evaluation e outer OOS sono chiusi.
+
+E14.7b congela la remediation senza acquisire osservazioni:
+
+```text
+python -m regime_eval e14-preregister-feasibility-remediation --contract models/e14-feasibility-remediation-contract-v1.json --taxonomy ground-truth/us-financial-stress-v5.json --hypothesis-plan models/e14-new-information-hypothesis-plan-v1.json --hypothesis-audit ../../data/historical-real-v12-2008-2025/challengers/e14-new-information-hypothesis-audit-v1.json --feasibility-contract models/e14-source-vintage-feasibility-contract-v1.json --feasibility-evidence models/e14-source-vintage-feasibility-evidence-v1.json --feasibility-audit ../../data/historical-real-v12-2008-2025/challengers/e14-source-vintage-feasibility-audit-v1.json --remediation-plan models/e14-feasibility-remediation-plan-v1.json --remediation-schema models/e14-feasibility-remediation-schema-v1.json --output ../../data/historical-real-v12-2008-2025/challengers/e14-feasibility-remediation-audit-v1.json
+```
+
+Il piano preserva le 3 famiglie condizionali, ritira senza fallback le 5
+bloccate e preregistra esattamente una sostituzione per ciascuna. Le 5 nuove
+famiglie usano 7 fonti: annual historical summaries FDIC, corporate equities
+Z.1, DGS2/DGS10, DCD90/DTB3 e primary dealer statistics della New York Fed.
+Il controllo di calendario mostra storia causale nominalmente sufficiente per
+ogni episodio applicabile, mantenendo invariati i minimi di 60 o 36 mesi.
+
+Lo stato `FEASIBILITY_REMEDIATION_PREREGISTERED_REAUDIT_REQUIRED` non equivale
+a readiness. Autorizza soltanto E14.7c, il nuovo audit metadata-only di fonti
+condizionali e sostitutive. Download, materializzazione, generazione, fitting,
+evaluation, ranking, composizione, outer OOS e promozione restano chiusi.
+
+E14.7c riesamina le fonti preservate e sostitutive usando soltanto metadati
+provider-primary:
+
+```text
+python -m regime_eval e14-reaudit-replacement-source-feasibility --contract models/e14-replacement-source-feasibility-contract-v1.json --hypothesis-plan models/e14-new-information-hypothesis-plan-v1.json --prior-feasibility-audit ../../data/historical-real-v12-2008-2025/challengers/e14-source-vintage-feasibility-audit-v1.json --remediation-contract models/e14-feasibility-remediation-contract-v1.json --remediation-plan models/e14-feasibility-remediation-plan-v1.json --remediation-audit ../../data/historical-real-v12-2008-2025/challengers/e14-feasibility-remediation-audit-v1.json --evidence models/e14-replacement-source-feasibility-evidence-v1.json --evidence-schema models/e14-replacement-source-feasibility-evidence-schema-v1.json --output ../../data/historical-real-v12-2008-2025/challengers/e14-replacement-source-feasibility-audit-v1.json
+```
+
+Il gate richiede simultaneamente accesso provider-primary, copertura, licenza,
+completezza componenti, release proof, vintage proof e manifest metodologico.
+La sola DTB3 conserva la readiness gia' ottenuta con le stesse semantiche. Le
+altre 9 fonti sono bloccate e quindi nessuna delle 8 famiglie e' acquisibile.
+
+Il limite principale e' la ricostruzione event-time: l'archivio H.8 non prova
+il periodo pre-1984, Z.1 online parte dal 1996, i metadati ALFRED H.15 partono
+dal 2005 e BIS/NY Fed non chiudono vintages e release immutabili per tutti gli
+episodi. Lo stato
+`REPLACEMENT_SOURCE_FEASIBILITY_BLOCKED_VINTAGE_POLICY_DECISION_REQUIRED`
+autorizza soltanto E14.7d, una decisione preregistrata fra chiusura del ramo,
+ricostruzione archivistica mantenendo lo standard o scope post-2005
+separatamente versionato. Nessuna osservazione e' stata scaricata.
+
+E14.7d congela la decisione sulla politica dei vintages:
+
+```text
+python -m regime_eval e14-preregister-vintage-policy-decision --contract models/e14-vintage-policy-decision-contract-v1.json --taxonomy ground-truth/us-financial-stress-v5.json --hypothesis-plan models/e14-new-information-hypothesis-plan-v1.json --replacement-feasibility-contract models/e14-replacement-source-feasibility-contract-v1.json --replacement-feasibility-audit ../../data/historical-real-v12-2008-2025/challengers/e14-replacement-source-feasibility-audit-v1.json --decision-plan models/e14-vintage-policy-decision-plan-v1.json --decision-schema models/e14-vintage-policy-decision-schema-v1.json --output ../../data/historical-real-v12-2008-2025/challengers/e14-vintage-policy-decision-audit-v1.json
+```
+
+La decisione seleziona condizionalmente uno scope separato con cutoff
+`2006-01-01`. Non riapre il no-go E14 e non dichiara pronte le fonti E14.7c.
+La ricostruzione archivistica resta un backlog finanziato; la chiusura completa
+non e' selezionata perche' il periodo recente conserva almeno due positivi per
+ogni meccanismo.
+
+Lo scope contiene 6 positivi unici e 10 assegnazioni meccanismo-evento. I
+conteggi positivi sono 2/4/2/2 per banking, broad, cross-border e funding; gli
+hard negative sono 0/2/2/2. Lo stato
+`VINTAGE_POLICY_POST_2005_SCOPE_SELECTED_BANKING_CONTROLS_REQUIRED` mantiene lo
+scope inattivo e autorizza soltanto E14.7e: fattibilita' di almeno due nuovi
+controlli banking e nuova mappa source/vintage, senza taxonomy mutation o dati.

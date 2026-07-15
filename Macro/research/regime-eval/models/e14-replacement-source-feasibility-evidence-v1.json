@@ -1,0 +1,223 @@
+{
+  "schemaVersion": 1,
+  "evidencePackId": "e14-replacement-source-feasibility-evidence-v1",
+  "checkedAtUtc": "2026-07-15T14:45:00Z",
+  "networkPolicy": "provider-metadata-only-no-series-observation-download",
+  "sources": [
+    {
+      "sourceId": "federal-reserve-h8",
+      "lineage": "preserved-conditional",
+      "providerPrimaryPageReachable": true,
+      "coverageVerified": true,
+      "licensingCleared": true,
+      "componentCoverageVerified": true,
+      "releaseProofComplete": false,
+      "vintageProofComplete": false,
+      "methodologyManifestComplete": false,
+      "evidenceUrls": [
+        "https://www.federalreserve.gov/Releases/h8/",
+        "https://www.federalreserve.gov/datadownload/Choose.aspx?rel=H8",
+        "https://www.federalreserve.gov/releases/h8/2000.htm"
+      ],
+      "evidenceNotes": [
+        "The current DDP exposes weekly bank-credit history from 1973 and current releases document Friday publication timing.",
+        "The online dated-release archive inspected reaches 2000, not the 60-month pre-May-1984 window required for Continental Illinois.",
+        "Current H.8 histories incorporate benchmark, seasonal-factor and underlying-data revisions, so they are not event-time vintages."
+      ],
+      "blockingReasons": ["pre-1984-release-archive-not-proven", "historical-benchmark-revisions-not-vintage-resolved", "field-and-break-manifest-incomplete"]
+    },
+    {
+      "sourceId": "bis-effective-exchange-rates",
+      "lineage": "preserved-conditional",
+      "providerPrimaryPageReachable": true,
+      "coverageVerified": true,
+      "licensingCleared": true,
+      "componentCoverageVerified": true,
+      "releaseProofComplete": false,
+      "vintageProofComplete": false,
+      "methodologyManifestComplete": true,
+      "evidenceUrls": [
+        "https://data.bis.org/topics/EER",
+        "https://www.bis.org/terms_statistics.htm"
+      ],
+      "evidenceNotes": [
+        "BIS documents narrow monthly coverage from 1964 and broad monthly coverage from 1994 as distinct regimes.",
+        "Time-varying three-year trade weights, chain linking and coverage expansions are documented and can be frozen as methodology regimes.",
+        "The portal exposes current reconstructed histories and release calendars, but provider-primary historical vintages for every frozen episode were not located."
+      ],
+      "blockingReasons": ["historical-release-vintages-not-proven", "publication-date-joins-not-reconstructible-from-provider-archive"]
+    },
+    {
+      "sourceId": "bis-locational-banking-statistics",
+      "lineage": "preserved-conditional",
+      "providerPrimaryPageReachable": true,
+      "coverageVerified": true,
+      "licensingCleared": true,
+      "componentCoverageVerified": true,
+      "releaseProofComplete": false,
+      "vintageProofComplete": false,
+      "methodologyManifestComplete": true,
+      "evidenceUrls": [
+        "https://data.bis.org/topics/LBS",
+        "https://www.bis.org/statistics/bankstats/ibs_breakrev_summary.pdf",
+        "https://www.bis.org/terms_statistics.htm"
+      ],
+      "evidenceNotes": [
+        "BIS documents quarterly residence-based stocks, reporting-population breaks and FX- and break-adjusted changes.",
+        "The revisions-and-breaks summary and current methodology support a frozen regime manifest.",
+        "Immutable historical release snapshots and publication-date joins for every applicable episode were not established."
+      ],
+      "blockingReasons": ["historical-release-snapshots-not-proven", "episode-publication-date-joins-not-proven"]
+    },
+    {
+      "sourceId": "fdic-annual-historical-summaries",
+      "lineage": "replacement",
+      "providerPrimaryPageReachable": true,
+      "coverageVerified": true,
+      "licensingCleared": false,
+      "componentCoverageVerified": false,
+      "releaseProofComplete": false,
+      "vintageProofComplete": false,
+      "methodologyManifestComplete": false,
+      "evidenceUrls": [
+        "https://banks.data.fdic.gov/bankfind-suite/historical",
+        "https://www.fdic.gov/system/files/2024-06/guide.pdf"
+      ],
+      "evidenceNotes": [
+        "The FDIC data guide identifies annual aggregate historical data from 1934.",
+        "The current historical tool is retrospective and does not itself prove the values or definitions released before Continental Illinois.",
+        "The exact institution-count, concentration and failure/assistance asset-share component roster and immutable-snapshot terms remain unproven."
+      ],
+      "blockingReasons": ["event-time-annual-vintages-not-proven", "replacement-component-roster-not-fully-proven", "immutable-snapshot-terms-not-cleared", "methodology-manifest-incomplete"]
+    },
+    {
+      "sourceId": "federal-reserve-z1-corporate-equities",
+      "lineage": "replacement",
+      "providerPrimaryPageReachable": true,
+      "coverageVerified": true,
+      "licensingCleared": true,
+      "componentCoverageVerified": true,
+      "releaseProofComplete": false,
+      "vintageProofComplete": false,
+      "methodologyManifestComplete": false,
+      "evidenceUrls": [
+        "https://www.federalreserve.gov/releases/z1/release-dates.htm",
+        "https://www.federalreserve.gov/datadownload/Choose.aspx?rel=Z1",
+        "https://www.federalreserve.gov/Releases/z1/20131209/data.htm"
+      ],
+      "evidenceNotes": [
+        "Z.1 amounts outstanding extend from 1945 and the Board publishes quarterly release dates and historical release files.",
+        "The online dated-release archive begins in September 1996, after Mexico bond turbulence in December 1994.",
+        "Current DDP history and later archives cannot prove release-available quarterly market values for the earliest frozen broad episode."
+      ],
+      "blockingReasons": ["mexico-1994-event-time-release-unavailable", "historical-series-code-and-methodology-manifest-incomplete"]
+    },
+    {
+      "sourceId": "fred-dgs2",
+      "lineage": "replacement",
+      "providerPrimaryPageReachable": true,
+      "coverageVerified": true,
+      "licensingCleared": true,
+      "componentCoverageVerified": true,
+      "releaseProofComplete": false,
+      "vintageProofComplete": false,
+      "methodologyManifestComplete": true,
+      "evidenceUrls": [
+        "https://fred.stlouisfed.org/series/DGS2",
+        "https://alfred.stlouisfed.org/series?seid=DGS2",
+        "https://alfred.stlouisfed.org/help"
+      ],
+      "evidenceNotes": [
+        "DGS2 is public-domain daily H.15 data with citation requested and history from June 1976.",
+        "ALFRED records series metadata and vintages only from June 28, 2005 for DGS2.",
+        "The required event-time snapshots for Mexico 1994 and Russia/LTCM 1998 are therefore not proven by ALFRED."
+      ],
+      "blockingReasons": ["pre-2005-event-time-vintages-not-proven"]
+    },
+    {
+      "sourceId": "fred-dgs10",
+      "lineage": "replacement",
+      "providerPrimaryPageReachable": true,
+      "coverageVerified": true,
+      "licensingCleared": true,
+      "componentCoverageVerified": true,
+      "releaseProofComplete": false,
+      "vintageProofComplete": false,
+      "methodologyManifestComplete": true,
+      "evidenceUrls": [
+        "https://fred.stlouisfed.org/series/DGS10",
+        "https://alfred.stlouisfed.org/series?seid=DGS10",
+        "https://alfred.stlouisfed.org/help"
+      ],
+      "evidenceNotes": [
+        "DGS10 is public-domain daily H.15 data with citation requested and long nominal coverage.",
+        "ALFRED records the DGS10 series from June 28, 2005, not the event-time vintages needed for the 1994 and 1998 episodes.",
+        "Current FRED values are the latest revision and cannot substitute for a missing historical snapshot."
+      ],
+      "blockingReasons": ["pre-2005-event-time-vintages-not-proven"]
+    },
+    {
+      "sourceId": "fred-dcd90",
+      "lineage": "replacement",
+      "providerPrimaryPageReachable": true,
+      "coverageVerified": true,
+      "licensingCleared": true,
+      "componentCoverageVerified": true,
+      "releaseProofComplete": false,
+      "vintageProofComplete": false,
+      "methodologyManifestComplete": true,
+      "evidenceUrls": [
+        "https://fred.stlouisfed.org/series/DCD90",
+        "https://alfred.stlouisfed.org/help/downloaddata"
+      ],
+      "evidenceNotes": [
+        "DCD90 is public-domain daily H.15 data, was discontinued on June 28, 2013 and documents representative-response suppression.",
+        "FRED warns that all observations are subject to revision and its current page is not an August 1998 snapshot.",
+        "A provider-primary event-time vintage for Russia/LTCM was not proven without downloading historical observation-bearing releases."
+      ],
+      "blockingReasons": ["russia-1998-event-time-vintage-not-proven"]
+    },
+    {
+      "sourceId": "fred-dtb3",
+      "lineage": "replacement",
+      "providerPrimaryPageReachable": true,
+      "coverageVerified": true,
+      "licensingCleared": true,
+      "componentCoverageVerified": true,
+      "releaseProofComplete": true,
+      "vintageProofComplete": true,
+      "methodologyManifestComplete": true,
+      "evidenceUrls": [
+        "https://fred.stlouisfed.org/series/DTB3",
+        "https://alfred.stlouisfed.org/series?seid=DTB3"
+      ],
+      "evidenceNotes": [
+        "The Treasury-bill reference leg retains the ready classification established by E14.7a under the same discount-basis semantics.",
+        "It is reused only as the matched reference leg and cannot make the paired DCD90 family ready by itself."
+      ],
+      "blockingReasons": []
+    },
+    {
+      "sourceId": "new-york-fed-primary-dealer-statistics",
+      "lineage": "replacement",
+      "providerPrimaryPageReachable": true,
+      "coverageVerified": true,
+      "licensingCleared": false,
+      "componentCoverageVerified": true,
+      "releaseProofComplete": false,
+      "vintageProofComplete": false,
+      "methodologyManifestComplete": true,
+      "evidenceUrls": [
+        "https://www.newyorkfed.org/markets/counterparties/primary-dealers-statistics",
+        "https://www.newyorkfed.org/markets/primarydealers",
+        "https://www.newyorkfed.org/medialibrary/media/banking/reportingforms/primarystats/dealpdf.pdf"
+      ],
+      "evidenceNotes": [
+        "Weekly positions, transactions, financing and fails are available from January 28, 1998 and are split into six explicit data-structure regimes.",
+        "The provider documents Thursday publication with the previous week's statistics and warns that published data may reflect revisions.",
+        "Dated immutable releases for the 2019 and 2023 episodes and repository snapshot terms were not established."
+      ],
+      "blockingReasons": ["dated-release-and-revision-history-not-proven", "immutable-snapshot-terms-not-cleared"]
+    }
+  ]
+}

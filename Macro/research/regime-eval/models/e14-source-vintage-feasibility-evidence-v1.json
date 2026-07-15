@@ -1,0 +1,197 @@
+{
+  "schemaVersion": 1,
+  "evidencePackId": "e14-source-vintage-feasibility-evidence-v1",
+  "checkedAtUtc": "2026-07-15T14:20:00Z",
+  "networkPolicy": "metadata-only-no-series-download",
+  "sources": [
+    {
+      "sourceId": "fdic-aggregate-time-series",
+      "providerPrimaryPageReachable": true,
+      "coverageClaimVerified": true,
+      "componentCoverageStatus": "complete",
+      "licensingStatus": "provider-terms-review-required",
+      "vintageStatus": "current-history-vintage-proof-required",
+      "releaseSemanticsStatus": "publication-date-join-required",
+      "methodologyStatus": "current-history-reconstructed",
+      "evidenceUrls": [
+        "https://www.fdic.gov/bank-data-guide/data-downloads",
+        "https://www.fdic.gov/quarterly-banking-profile/quarterly-banking-profile-q1-2026"
+      ],
+      "evidenceNotes": [
+        "The current workbook reports aggregate quarterly data back to 1984.",
+        "The provider states that current spreadsheets were refreshed to include all insured institutions, so the current history is not proof of the originally released vintage.",
+        "Publication dates, field definitions and permission for an immutable repository snapshot remain to be documented."
+      ]
+    },
+    {
+      "sourceId": "federal-reserve-h8",
+      "providerPrimaryPageReachable": true,
+      "coverageClaimVerified": true,
+      "componentCoverageStatus": "complete",
+      "licensingStatus": "permitted-with-attribution",
+      "vintageStatus": "release-archive-proof-required",
+      "releaseSemanticsStatus": "historical-release-coverage-incomplete",
+      "methodologyStatus": "current-history-reconstructed",
+      "evidenceUrls": [
+        "https://www.federalreserve.gov/datadownload/Choose.aspx?rel=H8",
+        "https://www.federalreserve.gov/releases/h8/default.htm"
+      ],
+      "evidenceNotes": [
+        "Weekly aggregate series are available from 1973 and current releases document Friday publication timing.",
+        "The current data program explicitly incorporates benchmark and historical revisions.",
+        "The online release-date archive inspected does not establish complete machine-readable vintages for the 1984 episode."
+      ]
+    },
+    {
+      "sourceId": "fred-nasdaqcom",
+      "providerPrimaryPageReachable": true,
+      "coverageClaimVerified": true,
+      "componentCoverageStatus": "complete",
+      "licensingStatus": "permission-required",
+      "vintageStatus": "event-time-snapshot-adequate",
+      "releaseSemanticsStatus": "documented",
+      "methodologyStatus": "stable-with-manifest",
+      "evidenceUrls": [
+        "https://fred.stlouisfed.org/series/NASDAQCOM",
+        "https://fred.stlouisfed.org/legal/"
+      ],
+      "evidenceNotes": [
+        "Daily closes are reported from February 1971.",
+        "FRED marks the Nasdaq series as copyrighted with pre-approval required; third-party permission is required beyond personal use.",
+        "No repository snapshot may be acquired until permission is recorded."
+      ]
+    },
+    {
+      "sourceId": "fred-aaa10y",
+      "providerPrimaryPageReachable": true,
+      "coverageClaimVerified": true,
+      "componentCoverageStatus": "complete",
+      "licensingStatus": "permission-required",
+      "vintageStatus": "event-time-snapshot-adequate",
+      "releaseSemanticsStatus": "documented",
+      "methodologyStatus": "component-definition-break",
+      "evidenceUrls": [
+        "https://fred.stlouisfed.org/series/AAA10Y",
+        "https://fred.stlouisfed.org/legal/terms/"
+      ],
+      "evidenceNotes": [
+        "Daily observations are available from the preregistered 1986 boundary.",
+        "The series notes identify Moody's proprietary rights and restrict storage or redistribution without consent.",
+        "The Treasury source change in 2019 requires a component manifest even after licensing is resolved."
+      ]
+    },
+    {
+      "sourceId": "fred-baa10y",
+      "providerPrimaryPageReachable": true,
+      "coverageClaimVerified": true,
+      "componentCoverageStatus": "complete",
+      "licensingStatus": "permission-required",
+      "vintageStatus": "event-time-snapshot-adequate",
+      "releaseSemanticsStatus": "documented",
+      "methodologyStatus": "component-definition-break",
+      "evidenceUrls": [
+        "https://fred.stlouisfed.org/series/BAA10Y",
+        "https://fred.stlouisfed.org/legal/terms/"
+      ],
+      "evidenceNotes": [
+        "The lower-grade leg is long-history but remains third-party proprietary data.",
+        "Prior repository use does not establish permission for the new immutable family snapshot.",
+        "The family cannot be cleared while either Moody's leg lacks permission."
+      ]
+    },
+    {
+      "sourceId": "bis-effective-exchange-rates",
+      "providerPrimaryPageReachable": true,
+      "coverageClaimVerified": true,
+      "componentCoverageStatus": "complete",
+      "licensingStatus": "permitted-with-attribution",
+      "vintageStatus": "current-history-vintage-proof-required",
+      "releaseSemanticsStatus": "publication-date-join-required",
+      "methodologyStatus": "breaks-documented-manifest-required",
+      "evidenceUrls": [
+        "https://data.bis.org/topics/EER",
+        "https://www.bis.org/terms_statistics.htm"
+      ],
+      "evidenceNotes": [
+        "BIS permits use of its statistics with attribution.",
+        "Narrow monthly indices start in 1964 while broad monthly indices start in 1994; they are distinct regimes.",
+        "Time-varying weights and current reconstructed histories require a vintage and methodology proof before acquisition."
+      ]
+    },
+    {
+      "sourceId": "bis-locational-banking-statistics",
+      "providerPrimaryPageReachable": true,
+      "coverageClaimVerified": true,
+      "componentCoverageStatus": "complete",
+      "licensingStatus": "permitted-with-attribution",
+      "vintageStatus": "current-history-vintage-proof-required",
+      "releaseSemanticsStatus": "publication-date-join-required",
+      "methodologyStatus": "breaks-documented-manifest-required",
+      "evidenceUrls": [
+        "https://data.bis.org/topics/LBS",
+        "https://www.bis.org/terms_statistics.htm"
+      ],
+      "evidenceNotes": [
+        "BIS documents break- and exchange-rate-adjusted quarterly changes and reporting-population breaks.",
+        "Use is permitted with attribution.",
+        "Historical publication vintages and release-date joins are not yet proven for every episode."
+      ]
+    },
+    {
+      "sourceId": "federal-reserve-commercial-paper",
+      "providerPrimaryPageReachable": true,
+      "coverageClaimVerified": true,
+      "componentCoverageStatus": "partial",
+      "licensingStatus": "permitted-with-attribution",
+      "vintageStatus": "event-time-snapshot-adequate",
+      "releaseSemanticsStatus": "documented",
+      "methodologyStatus": "component-definition-break",
+      "evidenceUrls": [
+        "https://www.federalreserve.gov/releases/cp/about.htm",
+        "https://www.federalreserve.gov/datadownload/Choose.aspx?rel=CP"
+      ],
+      "evidenceNotes": [
+        "Rates and issuance volumes have one-day-lag release semantics.",
+        "The current DDP exposes all-observation dealer-survey rates but only a rolling window for issuance-volume packages; complete historical volume coverage was not established.",
+        "Outstanding-category structures changed in 2006 and similarly named categories are explicitly non-equivalent."
+      ]
+    },
+    {
+      "sourceId": "fred-dtb3",
+      "providerPrimaryPageReachable": true,
+      "coverageClaimVerified": true,
+      "componentCoverageStatus": "complete",
+      "licensingStatus": "permitted-with-attribution",
+      "vintageStatus": "event-time-snapshot-adequate",
+      "releaseSemanticsStatus": "documented",
+      "methodologyStatus": "stable-with-manifest",
+      "evidenceUrls": [
+        "https://fred.stlouisfed.org/series/DTB3",
+        "https://fred.stlouisfed.org/legal/"
+      ],
+      "evidenceNotes": [
+        "The Treasury-bill reference leg is public-domain data with citation requested on FRED.",
+        "Discount-basis alignment remains a preregistered construction requirement."
+      ]
+    },
+    {
+      "sourceId": "new-york-fed-reference-rates",
+      "providerPrimaryPageReachable": true,
+      "coverageClaimVerified": true,
+      "componentCoverageStatus": "complete",
+      "licensingStatus": "provider-terms-review-required",
+      "vintageStatus": "same-day-revision-flags-adequate",
+      "releaseSemanticsStatus": "documented",
+      "methodologyStatus": "stable-with-manifest",
+      "evidenceUrls": [
+        "https://www.newyorkfed.org/markets/reference-rates/sofr",
+        "https://www.newyorkfed.org/markets/reference-rates/additional-information-about-reference-rates"
+      ],
+      "evidenceNotes": [
+        "SOFR, TGCR and BGCR publication began on April 3, 2018.",
+        "The provider documents same-day revisions, thresholds and revision footnotes.",
+        "Provider terms for an immutable repository snapshot still require explicit review."
+      ]
+    }
+  ]
+}

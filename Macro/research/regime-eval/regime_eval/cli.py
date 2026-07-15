@@ -41,6 +41,11 @@ from .e14_loeo_preregistration import write_e14_loeo_preregistration_audit
 from .e14_loeo_preregistration_v2 import write_e14_loeo_preregistration_audit_v2
 from .e14_loeo_evaluation_v2 import write_e14_loeo_evaluation_v2
 from .e14_no_go_diagnostic import write_e14_no_go_diagnostic
+from .e14_new_information_hypothesis import write_e14_new_information_hypothesis_audit
+from .e14_source_vintage_feasibility import write_e14_source_vintage_feasibility_audit
+from .e14_feasibility_remediation import write_e14_feasibility_remediation_audit
+from .e14_replacement_source_feasibility import write_e14_replacement_source_feasibility_audit
+from .e14_vintage_policy_decision import write_e14_vintage_policy_decision_audit
 from .e14_coverage_repair import write_e14_coverage_repair_audit
 from .e14_taxonomy_v4 import write_e14_taxonomy_v4
 from .e14_taxonomy_v5 import write_e14_taxonomy_v5
@@ -81,6 +86,52 @@ def main(argv: list[str] | None = None) -> int:
     parser = _parser()
     args = parser.parse_args(argv)
     try:
+        if args.command == "e14-preregister-vintage-policy-decision":
+            output = write_e14_vintage_policy_decision_audit(
+                args.contract, args.taxonomy, args.hypothesis_plan,
+                args.replacement_feasibility_contract,
+                args.replacement_feasibility_audit, args.decision_plan,
+                args.decision_schema, args.output,
+            )
+            print(output)
+            return 0
+        if args.command == "e14-reaudit-replacement-source-feasibility":
+            output = write_e14_replacement_source_feasibility_audit(
+                args.contract, args.hypothesis_plan, args.prior_feasibility_audit,
+                args.remediation_contract, args.remediation_plan,
+                args.remediation_audit, args.evidence, args.evidence_schema,
+                args.output,
+            )
+            print(output)
+            report = json.loads(output.read_text(encoding="utf-8"))
+            return 0 if report["decision"]["fullSourceReadiness"] else 3
+        if args.command == "e14-preregister-feasibility-remediation":
+            output = write_e14_feasibility_remediation_audit(
+                args.contract, args.taxonomy, args.hypothesis_plan,
+                args.hypothesis_audit, args.feasibility_contract,
+                args.feasibility_evidence, args.feasibility_audit,
+                args.remediation_plan, args.remediation_schema, args.output,
+            )
+            print(output)
+            return 0
+        if args.command == "e14-audit-source-vintage-feasibility":
+            output = write_e14_source_vintage_feasibility_audit(
+                args.contract, args.taxonomy, args.hypothesis_contract,
+                args.hypothesis_plan, args.hypothesis_schema,
+                args.hypothesis_audit, args.evidence, args.evidence_schema,
+                args.output,
+            )
+            print(output)
+            report = json.loads(output.read_text(encoding="utf-8"))
+            return 0 if report["decision"]["fullSourceVintageReadiness"] else 3
+        if args.command == "e14-preregister-new-information":
+            output = write_e14_new_information_hypothesis_audit(
+                args.contract, args.taxonomy, args.mechanism_contract,
+                args.historical_source_catalog, args.no_go_diagnostic,
+                args.hypothesis_plan, args.hypothesis_schema, args.output,
+            )
+            print(output)
+            return 0
         if args.command == "e14-diagnose-loeo-no-go":
             output = write_e14_no_go_diagnostic(
                 args.contract, args.taxonomy, args.candidate_manifest,
@@ -1044,6 +1095,70 @@ def _parser() -> argparse.ArgumentParser:
     e14_diagnostic.add_argument("--loeo-report", required=True)
     e14_diagnostic.add_argument("--diagnostic-schema", required=True)
     e14_diagnostic.add_argument("--output", required=True)
+    e14_new_information = subparsers.add_parser(
+        "e14-preregister-new-information",
+        help="freeze E14.7 mechanism-specific information hypotheses without acquiring data",
+    )
+    e14_new_information.add_argument("--contract", required=True)
+    e14_new_information.add_argument("--taxonomy", required=True)
+    e14_new_information.add_argument("--mechanism-contract", required=True)
+    e14_new_information.add_argument("--historical-source-catalog", required=True)
+    e14_new_information.add_argument("--no-go-diagnostic", required=True)
+    e14_new_information.add_argument("--hypothesis-plan", required=True)
+    e14_new_information.add_argument("--hypothesis-schema", required=True)
+    e14_new_information.add_argument("--output", required=True)
+    e14_source_feasibility = subparsers.add_parser(
+        "e14-audit-source-vintage-feasibility",
+        help="run the E14.7a metadata-only source, license, coverage and vintage audit",
+    )
+    e14_source_feasibility.add_argument("--contract", required=True)
+    e14_source_feasibility.add_argument("--taxonomy", required=True)
+    e14_source_feasibility.add_argument("--hypothesis-contract", required=True)
+    e14_source_feasibility.add_argument("--hypothesis-plan", required=True)
+    e14_source_feasibility.add_argument("--hypothesis-schema", required=True)
+    e14_source_feasibility.add_argument("--hypothesis-audit", required=True)
+    e14_source_feasibility.add_argument("--evidence", required=True)
+    e14_source_feasibility.add_argument("--evidence-schema", required=True)
+    e14_source_feasibility.add_argument("--output", required=True)
+    e14_remediation = subparsers.add_parser(
+        "e14-preregister-feasibility-remediation",
+        help="freeze E14.7b source-feasibility remediation without acquiring observations",
+    )
+    e14_remediation.add_argument("--contract", required=True)
+    e14_remediation.add_argument("--taxonomy", required=True)
+    e14_remediation.add_argument("--hypothesis-plan", required=True)
+    e14_remediation.add_argument("--hypothesis-audit", required=True)
+    e14_remediation.add_argument("--feasibility-contract", required=True)
+    e14_remediation.add_argument("--feasibility-evidence", required=True)
+    e14_remediation.add_argument("--feasibility-audit", required=True)
+    e14_remediation.add_argument("--remediation-plan", required=True)
+    e14_remediation.add_argument("--remediation-schema", required=True)
+    e14_remediation.add_argument("--output", required=True)
+    e14_reaudit = subparsers.add_parser(
+        "e14-reaudit-replacement-source-feasibility",
+        help="run the E14.7c provider-metadata-only feasibility re-audit",
+    )
+    e14_reaudit.add_argument("--contract", required=True)
+    e14_reaudit.add_argument("--hypothesis-plan", required=True)
+    e14_reaudit.add_argument("--prior-feasibility-audit", required=True)
+    e14_reaudit.add_argument("--remediation-contract", required=True)
+    e14_reaudit.add_argument("--remediation-plan", required=True)
+    e14_reaudit.add_argument("--remediation-audit", required=True)
+    e14_reaudit.add_argument("--evidence", required=True)
+    e14_reaudit.add_argument("--evidence-schema", required=True)
+    e14_reaudit.add_argument("--output", required=True)
+    e14_vintage_policy = subparsers.add_parser(
+        "e14-preregister-vintage-policy-decision",
+        help="freeze the E14.7d vintage-policy branch without acquiring or evaluating data",
+    )
+    e14_vintage_policy.add_argument("--contract", required=True)
+    e14_vintage_policy.add_argument("--taxonomy", required=True)
+    e14_vintage_policy.add_argument("--hypothesis-plan", required=True)
+    e14_vintage_policy.add_argument("--replacement-feasibility-contract", required=True)
+    e14_vintage_policy.add_argument("--replacement-feasibility-audit", required=True)
+    e14_vintage_policy.add_argument("--decision-plan", required=True)
+    e14_vintage_policy.add_argument("--decision-schema", required=True)
+    e14_vintage_policy.add_argument("--output", required=True)
     e14_taxonomy_v4 = subparsers.add_parser(
         "e14-materialize-taxonomy-v4",
         help="version the accepted E14 foundation proposal into an immutable mechanism-aware taxonomy v4",
