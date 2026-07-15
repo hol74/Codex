@@ -544,6 +544,43 @@ Checkpoint in corso: `docs/checkpoints/0034-fase-e-slice6-feature-baseline-redes
   indipendenti. Lo stato e'
   `TAXONOMY_V4_VERSIONED_MORE_HARD_NEGATIVES_REQUIRED`: la tassonomia e'
   versionata, ma candidati, outer OOS e promozione restano chiusi.
+- Fase E14.4e - hard-negative expansion: curati quattro contrasti basati su
+  eventi indipendenti e fonti istituzionali: crash azionario 1987 come
+  hard-negative banking-credit, repricing 2018Q4 come hard-negative funding,
+  repo stress 2019 come hard-negative cross-border e regional bank stress
+  2023 come hard-negative broad-market. Gli stati misti cross-meccanismo sono
+  intenzionali e non producono conflitti sulla chiave `(mese, meccanismo)`.
+  La queue v6 preserva byte-identici i 12 manifest accettati e aggiunge 4
+  dossier `reviewed` in attesa. Se tutti fossero accettati, la copertura
+  salirebbe da 2 a 6 eventi hard-negative indipendenti e da 1 a 2 per ciascun
+  meccanismo. Questo e' solo un risultato potenziale: lo stato resta
+  `INDEPENDENT_REVIEW_REQUIRED`; tassonomia v4, candidati e outer OOS non sono
+  stati modificati. E14.4f deve produrre l'handoff immutabile e acquisire
+  ricevute indipendenti sui quattro nuovi hash. La regressione finale supera
+  81/81 test Python, la compilazione bytecode e 240/240 test .NET net10.0.
+- Fase E14.4f - expansion review handoff: costruito un bundle immutabile che
+  contiene soltanto i quattro hard negative E14.4e. I 12 dossier accettati
+  precedenti sono esclusi e non riaperti. Il bundle contiene 4 copie dossier
+  byte-identiche, 4 worksheet, 4 template schema v2 intenzionalmente non
+  ingeribili e 12 occorrenze di locator. Il contratto vieta review e
+  ingestione al generatore, oltre a tassonomia, candidati e outer OOS. Lo
+  stato e' `EXPANSION_AWAITING_EXTERNAL_REVIEW`: la copertura potenziale non
+  e' diventata accettata e le ricevute indipendenti restano zero. E14.4g deve
+  validare decisioni esterne legate esattamente ai quattro hash dell'handoff.
+  La regressione supera 84/84 test Python, la compilazione bytecode e 240/240
+  test .NET Debug/net10.0.
+- Fase E14.4g - expansion review ingestion: implementato un gate schema v2
+  che accetta soltanto ricevute sui quattro hash E14.4f e preserva byte-identici
+  i 12 accept precedenti. Un `accept` richiede fonti aperte, claim e confini
+  supportati, controevidenza considerata e nessun output di modello. A
+  differenza del vecchio flusso, un run incompleto non scrive una queue
+  parziale: produce soltanto un audit retry-safe; la queue v7 nasce dopo
+  quattro ricevute valide. Il run reale trova 0/4 ricevute e termina
+  `EXPANSION_REVIEW_INCOMPLETE`; queue v7, coverage gate, tassonomia e
+  candidati restano assenti o chiusi. Il prossimo input deve provenire da un
+  reviewer indipendente, poi lo stesso comando potra' essere rieseguito con
+  nuovi output immutabili. La regressione supera 87/87 test Python, la
+  compilazione bytecode e 240/240 test .NET Debug/net10.0.
 
 ## Deviazione documentata dal piano originario
 

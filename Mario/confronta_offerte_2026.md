@@ -11,3 +11,4 @@ Documento di lavoro per raccogliere e confrontare le offerte luce, gas, telefoni
 | luce + gas | ilportaleofferte.it | engie | spread 0,008 luce, 0,03 gas | 10 euro mese | https://www.engie.it/casa/offerte-luce-gas/ Energia Vedo chiaro |
 | luce | ilportaleofferte.it | e-plus | spread 0,0055 luce | 5 euro mese | https://join.e-plusenergia.it/ |
 | gas | ilportaleofferte.it | involta | 0 | 0 | https://www.involta.it/index.html |
+| gas | ilportaleofferte.it | segnoverde | 0,05 | 6 euro mese | http://www.segnoverde.it |

@@ -668,12 +668,47 @@ copertura degli episodi.
        ereditato di dicembre 2025;
      - esito: `TAXONOMY_V4_VERSIONED_MORE_HARD_NEGATIVES_REQUIRED`, 11 eventi
        positivi e 2 hard-negative indipendenti; candidati ancora chiusi.
-   - E14.4e espansione hard-negative indipendente (PROSSIMO PASSO):
-     - curare ulteriori eventi hard-negative affermativi, non varianti dello
-       stesso episodio, fino ad almeno 6 totali e 2 per ogni meccanismo;
-     - sottoporre i nuovi dossier a review indipendente e integrare soltanto
-       gli hash accettati in una successiva versione della tassonomia;
-     - rieseguire il coverage audit prima di qualsiasi generazione.
+   - E14.4e espansione hard-negative indipendente (COMPLETATA, REVIEW REQUIRED, 2026-07-15):
+     - curati quattro eventi hard-negative distinti: crash 1987 per
+       banking-credit, repricing 2018Q4 per funding-liquidity, repo stress
+       2019 per cross-border-growth e regional bank stress 2023 per
+       broad-market-repricing;
+     - preservati gli stati positivi gia' presenti sugli altri meccanismi:
+       la chiave di conflitto resta `(mese, meccanismo)`, non il solo mese;
+     - verificati prova affermativa di comportamento ordinato, almeno due
+       provider indipendenti, controevidenza e zero conflitti;
+     - preservati byte-identici i 12 manifest gia' accettati e aggiunti i 4
+       nuovi hash alla review queue v6;
+     - esito potenziale, non ancora accettato: 6 hard negative indipendenti e
+       2 per meccanismo, con stato `INDEPENDENT_REVIEW_REQUIRED`;
+     - tassonomia v4, candidati, outer OOS e promozione restano chiusi.
+   - E14.4f handoff review espansione (COMPLETATA, AWAITING EXTERNAL REVIEW, 2026-07-15):
+     - costruito un bundle immutabile limitato ai quattro nuovi dossier;
+     - esclusi esplicitamente i 12 dossier gia' accettati, che non vengono
+       riaperti;
+     - generate 4 copie byte-identiche, 4 worksheet e 4 template schema v2
+       intenzionalmente non ingeribili, con 12 locator complessivi;
+     - impedita per contratto la review da parte del generatore e mantenuti
+       chiusi coverage accettata, tassonomia, candidati e outer OOS;
+     - esito: `EXPANSION_AWAITING_EXTERNAL_REVIEW`, zero ricevute.
+   - E14.4g ingestione review indipendente espansione (IMPLEMENTATA, AWAITING RECEIPTS, 2026-07-15):
+     - congelato il contratto e implementata la validazione schema v2 contro
+       i quattro hash dell'handoff E14.4f;
+     - preservati byte-identici i 12 accept precedenti e vietate ricevute su
+       dossier estranei all'espansione;
+     - un `accept` richiede fonti aperte, claim e confini confermati,
+       controevidenza considerata e nessun output di modello;
+     - la queue v7 viene scritta soltanto quando sono presenti esattamente
+       quattro ricevute valide; un run incompleto scrive solo un audit
+       retry-safe;
+     - run reale: 0/4 ricevute, `EXPANSION_REVIEW_INCOMPLETE`, nessuna queue
+       v7 e nessuna autorizzazione a coverage, tassonomia o candidati;
+     - prossimo input: review esterna sui quattro dossier, poi retry E14.4g.
+   - E14.4h accepted hard-negative coverage gate (BLOCCATA DALLE REVIEW):
+     - aprire soltanto se E14.4g termina con quattro `accept`;
+     - ricontare la copertura accettata per evento e meccanismo prima di
+       qualsiasi nuova tassonomia;
+     - mantenere chiusi candidati e outer OOS fino a un gate separato.
    - definire feature relative al regime storico, onset e recovery separati;
    - definire dossier e hard negative a livello di singolo meccanismo;
    - vietare composizione finche' ogni detector non ha evidenza autonoma.
@@ -716,6 +751,15 @@ Checkpoint E14.4c:
 
 Checkpoint E14.4d:
 `docs/checkpoints/0070-fase-e14-4d-taxonomy-v4-versioned.md`.
+
+Checkpoint E14.4e:
+`docs/checkpoints/0071-fase-e14-4e-hard-negative-expansion-curated.md`.
+
+Checkpoint E14.4f:
+`docs/checkpoints/0072-fase-e14-4f-expansion-review-handoff.md`.
+
+Checkpoint E14.4g:
+`docs/checkpoints/0073-fase-e14-4g-expansion-review-ingestion-ready.md`.
 
 
 

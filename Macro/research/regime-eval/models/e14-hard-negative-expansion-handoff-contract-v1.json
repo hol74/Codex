@@ -1,0 +1,49 @@
+{
+  "schemaVersion": 1,
+  "contractId": "e14-hard-negative-expansion-handoff-contract-v1",
+  "frozenAt": "2026-07-15",
+  "inputHashes": {
+    "reviewQueueV6Sha256": "c4eb4b7763db757e1f5290238efcb4f0c97ba3221063e763d8730f4dc1f59c02",
+    "curationAuditSha256": "cda82f4dfe613db2f93de5bae8c7a96ace9da3ef5cc4df9ccca61d2681a67e47",
+    "expansionContractSha256": "c917db0b7ee9a2a32095b6b6c06ca1ff08ede44e12c52f66515ccf7b1a57d44d",
+    "reviewSchemaV2Sha256": "77310369e3ba33a6a5dbde84ce6cc445a6a87c7e9e03ba3842718a684822dd58",
+    "dossierSchemaSha256": "6163ab4cf6249aa314708361d1572ade403844b2cca9b4deb9c6bfaca3c7702f"
+  },
+  "requiredInputState": {
+    "queueStatus": "EXPANSION_AWAITING_INDEPENDENT_REVIEW",
+    "curationStatus": "INDEPENDENT_REVIEW_REQUIRED",
+    "preservedAcceptedDossierCount": 12,
+    "newDossierCount": 4,
+    "newIndependentReviewReceiptCount": 0
+  },
+  "bundleRules": {
+    "onlyExpansionDossiersIncluded": true,
+    "priorAcceptedDossiersNotReopened": true,
+    "oneWorksheetPerDossier": true,
+    "oneReceiptTemplatePerDossier": true,
+    "includeAllEvidenceLocators": true,
+    "includeCounterEvidence": true,
+    "copyDossiersByteIdentically": true,
+    "receiptTemplatesAreNonIngestible": true,
+    "reviewerMustOpenSourceLocators": true,
+    "reviewerMustNotUseModelOutputs": true,
+    "completedReceiptsWrittenOutsideBundle": true,
+    "selfAcceptanceForbidden": true
+  },
+  "receiptOutputConvention": {
+    "directory": "e14-hard-negative-expansion-independent-reviews-v1",
+    "fileName": "e14-review-<dossier-slug>-<reviewer-slug>.json",
+    "instruction": "Copy and complete each template outside the immutable bundle; never edit templates or dossier copies in place."
+  },
+  "authorizationPolicy": {
+    "handoffWriteAuthorized": true,
+    "reviewByGeneratorAuthorized": false,
+    "receiptIngestionAuthorized": false,
+    "taxonomyMutationAuthorized": false,
+    "candidateGenerationAuthorized": false,
+    "outerOosAuthorized": false,
+    "promotionAuthorized": false
+  },
+  "expectedStatus": "EXPANSION_AWAITING_EXTERNAL_REVIEW",
+  "nextAllowedAction": "E14.4g ingest and validate independent receipts for exactly the four expansion dossier hashes"
+}

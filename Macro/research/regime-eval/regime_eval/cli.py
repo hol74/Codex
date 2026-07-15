@@ -30,6 +30,11 @@ from .e14_information_audit import write_e14_information_audit
 from .e14_label_audit import write_e14_label_audit
 from .e14_label_foundation_gate import write_e14_label_foundation_gate
 from .e14_taxonomy_v4 import write_e14_taxonomy_v4
+from .e14_hard_negative_expansion import write_e14_hard_negative_expansion
+from .e14_hard_negative_expansion_handoff import write_e14_hard_negative_expansion_handoff
+from .e14_hard_negative_expansion_review_ingestion import (
+    write_e14_hard_negative_expansion_review_ingestion,
+)
 from .e14_historical_feasibility import write_e14_historical_feasibility
 from .e14_mechanism_contract import write_e14_mechanism_contract_audit
 from .e14_dossier_curation import write_e14_positive_dossier_curation
@@ -57,6 +62,48 @@ def main(argv: list[str] | None = None) -> int:
     parser = _parser()
     args = parser.parse_args(argv)
     try:
+        if args.command == "e14-ingest-hard-negative-expansion-reviews":
+            queue, output = write_e14_hard_negative_expansion_review_ingestion(
+                args.contract,
+                args.review_queue,
+                args.curation_audit,
+                args.handoff_audit,
+                args.handoff_contract,
+                args.review_schema,
+                args.receipt_dir,
+                args.queue_output,
+                args.output,
+            )
+            if queue is not None:
+                print(queue)
+            print(output)
+            report = json.loads(output.read_text(encoding="utf-8"))
+            return 0 if report["decision"]["independentReviewComplete"] else 3
+        if args.command == "e14-build-hard-negative-expansion-handoff":
+            output = write_e14_hard_negative_expansion_handoff(
+                args.contract,
+                args.review_queue,
+                args.curation_audit,
+                args.expansion_contract,
+                args.review_schema,
+                args.dossier_schema,
+                args.expansion_dossier_dir,
+                args.bundle_dir,
+                args.output,
+            )
+            print(output)
+            return 0
+        if args.command == "e14-curate-hard-negative-expansion":
+            queue, output = write_e14_hard_negative_expansion(
+                args.contract, args.pack, args.taxonomy, args.materialization_audit,
+                args.reviewed_queue, args.dossier_schema, args.review_schema,
+                args.label_audit_contract, args.mechanism_contract,
+                args.dossier_output_dir, args.queue_output, args.output,
+            )
+            print(queue)
+            print(output)
+            report = json.loads(output.read_text(encoding="utf-8"))
+            return 0 if report["decision"]["potentialCoverageSufficientIfAllAccepted"] else 3
         if args.command == "e14-materialize-taxonomy-v4":
             taxonomy, output = write_e14_taxonomy_v4(
                 args.contract, args.taxonomy_v3, args.foundation_proposal,
@@ -643,6 +690,48 @@ def _parser() -> argparse.ArgumentParser:
     e14_taxonomy_v4.add_argument("--mechanism-contract", required=True)
     e14_taxonomy_v4.add_argument("--taxonomy-output", required=True)
     e14_taxonomy_v4.add_argument("--output", required=True)
+    e14_expansion = subparsers.add_parser(
+        "e14-curate-hard-negative-expansion",
+        help="curate four independent E14 hard negatives and append them to a hash-bound review queue",
+    )
+    e14_expansion.add_argument("--contract", required=True)
+    e14_expansion.add_argument("--pack", required=True)
+    e14_expansion.add_argument("--taxonomy", required=True)
+    e14_expansion.add_argument("--materialization-audit", required=True)
+    e14_expansion.add_argument("--reviewed-queue", required=True)
+    e14_expansion.add_argument("--dossier-schema", required=True)
+    e14_expansion.add_argument("--review-schema", required=True)
+    e14_expansion.add_argument("--label-audit-contract", required=True)
+    e14_expansion.add_argument("--mechanism-contract", required=True)
+    e14_expansion.add_argument("--dossier-output-dir", required=True)
+    e14_expansion.add_argument("--queue-output", required=True)
+    e14_expansion.add_argument("--output", required=True)
+    e14_expansion_handoff = subparsers.add_parser(
+        "e14-build-hard-negative-expansion-handoff",
+        help="build an immutable external-review bundle for the four E14.4e expansion dossiers",
+    )
+    e14_expansion_handoff.add_argument("--contract", required=True)
+    e14_expansion_handoff.add_argument("--review-queue", required=True)
+    e14_expansion_handoff.add_argument("--curation-audit", required=True)
+    e14_expansion_handoff.add_argument("--expansion-contract", required=True)
+    e14_expansion_handoff.add_argument("--review-schema", required=True)
+    e14_expansion_handoff.add_argument("--dossier-schema", required=True)
+    e14_expansion_handoff.add_argument("--expansion-dossier-dir", required=True)
+    e14_expansion_handoff.add_argument("--bundle-dir", required=True)
+    e14_expansion_handoff.add_argument("--output", required=True)
+    e14_expansion_ingestion = subparsers.add_parser(
+        "e14-ingest-hard-negative-expansion-reviews",
+        help="validate independent receipts for the four E14.4e expansion dossier hashes",
+    )
+    e14_expansion_ingestion.add_argument("--contract", required=True)
+    e14_expansion_ingestion.add_argument("--review-queue", required=True)
+    e14_expansion_ingestion.add_argument("--curation-audit", required=True)
+    e14_expansion_ingestion.add_argument("--handoff-audit", required=True)
+    e14_expansion_ingestion.add_argument("--handoff-contract", required=True)
+    e14_expansion_ingestion.add_argument("--review-schema", required=True)
+    e14_expansion_ingestion.add_argument("--receipt-dir", required=True)
+    e14_expansion_ingestion.add_argument("--queue-output", required=True)
+    e14_expansion_ingestion.add_argument("--output", required=True)
     e12_foundation = subparsers.add_parser(
         "e12-freeze-foundation",
         help="validate E12 feature coverage by fold and freeze all foundation input hashes",

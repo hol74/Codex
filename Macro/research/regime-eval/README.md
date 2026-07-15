@@ -520,3 +520,48 @@ La run reale termina
 sufficiente, ma i quattro dossier hard-negative rappresentano solo due eventi
 indipendenti. E14.4e deve quindi ampliare e sottoporre a review gli hard
 negative prima di riaprire il coverage gate o generare candidati.
+
+E14.4e cura quattro nuovi hard negative indipendenti e li aggiunge a una nuova
+review queue senza mutare la tassonomia:
+
+```text
+python -m regime_eval e14-curate-hard-negative-expansion --contract models/e14-hard-negative-expansion-contract-v1.json --pack models/e14-hard-negative-expansion-pack-v1.json --taxonomy ground-truth/us-financial-stress-v4.json --materialization-audit ../../data/historical-real-v12-2008-2025/challengers/e14-taxonomy-v4-materialization-audit-v1.json --reviewed-queue ../../data/historical-real-v12-2008-2025/challengers/e14-independent-review-queue-v5.json --dossier-schema models/e14-episode-dossier-schema-v1.json --review-schema models/e14-independent-review-schema-v2.json --label-audit-contract models/e14-label-audit-contract-v1.json --mechanism-contract models/e14-mechanism-detector-contract-v1.json --dossier-output-dir ../../data/historical-real-v12-2008-2025/challengers/e14-hard-negative-expansion-dossiers-v1 --queue-output ../../data/historical-real-v12-2008-2025/challengers/e14-independent-review-queue-v6.json --output ../../data/historical-real-v12-2008-2025/challengers/e14-hard-negative-expansion-curation-audit-v1.json
+```
+
+La run reale produce quattro dossier write-once, uno per meccanismo, e zero
+conflitti sulla chiave `(mese, meccanismo)`. I 12 manifest gia' accettati
+restano byte-identici nella queue v6; i quattro nuovi manifest sono in attesa
+di ricevuta. La copertura hard-negative potenziale raggiunge 6 eventi
+indipendenti e 2 per meccanismo, ma non e' copertura accettata. Lo stato
+`INDEPENDENT_REVIEW_REQUIRED` mantiene chiusi tassonomia v4, generazione dei
+candidati, outer OOS e promozione. E14.4f crea l'handoff immutabile; E14.4g
+validera' review indipendenti sui quattro nuovi hash.
+
+E14.4f prepara l'handoff esterno senza svolgere o simulare la review:
+
+```text
+python -m regime_eval e14-build-hard-negative-expansion-handoff --contract models/e14-hard-negative-expansion-handoff-contract-v1.json --review-queue ../../data/historical-real-v12-2008-2025/challengers/e14-independent-review-queue-v6.json --curation-audit ../../data/historical-real-v12-2008-2025/challengers/e14-hard-negative-expansion-curation-audit-v1.json --expansion-contract models/e14-hard-negative-expansion-contract-v1.json --review-schema models/e14-independent-review-schema-v2.json --dossier-schema models/e14-episode-dossier-schema-v1.json --expansion-dossier-dir ../../data/historical-real-v12-2008-2025/challengers/e14-hard-negative-expansion-dossiers-v1 --bundle-dir ../../data/historical-real-v12-2008-2025/challengers/e14-hard-negative-expansion-review-bundle-v1 --output ../../data/historical-real-v12-2008-2025/challengers/e14-hard-negative-expansion-handoff-audit-v1.json
+```
+
+Il bundle esclude i 12 dossier gia' accettati e contiene quattro copie
+byte-identiche, quattro worksheet e quattro template schema v2. I template
+devono essere copiati fuori dal bundle, completati da un reviewer indipendente
+e salvati nella directory indicata dal README. Lo stato reale
+`EXPANSION_AWAITING_EXTERNAL_REVIEW` non accetta la copertura potenziale e non
+autorizza tassonomia o candidati. E14.4g ingerira' esclusivamente ricevute
+legate ai quattro hash congelati dall'audit E14.4f.
+
+E14.4g valida le ricevute indipendenti e non crea una queue parziale quando ne
+manca anche una:
+
+```text
+python -m regime_eval e14-ingest-hard-negative-expansion-reviews --contract models/e14-hard-negative-expansion-review-ingestion-contract-v1.json --review-queue ../../data/historical-real-v12-2008-2025/challengers/e14-independent-review-queue-v6.json --curation-audit ../../data/historical-real-v12-2008-2025/challengers/e14-hard-negative-expansion-curation-audit-v1.json --handoff-audit ../../data/historical-real-v12-2008-2025/challengers/e14-hard-negative-expansion-handoff-audit-v1.json --handoff-contract models/e14-hard-negative-expansion-handoff-contract-v1.json --review-schema models/e14-independent-review-schema-v2.json --receipt-dir ../../data/historical-real-v12-2008-2025/challengers/e14-hard-negative-expansion-independent-reviews-v1 --queue-output ../../data/historical-real-v12-2008-2025/challengers/e14-independent-review-queue-v7.json --output ../../data/historical-real-v12-2008-2025/challengers/e14-hard-negative-expansion-review-ingestion-readiness-v1.json
+```
+
+Se le ricevute sono meno di quattro, il comando restituisce un esito non zero,
+scrive soltanto l'audit `EXPANSION_REVIEW_INCOMPLETE` e lascia inesistente la
+queue v7. Con quattro ricevute valide scrive una queue completa: tutti gli
+`accept` autorizzano soltanto un coverage gate E14.4h separato; qualunque
+`reject` o `needs-revision` richiede la revisione dei soli hash non accettati.
+Il run reale corrente trova 0/4 ricevute. Nessuna review viene prodotta o
+attribuita al processo di ingestione.

@@ -1,0 +1,56 @@
+{
+  "schemaVersion": 1,
+  "contractId": "e14-hard-negative-expansion-contract-v1",
+  "frozenAt": "2026-07-15",
+  "inputHashes": {
+    "expansionPackSha256": "83a87e96afd4a9e298f3e3e1baa571f6594b635e810e0203590b4158c398cbe4",
+    "taxonomyV4Sha256": "d7f11a0ecc2bf2856d89b2aeb897e87e34d37e745bb9fecc0d16ad6558fa40cc",
+    "taxonomyMaterializationAuditSha256": "c8c5bfb8a2222a7fa45f00b9cd938c31faf82ecbafb0db3381ab0e30696cc3aa",
+    "reviewedQueueV5Sha256": "248e11a03925443f0fa9b797e5f6601b68968f0fdb9260de08c3aade5cb3227c",
+    "dossierSchemaSha256": "6163ab4cf6249aa314708361d1572ade403844b2cca9b4deb9c6bfaca3c7702f",
+    "reviewSchemaV2Sha256": "77310369e3ba33a6a5dbde84ce6cc445a6a87c7e9e03ba3842718a684822dd58",
+    "labelAuditContractSha256": "edee49028b9d8601c9d22bf956e4e8c8a393897c8d388f94c9d21a1d79d0d570",
+    "mechanismContractSha256": "b974b5b5e865a46438449e6d1dc0beb8d821e3656f0074b207d0eca96fd6d685"
+  },
+  "requiredTaxonomyId": "us-financial-stress-mechanism-aware-v4",
+  "requiredUpstreamStatus": "TAXONOMY_V4_VERSIONED_MORE_HARD_NEGATIVES_REQUIRED",
+  "expectedPreservedAcceptedDossierCount": 12,
+  "expectedNewDossierCount": 4,
+  "requiredMechanisms": [
+    "broad-market-repricing",
+    "funding-liquidity",
+    "banking-credit",
+    "cross-border-growth"
+  ],
+  "coverageThresholds": {
+    "minimumFullPositiveEpisodes": 6,
+    "minimumFullPositiveEpisodesPerMechanism": 3,
+    "minimumHardNegativeEpisodes": 6,
+    "minimumHardNegativeEpisodesPerMechanism": 2
+  },
+  "curationPolicy": {
+    "oneNewIndependentEventPerMechanism": true,
+    "sameMechanismMonthOpposingStatesForbidden": true,
+    "crossMechanismMixedStatesAllowed": true,
+    "affirmativeOrderlyEvidenceRequired": true,
+    "twoIndependentEvidenceProvidersRequired": true,
+    "counterEvidenceRequired": true,
+    "priorAcceptedHashesMustRemainUnchanged": true,
+    "newDossiersRemainReviewedUntilReceipt": true,
+    "selfAcceptanceForbidden": true
+  },
+  "authorizationPolicy": {
+    "dossierCurationAuthorized": true,
+    "reviewQueueWriteAuthorized": true,
+    "taxonomyMutationAuthorized": false,
+    "candidateGenerationAuthorized": false,
+    "outerOosAuthorized": false,
+    "promotionAuthorized": false
+  },
+  "expectedPotentialCoverage": {
+    "independentHardNegativeEpisodeCount": 6,
+    "hardNegativeEpisodesPerMechanism": 2
+  },
+  "expectedStatus": "INDEPENDENT_REVIEW_REQUIRED",
+  "nextAllowedAction": "E14.4f build immutable handoff and obtain independent receipts for the four new dossier hashes"
+}

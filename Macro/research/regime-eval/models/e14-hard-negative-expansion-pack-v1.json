@@ -1,0 +1,189 @@
+{
+  "schemaVersion": 1,
+  "packId": "e14-hard-negative-expansion-pack-v1",
+  "frozenAt": "2026-07-15",
+  "scope": "Four additional affirmative, independent and mechanism-specific hard-negative proposals selected to close the frozen E14 coverage gap without creating same-mechanism month conflicts.",
+  "digestPolicy": "Generated contentSha256 is SHA-256 of UTF-8 locator, newline and curated summary. It binds the reviewed assertion, not a remote byte snapshot.",
+  "reviewer": "codex-primary-source-review-2026-07-15",
+  "independencePolicy": {
+    "selfAcceptanceForbidden": true,
+    "reviewerMustDifferFromDossierAuthor": true,
+    "reviewReceiptMustBindDossierSha256": true,
+    "minimumTotalReviewersAfterReceipt": 2
+  },
+  "evidenceAssertions": [
+    {
+      "id": "crash-1987-fed-banking-orderly",
+      "sourceId": "fed-kohn-modern-financial-crises-2006",
+      "provider": "Board of Governors of the Federal Reserve System",
+      "independenceGroup": "federal-reserve",
+      "publishedAt": "2006-05-18",
+      "role": "official-narrative",
+      "locator": "https://www.federalreserve.gov/newsevents/speech/kohn20060518a.htm",
+      "summary": "The Federal Reserve explicitly distinguishes the 1987 equity crash from banking crises: it was not associated with a deposit run or another problem in the banking sector."
+    },
+    {
+      "id": "crash-1987-gao-bank-impact",
+      "sourceId": "gao-nsiad-88-238-us-banks-london",
+      "provider": "U.S. Government Accountability Office",
+      "independenceGroup": "gao",
+      "publishedAt": "1988-09-01",
+      "role": "quantitative-observation",
+      "locator": "https://www.gao.gov/assets/nsiad-88-238.pdf",
+      "summary": "GAO reports that the October 1987 crash did not have a major impact on most U.S. commercial-bank subsidiaries in London because their equity-market involvement was limited, while identifying the narrower exceptions."
+    },
+    {
+      "id": "crash-1987-fed-counter",
+      "sourceId": "fed-carlson-crash-history-2007",
+      "provider": "Board of Governors of the Federal Reserve System",
+      "independenceGroup": "federal-reserve",
+      "publishedAt": "2007-03-01",
+      "role": "counterevidence",
+      "locator": "https://www.federalreserve.gov/pubs/feds/2007/200713/index.html",
+      "summary": "The crash severely impaired equity-market functioning, created extraordinary liquidity demands and required Federal Reserve support and bank credit to securities firms, so the episode was not system-wide calm."
+    },
+    {
+      "id": "repricing-2018-fed-funding-orderly",
+      "sourceId": "fed-annual-report-2018-money-markets",
+      "provider": "Board of Governors of the Federal Reserve System",
+      "independenceGroup": "federal-reserve",
+      "publishedAt": "2019-03-01",
+      "role": "official-narrative",
+      "locator": "https://www.federalreserve.gov/publications/2018-ar-monetary-policy.htm",
+      "summary": "The Federal Reserve reports that domestic short-term funding markets remained generally stable through the second half of 2018 and that policy-rate increases transmitted effectively through money markets."
+    },
+    {
+      "id": "repricing-2018-fsoc-resilience",
+      "sourceId": "fsoc-annual-report-2018",
+      "provider": "U.S. Financial Stability Oversight Council",
+      "independenceGroup": "treasury-fsoc",
+      "publishedAt": "2019-06-20",
+      "role": "quantitative-observation",
+      "locator": "https://home.treasury.gov/system/files/261/FSOC2018AnnualReport.pdf",
+      "summary": "FSOC documents improved liquidity resilience at large bank holding companies and reduced counterparty exposures in repo markets, while retaining explicit warnings about residual fire-sale risk."
+    },
+    {
+      "id": "repricing-2018-bis-counter",
+      "sourceId": "bis-quarterly-review-2018-12",
+      "provider": "Bank for International Settlements",
+      "independenceGroup": "bis",
+      "publishedAt": "2018-12-16",
+      "role": "counterevidence",
+      "locator": "https://www.bis.org/publ/qtrpdf/r_qt1812a.htm",
+      "summary": "The BIS documents renewed equity volatility, tighter U.S. financial conditions and unsettled markets in the fourth quarter, establishing that funding resilience coexisted with a genuine broad repricing shock."
+    },
+    {
+      "id": "repo-2019-boe-limited-spillover",
+      "sourceId": "boe-financial-stability-report-2019-12",
+      "provider": "Bank of England",
+      "independenceGroup": "bank-of-england",
+      "publishedAt": "2019-12-16",
+      "role": "official-narrative",
+      "locator": "https://www.bankofengland.co.uk/-/media/boe/files/financial-stability-report/2019/december-2019.pdf",
+      "summary": "The Bank of England reports that Federal Reserve operations stabilized dollar repo rates, limited spillovers to broader market conditions and left sterling and euro repo rates stable throughout."
+    },
+    {
+      "id": "repo-2019-imf-cross-border-quantitative",
+      "sourceId": "imf-wp-2021-267-repo-stress",
+      "provider": "International Monetary Fund",
+      "independenceGroup": "imf",
+      "publishedAt": "2021-11-05",
+      "role": "quantitative-observation",
+      "locator": "https://www.imf.org/-/media/files/publications/wp/2021/english/wpiea2021267-print-pdf.pdf",
+      "summary": "IMF transaction-level analysis finds visible but limited spillovers from the U.S. repo shock to gilt repo: sterling spreads stayed below the COVID episode and additional borrowing did not face extreme cost increases."
+    },
+    {
+      "id": "repo-2019-fed-counter",
+      "sourceId": "fed-feds-notes-money-markets-2019",
+      "provider": "Board of Governors of the Federal Reserve System",
+      "independenceGroup": "federal-reserve",
+      "publishedAt": "2020-02-27",
+      "role": "counterevidence",
+      "locator": "https://www.federalreserve.gov/econres/notes/feds-notes/what-happened-in-money-markets-in-september-2019-20200227.html",
+      "summary": "Federal Reserve analysis records a SOFR jump above 5 percent, unusually dispersed repo and federal-funds trades and spillover into federal funds, confirming acute domestic funding stress."
+    },
+    {
+      "id": "regional-banks-2023-fed-market-normalization",
+      "sourceId": "fed-financial-stability-report-2023-05",
+      "provider": "Board of Governors of the Federal Reserve System",
+      "independenceGroup": "federal-reserve",
+      "publishedAt": "2023-05-08",
+      "role": "official-narrative",
+      "locator": "https://www.federalreserve.gov/publications/2023-may-financial-stability-report-overview.htm",
+      "summary": "The Federal Reserve states that policy actions and sector resilience led financial markets to normalize; corporate-bond risk premiums stayed near the middle of historical distributions despite regional-bank stress."
+    },
+    {
+      "id": "regional-banks-2023-imf-broader-containment",
+      "sourceId": "imf-gfsr-2023-04-banking-turmoil",
+      "provider": "International Monetary Fund",
+      "independenceGroup": "imf",
+      "publishedAt": "2023-04-11",
+      "role": "quantitative-observation",
+      "locator": "https://www.imf.org/-/media/Files/Publications/GFSR/2023/April/English/text.ashx",
+      "summary": "The IMF records sharp bank-equity losses but reports that coordinated central-bank action helped contain broader financial-market stress, distinguishing the sector shock from an unrestricted broad-market event."
+    },
+    {
+      "id": "regional-banks-2023-gao-counter",
+      "sourceId": "gao-23-106736-bank-failures",
+      "provider": "U.S. Government Accountability Office",
+      "independenceGroup": "gao",
+      "publishedAt": "2023-04-28",
+      "role": "counterevidence",
+      "locator": "https://www.gao.gov/products/gao-23-106736",
+      "summary": "GAO documents two of the largest U.S. bank failures, weak liquidity and risk management, emergency guarantees and a new lending facility intended to minimize financial contagion."
+    }
+  ],
+  "hardNegativeBlueprints": [
+    {
+      "dossierId": "e14-dossier-stock-market-break-1987-banking-credit-hard-negative",
+      "hypothesisId": "stock-market-break-1987",
+      "mechanism": "banking-credit",
+      "proposedState": "hard-negative",
+      "firstMonth": "1987-10-01",
+      "lastMonth": "1987-10-01",
+      "boundaryRationale": "October isolates the crash month. The label is negative only for banking-credit: official evidence rejects a deposit run or banking-sector problem while retaining severe equity and market-infrastructure stress as counterevidence.",
+      "evidenceIds": ["crash-1987-fed-banking-orderly", "crash-1987-gao-bank-impact"],
+      "counterEvidenceIds": ["crash-1987-fed-counter"]
+    },
+    {
+      "dossierId": "e14-dossier-risk-repricing-2018q4-funding-liquidity-hard-negative",
+      "hypothesisId": "risk-repricing-2018q4",
+      "mechanism": "funding-liquidity",
+      "proposedState": "hard-negative",
+      "firstMonth": "2018-10-01",
+      "lastMonth": "2018-12-01",
+      "boundaryRationale": "The existing Q4 repricing window is reused without extension. Evidence is affirmative for smooth short-term funding and effective rate transmission, while the BIS evidence preserves the simultaneous broad-market shock.",
+      "evidenceIds": ["repricing-2018-fed-funding-orderly", "repricing-2018-fsoc-resilience"],
+      "counterEvidenceIds": ["repricing-2018-bis-counter"]
+    },
+    {
+      "dossierId": "e14-dossier-repo-stress-2019-cross-border-growth-hard-negative",
+      "hypothesisId": "repo-stress-2019",
+      "mechanism": "cross-border-growth",
+      "proposedState": "hard-negative",
+      "firstMonth": "2019-09-01",
+      "lastMonth": "2019-10-01",
+      "boundaryRationale": "September captures the domestic repo dislocation and October its stabilization. The contrast is limited to cross-border transmission, supported by stable sterling and euro repo rates and transaction-level evidence of limited gilt spillovers.",
+      "evidenceIds": ["repo-2019-boe-limited-spillover", "repo-2019-imf-cross-border-quantitative"],
+      "counterEvidenceIds": ["repo-2019-fed-counter"]
+    },
+    {
+      "dossierId": "e14-dossier-regional-bank-stress-2023-broad-market-repricing-hard-negative",
+      "hypothesisId": "regional-bank-stress-2023",
+      "mechanism": "broad-market-repricing",
+      "proposedState": "hard-negative",
+      "firstMonth": "2023-03-01",
+      "lastMonth": "2023-05-01",
+      "boundaryRationale": "The interval matches the existing banking episode from the March failures through the May assessment. It asserts containment only for broad-market repricing while preserving bank failures, funding strains and emergency actions as counterevidence.",
+      "evidenceIds": ["regional-banks-2023-fed-market-normalization", "regional-banks-2023-imf-broader-containment"],
+      "counterEvidenceIds": ["regional-banks-2023-gao-counter"]
+    }
+  ],
+  "limitations": [
+    "All four dossiers are reviewed proposals and cannot become labels without a second independent review.",
+    "Three events are already positive under a different mechanism; mixed states are intentional and must never be collapsed into a single event-wide class.",
+    "Policy-assisted containment counts as affirmative evidence only for the named mechanism and interval, not as proof that the overall event was calm.",
+    "Evidence digests bind curated assertions and locators, not archived remote bytes.",
+    "The potential threshold is exactly met and remains fragile until all four independent dossiers are accepted."
+  ]
+}

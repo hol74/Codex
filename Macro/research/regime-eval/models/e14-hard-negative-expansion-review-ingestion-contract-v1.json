@@ -1,0 +1,49 @@
+{
+  "schemaVersion": 1,
+  "contractId": "e14-hard-negative-expansion-review-ingestion-contract-v1",
+  "frozenAt": "2026-07-15",
+  "inputHashes": {
+    "reviewQueueV6Sha256": "c4eb4b7763db757e1f5290238efcb4f0c97ba3221063e763d8730f4dc1f59c02",
+    "curationAuditSha256": "cda82f4dfe613db2f93de5bae8c7a96ace9da3ef5cc4df9ccca61d2681a67e47",
+    "handoffAuditSha256": "1521078052aa480173328e3377625909b6b2435a6978210af06a5b6cf2f79083",
+    "handoffContractSha256": "862ae88dbac8c3305f8b0401f8c73570eb9b9e37e2bf9a8964a6fb7080802cec",
+    "reviewSchemaV2Sha256": "77310369e3ba33a6a5dbde84ce6cc445a6a87c7e9e03ba3842718a684822dd58"
+  },
+  "expectedPreservedAcceptedDossierCount": 12,
+  "expectedExpansionReceiptCount": 4,
+  "receiptPolicy": {
+    "schemaV2Required": true,
+    "exactlyOneReceiptPerExpansionDossier": true,
+    "unexpectedDossierReceiptsForbidden": true,
+    "exactHandoffDossierHashRequired": true,
+    "reviewerMustDifferFromDossierAuthor": true,
+    "independenceDeclarationRequired": true,
+    "strictAcceptChecksRequired": true,
+    "counterEvidenceRequiredForEveryDecision": true,
+    "modelOutputsForbidden": true,
+    "receiptContentMustRemainUnchanged": true,
+    "priorAcceptedManifestsMustRemainUnchanged": true
+  },
+  "incompleteRunPolicy": {
+    "writeReadinessAudit": true,
+    "writeReviewedQueue": false,
+    "taxonomyMutationAuthorized": false,
+    "candidateGenerationAuthorized": false
+  },
+  "decisionPolicy": {
+    "allAccepted": "READY_FOR_HARD_NEGATIVE_COVERAGE_GATE",
+    "anyRejectOrNeedsRevision": "EXPANSION_DOSSIER_REVISIONS_REQUIRED",
+    "missingReceipt": "EXPANSION_REVIEW_INCOMPLETE"
+  },
+  "authorizationPolicy": {
+    "receiptValidationAuthorized": true,
+    "reviewedQueueWriteAuthorizedWhenComplete": true,
+    "taxonomyMutationAuthorized": false,
+    "candidateGenerationAuthorized": false,
+    "outerOosAuthorized": false,
+    "promotionAuthorized": false
+  },
+  "nextAfterAllAccepted": "E14.4h run a separate accepted hard-negative coverage gate before any taxonomy update",
+  "nextAfterNonAccept": "Revise only non-accepted expansion dossier hashes and repeat independent review",
+  "readinessDecision": "READY_TO_VALIDATE_EXPANSION_RECEIPTS"
+}
