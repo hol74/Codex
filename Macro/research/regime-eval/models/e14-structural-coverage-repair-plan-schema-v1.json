@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://macro-regime.local/schemas/e14-structural-coverage-repair-plan-v1.json",
+  "title": "E14.6a structural coverage repair plan",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion", "planId", "frozenAt", "inputHashes", "decision",
+    "replacementSources", "rejectedAlternatives", "historyPolicy",
+    "candidateTransitionPolicy", "authorizationPolicy"
+  ],
+  "properties": {
+    "schemaVersion": {"const": 1},
+    "planId": {"const": "e14-structural-coverage-repair-plan-v1"},
+    "frozenAt": {"type": "string", "format": "date"},
+    "inputHashes": {"type": "object"},
+    "decision": {"const": "version-foundation-and-protocol-with-three-standalone-replacement-series"},
+    "replacementSources": {"type": "array", "minItems": 3, "maxItems": 3},
+    "rejectedAlternatives": {"type": "array"},
+    "historyPolicy": {"type": "object"},
+    "candidateTransitionPolicy": {"type": "object"},
+    "authorizationPolicy": {"type": "object"}
+  }
+}

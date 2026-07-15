@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://macro-regime.local/schemas/e14-four-detector-loeo-preregistration-v1.json",
+  "title": "E14 four-detector inner LOEO preregistration",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion", "preregistrationId", "frozenAt", "inputHashes",
+    "scope", "mechanisms", "episodePolicy", "foldPolicy",
+    "temporalPolicy", "thresholdSelection", "metricPolicy",
+    "eligibilityPolicy", "selectionPolicy", "authorizationPolicy"
+  ],
+  "properties": {
+    "schemaVersion": {"const": 1},
+    "preregistrationId": {"const": "e14-four-detector-loeo-preregistration-v1"},
+    "frozenAt": {"type": "string", "format": "date"},
+    "inputHashes": {"type": "object"},
+    "scope": {"const": "nested-inner-development-only"},
+    "mechanisms": {"type": "array", "minItems": 4, "maxItems": 4, "uniqueItems": true},
+    "episodePolicy": {"type": "object"},
+    "foldPolicy": {"type": "object"},
+    "temporalPolicy": {"type": "object"},
+    "thresholdSelection": {"type": "object"},
+    "metricPolicy": {"type": "object"},
+    "eligibilityPolicy": {"type": "object"},
+    "selectionPolicy": {"type": "object"},
+    "authorizationPolicy": {"type": "object"}
+  }
+}

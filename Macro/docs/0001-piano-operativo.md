@@ -782,11 +782,65 @@ copertura degli episodi.
    - definire feature relative al regime storico, onset e recovery separati;
    - definire dossier e hard negative a livello di singolo meccanismo;
    - vietare composizione finche' ogni detector non ha evidenza autonoma.
-5. E14.5 - generazione condizionata (PROSSIMO PASSO):
+5. E14.5 - generazione condizionata (COMPLETATO):
    - generare deterministicamente i 40 candidati autorizzati, separati per
      meccanismo, senza fitting o valutazione;
    - legare ogni candidate ID al protocollo e mantenere outer OOS chiuso;
    - produrre soltanto un manifest write-once verificabile.
+   - esito reale `GENERATED_NOT_FIT_NOT_EVALUATED_OUTER_OOS_CLOSED`:
+     40 ID univoci e hash-bound, con conteggi 16/4/16/4; transform, fitting,
+     evaluation, ranking, composizione, outer OOS e promozione restano chiusi.
+6. E14.6 - preregistrazione LOEO inner per meccanismo (COMPLETATO, BLOCCO STRUTTURALE):
+   - congelare fold, metriche, gestione degli episodi e regole di selezione
+     delle soglie prima di eseguire qualunque fitting;
+   - mantenere separati i quattro meccanismi e vietare composizione e outer OOS;
+   - autorizzare fitting/evaluation inner soltanto dopo un gate dedicato.
+   - esito reale: solo broad-market-repricing raggiunge la copertura minima;
+     16 candidati sono strutturalmente eleggibili e 24 no;
+   - fitting completo e fitting parziale restano entrambi chiusi per evitare un
+     percorso broad-only non confrontabile con l'obiettivo a quattro detector.
+7. E14.6a - riparazione della copertura informativa (COMPLETATO):
+   - riesaminare, senza splicing opportunistico, la storia delle feature per
+     banking-credit, cross-border-growth e funding-liquidity;
+   - distinguere tra nuove serie point-in-time ammissibili, revisione motivata
+     del requisito di 60 mesi e candidati da ritirare per evidenza insufficiente;
+   - aggiornare foundation/protocollo con nuove versioni e rieseguire E14.6
+     prima di qualunque fitting.
+   - decisione: mantenere 60 mesi e preregistrare tre serie standalone
+     FDIC failures/assistance, TWEXBMTH e Fed funds meno T-bill;
+   - proiezione vincolata: 28 candidati eleggibili (16 broad esistenti e 12
+     nuovi), da verificare sui dati materializzati; generazione e fitting chiusi.
+8. E14.6b - materializzazione feature foundation v2 (COMPLETATO):
+   - scaricare e congelare tramite hash le tre fonti ufficiali preregistrate;
+   - materializzare le serie senza mutare foundation v1 e verificare copertura,
+     missingness, zeri osservati e confini metodologici;
+   - eseguire diagnostiche di revisione e di cambio fonte/metodologia;
+   - produrre foundation v2 e lock v2, mantenendo candidate generation chiusa.
+   - esito reale: 3.437 osservazioni, 69 missing FDIC espliciti e copertura
+     positiva/hard-negative 3/2 banking, 6/2 broad, 5/2 cross e 3/2 funding;
+   - la copertura strutturale e' riparata, ma `strictVintageReady` resta falso
+     per assenza di snapshot point-in-time confrontabili; fitting e generation
+     restano chiusi.
+9. E14.6c - structural readiness gate v2 (COMPLETATO):
+   - vincolare il gate agli hash di foundation v2, lock v2 e audit v2;
+   - rieseguire l'eleggibilita' sui dati reali includendo missingness interna e
+     disponibilita' mensile, senza riusare gli ID ritirati;
+   - congelare la sensitivity policy sul confine `TB3SMFFM` 2019 e mantenere
+     esplicito il rischio di revisione current-history;
+   - autorizzare al massimo la stesura del protocollo/manifest v2, non fitting,
+     evaluation o outer OOS.
+   - esito reale: 28/28 ingressi eleggibili, con 16 ID broad preservati, 24 ID
+     v1 ritirati e 12 nuovi ID v2 pianificati ma non generati;
+   - policy funding 2019 congelata come sensitivity inner obbligatoria e non
+     come gate alternativo; protocol design aperto, manifest generation chiusa.
+10. E14.6d - protocollo di candidate generation v2 (PROSSIMO PASSO):
+   - congelare grammatica, profili, persistenza e soglie sui 28 ID del roster;
+   - preservare esattamente i 16 oggetti broad compatibili e usare i 12 ID v2
+     senza ricalcolarli o riusare i 24 ID ritirati;
+   - incorporare missingness, lag di disponibilita', sensitivity funding 2019
+     e rischio revisioni current-history nel protocollo;
+   - autorizzare al massimo la successiva materializzazione del manifest v2,
+     mantenendo fitting, evaluation, ranking e outer OOS chiusi.
 
 Analisi E14:
 `docs/e14-riesame-problema-informativo.md`.
@@ -853,6 +907,21 @@ Checkpoint E14.4k:
 
 Checkpoint E14.4l:
 `docs/checkpoints/0080-fase-e14-4l-four-detector-protocol-ready.md`.
+
+Checkpoint E14.5:
+`docs/checkpoints/0081-fase-e14-5-candidate-manifest-generated.md`.
+
+Checkpoint E14.6:
+`docs/checkpoints/0082-fase-e14-6-loeo-preregistered-coverage-blocked.md`.
+
+Checkpoint E14.6a:
+`docs/checkpoints/0083-fase-e14-6a-coverage-repair-preregistered.md`.
+
+Checkpoint E14.6b:
+`docs/checkpoints/0084-fase-e14-6b-feature-foundation-v2-materialized.md`.
+
+Checkpoint E14.6c:
+`docs/checkpoints/0085-fase-e14-6c-readiness-v2-passed.md`.
 
 
 

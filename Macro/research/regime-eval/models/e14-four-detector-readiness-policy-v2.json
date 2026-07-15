@@ -1,0 +1,64 @@
+{
+  "schemaVersion": 2,
+  "policyId": "e14-four-detector-readiness-policy-v2",
+  "frozenAt": "2026-07-15",
+  "eligibilityPolicy": {
+    "minimumHistoryObservations": 60,
+    "minimumObservablePositiveEpisodes": 3,
+    "minimumObservableHardNegativeEpisodes": 2,
+    "episodeScoringRow": "all-profile-series-have-a-nonmissing-observation-for-their-declared-availability-lag-at-one-common-scoring-month-inside-the-episode",
+    "availabilityLagDerivedFromFoundationObservations": true,
+    "availableOnMustNotExceedScoringMonthEnd": true,
+    "missingObservationCannotBeCarriedAcrossItsCalendarSlot": true,
+    "carryBeyondMethodologyCoverageEndForbidden": true,
+    "unlabeledMonthsAreNotNegatives": true
+  },
+  "candidateTransitionPolicy": {
+    "preserveBroadCandidateIdsFromManifestV1": 16,
+    "retireNonBroadCandidateIdsFromManifestV1": 24,
+    "newCandidateIdsByMechanism": {
+      "banking-credit": 4,
+      "cross-border-growth": 4,
+      "funding-liquidity": 4
+    },
+    "plannedCandidateCount": 28,
+    "newIdsUseV2Namespace": true,
+    "retiredIdReuseForbidden": true,
+    "rosterEntriesAreNotGeneratedCandidates": true
+  },
+  "fundingBoundarySensitivity": {
+    "seriesId": "e14-fedfunds-minus-tbill-monthly",
+    "boundaryMonth": "2019-01-01",
+    "primaryWindow": "all-observations-through-2025-12-subject-to-inner-fold",
+    "diagnosticReferenceWindow": "observations-before-2019-01-only",
+    "requiredFutureReports": [
+      "training-threshold-q80-q90-q95-full-versus-pre2019",
+      "normalized-threshold-shift-by-pre2019-iqr",
+      "alert-rate-before-versus-after-boundary",
+      "episode-metrics-split-by-pre-and-post-boundary-labels",
+      "insufficient-positive-episodes-in-pre2019-window-explicit"
+    ],
+    "pre2019WindowIsNotAnAlternativeEligibilityGate": true,
+    "distributionEquivalenceClaimForbidden": true,
+    "missingSensitivityReportBlocksRanking": true,
+    "sensitivityUsesInnerRowsOnly": true
+  },
+  "revisionRiskPolicy": {
+    "strictVintageReady": false,
+    "currentHistoryAcceptedForResearchProtocolDesign": true,
+    "currentHistoryAloneCannotAuthorizeOperationalPromotion": true,
+    "futureSnapshotDriftMustBeHashComparedBeforeEvaluation": true,
+    "revisionLimitationMustRemainInProtocolAndManifest": true
+  },
+  "authorizationPolicy": {
+    "readinessRosterMaterializationAuthorized": true,
+    "protocolV2DesignAuthorizedOnPass": true,
+    "candidateManifestGenerationAuthorized": false,
+    "candidateFittingAuthorized": false,
+    "candidateEvaluationAuthorized": false,
+    "candidateRankingAuthorized": false,
+    "crossMechanismCompositionAuthorized": false,
+    "outerOosAuthorized": false,
+    "promotionAuthorized": false
+  }
+}

@@ -1,0 +1,67 @@
+{
+  "activeDetectorBindingCount": 5,
+  "artifactType": "E14MechanismFeatureFoundationLock",
+  "baseFoundationLockV1": {
+    "fileName": "e14-mechanism-feature-foundation-lock-v1.json",
+    "sha256": "34448522085f5949e341cc62cda3b8088a47eac9a7f01ea9c5f0a7220d9a61dc",
+    "sizeBytes": 1542
+  },
+  "baseFoundationV1": {
+    "fileName": "e14-mechanism-feature-foundation-v1.json",
+    "sha256": "bca70e5f5ca224fe23e4b29970dc651a2b708c047e3364a3575a235ae80a64b9",
+    "sizeBytes": 300218
+  },
+  "candidateFittingAuthorized": false,
+  "candidateGenerationAuthorized": false,
+  "cutoffDate": "2025-12-31",
+  "foundation": {
+    "fileName": "e14-mechanism-feature-foundation-v2.json",
+    "sha256": "c069de82199f203786c405ef65c559f232f92053d47a8da4280cfde2b14f3127",
+    "sizeBytes": 808600
+  },
+  "lockId": "e14-mechanism-feature-foundation-lock-v2",
+  "outerOosAuthorized": false,
+  "rawSnapshotHashes": {
+    "fdic-failures-assistance.json": "7fcc4440ed6341413e5f007f64e0ced9c5966c6b60d93e380712ac5c6a8fa9f7",
+    "fred-tb3smffm.csv": "4f364347223adf81281b1183edb4dc795df784b04477be3adf557d7ceb4b5778",
+    "fred-twexbmth.csv": "d6def672e0087f56907bbd2bdf76379310a9b17c0d09b223d01c97bd87e4e1a2"
+  },
+  "researchFoundationReady": true,
+  "retiredDetectorBindingCount": 4,
+  "schemaVersion": 2,
+  "seriesMissingObservationCounts": {
+    "e14-baa10y-monthly-maximum": 0,
+    "e14-fdic-failed-assisted-assets-monthly": 69,
+    "e14-fedfunds-minus-tbill-monthly": 0,
+    "e14-twexbmth-monthly-absolute-change": 0,
+    "e14-vix-monthly-maximum": 0
+  },
+  "seriesObservationCounts": {
+    "e14-baa10y-monthly-maximum": 480,
+    "e14-fdic-failed-assisted-assets-monthly": 1104,
+    "e14-fedfunds-minus-tbill-monthly": 858,
+    "e14-twexbmth-monthly-absolute-change": 563,
+    "e14-vix-monthly-maximum": 432
+  },
+  "status": "FEATURE_FOUNDATION_V2_MATERIALIZED_RESEARCH_ONLY_REVISION_LIMITATIONS_CANDIDATE_GENERATION_CLOSED",
+  "strictVintageReady": false,
+  "structuralCoverage": {
+    "banking-credit": {
+      "hardNegative": 2,
+      "positive": 3
+    },
+    "broad-market-repricing": {
+      "hardNegative": 2,
+      "positive": 6
+    },
+    "cross-border-growth": {
+      "hardNegative": 2,
+      "positive": 5
+    },
+    "funding-liquidity": {
+      "hardNegative": 2,
+      "positive": 3
+    }
+  },
+  "structuralCoverageReady": true
+}

@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://macro-regime.local/schemas/e14-four-detector-readiness-policy-v2.json",
+  "title": "E14 four-detector readiness policy v2",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "policyId",
+    "frozenAt",
+    "eligibilityPolicy",
+    "candidateTransitionPolicy",
+    "fundingBoundarySensitivity",
+    "revisionRiskPolicy",
+    "authorizationPolicy"
+  ],
+  "properties": {
+    "schemaVersion": {"const": 2},
+    "policyId": {"const": "e14-four-detector-readiness-policy-v2"},
+    "frozenAt": {"const": "2026-07-15"},
+    "eligibilityPolicy": {"type": "object"},
+    "candidateTransitionPolicy": {"type": "object"},
+    "fundingBoundarySensitivity": {"type": "object"},
+    "revisionRiskPolicy": {"type": "object"},
+    "authorizationPolicy": {"type": "object"}
+  }
+}

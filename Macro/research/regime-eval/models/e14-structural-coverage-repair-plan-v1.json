@@ -1,0 +1,122 @@
+{
+  "schemaVersion": 1,
+  "planId": "e14-structural-coverage-repair-plan-v1",
+  "frozenAt": "2026-07-15",
+  "inputHashes": {
+    "taxonomyV5Sha256": "d141416d08b68e932bc6cd2a25b9cd0eab06d159b8904907b7fff29d8c637d50",
+    "featureFoundationV1Sha256": "bca70e5f5ca224fe23e4b29970dc651a2b708c047e3364a3575a235ae80a64b9",
+    "loeoPreregistrationSha256": "e74615c54e644fa70d4dcad4a9edd04090a693c24c381b5854e1d847439754b6",
+    "loeoAuditSha256": "8a222c7fbfbadcbd08de9992df494d6e9cb1b0bdb82a8aa9a31df53afcf29474"
+  },
+  "decision": "version-foundation-and-protocol-with-three-standalone-replacement-series",
+  "replacementSources": [
+    {
+      "mechanism": "banking-credit",
+      "sourceId": "fdic-bank-failures-and-assistance",
+      "seriesId": "e14-fdic-failed-assisted-assets-monthly",
+      "sourceUrl": "https://banks.data.fdic.gov/explore/failures",
+      "officialProvider": "Federal Deposit Insurance Corporation",
+      "projectedCoverageFrom": "1934-01-01",
+      "projectedCoverageTo": "2025-12-31",
+      "frequency": "monthly",
+      "construction": "monthly-sum-qbfasset-for-failure-and-assistance-transactions-by-faildate",
+      "transform": "causal-rolling-percentile",
+      "direction": "higher-is-more-stress",
+      "zeroPolicy": "calendar-month-zero-is-an-observed-zero-only-after-complete-registry-validation",
+      "semanticRole": "bank-resolution-severity-lagging-banking-distress-indicator",
+      "limitations": [
+        "Resolution transactions are lagging outcomes and may detect banking stress after onset.",
+        "The current registry is not a point-in-time vintage archive and transaction fields may be corrected."
+      ]
+    },
+    {
+      "mechanism": "cross-border-growth",
+      "sourceId": "fred-twexbmth",
+      "seriesId": "e14-twexbmth-monthly-absolute-change",
+      "sourceUrl": "https://fred.stlouisfed.org/series/TWEXBMTH",
+      "officialProvider": "Board of Governors of the Federal Reserve System via FRED",
+      "projectedCoverageFrom": "1973-01-01",
+      "projectedCoverageTo": "2019-12-01",
+      "frequency": "monthly",
+      "construction": "absolute-month-over-month-change-of-monthly-broad-dollar-index",
+      "transform": "causal-rolling-percentile",
+      "direction": "higher-is-more-stress",
+      "zeroPolicy": "missing-remains-missing",
+      "semanticRole": "standalone-broad-trade-weighted-dollar-shock-proxy",
+      "limitations": [
+        "The series is discontinued after 2019 and must not be spliced to its successor.",
+        "The current published history is not a complete point-in-time vintage archive."
+      ]
+    },
+    {
+      "mechanism": "funding-liquidity",
+      "sourceId": "fred-tb3smffm",
+      "seriesId": "e14-fedfunds-minus-tbill-monthly",
+      "sourceUrl": "https://fred.stlouisfed.org/series/TB3SMFFM",
+      "officialProvider": "Federal Reserve Bank of St. Louis",
+      "projectedCoverageFrom": "1954-07-01",
+      "projectedCoverageTo": "2025-12-01",
+      "frequency": "monthly",
+      "construction": "negate-treasury-bill-minus-effective-federal-funds-rate",
+      "transform": "causal-rolling-percentile",
+      "direction": "higher-is-more-stress",
+      "zeroPolicy": "missing-remains-missing",
+      "semanticRole": "flight-to-safety-and-relative-short-term-funding-pressure-proxy",
+      "limitations": [
+        "The spread is not a direct unsecured interbank counterparty-risk measure like TED.",
+        "Treasury source inputs changed in 2019 and require a methodology-boundary sensitivity check."
+      ]
+    }
+  ],
+  "rejectedAlternatives": [
+    {
+      "alternative": "reduce-minimum-history-below-60-months",
+      "decision": "rejected",
+      "reason": "post-hoc relaxation after observing the structural gate would weaken comparability and increase overfitting risk"
+    },
+    {
+      "alternative": "splice-discontinued-series-to-successors",
+      "decision": "rejected",
+      "reason": "methodology changes would create synthetic history and violate the frozen no-splicing policy"
+    },
+    {
+      "alternative": "nfci-risk-and-credit-subindexes-as-primary-detectors",
+      "decision": "diagnostic-only",
+      "reason": "strong semantic relevance and long history, but weekly reestimation, revisions and dynamic-factor overlap weaken causal independence"
+    },
+    {
+      "alternative": "fit-only-the-broad-market-subset",
+      "decision": "rejected",
+      "reason": "would silently replace the four-detector objective with a different experiment"
+    }
+  ],
+  "historyPolicy": {
+    "minimumHistoryMonths": 60,
+    "minimumObservablePositiveEpisodes": 3,
+    "minimumObservableHardNegativeEpisodes": 2,
+    "currentHistoryAcceptedForResearchMaterializationOnly": true,
+    "strictVintageReady": false,
+    "revisionSensitivityRequiredBeforeFitting": true,
+    "methodologyBoundarySensitivityRequiredBeforeFitting": true
+  },
+  "candidateTransitionPolicy": {
+    "preserveSixteenBroadCandidateIds": true,
+    "retireTwentyFourStructurallyIneligibleCandidateIds": true,
+    "generateTwelveNewCandidateIdsAfterFoundationV2Lock": true,
+    "projectedCandidateBudget": 28,
+    "newProtocolVersionRequired": true,
+    "newManifestVersionRequired": true,
+    "reuseRetiredCandidateIdsForbidden": true
+  },
+  "authorizationPolicy": {
+    "sourceMaterializationAuthorized": true,
+    "foundationV1MutationAuthorized": false,
+    "candidateGenerationAuthorized": false,
+    "candidateFittingAuthorized": false,
+    "candidateEvaluationAuthorized": false,
+    "partialBroadFittingAuthorized": false,
+    "crossMechanismCompositionAuthorized": false,
+    "outerOosAuthorized": false,
+    "promotionAuthorized": false
+  }
+}

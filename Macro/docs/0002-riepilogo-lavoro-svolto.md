@@ -677,6 +677,71 @@ Checkpoint in corso: `docs/checkpoints/0034-fase-e-slice6-feature-baseline-redes
   vintage sono accettati solo per ricerca e richiederanno sensitivity gate
   prima di qualunque promozione. La regressione completa supera 108/108 test
   Python, compilazione bytecode e test .NET.
+- Fase E14.5 - deterministic candidate manifest: creati schema e contratto di
+  generazione hash-bound, un generatore write-once e il comando
+  `e14-generate-candidates`. La run reale produce esattamente 40 configurazioni
+  con ID deterministici: 16 banking-credit, 16 broad-market-repricing, 4
+  cross-border-growth e 4 funding-liquidity. Ogni candidato lega meccanismo,
+  detector, profilo, feature binding inner-only, quantili selezionabili nel
+  train inner e persistenze di ingresso/recovery. Lo stato
+  `GENERATED_NOT_FIT_NOT_EVALUATED_OUTER_OOS_CLOSED` certifica che il manifest
+  e' stato generato senza leggere label o dataset e senza applicare transform,
+  fitting, evaluation, ranking o composizione. Outer OOS e promozione restano
+  chiusi; il passo successivo e' la preregistrazione E14.6 del protocollo LOEO
+  inner per meccanismo. La regressione completa supera 111/111 test Python,
+  compilazione bytecode e test .NET.
+- Fase E14.6 - preregistrazione LOEO e structural-coverage gate: congelate le
+  regole leave-one-independent-positive-episode-out, la selezione dei quantili
+  solo sui train, le metriche per meccanismo e il divieto di usare mesi
+  unlabeled come negativi. Prima del fitting e' stata verificata
+  l'osservabilita' con 60 mesi minimi di storia e senza carry oltre i confini
+  metodologici. Solo i 16 candidati broad-market risultano eleggibili; i 16
+  banking, i 4 cross-border e i 4 funding sono strutturalmente ineligibili.
+  Lo stato `INNER_LOEO_PREREGISTERED_STRUCTURAL_COVERAGE_BLOCKED` mantiene
+  chiusi sia fitting globale sia fitting parziale, oltre a evaluation, ranking,
+  composizione, outer OOS e promozione. Il prossimo passo E14.6a deve riparare
+  o ridisegnare esplicitamente la copertura informativa, non aggirare il blocco.
+  La regressione completa supera 114/114 test Python, compilazione bytecode e
+  test .NET.
+- Fase E14.6a - coverage repair preregistration: respinta la riduzione post-hoc
+  dei 60 mesi e congelato un percorso a tre fonti standalone. Banking-credit
+  usa come proposta la severita' mensile delle transazioni FDIC di
+  fallimento/assistenza dal 1934; cross-border usa la variazione assoluta del
+  broad dollar mensile `TWEXBMTH` dal 1973 senza splice oltre il 2019; funding
+  usa Fed funds meno T-bill, derivato da `TB3SMFFM`, dal 1954. I subindex NFCI
+  restano diagnostici perche' sono ristimati e revisionati. La proiezione
+  strutturale raggiunge 28 candidati: 16 broad preservati e 4 nuovi per ciascun
+  meccanismo riparato. Lo stato
+  `STRUCTURAL_COVERAGE_REPAIR_PREREGISTERED_MATERIALIZATION_REQUIRED`
+  autorizza soltanto E14.6b, cioe' download, freeze e foundation v2; candidate
+  generation, fitting, evaluation e outer OOS restano chiusi. La regressione
+  completa supera 117/117 test Python, compilazione bytecode e test .NET.
+- Fase E14.6b - feature foundation v2: scaricati e congelati gli snapshot
+  ufficiali FDIC failures/assistance, `TWEXBMTH` e `TB3SMFFM`; foundation v1
+  e lock v1 sono rimasti hash-bound e immutati. La v2 attiva cinque serie:
+  due broad riportate per contenuto esatto e tre replacement, per 3.437
+  osservazioni complessive. L'inventario FDIC contiene 4.115 record; 154 record
+  senza `QBFASSET` producono 69 mesi missing espliciti e 556 mesi senza
+  transazioni sono zeri osservati solo dopo la verifica di completezza API.
+  La copertura reale positiva/hard-negative e' 3/2 banking, 6/2 broad, 5/2
+  cross-border e 3/2 funding. `TWEXBMTH` termina senza splice nel 2019 e la
+  diagnostica `TB3SMFFM` separa 774 mesi pre-confine da 84 post-confine senza
+  dichiararne l'equivalenza. La riparazione strutturale e' riuscita, ma
+  `strictVintageReady` resta falso perche' mancano snapshot point-in-time
+  comparabili; generation, fitting, evaluation e outer OOS restano chiusi.
+  La regressione completa supera 120/120 test Python.
+- Fase E14.6c - readiness gate v2: costruito un roster hash-bound di 28
+  ingressi applicando 60 osservazioni non-missing, lag `availableOn` derivato
+  dalle serie e divieto di carry sul calendar slot missing. Tutti gli ingressi
+  risultano eleggibili: 16 ID broad v1 preservati esattamente, 24 ID v1
+  ritirati e 12 nuovi ID v2 pianificati, quattro per banking, cross-border e
+  funding. Il roster non e' un candidate manifest e nessun candidato e' stato
+  generato o fittato. La sensitivity funding 2019 richiede in futuro soglie,
+  shift IQR, alert rate e metriche episodio pre/post, ma il segmento pre-2019
+  non e' usato come gate alternativo perche' contiene un solo positivo funding.
+  Lo stato autorizza soltanto la progettazione del protocollo v2; manifest,
+  fitting, evaluation, ranking e outer OOS restano chiusi. La regressione
+  completa supera 123/123 test Python.
 
 ## Deviazione documentata dal piano originario
 

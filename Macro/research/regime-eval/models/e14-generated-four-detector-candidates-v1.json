@@ -1,0 +1,1536 @@
+{
+  "artifactType": "E14FourDetectorGeneratedCandidateManifest",
+  "authorizations": {
+    "candidateEvaluationAuthorized": false,
+    "candidateFittingAuthorized": false,
+    "candidateRankingAuthorized": false,
+    "crossMechanismCompositionAuthorized": false,
+    "featureTransformationAuthorized": false,
+    "manifestGenerationAuthorized": true,
+    "outerOosAuthorized": false,
+    "promotionAuthorized": false,
+    "taxonomyMutationAuthorized": false
+  },
+  "candidateCount": 40,
+  "candidateCountByMechanism": {
+    "banking-credit": 16,
+    "broad-market-repricing": 16,
+    "cross-border-growth": 4,
+    "funding-liquidity": 4
+  },
+  "candidates": [
+    {
+      "candidateId": "e14-banking-861dce1776f4",
+      "detectorId": "e14-banking-credit-detector",
+      "featureBindings": [
+        {
+          "fitScope": "inner-only",
+          "seriesId": "e14-baa10y-monthly-maximum",
+          "sourceId": "fred-baa10y",
+          "transform": "causal-rolling-percentile"
+        }
+      ],
+      "lifecycleStatus": "research-generated-not-fit",
+      "mechanism": "banking-credit",
+      "parameters": {
+        "entryPersistenceMonths": 1,
+        "hysteresisRequired": true,
+        "minimumHistoryMonths": 60,
+        "recoveryPersistenceMonths": 1,
+        "thresholdDirection": "higher-is-more-stress",
+        "thresholdQuantiles": [
+          0.8,
+          0.9,
+          0.95
+        ],
+        "thresholdSelectionScope": "inner-train-within-leave-one-episode-out"
+      },
+      "profile": {
+        "aggregator": "identity",
+        "profileId": "baa10y-only",
+        "seriesIds": [
+          "e14-baa10y-monthly-maximum"
+        ]
+      }
+    },
+    {
+      "candidateId": "e14-banking-df78bda67e3e",
+      "detectorId": "e14-banking-credit-detector",
+      "featureBindings": [
+        {
+          "fitScope": "inner-only",
+          "seriesId": "e14-baa10y-monthly-maximum",
+          "sourceId": "fred-baa10y",
+          "transform": "causal-rolling-percentile"
+        }
+      ],
+      "lifecycleStatus": "research-generated-not-fit",
+      "mechanism": "banking-credit",
+      "parameters": {
+        "entryPersistenceMonths": 1,
+        "hysteresisRequired": true,
+        "minimumHistoryMonths": 60,
+        "recoveryPersistenceMonths": 2,
+        "thresholdDirection": "higher-is-more-stress",
+        "thresholdQuantiles": [
+          0.8,
+          0.9,
+          0.95
+        ],
+        "thresholdSelectionScope": "inner-train-within-leave-one-episode-out"
+      },
+      "profile": {
+        "aggregator": "identity",
+        "profileId": "baa10y-only",
+        "seriesIds": [
+          "e14-baa10y-monthly-maximum"
+        ]
+      }
+    },
+    {
+      "candidateId": "e14-banking-4ec575533103",
+      "detectorId": "e14-banking-credit-detector",
+      "featureBindings": [
+        {
+          "fitScope": "inner-only",
+          "seriesId": "e14-baa10y-monthly-maximum",
+          "sourceId": "fred-baa10y",
+          "transform": "causal-rolling-percentile"
+        }
+      ],
+      "lifecycleStatus": "research-generated-not-fit",
+      "mechanism": "banking-credit",
+      "parameters": {
+        "entryPersistenceMonths": 2,
+        "hysteresisRequired": true,
+        "minimumHistoryMonths": 60,
+        "recoveryPersistenceMonths": 1,
+        "thresholdDirection": "higher-is-more-stress",
+        "thresholdQuantiles": [
+          0.8,
+          0.9,
+          0.95
+        ],
+        "thresholdSelectionScope": "inner-train-within-leave-one-episode-out"
+      },
+      "profile": {
+        "aggregator": "identity",
+        "profileId": "baa10y-only",
+        "seriesIds": [
+          "e14-baa10y-monthly-maximum"
+        ]
+      }
+    },
+    {
+      "candidateId": "e14-banking-63cec754717f",
+      "detectorId": "e14-banking-credit-detector",
+      "featureBindings": [
+        {
+          "fitScope": "inner-only",
+          "seriesId": "e14-baa10y-monthly-maximum",
+          "sourceId": "fred-baa10y",
+          "transform": "causal-rolling-percentile"
+        }
+      ],
+      "lifecycleStatus": "research-generated-not-fit",
+      "mechanism": "banking-credit",
+      "parameters": {
+        "entryPersistenceMonths": 2,
+        "hysteresisRequired": true,
+        "minimumHistoryMonths": 60,
+        "recoveryPersistenceMonths": 2,
+        "thresholdDirection": "higher-is-more-stress",
+        "thresholdQuantiles": [
+          0.8,
+          0.9,
+          0.95
+        ],
+        "thresholdSelectionScope": "inner-train-within-leave-one-episode-out"
+      },
+      "profile": {
+        "aggregator": "identity",
+        "profileId": "baa10y-only",
+        "seriesIds": [
+          "e14-baa10y-monthly-maximum"
+        ]
+      }
+    },
+    {
+      "candidateId": "e14-banking-73b05a51e27c",
+      "detectorId": "e14-banking-credit-detector",
+      "featureBindings": [
+        {
+          "fitScope": "inner-only",
+          "seriesId": "e14-fdic-noncurrent-loan-rate-quarterly",
+          "sourceId": "fdic-quarterly-financials",
+          "transform": "causal-robust-z-score"
+        }
+      ],
+      "lifecycleStatus": "research-generated-not-fit",
+      "mechanism": "banking-credit",
+      "parameters": {
+        "entryPersistenceMonths": 1,
+        "hysteresisRequired": true,
+        "minimumHistoryMonths": 60,
+        "recoveryPersistenceMonths": 1,
+        "thresholdDirection": "higher-is-more-stress",
+        "thresholdQuantiles": [
+          0.8,
+          0.9,
+          0.95
+        ],
+        "thresholdSelectionScope": "inner-train-within-leave-one-episode-out"
+      },
+      "profile": {
+        "aggregator": "identity",
+        "profileId": "fdic-only",
+        "seriesIds": [
+          "e14-fdic-noncurrent-loan-rate-quarterly"
+        ]
+      }
+    },
+    {
+      "candidateId": "e14-banking-745d2cf93e37",
+      "detectorId": "e14-banking-credit-detector",
+      "featureBindings": [
+        {
+          "fitScope": "inner-only",
+          "seriesId": "e14-fdic-noncurrent-loan-rate-quarterly",
+          "sourceId": "fdic-quarterly-financials",
+          "transform": "causal-robust-z-score"
+        }
+      ],
+      "lifecycleStatus": "research-generated-not-fit",
+      "mechanism": "banking-credit",
+      "parameters": {
+        "entryPersistenceMonths": 1,
+        "hysteresisRequired": true,
+        "minimumHistoryMonths": 60,
+        "recoveryPersistenceMonths": 2,
+        "thresholdDirection": "higher-is-more-stress",
+        "thresholdQuantiles": [
+          0.8,
+          0.9,
+          0.95
+        ],
+        "thresholdSelectionScope": "inner-train-within-leave-one-episode-out"
+      },
+      "profile": {
+        "aggregator": "identity",
+        "profileId": "fdic-only",
+        "seriesIds": [
+          "e14-fdic-noncurrent-loan-rate-quarterly"
+        ]
+      }
+    },
+    {
+      "candidateId": "e14-banking-ba40f5d12b8a",
+      "detectorId": "e14-banking-credit-detector",
+      "featureBindings": [
+        {
+          "fitScope": "inner-only",
+          "seriesId": "e14-fdic-noncurrent-loan-rate-quarterly",
+          "sourceId": "fdic-quarterly-financials",
+          "transform": "causal-robust-z-score"
+        }
+      ],
+      "lifecycleStatus": "research-generated-not-fit",
+      "mechanism": "banking-credit",
+      "parameters": {
+        "entryPersistenceMonths": 2,
+        "hysteresisRequired": true,
+        "minimumHistoryMonths": 60,
+        "recoveryPersistenceMonths": 1,
+        "thresholdDirection": "higher-is-more-stress",
+        "thresholdQuantiles": [
+          0.8,
+          0.9,
+          0.95
+        ],
+        "thresholdSelectionScope": "inner-train-within-leave-one-episode-out"
+      },
+      "profile": {
+        "aggregator": "identity",
+        "profileId": "fdic-only",
+        "seriesIds": [
+          "e14-fdic-noncurrent-loan-rate-quarterly"
+        ]
+      }
+    },
+    {
+      "candidateId": "e14-banking-76f919df3142",
+      "detectorId": "e14-banking-credit-detector",
+      "featureBindings": [
+        {
+          "fitScope": "inner-only",
+          "seriesId": "e14-fdic-noncurrent-loan-rate-quarterly",
+          "sourceId": "fdic-quarterly-financials",
+          "transform": "causal-robust-z-score"
+        }
+      ],
+      "lifecycleStatus": "research-generated-not-fit",
+      "mechanism": "banking-credit",
+      "parameters": {
+        "entryPersistenceMonths": 2,
+        "hysteresisRequired": true,
+        "minimumHistoryMonths": 60,
+        "recoveryPersistenceMonths": 2,
+        "thresholdDirection": "higher-is-more-stress",
+        "thresholdQuantiles": [
+          0.8,
+          0.9,
+          0.95
+        ],
+        "thresholdSelectionScope": "inner-train-within-leave-one-episode-out"
+      },
+      "profile": {
+        "aggregator": "identity",
+        "profileId": "fdic-only",
+        "seriesIds": [
+          "e14-fdic-noncurrent-loan-rate-quarterly"
+        ]
+      }
+    },
+    {
+      "candidateId": "e14-banking-69c313bb3c81",
+      "detectorId": "e14-banking-credit-detector",
+      "featureBindings": [
+        {
+          "fitScope": "inner-only",
+          "seriesId": "e14-fdic-noncurrent-loan-rate-quarterly",
+          "sourceId": "fdic-quarterly-financials",
+          "transform": "causal-robust-z-score"
+        },
+        {
+          "fitScope": "inner-only",
+          "seriesId": "e14-baa10y-monthly-maximum",
+          "sourceId": "fred-baa10y",
+          "transform": "causal-rolling-percentile"
+        }
+      ],
+      "lifecycleStatus": "research-generated-not-fit",
+      "mechanism": "banking-credit",
+      "parameters": {
+        "entryPersistenceMonths": 1,
+        "hysteresisRequired": true,
+        "minimumHistoryMonths": 60,
+        "recoveryPersistenceMonths": 1,
+        "thresholdDirection": "higher-is-more-stress",
+        "thresholdQuantiles": [
+          0.8,
+          0.9,
+          0.95
+        ],
+        "thresholdSelectionScope": "inner-train-within-leave-one-episode-out"
+      },
+      "profile": {
+        "aggregator": "maximum",
+        "profileId": "joint-maximum",
+        "seriesIds": [
+          "e14-fdic-noncurrent-loan-rate-quarterly",
+          "e14-baa10y-monthly-maximum"
+        ]
+      }
+    },
+    {
+      "candidateId": "e14-banking-7247858fcb3f",
+      "detectorId": "e14-banking-credit-detector",
+      "featureBindings": [
+        {
+          "fitScope": "inner-only",
+          "seriesId": "e14-fdic-noncurrent-loan-rate-quarterly",
+          "sourceId": "fdic-quarterly-financials",
+          "transform": "causal-robust-z-score"
+        },
+        {
+          "fitScope": "inner-only",
+          "seriesId": "e14-baa10y-monthly-maximum",
+          "sourceId": "fred-baa10y",
+          "transform": "causal-rolling-percentile"
+        }
+      ],
+      "lifecycleStatus": "research-generated-not-fit",
+      "mechanism": "banking-credit",
+      "parameters": {
+        "entryPersistenceMonths": 1,
+        "hysteresisRequired": true,
+        "minimumHistoryMonths": 60,
+        "recoveryPersistenceMonths": 2,
+        "thresholdDirection": "higher-is-more-stress",
+        "thresholdQuantiles": [
+          0.8,
+          0.9,
+          0.95
+        ],
+        "thresholdSelectionScope": "inner-train-within-leave-one-episode-out"
+      },
+      "profile": {
+        "aggregator": "maximum",
+        "profileId": "joint-maximum",
+        "seriesIds": [
+          "e14-fdic-noncurrent-loan-rate-quarterly",
+          "e14-baa10y-monthly-maximum"
+        ]
+      }
+    },
+    {
+      "candidateId": "e14-banking-29ac6eadee52",
+      "detectorId": "e14-banking-credit-detector",
+      "featureBindings": [
+        {
+          "fitScope": "inner-only",
+          "seriesId": "e14-fdic-noncurrent-loan-rate-quarterly",
+          "sourceId": "fdic-quarterly-financials",
+          "transform": "causal-robust-z-score"
+        },
+        {
+          "fitScope": "inner-only",
+          "seriesId": "e14-baa10y-monthly-maximum",
+          "sourceId": "fred-baa10y",
+          "transform": "causal-rolling-percentile"
+        }
+      ],
+      "lifecycleStatus": "research-generated-not-fit",
+      "mechanism": "banking-credit",
+      "parameters": {
+        "entryPersistenceMonths": 2,
+        "hysteresisRequired": true,
+        "minimumHistoryMonths": 60,
+        "recoveryPersistenceMonths": 1,
+        "thresholdDirection": "higher-is-more-stress",
+        "thresholdQuantiles": [
+          0.8,
+          0.9,
+          0.95
+        ],
+        "thresholdSelectionScope": "inner-train-within-leave-one-episode-out"
+      },
+      "profile": {
+        "aggregator": "maximum",
+        "profileId": "joint-maximum",
+        "seriesIds": [
+          "e14-fdic-noncurrent-loan-rate-quarterly",
+          "e14-baa10y-monthly-maximum"
+        ]
+      }
+    },
+    {
+      "candidateId": "e14-banking-a9a7978ffa4f",
+      "detectorId": "e14-banking-credit-detector",
+      "featureBindings": [
+        {
+          "fitScope": "inner-only",
+          "seriesId": "e14-fdic-noncurrent-loan-rate-quarterly",
+          "sourceId": "fdic-quarterly-financials",
+          "transform": "causal-robust-z-score"
+        },
+        {
+          "fitScope": "inner-only",
+          "seriesId": "e14-baa10y-monthly-maximum",
+          "sourceId": "fred-baa10y",
+          "transform": "causal-rolling-percentile"
+        }
+      ],
+      "lifecycleStatus": "research-generated-not-fit",
+      "mechanism": "banking-credit",
+      "parameters": {
+        "entryPersistenceMonths": 2,
+        "hysteresisRequired": true,
+        "minimumHistoryMonths": 60,
+        "recoveryPersistenceMonths": 2,
+        "thresholdDirection": "higher-is-more-stress",
+        "thresholdQuantiles": [
+          0.8,
+          0.9,
+          0.95
+        ],
+        "thresholdSelectionScope": "inner-train-within-leave-one-episode-out"
+      },
+      "profile": {
+        "aggregator": "maximum",
+        "profileId": "joint-maximum",
+        "seriesIds": [
+          "e14-fdic-noncurrent-loan-rate-quarterly",
+          "e14-baa10y-monthly-maximum"
+        ]
+      }
+    },
+    {
+      "candidateId": "e14-banking-eab78cdccb1c",
+      "detectorId": "e14-banking-credit-detector",
+      "featureBindings": [
+        {
+          "fitScope": "inner-only",
+          "seriesId": "e14-fdic-noncurrent-loan-rate-quarterly",
+          "sourceId": "fdic-quarterly-financials",
+          "transform": "causal-robust-z-score"
+        },
+        {
+          "fitScope": "inner-only",
+          "seriesId": "e14-baa10y-monthly-maximum",
+          "sourceId": "fred-baa10y",
+          "transform": "causal-rolling-percentile"
+        }
+      ],
+      "lifecycleStatus": "research-generated-not-fit",
+      "mechanism": "banking-credit",
+      "parameters": {
+        "entryPersistenceMonths": 1,
+        "hysteresisRequired": true,
+        "minimumHistoryMonths": 60,
+        "recoveryPersistenceMonths": 1,
+        "thresholdDirection": "higher-is-more-stress",
+        "thresholdQuantiles": [
+          0.8,
+          0.9,
+          0.95
+        ],
+        "thresholdSelectionScope": "inner-train-within-leave-one-episode-out"
+      },
+      "profile": {
+        "aggregator": "mean",
+        "profileId": "joint-mean",
+        "seriesIds": [
+          "e14-fdic-noncurrent-loan-rate-quarterly",
+          "e14-baa10y-monthly-maximum"
+        ]
+      }
+    },
+    {
+      "candidateId": "e14-banking-bd1bcd7bf13a",
+      "detectorId": "e14-banking-credit-detector",
+      "featureBindings": [
+        {
+          "fitScope": "inner-only",
+          "seriesId": "e14-fdic-noncurrent-loan-rate-quarterly",
+          "sourceId": "fdic-quarterly-financials",
+          "transform": "causal-robust-z-score"
+        },
+        {
+          "fitScope": "inner-only",
+          "seriesId": "e14-baa10y-monthly-maximum",
+          "sourceId": "fred-baa10y",
+          "transform": "causal-rolling-percentile"
+        }
+      ],
+      "lifecycleStatus": "research-generated-not-fit",
+      "mechanism": "banking-credit",
+      "parameters": {
+        "entryPersistenceMonths": 1,
+        "hysteresisRequired": true,
+        "minimumHistoryMonths": 60,
+        "recoveryPersistenceMonths": 2,
+        "thresholdDirection": "higher-is-more-stress",
+        "thresholdQuantiles": [
+          0.8,
+          0.9,
+          0.95
+        ],
+        "thresholdSelectionScope": "inner-train-within-leave-one-episode-out"
+      },
+      "profile": {
+        "aggregator": "mean",
+        "profileId": "joint-mean",
+        "seriesIds": [
+          "e14-fdic-noncurrent-loan-rate-quarterly",
+          "e14-baa10y-monthly-maximum"
+        ]
+      }
+    },
+    {
+      "candidateId": "e14-banking-0e8fbadd21ea",
+      "detectorId": "e14-banking-credit-detector",
+      "featureBindings": [
+        {
+          "fitScope": "inner-only",
+          "seriesId": "e14-fdic-noncurrent-loan-rate-quarterly",
+          "sourceId": "fdic-quarterly-financials",
+          "transform": "causal-robust-z-score"
+        },
+        {
+          "fitScope": "inner-only",
+          "seriesId": "e14-baa10y-monthly-maximum",
+          "sourceId": "fred-baa10y",
+          "transform": "causal-rolling-percentile"
+        }
+      ],
+      "lifecycleStatus": "research-generated-not-fit",
+      "mechanism": "banking-credit",
+      "parameters": {
+        "entryPersistenceMonths": 2,
+        "hysteresisRequired": true,
+        "minimumHistoryMonths": 60,
+        "recoveryPersistenceMonths": 1,
+        "thresholdDirection": "higher-is-more-stress",
+        "thresholdQuantiles": [
+          0.8,
+          0.9,
+          0.95
+        ],
+        "thresholdSelectionScope": "inner-train-within-leave-one-episode-out"
+      },
+      "profile": {
+        "aggregator": "mean",
+        "profileId": "joint-mean",
+        "seriesIds": [
+          "e14-fdic-noncurrent-loan-rate-quarterly",
+          "e14-baa10y-monthly-maximum"
+        ]
+      }
+    },
+    {
+      "candidateId": "e14-banking-3fd67f8fca38",
+      "detectorId": "e14-banking-credit-detector",
+      "featureBindings": [
+        {
+          "fitScope": "inner-only",
+          "seriesId": "e14-fdic-noncurrent-loan-rate-quarterly",
+          "sourceId": "fdic-quarterly-financials",
+          "transform": "causal-robust-z-score"
+        },
+        {
+          "fitScope": "inner-only",
+          "seriesId": "e14-baa10y-monthly-maximum",
+          "sourceId": "fred-baa10y",
+          "transform": "causal-rolling-percentile"
+        }
+      ],
+      "lifecycleStatus": "research-generated-not-fit",
+      "mechanism": "banking-credit",
+      "parameters": {
+        "entryPersistenceMonths": 2,
+        "hysteresisRequired": true,
+        "minimumHistoryMonths": 60,
+        "recoveryPersistenceMonths": 2,
+        "thresholdDirection": "higher-is-more-stress",
+        "thresholdQuantiles": [
+          0.8,
+          0.9,
+          0.95
+        ],
+        "thresholdSelectionScope": "inner-train-within-leave-one-episode-out"
+      },
+      "profile": {
+        "aggregator": "mean",
+        "profileId": "joint-mean",
+        "seriesIds": [
+          "e14-fdic-noncurrent-loan-rate-quarterly",
+          "e14-baa10y-monthly-maximum"
+        ]
+      }
+    },
+    {
+      "candidateId": "e14-broad-40812f9e8d61",
+      "detectorId": "e14-broad-market-repricing-detector",
+      "featureBindings": [
+        {
+          "fitScope": "inner-only",
+          "seriesId": "e14-baa10y-monthly-maximum",
+          "sourceId": "fred-baa10y",
+          "transform": "causal-rolling-percentile"
+        }
+      ],
+      "lifecycleStatus": "research-generated-not-fit",
+      "mechanism": "broad-market-repricing",
+      "parameters": {
+        "entryPersistenceMonths": 1,
+        "hysteresisRequired": true,
+        "minimumHistoryMonths": 60,
+        "recoveryPersistenceMonths": 1,
+        "thresholdDirection": "higher-is-more-stress",
+        "thresholdQuantiles": [
+          0.8,
+          0.9,
+          0.95
+        ],
+        "thresholdSelectionScope": "inner-train-within-leave-one-episode-out"
+      },
+      "profile": {
+        "aggregator": "identity",
+        "profileId": "baa10y-only",
+        "seriesIds": [
+          "e14-baa10y-monthly-maximum"
+        ]
+      }
+    },
+    {
+      "candidateId": "e14-broad-d914f56e649b",
+      "detectorId": "e14-broad-market-repricing-detector",
+      "featureBindings": [
+        {
+          "fitScope": "inner-only",
+          "seriesId": "e14-baa10y-monthly-maximum",
+          "sourceId": "fred-baa10y",
+          "transform": "causal-rolling-percentile"
+        }
+      ],
+      "lifecycleStatus": "research-generated-not-fit",
+      "mechanism": "broad-market-repricing",
+      "parameters": {
+        "entryPersistenceMonths": 1,
+        "hysteresisRequired": true,
+        "minimumHistoryMonths": 60,
+        "recoveryPersistenceMonths": 2,
+        "thresholdDirection": "higher-is-more-stress",
+        "thresholdQuantiles": [
+          0.8,
+          0.9,
+          0.95
+        ],
+        "thresholdSelectionScope": "inner-train-within-leave-one-episode-out"
+      },
+      "profile": {
+        "aggregator": "identity",
+        "profileId": "baa10y-only",
+        "seriesIds": [
+          "e14-baa10y-monthly-maximum"
+        ]
+      }
+    },
+    {
+      "candidateId": "e14-broad-182327efc1c2",
+      "detectorId": "e14-broad-market-repricing-detector",
+      "featureBindings": [
+        {
+          "fitScope": "inner-only",
+          "seriesId": "e14-baa10y-monthly-maximum",
+          "sourceId": "fred-baa10y",
+          "transform": "causal-rolling-percentile"
+        }
+      ],
+      "lifecycleStatus": "research-generated-not-fit",
+      "mechanism": "broad-market-repricing",
+      "parameters": {
+        "entryPersistenceMonths": 2,
+        "hysteresisRequired": true,
+        "minimumHistoryMonths": 60,
+        "recoveryPersistenceMonths": 1,
+        "thresholdDirection": "higher-is-more-stress",
+        "thresholdQuantiles": [
+          0.8,
+          0.9,
+          0.95
+        ],
+        "thresholdSelectionScope": "inner-train-within-leave-one-episode-out"
+      },
+      "profile": {
+        "aggregator": "identity",
+        "profileId": "baa10y-only",
+        "seriesIds": [
+          "e14-baa10y-monthly-maximum"
+        ]
+      }
+    },
+    {
+      "candidateId": "e14-broad-aebcbf4855ea",
+      "detectorId": "e14-broad-market-repricing-detector",
+      "featureBindings": [
+        {
+          "fitScope": "inner-only",
+          "seriesId": "e14-baa10y-monthly-maximum",
+          "sourceId": "fred-baa10y",
+          "transform": "causal-rolling-percentile"
+        }
+      ],
+      "lifecycleStatus": "research-generated-not-fit",
+      "mechanism": "broad-market-repricing",
+      "parameters": {
+        "entryPersistenceMonths": 2,
+        "hysteresisRequired": true,
+        "minimumHistoryMonths": 60,
+        "recoveryPersistenceMonths": 2,
+        "thresholdDirection": "higher-is-more-stress",
+        "thresholdQuantiles": [
+          0.8,
+          0.9,
+          0.95
+        ],
+        "thresholdSelectionScope": "inner-train-within-leave-one-episode-out"
+      },
+      "profile": {
+        "aggregator": "identity",
+        "profileId": "baa10y-only",
+        "seriesIds": [
+          "e14-baa10y-monthly-maximum"
+        ]
+      }
+    },
+    {
+      "candidateId": "e14-broad-bb98047423d4",
+      "detectorId": "e14-broad-market-repricing-detector",
+      "featureBindings": [
+        {
+          "fitScope": "inner-only",
+          "seriesId": "e14-vix-monthly-maximum",
+          "sourceId": "cboe-vix-history",
+          "transform": "causal-rolling-percentile"
+        },
+        {
+          "fitScope": "inner-only",
+          "seriesId": "e14-baa10y-monthly-maximum",
+          "sourceId": "fred-baa10y",
+          "transform": "causal-rolling-percentile"
+        }
+      ],
+      "lifecycleStatus": "research-generated-not-fit",
+      "mechanism": "broad-market-repricing",
+      "parameters": {
+        "entryPersistenceMonths": 1,
+        "hysteresisRequired": true,
+        "minimumHistoryMonths": 60,
+        "recoveryPersistenceMonths": 1,
+        "thresholdDirection": "higher-is-more-stress",
+        "thresholdQuantiles": [
+          0.8,
+          0.9,
+          0.95
+        ],
+        "thresholdSelectionScope": "inner-train-within-leave-one-episode-out"
+      },
+      "profile": {
+        "aggregator": "maximum",
+        "profileId": "joint-maximum",
+        "seriesIds": [
+          "e14-vix-monthly-maximum",
+          "e14-baa10y-monthly-maximum"
+        ]
+      }
+    },
+    {
+      "candidateId": "e14-broad-1d3f9292459f",
+      "detectorId": "e14-broad-market-repricing-detector",
+      "featureBindings": [
+        {
+          "fitScope": "inner-only",
+          "seriesId": "e14-vix-monthly-maximum",
+          "sourceId": "cboe-vix-history",
+          "transform": "causal-rolling-percentile"
+        },
+        {
+          "fitScope": "inner-only",
+          "seriesId": "e14-baa10y-monthly-maximum",
+          "sourceId": "fred-baa10y",
+          "transform": "causal-rolling-percentile"
+        }
+      ],
+      "lifecycleStatus": "research-generated-not-fit",
+      "mechanism": "broad-market-repricing",
+      "parameters": {
+        "entryPersistenceMonths": 1,
+        "hysteresisRequired": true,
+        "minimumHistoryMonths": 60,
+        "recoveryPersistenceMonths": 2,
+        "thresholdDirection": "higher-is-more-stress",
+        "thresholdQuantiles": [
+          0.8,
+          0.9,
+          0.95
+        ],
+        "thresholdSelectionScope": "inner-train-within-leave-one-episode-out"
+      },
+      "profile": {
+        "aggregator": "maximum",
+        "profileId": "joint-maximum",
+        "seriesIds": [
+          "e14-vix-monthly-maximum",
+          "e14-baa10y-monthly-maximum"
+        ]
+      }
+    },
+    {
+      "candidateId": "e14-broad-61de85156660",
+      "detectorId": "e14-broad-market-repricing-detector",
+      "featureBindings": [
+        {
+          "fitScope": "inner-only",
+          "seriesId": "e14-vix-monthly-maximum",
+          "sourceId": "cboe-vix-history",
+          "transform": "causal-rolling-percentile"
+        },
+        {
+          "fitScope": "inner-only",
+          "seriesId": "e14-baa10y-monthly-maximum",
+          "sourceId": "fred-baa10y",
+          "transform": "causal-rolling-percentile"
+        }
+      ],
+      "lifecycleStatus": "research-generated-not-fit",
+      "mechanism": "broad-market-repricing",
+      "parameters": {
+        "entryPersistenceMonths": 2,
+        "hysteresisRequired": true,
+        "minimumHistoryMonths": 60,
+        "recoveryPersistenceMonths": 1,
+        "thresholdDirection": "higher-is-more-stress",
+        "thresholdQuantiles": [
+          0.8,
+          0.9,
+          0.95
+        ],
+        "thresholdSelectionScope": "inner-train-within-leave-one-episode-out"
+      },
+      "profile": {
+        "aggregator": "maximum",
+        "profileId": "joint-maximum",
+        "seriesIds": [
+          "e14-vix-monthly-maximum",
+          "e14-baa10y-monthly-maximum"
+        ]
+      }
+    },
+    {
+      "candidateId": "e14-broad-c4df5bb5e6de",
+      "detectorId": "e14-broad-market-repricing-detector",
+      "featureBindings": [
+        {
+          "fitScope": "inner-only",
+          "seriesId": "e14-vix-monthly-maximum",
+          "sourceId": "cboe-vix-history",
+          "transform": "causal-rolling-percentile"
+        },
+        {
+          "fitScope": "inner-only",
+          "seriesId": "e14-baa10y-monthly-maximum",
+          "sourceId": "fred-baa10y",
+          "transform": "causal-rolling-percentile"
+        }
+      ],
+      "lifecycleStatus": "research-generated-not-fit",
+      "mechanism": "broad-market-repricing",
+      "parameters": {
+        "entryPersistenceMonths": 2,
+        "hysteresisRequired": true,
+        "minimumHistoryMonths": 60,
+        "recoveryPersistenceMonths": 2,
+        "thresholdDirection": "higher-is-more-stress",
+        "thresholdQuantiles": [
+          0.8,
+          0.9,
+          0.95
+        ],
+        "thresholdSelectionScope": "inner-train-within-leave-one-episode-out"
+      },
+      "profile": {
+        "aggregator": "maximum",
+        "profileId": "joint-maximum",
+        "seriesIds": [
+          "e14-vix-monthly-maximum",
+          "e14-baa10y-monthly-maximum"
+        ]
+      }
+    },
+    {
+      "candidateId": "e14-broad-363f5cbd811e",
+      "detectorId": "e14-broad-market-repricing-detector",
+      "featureBindings": [
+        {
+          "fitScope": "inner-only",
+          "seriesId": "e14-vix-monthly-maximum",
+          "sourceId": "cboe-vix-history",
+          "transform": "causal-rolling-percentile"
+        },
+        {
+          "fitScope": "inner-only",
+          "seriesId": "e14-baa10y-monthly-maximum",
+          "sourceId": "fred-baa10y",
+          "transform": "causal-rolling-percentile"
+        }
+      ],
+      "lifecycleStatus": "research-generated-not-fit",
+      "mechanism": "broad-market-repricing",
+      "parameters": {
+        "entryPersistenceMonths": 1,
+        "hysteresisRequired": true,
+        "minimumHistoryMonths": 60,
+        "recoveryPersistenceMonths": 1,
+        "thresholdDirection": "higher-is-more-stress",
+        "thresholdQuantiles": [
+          0.8,
+          0.9,
+          0.95
+        ],
+        "thresholdSelectionScope": "inner-train-within-leave-one-episode-out"
+      },
+      "profile": {
+        "aggregator": "mean",
+        "profileId": "joint-mean",
+        "seriesIds": [
+          "e14-vix-monthly-maximum",
+          "e14-baa10y-monthly-maximum"
+        ]
+      }
+    },
+    {
+      "candidateId": "e14-broad-67724d37ba54",
+      "detectorId": "e14-broad-market-repricing-detector",
+      "featureBindings": [
+        {
+          "fitScope": "inner-only",
+          "seriesId": "e14-vix-monthly-maximum",
+          "sourceId": "cboe-vix-history",
+          "transform": "causal-rolling-percentile"
+        },
+        {
+          "fitScope": "inner-only",
+          "seriesId": "e14-baa10y-monthly-maximum",
+          "sourceId": "fred-baa10y",
+          "transform": "causal-rolling-percentile"
+        }
+      ],
+      "lifecycleStatus": "research-generated-not-fit",
+      "mechanism": "broad-market-repricing",
+      "parameters": {
+        "entryPersistenceMonths": 1,
+        "hysteresisRequired": true,
+        "minimumHistoryMonths": 60,
+        "recoveryPersistenceMonths": 2,
+        "thresholdDirection": "higher-is-more-stress",
+        "thresholdQuantiles": [
+          0.8,
+          0.9,
+          0.95
+        ],
+        "thresholdSelectionScope": "inner-train-within-leave-one-episode-out"
+      },
+      "profile": {
+        "aggregator": "mean",
+        "profileId": "joint-mean",
+        "seriesIds": [
+          "e14-vix-monthly-maximum",
+          "e14-baa10y-monthly-maximum"
+        ]
+      }
+    },
+    {
+      "candidateId": "e14-broad-7bcb8dbe826e",
+      "detectorId": "e14-broad-market-repricing-detector",
+      "featureBindings": [
+        {
+          "fitScope": "inner-only",
+          "seriesId": "e14-vix-monthly-maximum",
+          "sourceId": "cboe-vix-history",
+          "transform": "causal-rolling-percentile"
+        },
+        {
+          "fitScope": "inner-only",
+          "seriesId": "e14-baa10y-monthly-maximum",
+          "sourceId": "fred-baa10y",
+          "transform": "causal-rolling-percentile"
+        }
+      ],
+      "lifecycleStatus": "research-generated-not-fit",
+      "mechanism": "broad-market-repricing",
+      "parameters": {
+        "entryPersistenceMonths": 2,
+        "hysteresisRequired": true,
+        "minimumHistoryMonths": 60,
+        "recoveryPersistenceMonths": 1,
+        "thresholdDirection": "higher-is-more-stress",
+        "thresholdQuantiles": [
+          0.8,
+          0.9,
+          0.95
+        ],
+        "thresholdSelectionScope": "inner-train-within-leave-one-episode-out"
+      },
+      "profile": {
+        "aggregator": "mean",
+        "profileId": "joint-mean",
+        "seriesIds": [
+          "e14-vix-monthly-maximum",
+          "e14-baa10y-monthly-maximum"
+        ]
+      }
+    },
+    {
+      "candidateId": "e14-broad-b83cb89abefe",
+      "detectorId": "e14-broad-market-repricing-detector",
+      "featureBindings": [
+        {
+          "fitScope": "inner-only",
+          "seriesId": "e14-vix-monthly-maximum",
+          "sourceId": "cboe-vix-history",
+          "transform": "causal-rolling-percentile"
+        },
+        {
+          "fitScope": "inner-only",
+          "seriesId": "e14-baa10y-monthly-maximum",
+          "sourceId": "fred-baa10y",
+          "transform": "causal-rolling-percentile"
+        }
+      ],
+      "lifecycleStatus": "research-generated-not-fit",
+      "mechanism": "broad-market-repricing",
+      "parameters": {
+        "entryPersistenceMonths": 2,
+        "hysteresisRequired": true,
+        "minimumHistoryMonths": 60,
+        "recoveryPersistenceMonths": 2,
+        "thresholdDirection": "higher-is-more-stress",
+        "thresholdQuantiles": [
+          0.8,
+          0.9,
+          0.95
+        ],
+        "thresholdSelectionScope": "inner-train-within-leave-one-episode-out"
+      },
+      "profile": {
+        "aggregator": "mean",
+        "profileId": "joint-mean",
+        "seriesIds": [
+          "e14-vix-monthly-maximum",
+          "e14-baa10y-monthly-maximum"
+        ]
+      }
+    },
+    {
+      "candidateId": "e14-broad-61cde4fecf5c",
+      "detectorId": "e14-broad-market-repricing-detector",
+      "featureBindings": [
+        {
+          "fitScope": "inner-only",
+          "seriesId": "e14-vix-monthly-maximum",
+          "sourceId": "cboe-vix-history",
+          "transform": "causal-rolling-percentile"
+        }
+      ],
+      "lifecycleStatus": "research-generated-not-fit",
+      "mechanism": "broad-market-repricing",
+      "parameters": {
+        "entryPersistenceMonths": 1,
+        "hysteresisRequired": true,
+        "minimumHistoryMonths": 60,
+        "recoveryPersistenceMonths": 1,
+        "thresholdDirection": "higher-is-more-stress",
+        "thresholdQuantiles": [
+          0.8,
+          0.9,
+          0.95
+        ],
+        "thresholdSelectionScope": "inner-train-within-leave-one-episode-out"
+      },
+      "profile": {
+        "aggregator": "identity",
+        "profileId": "vix-only",
+        "seriesIds": [
+          "e14-vix-monthly-maximum"
+        ]
+      }
+    },
+    {
+      "candidateId": "e14-broad-2070c166a646",
+      "detectorId": "e14-broad-market-repricing-detector",
+      "featureBindings": [
+        {
+          "fitScope": "inner-only",
+          "seriesId": "e14-vix-monthly-maximum",
+          "sourceId": "cboe-vix-history",
+          "transform": "causal-rolling-percentile"
+        }
+      ],
+      "lifecycleStatus": "research-generated-not-fit",
+      "mechanism": "broad-market-repricing",
+      "parameters": {
+        "entryPersistenceMonths": 1,
+        "hysteresisRequired": true,
+        "minimumHistoryMonths": 60,
+        "recoveryPersistenceMonths": 2,
+        "thresholdDirection": "higher-is-more-stress",
+        "thresholdQuantiles": [
+          0.8,
+          0.9,
+          0.95
+        ],
+        "thresholdSelectionScope": "inner-train-within-leave-one-episode-out"
+      },
+      "profile": {
+        "aggregator": "identity",
+        "profileId": "vix-only",
+        "seriesIds": [
+          "e14-vix-monthly-maximum"
+        ]
+      }
+    },
+    {
+      "candidateId": "e14-broad-d7b2965a1fa7",
+      "detectorId": "e14-broad-market-repricing-detector",
+      "featureBindings": [
+        {
+          "fitScope": "inner-only",
+          "seriesId": "e14-vix-monthly-maximum",
+          "sourceId": "cboe-vix-history",
+          "transform": "causal-rolling-percentile"
+        }
+      ],
+      "lifecycleStatus": "research-generated-not-fit",
+      "mechanism": "broad-market-repricing",
+      "parameters": {
+        "entryPersistenceMonths": 2,
+        "hysteresisRequired": true,
+        "minimumHistoryMonths": 60,
+        "recoveryPersistenceMonths": 1,
+        "thresholdDirection": "higher-is-more-stress",
+        "thresholdQuantiles": [
+          0.8,
+          0.9,
+          0.95
+        ],
+        "thresholdSelectionScope": "inner-train-within-leave-one-episode-out"
+      },
+      "profile": {
+        "aggregator": "identity",
+        "profileId": "vix-only",
+        "seriesIds": [
+          "e14-vix-monthly-maximum"
+        ]
+      }
+    },
+    {
+      "candidateId": "e14-broad-1a3f2a978c6b",
+      "detectorId": "e14-broad-market-repricing-detector",
+      "featureBindings": [
+        {
+          "fitScope": "inner-only",
+          "seriesId": "e14-vix-monthly-maximum",
+          "sourceId": "cboe-vix-history",
+          "transform": "causal-rolling-percentile"
+        }
+      ],
+      "lifecycleStatus": "research-generated-not-fit",
+      "mechanism": "broad-market-repricing",
+      "parameters": {
+        "entryPersistenceMonths": 2,
+        "hysteresisRequired": true,
+        "minimumHistoryMonths": 60,
+        "recoveryPersistenceMonths": 2,
+        "thresholdDirection": "higher-is-more-stress",
+        "thresholdQuantiles": [
+          0.8,
+          0.9,
+          0.95
+        ],
+        "thresholdSelectionScope": "inner-train-within-leave-one-episode-out"
+      },
+      "profile": {
+        "aggregator": "identity",
+        "profileId": "vix-only",
+        "seriesIds": [
+          "e14-vix-monthly-maximum"
+        ]
+      }
+    },
+    {
+      "candidateId": "e14-cross-border-bf9de0a8481d",
+      "detectorId": "e14-cross-border-growth-detector",
+      "featureBindings": [
+        {
+          "fitScope": "inner-only",
+          "seriesId": "e14-dtwexb-monthly-maximum-absolute-change",
+          "sourceId": "fred-dtwexb",
+          "transform": "causal-rolling-percentile"
+        }
+      ],
+      "lifecycleStatus": "research-generated-not-fit",
+      "mechanism": "cross-border-growth",
+      "parameters": {
+        "entryPersistenceMonths": 1,
+        "hysteresisRequired": true,
+        "minimumHistoryMonths": 60,
+        "recoveryPersistenceMonths": 1,
+        "thresholdDirection": "higher-is-more-stress",
+        "thresholdQuantiles": [
+          0.8,
+          0.9,
+          0.95
+        ],
+        "thresholdSelectionScope": "inner-train-within-leave-one-episode-out"
+      },
+      "profile": {
+        "aggregator": "identity",
+        "profileId": "dtwexb-only",
+        "seriesIds": [
+          "e14-dtwexb-monthly-maximum-absolute-change"
+        ]
+      }
+    },
+    {
+      "candidateId": "e14-cross-border-1f2a1bb2212b",
+      "detectorId": "e14-cross-border-growth-detector",
+      "featureBindings": [
+        {
+          "fitScope": "inner-only",
+          "seriesId": "e14-dtwexb-monthly-maximum-absolute-change",
+          "sourceId": "fred-dtwexb",
+          "transform": "causal-rolling-percentile"
+        }
+      ],
+      "lifecycleStatus": "research-generated-not-fit",
+      "mechanism": "cross-border-growth",
+      "parameters": {
+        "entryPersistenceMonths": 1,
+        "hysteresisRequired": true,
+        "minimumHistoryMonths": 60,
+        "recoveryPersistenceMonths": 2,
+        "thresholdDirection": "higher-is-more-stress",
+        "thresholdQuantiles": [
+          0.8,
+          0.9,
+          0.95
+        ],
+        "thresholdSelectionScope": "inner-train-within-leave-one-episode-out"
+      },
+      "profile": {
+        "aggregator": "identity",
+        "profileId": "dtwexb-only",
+        "seriesIds": [
+          "e14-dtwexb-monthly-maximum-absolute-change"
+        ]
+      }
+    },
+    {
+      "candidateId": "e14-cross-border-ee7d9461ee5c",
+      "detectorId": "e14-cross-border-growth-detector",
+      "featureBindings": [
+        {
+          "fitScope": "inner-only",
+          "seriesId": "e14-dtwexb-monthly-maximum-absolute-change",
+          "sourceId": "fred-dtwexb",
+          "transform": "causal-rolling-percentile"
+        }
+      ],
+      "lifecycleStatus": "research-generated-not-fit",
+      "mechanism": "cross-border-growth",
+      "parameters": {
+        "entryPersistenceMonths": 2,
+        "hysteresisRequired": true,
+        "minimumHistoryMonths": 60,
+        "recoveryPersistenceMonths": 1,
+        "thresholdDirection": "higher-is-more-stress",
+        "thresholdQuantiles": [
+          0.8,
+          0.9,
+          0.95
+        ],
+        "thresholdSelectionScope": "inner-train-within-leave-one-episode-out"
+      },
+      "profile": {
+        "aggregator": "identity",
+        "profileId": "dtwexb-only",
+        "seriesIds": [
+          "e14-dtwexb-monthly-maximum-absolute-change"
+        ]
+      }
+    },
+    {
+      "candidateId": "e14-cross-border-5b27c7c67f4c",
+      "detectorId": "e14-cross-border-growth-detector",
+      "featureBindings": [
+        {
+          "fitScope": "inner-only",
+          "seriesId": "e14-dtwexb-monthly-maximum-absolute-change",
+          "sourceId": "fred-dtwexb",
+          "transform": "causal-rolling-percentile"
+        }
+      ],
+      "lifecycleStatus": "research-generated-not-fit",
+      "mechanism": "cross-border-growth",
+      "parameters": {
+        "entryPersistenceMonths": 2,
+        "hysteresisRequired": true,
+        "minimumHistoryMonths": 60,
+        "recoveryPersistenceMonths": 2,
+        "thresholdDirection": "higher-is-more-stress",
+        "thresholdQuantiles": [
+          0.8,
+          0.9,
+          0.95
+        ],
+        "thresholdSelectionScope": "inner-train-within-leave-one-episode-out"
+      },
+      "profile": {
+        "aggregator": "identity",
+        "profileId": "dtwexb-only",
+        "seriesIds": [
+          "e14-dtwexb-monthly-maximum-absolute-change"
+        ]
+      }
+    },
+    {
+      "candidateId": "e14-funding-89d0cd3f2b51",
+      "detectorId": "e14-funding-liquidity-detector",
+      "featureBindings": [
+        {
+          "fitScope": "inner-only",
+          "seriesId": "e14-tedrate-monthly-maximum",
+          "sourceId": "fred-tedrate",
+          "transform": "causal-robust-z-score"
+        }
+      ],
+      "lifecycleStatus": "research-generated-not-fit",
+      "mechanism": "funding-liquidity",
+      "parameters": {
+        "entryPersistenceMonths": 1,
+        "hysteresisRequired": true,
+        "minimumHistoryMonths": 60,
+        "recoveryPersistenceMonths": 1,
+        "thresholdDirection": "higher-is-more-stress",
+        "thresholdQuantiles": [
+          0.8,
+          0.9,
+          0.95
+        ],
+        "thresholdSelectionScope": "inner-train-within-leave-one-episode-out"
+      },
+      "profile": {
+        "aggregator": "identity",
+        "profileId": "tedrate-only",
+        "seriesIds": [
+          "e14-tedrate-monthly-maximum"
+        ]
+      }
+    },
+    {
+      "candidateId": "e14-funding-36836b8d935f",
+      "detectorId": "e14-funding-liquidity-detector",
+      "featureBindings": [
+        {
+          "fitScope": "inner-only",
+          "seriesId": "e14-tedrate-monthly-maximum",
+          "sourceId": "fred-tedrate",
+          "transform": "causal-robust-z-score"
+        }
+      ],
+      "lifecycleStatus": "research-generated-not-fit",
+      "mechanism": "funding-liquidity",
+      "parameters": {
+        "entryPersistenceMonths": 1,
+        "hysteresisRequired": true,
+        "minimumHistoryMonths": 60,
+        "recoveryPersistenceMonths": 2,
+        "thresholdDirection": "higher-is-more-stress",
+        "thresholdQuantiles": [
+          0.8,
+          0.9,
+          0.95
+        ],
+        "thresholdSelectionScope": "inner-train-within-leave-one-episode-out"
+      },
+      "profile": {
+        "aggregator": "identity",
+        "profileId": "tedrate-only",
+        "seriesIds": [
+          "e14-tedrate-monthly-maximum"
+        ]
+      }
+    },
+    {
+      "candidateId": "e14-funding-e05b8c966beb",
+      "detectorId": "e14-funding-liquidity-detector",
+      "featureBindings": [
+        {
+          "fitScope": "inner-only",
+          "seriesId": "e14-tedrate-monthly-maximum",
+          "sourceId": "fred-tedrate",
+          "transform": "causal-robust-z-score"
+        }
+      ],
+      "lifecycleStatus": "research-generated-not-fit",
+      "mechanism": "funding-liquidity",
+      "parameters": {
+        "entryPersistenceMonths": 2,
+        "hysteresisRequired": true,
+        "minimumHistoryMonths": 60,
+        "recoveryPersistenceMonths": 1,
+        "thresholdDirection": "higher-is-more-stress",
+        "thresholdQuantiles": [
+          0.8,
+          0.9,
+          0.95
+        ],
+        "thresholdSelectionScope": "inner-train-within-leave-one-episode-out"
+      },
+      "profile": {
+        "aggregator": "identity",
+        "profileId": "tedrate-only",
+        "seriesIds": [
+          "e14-tedrate-monthly-maximum"
+        ]
+      }
+    },
+    {
+      "candidateId": "e14-funding-bbf52db46775",
+      "detectorId": "e14-funding-liquidity-detector",
+      "featureBindings": [
+        {
+          "fitScope": "inner-only",
+          "seriesId": "e14-tedrate-monthly-maximum",
+          "sourceId": "fred-tedrate",
+          "transform": "causal-robust-z-score"
+        }
+      ],
+      "lifecycleStatus": "research-generated-not-fit",
+      "mechanism": "funding-liquidity",
+      "parameters": {
+        "entryPersistenceMonths": 2,
+        "hysteresisRequired": true,
+        "minimumHistoryMonths": 60,
+        "recoveryPersistenceMonths": 2,
+        "thresholdDirection": "higher-is-more-stress",
+        "thresholdQuantiles": [
+          0.8,
+          0.9,
+          0.95
+        ],
+        "thresholdSelectionScope": "inner-train-within-leave-one-episode-out"
+      },
+      "profile": {
+        "aggregator": "identity",
+        "profileId": "tedrate-only",
+        "seriesIds": [
+          "e14-tedrate-monthly-maximum"
+        ]
+      }
+    }
+  ],
+  "generationId": "c46fabacd7dcef9c05e8ecae",
+  "immutable": true,
+  "implementation": {
+    "module": "regime_eval.e14_candidate_generator",
+    "sourceSha256": "74b72f4c6c28bcc82fd862789a59f9f11e1830ec648e8739896731d60c303119"
+  },
+  "inputs": {
+    "candidateProtocol": {
+      "fileName": "e14-four-detector-candidate-generation-protocol-v1.json",
+      "sha256": "21a36f0f6df344215830135108edfe890d2553b4879aa3c5d861181862592047",
+      "sizeBytes": 4262
+    },
+    "featureFoundation": {
+      "fileName": "e14-mechanism-feature-foundation-v1.json",
+      "sha256": "bca70e5f5ca224fe23e4b29970dc651a2b708c047e3364a3575a235ae80a64b9",
+      "sizeBytes": 300218
+    },
+    "featureFoundationLock": {
+      "fileName": "e14-mechanism-feature-foundation-lock-v1.json",
+      "sha256": "34448522085f5949e341cc62cda3b8088a47eac9a7f01ea9c5f0a7220d9a61dc",
+      "sizeBytes": 1542
+    },
+    "generationContract": {
+      "fileName": "e14-four-detector-candidate-manifest-contract-v1.json",
+      "sha256": "aa2a9d839b19e1a356897d2f1beef8f3bf2956a3f33eee843ac9134b71dd1ce5",
+      "sizeBytes": 1796
+    },
+    "manifestSchema": {
+      "fileName": "e14-four-detector-candidate-manifest-schema-v1.json",
+      "sha256": "78c4d17ec806fa8d6ce95f523c48049107b0273989d7e7b5a3f7effe5ca37e64",
+      "sizeBytes": 1869
+    },
+    "protocolReadinessAudit": {
+      "fileName": "e14-four-detector-protocol-readiness-audit-v1.json",
+      "sha256": "a20f0f6861506ca863d33d53767da2d6bd1b4eeb299279c93e3650e408de35fe",
+      "sizeBytes": 4365
+    }
+  },
+  "researchBoundary": "inner-development-only-current-history-snapshot",
+  "schemaVersion": 1,
+  "status": "GENERATED_NOT_FIT_NOT_EVALUATED_OUTER_OOS_CLOSED"
+}

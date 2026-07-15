@@ -31,7 +31,12 @@ from .e14_label_audit import write_e14_label_audit
 from .e14_label_foundation_gate import write_e14_label_foundation_gate
 from .e14_candidate_readiness import write_e14_candidate_readiness_gate
 from .e14_feature_foundation import write_e14_feature_foundation
+from .e14_feature_foundation_v2 import write_e14_feature_foundation_v2
+from .e14_readiness_v2 import write_e14_readiness_v2
 from .e14_candidate_protocol import write_e14_candidate_protocol_readiness
+from .e14_candidate_generator import write_e14_candidate_manifest
+from .e14_loeo_preregistration import write_e14_loeo_preregistration_audit
+from .e14_coverage_repair import write_e14_coverage_repair_audit
 from .e14_taxonomy_v4 import write_e14_taxonomy_v4
 from .e14_taxonomy_v5 import write_e14_taxonomy_v5
 from .e14_hard_negative_expansion import write_e14_hard_negative_expansion
@@ -71,6 +76,55 @@ def main(argv: list[str] | None = None) -> int:
     parser = _parser()
     args = parser.parse_args(argv)
     try:
+        if args.command == "e14-readiness-gate-v2":
+            roster, output = write_e14_readiness_v2(
+                args.contract, args.taxonomy, args.foundation,
+                args.foundation_lock, args.foundation_audit,
+                args.candidate_manifest_v1, args.repair_plan,
+                args.readiness_policy, args.readiness_policy_schema,
+                args.roster_schema, args.roster_output, args.output,
+            )
+            print(roster)
+            print(output)
+            report = json.loads(output.read_text(encoding="utf-8"))
+            return 0 if report["decision"]["fullFourMechanismReadiness"] else 3
+        if args.command == "e14-materialize-feature-foundation-v2":
+            foundation, lock, output = write_e14_feature_foundation_v2(
+                args.contract, args.taxonomy, args.foundation_v1,
+                args.foundation_lock_v1, args.repair_plan, args.repair_audit,
+                args.foundation_schema, args.raw_dir, args.foundation_output,
+                args.lock_output, args.output,
+            )
+            print(foundation)
+            print(lock)
+            print(output)
+            report = json.loads(output.read_text(encoding="utf-8"))
+            return 0 if report["decision"]["featureFoundationV2Materialized"] else 3
+        if args.command == "e14-preregister-coverage-repair":
+            output = write_e14_coverage_repair_audit(
+                args.contract, args.taxonomy, args.foundation,
+                args.preregistration, args.loeo_audit, args.repair_plan,
+                args.repair_schema, args.output,
+            )
+            print(output)
+            return 0
+        if args.command == "e14-preregister-loeo":
+            output = write_e14_loeo_preregistration_audit(
+                args.contract, args.taxonomy, args.candidate_manifest,
+                args.foundation, args.foundation_lock, args.candidate_protocol,
+                args.preregistration, args.preregistration_schema, args.output,
+            )
+            print(output)
+            report = json.loads(output.read_text(encoding="utf-8"))
+            return 0 if report["decision"]["fullFourMechanismReadiness"] else 3
+        if args.command == "e14-generate-candidates":
+            output = write_e14_candidate_manifest(
+                args.contract, args.protocol, args.readiness_audit,
+                args.foundation, args.foundation_lock, args.manifest_schema,
+                args.output,
+            )
+            print(output)
+            return 0
         if args.command == "e14-freeze-candidate-protocol":
             output = write_e14_candidate_protocol_readiness(
                 args.contract, args.taxonomy, args.foundation,
@@ -785,6 +839,73 @@ def _parser() -> argparse.ArgumentParser:
     e14_protocol.add_argument("--protocol", required=True)
     e14_protocol.add_argument("--protocol-schema", required=True)
     e14_protocol.add_argument("--output", required=True)
+    e14_generator = subparsers.add_parser(
+        "e14-generate-candidates",
+        help="generate the immutable 40-candidate E14 research manifest without fitting or evaluation",
+    )
+    e14_generator.add_argument("--contract", required=True)
+    e14_generator.add_argument("--protocol", required=True)
+    e14_generator.add_argument("--readiness-audit", required=True)
+    e14_generator.add_argument("--foundation", required=True)
+    e14_generator.add_argument("--foundation-lock", required=True)
+    e14_generator.add_argument("--manifest-schema", required=True)
+    e14_generator.add_argument("--output", required=True)
+    e14_loeo = subparsers.add_parser(
+        "e14-preregister-loeo",
+        help="freeze E14 inner LOEO rules and audit structural candidate eligibility without fitting",
+    )
+    e14_loeo.add_argument("--contract", required=True)
+    e14_loeo.add_argument("--taxonomy", required=True)
+    e14_loeo.add_argument("--candidate-manifest", required=True)
+    e14_loeo.add_argument("--foundation", required=True)
+    e14_loeo.add_argument("--foundation-lock", required=True)
+    e14_loeo.add_argument("--candidate-protocol", required=True)
+    e14_loeo.add_argument("--preregistration", required=True)
+    e14_loeo.add_argument("--preregistration-schema", required=True)
+    e14_loeo.add_argument("--output", required=True)
+    e14_repair = subparsers.add_parser(
+        "e14-preregister-coverage-repair",
+        help="audit and freeze the E14.6a structural coverage repair path without downloading or fitting",
+    )
+    e14_repair.add_argument("--contract", required=True)
+    e14_repair.add_argument("--taxonomy", required=True)
+    e14_repair.add_argument("--foundation", required=True)
+    e14_repair.add_argument("--preregistration", required=True)
+    e14_repair.add_argument("--loeo-audit", required=True)
+    e14_repair.add_argument("--repair-plan", required=True)
+    e14_repair.add_argument("--repair-schema", required=True)
+    e14_repair.add_argument("--output", required=True)
+    e14_foundation_v2 = subparsers.add_parser(
+        "e14-materialize-feature-foundation-v2",
+        help="materialize the E14.6b replacement foundation without generating or fitting candidates",
+    )
+    e14_foundation_v2.add_argument("--contract", required=True)
+    e14_foundation_v2.add_argument("--taxonomy", required=True)
+    e14_foundation_v2.add_argument("--foundation-v1", required=True)
+    e14_foundation_v2.add_argument("--foundation-lock-v1", required=True)
+    e14_foundation_v2.add_argument("--repair-plan", required=True)
+    e14_foundation_v2.add_argument("--repair-audit", required=True)
+    e14_foundation_v2.add_argument("--foundation-schema", required=True)
+    e14_foundation_v2.add_argument("--raw-dir", required=True)
+    e14_foundation_v2.add_argument("--foundation-output", required=True)
+    e14_foundation_v2.add_argument("--lock-output", required=True)
+    e14_foundation_v2.add_argument("--output", required=True)
+    e14_readiness_v2 = subparsers.add_parser(
+        "e14-readiness-gate-v2",
+        help="audit the 28-entry E14.6c readiness roster without generating or fitting candidates",
+    )
+    e14_readiness_v2.add_argument("--contract", required=True)
+    e14_readiness_v2.add_argument("--taxonomy", required=True)
+    e14_readiness_v2.add_argument("--foundation", required=True)
+    e14_readiness_v2.add_argument("--foundation-lock", required=True)
+    e14_readiness_v2.add_argument("--foundation-audit", required=True)
+    e14_readiness_v2.add_argument("--candidate-manifest-v1", required=True)
+    e14_readiness_v2.add_argument("--repair-plan", required=True)
+    e14_readiness_v2.add_argument("--readiness-policy", required=True)
+    e14_readiness_v2.add_argument("--readiness-policy-schema", required=True)
+    e14_readiness_v2.add_argument("--roster-schema", required=True)
+    e14_readiness_v2.add_argument("--roster-output", required=True)
+    e14_readiness_v2.add_argument("--output", required=True)
     e14_taxonomy_v4 = subparsers.add_parser(
         "e14-materialize-taxonomy-v4",
         help="version the accepted E14 foundation proposal into an immutable mechanism-aware taxonomy v4",

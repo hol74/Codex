@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 1,
+  "contractId": "e14-structural-coverage-repair-contract-v1",
+  "frozenAt": "2026-07-15",
+  "inputHashes": {
+    "taxonomyV5Sha256": "d141416d08b68e932bc6cd2a25b9cd0eab06d159b8904907b7fff29d8c637d50",
+    "featureFoundationV1Sha256": "bca70e5f5ca224fe23e4b29970dc651a2b708c047e3364a3575a235ae80a64b9",
+    "loeoPreregistrationSha256": "e74615c54e644fa70d4dcad4a9edd04090a693c24c381b5854e1d847439754b6",
+    "loeoAuditSha256": "8a222c7fbfbadcbd08de9992df494d6e9cb1b0bdb82a8aa9a31df53afcf29474",
+    "repairPlanSha256": "48b6e6a77c32b5cee1777b400553ba6a8b7ea33f47895488b6d39c943008218f",
+    "repairPlanSchemaSha256": "b68a988e7e08dbcb4cd36282e091fe5eeedc9c92c73042029bf9ad6bd636a7c6"
+  },
+  "expectedProjectedEligibleCandidateCounts": {
+    "banking-credit": 4,
+    "broad-market-repricing": 16,
+    "cross-border-growth": 4,
+    "funding-liquidity": 4
+  },
+  "expectedStatus": "STRUCTURAL_COVERAGE_REPAIR_PREREGISTERED_MATERIALIZATION_REQUIRED",
+  "authorizationPolicy": {
+    "repairDecisionAuditAuthorized": true,
+    "sourceMaterializationAuthorizedOnPass": true,
+    "foundationV1MutationAuthorized": false,
+    "candidateGenerationAuthorized": false,
+    "candidateFittingAuthorized": false,
+    "candidateEvaluationAuthorized": false,
+    "outerOosAuthorized": false,
+    "promotionAuthorized": false
+  },
+  "nextAllowedAction": "E14.6b download and hash-freeze the three official replacement sources, materialize foundation v2 and run revision and methodology-boundary diagnostics; do not generate candidates yet"
+}

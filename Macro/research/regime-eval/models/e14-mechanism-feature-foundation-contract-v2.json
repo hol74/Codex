@@ -1,0 +1,73 @@
+{
+  "schemaVersion": 2,
+  "contractId": "e14-mechanism-feature-foundation-contract-v2",
+  "frozenAt": "2026-07-15",
+  "cutoffDate": "2025-12-31",
+  "inputHashes": {
+    "taxonomyV5Sha256": "d141416d08b68e932bc6cd2a25b9cd0eab06d159b8904907b7fff29d8c637d50",
+    "featureFoundationV1Sha256": "bca70e5f5ca224fe23e4b29970dc651a2b708c047e3364a3575a235ae80a64b9",
+    "featureFoundationLockV1Sha256": "34448522085f5949e341cc62cda3b8088a47eac9a7f01ea9c5f0a7220d9a61dc",
+    "coverageRepairPlanSha256": "48b6e6a77c32b5cee1777b400553ba6a8b7ea33f47895488b6d39c943008218f",
+    "coverageRepairAuditSha256": "8d8bdc501c9fea6fbae2aa5a2537cf538e057126ced4758d45b7b78cd9a113da",
+    "foundationSchemaV2Sha256": "e838d25215c7f123a6ba15d6957e2f8728c6c909f69d12d91483772efea3553f"
+  },
+  "rawSnapshotHashes": {
+    "fdic-failures-assistance.json": "7fcc4440ed6341413e5f007f64e0ced9c5966c6b60d93e380712ac5c6a8fa9f7",
+    "fred-tb3smffm.csv": "4f364347223adf81281b1183edb4dc795df784b04477be3adf557d7ceb4b5778",
+    "fred-twexbmth.csv": "d6def672e0087f56907bbd2bdf76379310a9b17c0d09b223d01c97bd87e4e1a2"
+  },
+  "sourceSnapshotUrls": {
+    "fdic-failures-assistance.json": "https://api.fdic.gov/banks/failures?fields=NAME%2CCERT%2CFIN%2CCITYST%2CFAILDATE%2CSAVR%2CRESTYPE%2CCOST%2CRESTYPE1%2CCHCLASS1%2CQBFDEP%2CQBFASSET&limit=10000&offset=0&sort_by=FAILDATE&sort_order=ASC",
+    "fred-tb3smffm.csv": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=TB3SMFFM",
+    "fred-twexbmth.csv": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=TWEXBMTH"
+  },
+  "expectedObservationCounts": {
+    "e14-vix-monthly-maximum": 432,
+    "e14-baa10y-monthly-maximum": 480,
+    "e14-fdic-failed-assisted-assets-monthly": 1104,
+    "e14-twexbmth-monthly-absolute-change": 563,
+    "e14-fedfunds-minus-tbill-monthly": 858
+  },
+  "expectedMissingObservationCounts": {
+    "e14-vix-monthly-maximum": 0,
+    "e14-baa10y-monthly-maximum": 0,
+    "e14-fdic-failed-assisted-assets-monthly": 69,
+    "e14-twexbmth-monthly-absolute-change": 0,
+    "e14-fedfunds-minus-tbill-monthly": 0
+  },
+  "expectedStructuralCoverage": {
+    "banking-credit": {"positive": 3, "hardNegative": 2},
+    "broad-market-repricing": {"positive": 6, "hardNegative": 2},
+    "cross-border-growth": {"positive": 5, "hardNegative": 2},
+    "funding-liquidity": {"positive": 3, "hardNegative": 2}
+  },
+  "materializationPolicy": {
+    "rawSnapshotsHashBound": true,
+    "outputsWriteOnce": true,
+    "foundationV1HashBoundAndImmutable": true,
+    "carryForwardOnlyBroadSeries": true,
+    "observationsAfterCutoffForbidden": true,
+    "missingValuesRemainAbsent": true,
+    "zeroImputationForbidden": true,
+    "fdicObservedZeroRequiresCompleteApiInventoryAndNoTransactionInMonth": true,
+    "fdicMissingAssetTransactionMakesCalendarMonthMissing": true,
+    "crossMethodologySplicingForbidden": true,
+    "twexbmthAggregation": "absolute-month-over-month-change",
+    "tb3smffmAggregation": "negate-monthly-level",
+    "minimumHistoryMonths": 60,
+    "currentHistoryRevisionRiskExplicit": true,
+    "revisionComparisonUnavailableKeepsStrictVintageFalse": true,
+    "tb3smffm2019BoundaryDiagnosticRequired": true
+  },
+  "authorizationPolicy": {
+    "featureFoundationV2MaterializationAuthorized": true,
+    "foundationV1MutationAuthorized": false,
+    "candidateGenerationAuthorized": false,
+    "candidateFittingAuthorized": false,
+    "candidateEvaluationAuthorized": false,
+    "outerOosAuthorized": false,
+    "promotionAuthorized": false
+  },
+  "expectedStatus": "FEATURE_FOUNDATION_V2_MATERIALIZED_RESEARCH_ONLY_REVISION_LIMITATIONS_CANDIDATE_GENERATION_CLOSED",
+  "nextAllowedAction": "E14.6c rerun a hash-bound structural readiness gate on foundation v2 and preregister protocol v2; do not generate or fit candidates in E14.6b"
+}

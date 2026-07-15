@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://macro-regime.local/schemas/e14-mechanism-feature-foundation-v2.json",
+  "title": "E14 mechanism feature foundation v2",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "artifactType",
+    "foundationId",
+    "status",
+    "cutoffDate",
+    "baseFoundation",
+    "taxonomy",
+    "rawSnapshots",
+    "series",
+    "detectorBindings",
+    "retiredDetectorBindings",
+    "missingnessPolicy",
+    "diagnostics",
+    "limitations"
+  ],
+  "properties": {
+    "schemaVersion": {"const": 2},
+    "artifactType": {"const": "E14MechanismFeatureFoundation"},
+    "foundationId": {"const": "e14-mechanism-feature-foundation-v2"},
+    "status": {"const": "materialized-research-only-with-revision-limitations"},
+    "cutoffDate": {"const": "2025-12-31"},
+    "baseFoundation": {"type": "object"},
+    "taxonomy": {"type": "object"},
+    "rawSnapshots": {"type": "array", "minItems": 3, "maxItems": 3},
+    "series": {"type": "array", "minItems": 5, "maxItems": 5},
+    "detectorBindings": {"type": "array", "minItems": 5, "maxItems": 5},
+    "retiredDetectorBindings": {"type": "array", "minItems": 4, "maxItems": 4},
+    "missingnessPolicy": {"type": "object"},
+    "diagnostics": {"type": "object"},
+    "limitations": {"type": "array", "minItems": 1}
+  }
+}

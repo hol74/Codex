@@ -1,0 +1,100 @@
+{
+  "schemaVersion": 1,
+  "preregistrationId": "e14-four-detector-loeo-preregistration-v1",
+  "frozenAt": "2026-07-15",
+  "inputHashes": {
+    "taxonomyV5Sha256": "d141416d08b68e932bc6cd2a25b9cd0eab06d159b8904907b7fff29d8c637d50",
+    "candidateManifestSha256": "fcc72b9159cabf508aa392297f4e944f509e88ee2564013bb5c6a483365776cf",
+    "featureFoundationSha256": "bca70e5f5ca224fe23e4b29970dc651a2b708c047e3364a3575a235ae80a64b9",
+    "featureFoundationLockSha256": "34448522085f5949e341cc62cda3b8088a47eac9a7f01ea9c5f0a7220d9a61dc",
+    "candidateProtocolSha256": "21a36f0f6df344215830135108edfe890d2553b4879aa3c5d861181862592047"
+  },
+  "scope": "nested-inner-development-only",
+  "mechanisms": [
+    "banking-credit",
+    "broad-market-repricing",
+    "cross-border-growth",
+    "funding-liquidity"
+  ],
+  "episodePolicy": {
+    "unit": "independent-event-within-mechanism",
+    "positiveSource": "taxonomy-v5-positive-episodes",
+    "hardNegativeSource": "taxonomy-v5-hard-negative-episodes",
+    "mechanismLabelsRemainIndependent": true,
+    "unlabeledMonthsAreNotNegatives": true,
+    "ambiguousMonthsExcludedFromScoring": true,
+    "crossMechanismLabelsForbiddenForTraining": true
+  },
+  "foldPolicy": {
+    "method": "leave-one-independent-positive-episode-out-within-mechanism",
+    "heldOutPositiveEpisodesPerFold": 1,
+    "trainingPositiveEpisodes": "all-other-observable-independent-positive-episodes-same-mechanism",
+    "trainingControls": "all-observable-independent-hard-negative-episodes-same-mechanism",
+    "heldOutLabelsForbiddenForTransformAndThresholdSelection": true,
+    "foldsFrozenBeforeFitting": true,
+    "outerOos": "Forbidden for transform fitting, threshold selection, evaluation, ranking and recovery from insufficient evidence."
+  },
+  "temporalPolicy": {
+    "minimumHistoryMonths": 60,
+    "episodeObservableWhen": "all-profile-series-have-at-least-one-month-inside-the-episode-after-minimum-history-and-before-methodology-coverage-end",
+    "availableOnMustNotExceedScoringMonthEnd": true,
+    "causalTransformsOnly": true,
+    "transformParametersFitOnTrainingOnly": true,
+    "missingValuesRemainExplicit": true,
+    "zeroImputationForbidden": true,
+    "crossMethodologySplicingForbidden": true,
+    "carryBeyondMethodologyCoverageEndForbidden": true
+  },
+  "thresholdSelection": {
+    "quantiles": [0.8, 0.9, 0.95],
+    "quantileValuesComputedFromTrainingScoresOnly": true,
+    "objectiveOrder": [
+      "maximize-worst-training-episode-recall",
+      "maximize-mean-training-episode-recall",
+      "minimize-hard-negative-alert-rate",
+      "minimize-onset-delay-months",
+      "minimize-recovery-lag-months",
+      "prefer-higher-quantile-on-tie"
+    ],
+    "heldOutLabelsForbidden": true,
+    "unlabeledAlertsReportedNotScored": true
+  },
+  "metricPolicy": {
+    "required": [
+      "episode-hit-rate",
+      "episode-recall",
+      "worst-episode-recall",
+      "onset-delay-months",
+      "recovery-lag-months",
+      "hard-negative-alert-rate",
+      "unlabeled-alert-count-reported-not-scored"
+    ],
+    "aggregateSeparatelyPerMechanism": true,
+    "candidateComplexityReported": true,
+    "missingMetricCannotPass": true
+  },
+  "eligibilityPolicy": {
+    "minimumObservablePositiveEpisodes": 3,
+    "minimumTrainingPositiveEpisodesPerFold": 2,
+    "minimumObservableHardNegativeEpisodes": 2,
+    "profileSeriesIntersectionRequired": true,
+    "ineligibleCandidateAction": "report-structurally-ineligible-do-not-fit-do-not-rank",
+    "outerOosRecoveryForbidden": true,
+    "successorSeriesSplicingRecoveryForbidden": true
+  },
+  "selectionPolicy": {
+    "ranking": "pareto-on-mechanism-metrics-stability-and-complexity",
+    "maximumShortlistPerMechanism": 2,
+    "crossMechanismComparisonForbidden": true,
+    "shortlistProducedInThisStep": false
+  },
+  "authorizationPolicy": {
+    "structuralEligibilityAuditAuthorized": true,
+    "candidateFittingPerformed": false,
+    "candidateEvaluationPerformed": false,
+    "candidateRankingPerformed": false,
+    "crossMechanismCompositionAuthorized": false,
+    "outerOosAuthorized": false,
+    "promotionAuthorized": false
+  }
+}

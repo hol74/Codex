@@ -1,0 +1,39 @@
+{
+  "schemaVersion": 1,
+  "contractId": "e14-four-detector-candidate-manifest-contract-v1",
+  "frozenAt": "2026-07-15",
+  "inputHashes": {
+    "candidateProtocolSha256": "21a36f0f6df344215830135108edfe890d2553b4879aa3c5d861181862592047",
+    "protocolReadinessAuditSha256": "a20f0f6861506ca863d33d53767da2d6bd1b4eeb299279c93e3650e408de35fe",
+    "featureFoundationSha256": "bca70e5f5ca224fe23e4b29970dc651a2b708c047e3364a3575a235ae80a64b9",
+    "featureFoundationLockSha256": "34448522085f5949e341cc62cda3b8088a47eac9a7f01ea9c5f0a7220d9a61dc",
+    "manifestSchemaSha256": "78c4d17ec806fa8d6ce95f523c48049107b0273989d7e7b5a3f7effe5ca37e64"
+  },
+  "expectedCandidateCounts": {
+    "banking-credit": 16,
+    "broad-market-repricing": 16,
+    "cross-border-growth": 4,
+    "funding-liquidity": 4
+  },
+  "generationPolicy": {
+    "deterministicEnumerationRequired": true,
+    "candidateIdentityBoundToProtocolAndParameters": true,
+    "featureBindingsMustResolveExactly": true,
+    "thresholdQuantilesAreInnerSelectionOptionsNotIdentityMultiplier": true,
+    "writeOnceManifestRequired": true,
+    "reuseRejectedE12CandidateIdsForbidden": true
+  },
+  "authorizationPolicy": {
+    "manifestGenerationAuthorized": true,
+    "featureTransformationAuthorized": false,
+    "candidateFittingAuthorized": false,
+    "candidateEvaluationAuthorized": false,
+    "candidateRankingAuthorized": false,
+    "crossMechanismCompositionAuthorized": false,
+    "outerOosAuthorized": false,
+    "promotionAuthorized": false,
+    "taxonomyMutationAuthorized": false
+  },
+  "expectedStatus": "GENERATED_NOT_FIT_NOT_EVALUATED_OUTER_OOS_CLOSED",
+  "nextAllowedAction": "E14.6 preregister the inner leave-one-episode-out fitting and evaluation contract for the generated candidates; do not evaluate or open outer OOS yet"
+}

@@ -666,3 +666,95 @@ negativi impliciti. La run reale termina
 solo manifest deterministico. Fitting, evaluation, composizione, outer OOS e
 promozione restano chiusi; il rischio vintage e' accettato soltanto entro il
 confine research.
+
+E14.5 genera il manifest immutabile dei candidati senza leggere dataset o
+label e senza eseguire transform, fitting o evaluation:
+
+```text
+python -m regime_eval e14-generate-candidates --contract models/e14-four-detector-candidate-manifest-contract-v1.json --protocol models/e14-four-detector-candidate-generation-protocol-v1.json --readiness-audit ../../data/historical-real-v12-2008-2025/challengers/e14-four-detector-protocol-readiness-audit-v1.json --foundation ../../data/historical-real-v12-2008-2025/e14-feature-foundation-v1/e14-mechanism-feature-foundation-v1.json --foundation-lock models/e14-mechanism-feature-foundation-lock-v1.json --manifest-schema models/e14-four-detector-candidate-manifest-schema-v1.json --output models/e14-generated-four-detector-candidates-v1.json
+```
+
+Il risultato contiene 40 ID univoci legati a protocollo, meccanismo, detector,
+profilo, binding delle feature e parametri di persistenza. I quantili
+`[0.80, 0.90, 0.95]` restano opzioni da selezionare nel train inner e non
+moltiplicano il numero di candidati. Lo stato
+`GENERATED_NOT_FIT_NOT_EVALUATED_OUTER_OOS_CLOSED` mantiene esplicitamente
+false transform, fitting, evaluation, ranking, composizione, outer OOS e
+promozione. E14.6 dovra' preregistrare il protocollo LOEO inner prima di
+autorizzare qualsiasi calcolo sui candidati.
+
+E14.6 congela il protocollo LOEO inner e verifica la copertura strutturale
+prima di qualunque fitting:
+
+```text
+python -m regime_eval e14-preregister-loeo --contract models/e14-four-detector-loeo-readiness-contract-v1.json --taxonomy ground-truth/us-financial-stress-v5.json --candidate-manifest models/e14-generated-four-detector-candidates-v1.json --foundation ../../data/historical-real-v12-2008-2025/e14-feature-foundation-v1/e14-mechanism-feature-foundation-v1.json --foundation-lock models/e14-mechanism-feature-foundation-lock-v1.json --candidate-protocol models/e14-four-detector-candidate-generation-protocol-v1.json --preregistration models/e14-four-detector-loeo-preregistration-v1.json --preregistration-schema models/e14-four-detector-loeo-preregistration-schema-v1.json --output ../../data/historical-real-v12-2008-2025/challengers/e14-four-detector-loeo-preregistration-audit-v1.json
+```
+
+Il comando termina intenzionalmente non-zero con stato
+`INNER_LOEO_PREREGISTERED_STRUCTURAL_COVERAGE_BLOCKED`. Applicando 60 mesi di
+storia minima, l'intersezione delle serie del profilo e i confini metodologici,
+solo i 16 candidati broad-market conservano almeno tre episodi positivi e due
+hard negative osservabili. Banking-credit, cross-border-growth e
+funding-liquidity restano senza candidati eleggibili. Non e' autorizzato
+neppure un fitting broad-only: E14.6a deve riesaminare la foundation o ritirare
+in modo esplicito le grammatiche prive di evidenza sufficiente.
+
+E14.6a preregistra il percorso di riparazione senza scaricare dati:
+
+```text
+python -m regime_eval e14-preregister-coverage-repair --contract models/e14-structural-coverage-repair-contract-v1.json --taxonomy ground-truth/us-financial-stress-v5.json --foundation ../../data/historical-real-v12-2008-2025/e14-feature-foundation-v1/e14-mechanism-feature-foundation-v1.json --preregistration models/e14-four-detector-loeo-preregistration-v1.json --loeo-audit ../../data/historical-real-v12-2008-2025/challengers/e14-four-detector-loeo-preregistration-audit-v1.json --repair-plan models/e14-structural-coverage-repair-plan-v1.json --repair-schema models/e14-structural-coverage-repair-plan-schema-v1.json --output ../../data/historical-real-v12-2008-2025/challengers/e14-structural-coverage-repair-audit-v1.json
+```
+
+Il requisito di 60 mesi resta invariato. Le fonti proposte sono l'archivio
+FDIC failures/assistance, `TWEXBMTH` e `TB3SMFFM` trasformato in Fed funds meno
+T-bill. La proiezione raggiunge 28 candidati potenzialmente eleggibili, ma non
+e' evidenza materializzata. Lo stato
+`STRUCTURAL_COVERAGE_REPAIR_PREREGISTERED_MATERIALIZATION_REQUIRED` autorizza
+solo E14.6b. I subindex NFCI sono esclusi come detector primari perche'
+ristimati/revisionati e restano utilizzabili soltanto come diagnostica.
+
+E14.6b scarica e congela le tre fonti preregistrate, conserva immutata la
+foundation v1 e materializza una foundation v2 separata:
+
+```text
+python -m regime_eval e14-materialize-feature-foundation-v2 --contract models/e14-mechanism-feature-foundation-contract-v2.json --taxonomy ground-truth/us-financial-stress-v5.json --foundation-v1 ../../data/historical-real-v12-2008-2025/e14-feature-foundation-v1/e14-mechanism-feature-foundation-v1.json --foundation-lock-v1 models/e14-mechanism-feature-foundation-lock-v1.json --repair-plan models/e14-structural-coverage-repair-plan-v1.json --repair-audit ../../data/historical-real-v12-2008-2025/challengers/e14-structural-coverage-repair-audit-v1.json --foundation-schema models/e14-mechanism-feature-foundation-schema-v2.json --raw-dir ../../data/historical-real-v12-2008-2025/e14-feature-foundation-v2/raw --foundation-output ../../data/historical-real-v12-2008-2025/e14-feature-foundation-v2/e14-mechanism-feature-foundation-v2.json --lock-output models/e14-mechanism-feature-foundation-lock-v2.json --output ../../data/historical-real-v12-2008-2025/challengers/e14-mechanism-feature-foundation-audit-v2.json
+```
+
+La v2 contiene le due serie broad-market v1 riportate per contenuto esatto e
+tre replacement: 1.104 mesi FDIC, 563 variazioni `TWEXBMTH` e 858 osservazioni
+Fed funds meno T-bill. Il registro FDIC ha 4.115 righe e inventario API
+completo; 154 transazioni prive di `QBFASSET` rendono esplicitamente missing 69
+mesi, mentre 556 mesi senza transazioni sono zeri osservati validi. La copertura
+reale positiva/hard-negative e' 3/2 banking, 6/2 broad, 5/2 cross-border e 3/2
+funding. `TWEXBMTH` non viene estesa oltre dicembre 2019; per `TB3SMFFM` sono
+congelate statistiche separate prima/dopo il confine 2019, senza affermare
+equivalenza distributiva.
+
+Lo stato
+`FEATURE_FOUNDATION_V2_MATERIALIZED_RESEARCH_ONLY_REVISION_LIMITATIONS_CANDIDATE_GENERATION_CLOSED`
+certifica la riparazione strutturale ma mantiene `strictVintageReady=false`:
+non esistono nei preregistered input snapshot point-in-time precedenti per una
+comparazione completa delle revisioni. Candidate generation, fitting,
+evaluation, outer OOS e promozione restano chiusi fino al gate E14.6c.
+
+E14.6c applica missingness interna, storia non-missing e lag di disponibilita'
+reali per materializzare un roster di readiness, non un candidate manifest:
+
+```text
+python -m regime_eval e14-readiness-gate-v2 --contract models/e14-four-detector-readiness-contract-v2.json --taxonomy ground-truth/us-financial-stress-v5.json --foundation ../../data/historical-real-v12-2008-2025/e14-feature-foundation-v2/e14-mechanism-feature-foundation-v2.json --foundation-lock models/e14-mechanism-feature-foundation-lock-v2.json --foundation-audit ../../data/historical-real-v12-2008-2025/challengers/e14-mechanism-feature-foundation-audit-v2.json --candidate-manifest-v1 models/e14-generated-four-detector-candidates-v1.json --repair-plan models/e14-structural-coverage-repair-plan-v1.json --readiness-policy models/e14-four-detector-readiness-policy-v2.json --readiness-policy-schema models/e14-four-detector-readiness-policy-schema-v2.json --roster-schema models/e14-four-detector-readiness-roster-schema-v2.json --roster-output models/e14-four-detector-readiness-roster-v2.json --output ../../data/historical-real-v12-2008-2025/challengers/e14-four-detector-readiness-audit-v2.json
+```
+
+Il gate richiede 60 osservazioni non-missing, deriva il lag `availableOn` da
+ogni serie e vieta carry attraverso il calendar slot missing. I lag risultano
+zero per VIX, BAA10Y e FDIC e un mese per `TWEXBMTH` e Fed funds meno T-bill.
+Tutti i 28 ingressi sono eleggibili: 16 ID broad preservati esattamente, 24 ID
+v1 ritirati e 12 nuovi ID con namespace `-v2-`. Gli ingressi nuovi hanno stato
+`readiness-planned-not-generated-not-fit`.
+
+La sensitivity funding 2019 e' congelata come diagnostica inner obbligatoria:
+confronto delle soglie full/pre-2019, shift normalizzato per IQR, alert rate e
+metriche per episodi pre/post. Il tratto pre-2019 non diventa un gate
+alternativo, perche' contiene un solo episodio funding positivo. Lo stato
+`FOUR_DETECTOR_READINESS_V2_PASSED_PROTOCOL_V2_DESIGN_AUTHORIZED_FITTING_CLOSED`
+autorizza solo la progettazione del protocollo v2; manifest generation,
+fitting, evaluation, ranking, outer OOS e promozione restano chiusi.

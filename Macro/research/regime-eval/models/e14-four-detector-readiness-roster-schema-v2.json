@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://macro-regime.local/schemas/e14-four-detector-readiness-roster-v2.json",
+  "title": "E14 four-detector readiness roster v2",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "artifactType",
+    "rosterId",
+    "status",
+    "immutable",
+    "inputs",
+    "candidateCount",
+    "candidateCountByMechanism",
+    "candidates",
+    "retiredCandidateIds",
+    "authorizations"
+  ],
+  "properties": {
+    "schemaVersion": {"const": 2},
+    "artifactType": {"const": "E14FourDetectorReadinessRoster"},
+    "rosterId": {"const": "e14-four-detector-readiness-roster-v2"},
+    "status": {"const": "readiness-planned-not-generated-not-fit"},
+    "immutable": {"const": true},
+    "inputs": {"type": "object"},
+    "candidateCount": {"const": 28},
+    "candidateCountByMechanism": {"type": "object"},
+    "candidates": {"type": "array", "minItems": 28, "maxItems": 28},
+    "retiredCandidateIds": {"type": "array", "minItems": 24, "maxItems": 24},
+    "authorizations": {"type": "object"}
+  }
+}
