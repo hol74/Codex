@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://macro-regime.local/schemas/e14-four-detector-loeo-report-v2.json",
+  "title": "E14 four-detector inner LOEO evaluation report v2",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion", "artifactType", "status", "inputs", "inventory",
+    "checks", "candidates", "mechanisms", "fundingBoundarySensitivity",
+    "protocol", "decision", "implementation"
+  ],
+  "properties": {
+    "schemaVersion": {"const": 2},
+    "artifactType": {"const": "E14FourDetectorLoeoEvaluationReport"},
+    "status": {"const": "INNER_LOEO_V2_EVALUATED_ABSOLUTE_GATES_APPLIED_OUTER_OOS_CLOSED"},
+    "inputs": {"type": "object"},
+    "inventory": {"type": "object"},
+    "checks": {"type": "object"},
+    "candidates": {"type": "array", "minItems": 28, "maxItems": 28},
+    "mechanisms": {"type": "object"},
+    "fundingBoundarySensitivity": {"type": "object"},
+    "protocol": {"type": "object"},
+    "decision": {"type": "object"},
+    "implementation": {"type": "object"}
+  }
+}

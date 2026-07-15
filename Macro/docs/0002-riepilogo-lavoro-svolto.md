@@ -761,6 +761,39 @@ Checkpoint in corso: `docs/checkpoints/0034-fase-e-slice6-feature-baseline-redes
   L'audit registra zero feature trasformate e zero righe outer; fitting,
   evaluation, ranking, composizione e promozione restano chiusi. La regressione
   completa supera 129/129 test Python.
+- Fase E14.6f - preregistrazione LOEO v2: verificata l'intera catena hash-bound
+  da taxonomy, foundation/lock/audit v2, protocollo/audit v2 e manifest/audit
+  v2. Tutti i 28 candidati sono eleggibili e sono state congelate 140
+  assegnazioni candidato-episodio: 12 banking, 96 broad, 20 cross-border e 12
+  funding. Sono preregistrati trasformazioni causali e soglie q80/q90/q95 sui
+  soli training row, gate assoluti indipendenti per meccanismo, sensitivity
+  funding sul confine 2019 e controllo obbligatorio dello snapshot drift.
+  Il passo autorizza trasformazioni, fitting e valutazione inner-only in
+  E14.6g, ma non li esegue; ranking, composizione, outer OOS e promozione
+  restano chiusi. La regressione completa supera 132/132 test Python.
+- Fase E14.6g - fitting e valutazione LOEO v2: eseguiti i 140 fold
+  preregistrati sui 28 candidati con percentile causale midrank, esclusione
+  dell'episodio held-out dalla storia di fit, missingness che interrompe la
+  persistenza e soglie q80/q90/q95 selezionate sui soli training score. La
+  sensitivity funding produce 12 report completi full/pre-2019. Nessun
+  candidato supera tutti i gate: il migliore banking raggiunge hit rate 0,667,
+  mean recall 0,50 e hard-negative alert 0,067, ma worst recall resta zero;
+  broad, cross-border e funding raggiungono hit rate massimo 0,167, 0,40 e 0.
+  Il limite dominante e' quindi la generalizzazione positiva tra episodi, non
+  il tasso di falsi allarmi sui controlli. Ranking, shortlist, composizione,
+  outer OOS e promozione non sono autorizzati. La regressione completa supera
+  136/136 test Python.
+- Fase E14.6h - diagnosi no-go: decomposto senza rieseguire candidati il report
+  E14.6g per gate, episodio, profilo e persistenza. Nessun candidato fallisce
+  il gate hard-negative alert o threshold range, mentre tutti hanno worst
+  episode recall zero. Banking manca completamente euro-sovereign 2011; broad
+  manca 5 episodi su 6 e intercetta soltanto Russia/LTCM 1998; cross-border
+  manca China/EME, Russia/LTCM e taper tantrum; funding manca tutti i tre
+  positivi. La famiglia v2 e' chiusa con no-go e non puo' essere recuperata con
+  ranking relativo, rilassamento gate o retuning. E' autorizzato soltanto E14.7,
+  cioe' il design preregistrato di nuove firme informative complementari per
+  meccanismo; taxonomy, materializzazione, fitting, evaluation, composizione e
+  outer OOS restano chiusi. La regressione completa supera 139/139 test Python.
 
 ## Deviazione documentata dal piano originario
 

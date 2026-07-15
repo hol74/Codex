@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://macro-regime.local/schemas/e14-loeo-no-go-diagnostic-v1.json",
+  "title": "E14 LOEO v2 no-go diagnostic",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion", "artifactType", "status", "inputs", "inventory",
+    "gateFailureDiagnostics", "episodeDiagnostics", "profileDiagnostics",
+    "persistenceDiagnostics", "mechanismConclusions", "globalConclusion",
+    "decision", "protocol", "implementation"
+  ],
+  "properties": {
+    "schemaVersion": {"const": 1},
+    "artifactType": {"const": "E14LoeoNoGoDiagnostic"},
+    "status": {"const": "LOEO_V2_NO_GO_DIAGNOSED_NEW_INFORMATION_HYPOTHESIS_REQUIRED"},
+    "inputs": {"type": "object"},
+    "inventory": {"type": "object"},
+    "gateFailureDiagnostics": {"type": "object"},
+    "episodeDiagnostics": {"type": "object"},
+    "profileDiagnostics": {"type": "array"},
+    "persistenceDiagnostics": {"type": "array"},
+    "mechanismConclusions": {"type": "object"},
+    "globalConclusion": {"type": "object"},
+    "decision": {"type": "object"},
+    "protocol": {"type": "object"},
+    "implementation": {"type": "object"}
+  }
+}

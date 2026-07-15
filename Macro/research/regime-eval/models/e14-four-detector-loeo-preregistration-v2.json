@@ -1,0 +1,146 @@
+{
+  "schemaVersion": 2,
+  "preregistrationId": "e14-four-detector-loeo-preregistration-v2",
+  "frozenAt": "2026-07-15",
+  "inputHashes": {
+    "taxonomyV5Sha256": "d141416d08b68e932bc6cd2a25b9cd0eab06d159b8904907b7fff29d8c637d50",
+    "candidateManifestV2Sha256": "a41040eca75e9f7009c03efc9ee850979fd1776a98fb28d5e2b30128defadccb",
+    "candidateManifestAuditV2Sha256": "3ab76146a05ce1860f774e98b3c6c557d96e58350cc002e27826343039fe9c6f",
+    "featureFoundationV2Sha256": "c069de82199f203786c405ef65c559f232f92053d47a8da4280cfde2b14f3127",
+    "featureFoundationLockV2Sha256": "110cec532fa0a479a975c36d927f36a08bf8daa4e53dafd598b8c5306fcecf85",
+    "featureFoundationAuditV2Sha256": "9940caae99522c994ec6ae5405af5b173fb2b75ca980195ecc90d707d9ded735",
+    "candidateProtocolV2Sha256": "edf3cbeb9bb77d502109fc25ccdb463d9f39f7496f7c24039468c70e7c379955",
+    "protocolReadinessAuditV2Sha256": "565ccb0d6f7d28443d650f705c0e7f8f14656b2b1b8986c2a90a13fe4625a3e8"
+  },
+  "scope": "nested-inner-development-only-current-history-revision-limited",
+  "mechanisms": [
+    "banking-credit",
+    "broad-market-repricing",
+    "cross-border-growth",
+    "funding-liquidity"
+  ],
+  "episodePolicy": {
+    "unit": "independent-event-within-mechanism",
+    "positiveSource": "taxonomy-v5-positive-episodes",
+    "hardNegativeSource": "taxonomy-v5-hard-negative-episodes",
+    "candidateObservableEpisodeIdsCopiedFromManifestEligibility": true,
+    "mechanismLabelsRemainIndependent": true,
+    "unlabeledMonthsAreNotNegatives": true,
+    "ambiguousMonthsExcludedFromScoring": true,
+    "crossMechanismLabelsForbiddenForTraining": true
+  },
+  "foldPolicy": {
+    "method": "leave-one-independent-positive-episode-out-within-mechanism",
+    "heldOutPositiveEpisodesPerFold": 1,
+    "trainingPositiveEpisodes": "all-other-observable-independent-positive-episodes-same-mechanism",
+    "trainingControls": "all-observable-independent-hard-negative-episodes-same-mechanism",
+    "candidateFoldAssignmentsFrozenBeforeFitting": true,
+    "heldOutLabelsForbiddenForTransformAndThresholdSelection": true,
+    "minimumTrainingPositiveEpisodesPerFold": 2,
+    "expectedCandidateFoldAssignmentCount": 140,
+    "outerOos": "Forbidden for transform fitting, threshold selection, evaluation, ranking, rescue and promotion."
+  },
+  "temporalPolicy": {
+    "minimumHistoryObservations": 60,
+    "availableOnMustNotExceedScoringMonthEnd": true,
+    "causalTransformsOnly": true,
+    "transformParametersFitOnInnerTrainingOnly": true,
+    "thresholdsFitOnInnerTrainingOnly": true,
+    "missingValuesRemainExplicit": true,
+    "missingObservationCannotBeCarriedAcrossItsCalendarSlot": true,
+    "zeroImputationForbidden": true,
+    "crossMethodologySplicingForbidden": true,
+    "carryBeyondMethodologyCoverageEndForbidden": true
+  },
+  "thresholdSelection": {
+    "quantiles": [0.8, 0.9, 0.95],
+    "quantileValuesComputedFromInnerTrainingScoresOnly": true,
+    "selectedSeparatelyPerDetectorProfileAndFold": true,
+    "objectiveOrder": [
+      "maximize-worst-training-episode-recall",
+      "maximize-mean-training-episode-recall",
+      "minimize-training-hard-negative-alert-rate",
+      "minimize-onset-delay-months",
+      "minimize-recovery-lag-months",
+      "prefer-higher-quantile-on-tie"
+    ],
+    "heldOutLabelsForbidden": true,
+    "unlabeledAlertsReportedNotScored": true
+  },
+  "metricPolicy": {
+    "required": [
+      "episode-hit-rate",
+      "episode-recall",
+      "worst-episode-recall",
+      "onset-delay-months",
+      "recovery-lag-months",
+      "hard-negative-alert-rate",
+      "threshold-range",
+      "unlabeled-alert-count-reported-not-scored"
+    ],
+    "aggregateSeparatelyPerMechanism": true,
+    "candidateComplexityReported": true,
+    "foldDispersionReported": true,
+    "missingMetricCannotPass": true
+  },
+  "absoluteGatePolicy": {
+    "sameRequirementsForEveryMechanism": true,
+    "requirements": {
+      "minimumObservablePositiveEpisodes": 3,
+      "minimumObservableHardNegativeEpisodes": 2,
+      "minimumEpisodeHitRate": 0.67,
+      "minimumMeanEpisodeRecall": 0.5,
+      "minimumWorstEpisodeRecall": 0.25,
+      "maximumHardNegativeAlertRate": 0.2,
+      "maximumMedianOnsetDelayMonths": 2,
+      "maximumMedianRecoveryLagMonths": 3,
+      "maximumThresholdRange": 0.15
+    },
+    "everyRequirementMustPassIndependently": true,
+    "relativeRankCannotRescueFailedGate": true,
+    "otherMechanismCannotRescueFailedGate": true,
+    "missingFundingSensitivityBlocksFundingRanking": true
+  },
+  "fundingBoundarySensitivity": {
+    "seriesId": "e14-fedfunds-minus-tbill-monthly",
+    "boundaryMonth": "2019-01-01",
+    "primaryWindow": "all-observations-through-2025-12-subject-to-inner-fold",
+    "diagnosticReferenceWindow": "observations-before-2019-01-only",
+    "requiredReports": [
+      "training-threshold-q80-q90-q95-full-versus-pre2019",
+      "normalized-threshold-shift-by-pre2019-iqr",
+      "alert-rate-before-versus-after-boundary",
+      "episode-metrics-split-by-pre-and-post-boundary-labels",
+      "insufficient-positive-episodes-in-pre2019-window-explicit"
+    ],
+    "sensitivityUsesInnerRowsOnly": true,
+    "pre2019WindowIsNotAnAlternativeEligibilityGate": true,
+    "distributionEquivalenceClaimForbidden": true,
+    "missingSensitivityReportBlocksRanking": true
+  },
+  "snapshotDriftPolicy": {
+    "strictVintageReady": false,
+    "currentFoundationHashIsResearchBaseline": true,
+    "foundationAndRawSnapshotHashesMustMatchBeforeEvaluation": true,
+    "changedSnapshotRequiresNewAuditNotSilentReuse": true,
+    "currentHistoryCannotAuthorizeOperationalPromotion": true
+  },
+  "selectionPolicy": {
+    "ranking": "pareto-within-mechanism-after-all-absolute-gates",
+    "maximumShortlistPerMechanism": 2,
+    "crossMechanismComparisonForbidden": true,
+    "shortlistProducedInThisStep": false,
+    "compositionProducedInThisStep": false
+  },
+  "authorizationPolicy": {
+    "preregistrationAuditAuthorized": true,
+    "innerFeatureTransformationAuthorizedOnPass": true,
+    "innerCandidateFittingAuthorizedOnPass": true,
+    "innerLoeoEvaluationAuthorizedOnPass": true,
+    "partialMechanismFittingAuthorized": false,
+    "candidateRankingAuthorizedNow": false,
+    "crossMechanismCompositionAuthorized": false,
+    "outerOosAuthorized": false,
+    "promotionAuthorized": false
+  }
+}

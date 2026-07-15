@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://macro-regime.local/schemas/e14-four-detector-loeo-preregistration-v2.json",
+  "title": "E14 four-detector inner LOEO preregistration v2",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion", "preregistrationId", "frozenAt", "inputHashes",
+    "scope", "mechanisms", "episodePolicy", "foldPolicy", "temporalPolicy",
+    "thresholdSelection", "metricPolicy", "absoluteGatePolicy",
+    "fundingBoundarySensitivity", "snapshotDriftPolicy", "selectionPolicy",
+    "authorizationPolicy"
+  ],
+  "properties": {
+    "schemaVersion": {"const": 2},
+    "preregistrationId": {"const": "e14-four-detector-loeo-preregistration-v2"},
+    "frozenAt": {"type": "string", "format": "date"},
+    "inputHashes": {"type": "object"},
+    "scope": {"const": "nested-inner-development-only-current-history-revision-limited"},
+    "mechanisms": {"type": "array", "minItems": 4, "maxItems": 4, "uniqueItems": true},
+    "episodePolicy": {"type": "object"},
+    "foldPolicy": {"type": "object"},
+    "temporalPolicy": {"type": "object"},
+    "thresholdSelection": {"type": "object"},
+    "metricPolicy": {"type": "object"},
+    "absoluteGatePolicy": {"type": "object"},
+    "fundingBoundarySensitivity": {"type": "object"},
+    "snapshotDriftPolicy": {"type": "object"},
+    "selectionPolicy": {"type": "object"},
+    "authorizationPolicy": {"type": "object"}
+  }
+}

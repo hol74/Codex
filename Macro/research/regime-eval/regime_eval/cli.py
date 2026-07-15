@@ -38,6 +38,9 @@ from .e14_candidate_manifest_v2 import write_e14_candidate_manifest_v2
 from .e14_candidate_protocol import write_e14_candidate_protocol_readiness
 from .e14_candidate_generator import write_e14_candidate_manifest
 from .e14_loeo_preregistration import write_e14_loeo_preregistration_audit
+from .e14_loeo_preregistration_v2 import write_e14_loeo_preregistration_audit_v2
+from .e14_loeo_evaluation_v2 import write_e14_loeo_evaluation_v2
+from .e14_no_go_diagnostic import write_e14_no_go_diagnostic
 from .e14_coverage_repair import write_e14_coverage_repair_audit
 from .e14_taxonomy_v4 import write_e14_taxonomy_v4
 from .e14_taxonomy_v5 import write_e14_taxonomy_v5
@@ -78,6 +81,38 @@ def main(argv: list[str] | None = None) -> int:
     parser = _parser()
     args = parser.parse_args(argv)
     try:
+        if args.command == "e14-diagnose-loeo-no-go":
+            output = write_e14_no_go_diagnostic(
+                args.contract, args.taxonomy, args.candidate_manifest,
+                args.candidate_protocol, args.preregistration,
+                args.preregistration_audit, args.loeo_report,
+                args.diagnostic_schema, args.output,
+            )
+            print(output)
+            return 0
+        if args.command == "e14-loeo-evaluate-v2":
+            output = write_e14_loeo_evaluation_v2(
+                args.contract, args.taxonomy, args.candidate_manifest,
+                args.candidate_manifest_audit, args.foundation,
+                args.foundation_lock, args.foundation_audit,
+                args.candidate_protocol, args.protocol_audit,
+                args.preregistration, args.preregistration_audit,
+                args.report_schema, args.output,
+            )
+            print(output)
+            return 0
+        if args.command == "e14-preregister-loeo-v2":
+            output = write_e14_loeo_preregistration_audit_v2(
+                args.contract, args.taxonomy, args.candidate_manifest,
+                args.candidate_manifest_audit, args.foundation,
+                args.foundation_lock, args.foundation_audit,
+                args.candidate_protocol, args.protocol_audit,
+                args.preregistration, args.preregistration_schema,
+                args.output,
+            )
+            print(output)
+            report = json.loads(output.read_text(encoding="utf-8"))
+            return 0 if report["decision"]["fullFourMechanismReadiness"] else 3
         if args.command == "e14-materialize-candidate-manifest-v2":
             manifest, output = write_e14_candidate_manifest_v2(
                 args.contract, args.taxonomy, args.foundation,
@@ -963,6 +998,52 @@ def _parser() -> argparse.ArgumentParser:
     e14_manifest_v2.add_argument("--manifest-schema", required=True)
     e14_manifest_v2.add_argument("--manifest-output", required=True)
     e14_manifest_v2.add_argument("--output", required=True)
+    e14_loeo_v2 = subparsers.add_parser(
+        "e14-preregister-loeo-v2",
+        help="freeze E14.6f inner-only LOEO folds and absolute gates before any fitting",
+    )
+    e14_loeo_v2.add_argument("--contract", required=True)
+    e14_loeo_v2.add_argument("--taxonomy", required=True)
+    e14_loeo_v2.add_argument("--candidate-manifest", required=True)
+    e14_loeo_v2.add_argument("--candidate-manifest-audit", required=True)
+    e14_loeo_v2.add_argument("--foundation", required=True)
+    e14_loeo_v2.add_argument("--foundation-lock", required=True)
+    e14_loeo_v2.add_argument("--foundation-audit", required=True)
+    e14_loeo_v2.add_argument("--candidate-protocol", required=True)
+    e14_loeo_v2.add_argument("--protocol-audit", required=True)
+    e14_loeo_v2.add_argument("--preregistration", required=True)
+    e14_loeo_v2.add_argument("--preregistration-schema", required=True)
+    e14_loeo_v2.add_argument("--output", required=True)
+    e14_evaluate_v2 = subparsers.add_parser(
+        "e14-loeo-evaluate-v2",
+        help="execute E14.6g causal inner-only fitting and the 140 frozen LOEO folds",
+    )
+    e14_evaluate_v2.add_argument("--contract", required=True)
+    e14_evaluate_v2.add_argument("--taxonomy", required=True)
+    e14_evaluate_v2.add_argument("--candidate-manifest", required=True)
+    e14_evaluate_v2.add_argument("--candidate-manifest-audit", required=True)
+    e14_evaluate_v2.add_argument("--foundation", required=True)
+    e14_evaluate_v2.add_argument("--foundation-lock", required=True)
+    e14_evaluate_v2.add_argument("--foundation-audit", required=True)
+    e14_evaluate_v2.add_argument("--candidate-protocol", required=True)
+    e14_evaluate_v2.add_argument("--protocol-audit", required=True)
+    e14_evaluate_v2.add_argument("--preregistration", required=True)
+    e14_evaluate_v2.add_argument("--preregistration-audit", required=True)
+    e14_evaluate_v2.add_argument("--report-schema", required=True)
+    e14_evaluate_v2.add_argument("--output", required=True)
+    e14_diagnostic = subparsers.add_parser(
+        "e14-diagnose-loeo-no-go",
+        help="decompose the E14.6g no-go without retuning or reevaluating candidates",
+    )
+    e14_diagnostic.add_argument("--contract", required=True)
+    e14_diagnostic.add_argument("--taxonomy", required=True)
+    e14_diagnostic.add_argument("--candidate-manifest", required=True)
+    e14_diagnostic.add_argument("--candidate-protocol", required=True)
+    e14_diagnostic.add_argument("--preregistration", required=True)
+    e14_diagnostic.add_argument("--preregistration-audit", required=True)
+    e14_diagnostic.add_argument("--loeo-report", required=True)
+    e14_diagnostic.add_argument("--diagnostic-schema", required=True)
+    e14_diagnostic.add_argument("--output", required=True)
     e14_taxonomy_v4 = subparsers.add_parser(
         "e14-materialize-taxonomy-v4",
         help="version the accepted E14 foundation proposal into an immutable mechanism-aware taxonomy v4",

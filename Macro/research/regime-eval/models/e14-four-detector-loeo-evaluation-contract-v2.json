@@ -1,0 +1,50 @@
+{
+  "schemaVersion": 2,
+  "contractId": "e14-four-detector-loeo-evaluation-contract-v2",
+  "frozenAt": "2026-07-15",
+  "inputHashes": {
+    "taxonomyV5Sha256": "d141416d08b68e932bc6cd2a25b9cd0eab06d159b8904907b7fff29d8c637d50",
+    "candidateManifestV2Sha256": "a41040eca75e9f7009c03efc9ee850979fd1776a98fb28d5e2b30128defadccb",
+    "candidateManifestAuditV2Sha256": "3ab76146a05ce1860f774e98b3c6c557d96e58350cc002e27826343039fe9c6f",
+    "featureFoundationV2Sha256": "c069de82199f203786c405ef65c559f232f92053d47a8da4280cfde2b14f3127",
+    "featureFoundationLockV2Sha256": "110cec532fa0a479a975c36d927f36a08bf8daa4e53dafd598b8c5306fcecf85",
+    "featureFoundationAuditV2Sha256": "9940caae99522c994ec6ae5405af5b173fb2b75ca980195ecc90d707d9ded735",
+    "candidateProtocolV2Sha256": "edf3cbeb9bb77d502109fc25ccdb463d9f39f7496f7c24039468c70e7c379955",
+    "protocolReadinessAuditV2Sha256": "565ccb0d6f7d28443d650f705c0e7f8f14656b2b1b8986c2a90a13fe4625a3e8",
+    "loeoPreregistrationV2Sha256": "5c2b4014d2e2d4e58ef00f95d6a7122ed0c4e2983eab06191e8c4fc6620a8e1f",
+    "loeoPreregistrationAuditV2Sha256": "db28f35a8165ea6a50d165a28e4652b98c6b9540f64cb4cfcf53a7c0add8c15a",
+    "loeoReportSchemaV2Sha256": "73c179bf4ef32171ad87850a39b327442de2125c0d23ad36cdc42ee6db698a8c"
+  },
+  "expectedCandidateCount": 28,
+  "expectedFoldAssignmentCount": 140,
+  "expectedFoldAssignmentCounts": {
+    "banking-credit": 12,
+    "broad-market-repricing": 96,
+    "cross-border-growth": 20,
+    "funding-liquidity": 12
+  },
+  "absoluteGateRequirements": {
+    "minimumObservablePositiveEpisodes": 3,
+    "minimumObservableHardNegativeEpisodes": 2,
+    "minimumEpisodeHitRate": 0.67,
+    "minimumMeanEpisodeRecall": 0.5,
+    "minimumWorstEpisodeRecall": 0.25,
+    "maximumHardNegativeAlertRate": 0.2,
+    "maximumMedianOnsetDelayMonths": 2,
+    "maximumMedianRecoveryLagMonths": 3,
+    "maximumThresholdRange": 0.15
+  },
+  "expectedStatus": "INNER_LOEO_V2_EVALUATED_ABSOLUTE_GATES_APPLIED_OUTER_OOS_CLOSED",
+  "authorizationPolicy": {
+    "innerFeatureTransformationAuthorized": true,
+    "innerCandidateFittingAuthorized": true,
+    "innerLoeoEvaluationAuthorized": true,
+    "candidateRankingAuthorizedNow": false,
+    "withinMechanismRankingAuthorizedOnAllMechanismsHavePassingCandidate": true,
+    "crossMechanismCompositionAuthorized": false,
+    "outerOosAuthorized": false,
+    "promotionAuthorized": false
+  },
+  "passingNextAction": "E14.7 preregister within-mechanism ranking and shortlist only among absolute-gate passers; do not compose detectors or inspect outer OOS",
+  "failingNextAction": "close E14.6 with a mechanism-specific no-go or preregister a new information hypothesis; no post-hoc threshold tuning, ranking rescue, composition or outer OOS"
+}

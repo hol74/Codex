@@ -859,12 +859,55 @@ copertura degli episodi.
      `readiness-planned-not-generated-not-fit` -> `research-generated-not-fit`;
    - generation audit positivo, zero feature trasformate, zero righe outer e
      fitting/evaluation/ranking ancora chiusi.
-12. E14.6f - preregistrazione fitting e LOEO v2 (PROSSIMO PASSO):
+12. E14.6f - preregistrazione fitting e LOEO v2 (COMPLETATO):
    - congelare dataset, fold leave-one-episode-out, trasformazioni train-only,
      gate assoluti per meccanismo e sensitivity funding 2019;
    - autorizzare il fitting inner-only soltanto dopo verifica hash-bound di
      manifest, protocollo e foundation v2;
    - mantenere outer OOS, composizione e promozione chiusi.
+   - esito reale: 28/28 candidati eleggibili e 140 assegnazioni LOEO congelate
+     (12 banking, 96 broad, 20 cross-border, 12 funding);
+   - gate assoluti, soglie q80/q90/q95 train-only, diagnostica funding 2019 e
+     controllo snapshot drift sono congelati prima del fitting;
+   - autorizzati per il solo passo successivo trasformazioni causali, fitting e
+     evaluation inner-only; nessuna di queste operazioni e' stata ancora
+     eseguita e ranking, outer OOS, composizione e promozione restano chiusi.
+13. E14.6g - esecuzione fitting e LOEO v2 (COMPLETATO, NO-GO):
+   - calcolare trasformazioni causali sui soli training row di ciascun fold;
+   - selezionare soglie e fittare i 28 candidati separatamente per meccanismo;
+   - valutare i 140 fold preregistrati, produrre metriche assolute e sensitivity
+     funding 2019 senza ranking o accesso all'outer OOS.
+   - esito reale: 28/28 candidati valutati sui 140 fold congelati, con
+     trasformazioni percentile causali midrank, missingness esplicita e soglie
+     q80/q90/q95 selezionate solo sui training score;
+   - zero candidati supera tutti i gate assoluti in ciascuno dei quattro
+     meccanismi; il migliore banking raggiunge hit rate 0,667 e mean recall
+     0,50 ma worst recall 0, mentre broad, cross-border e funding restano
+     rispettivamente a hit rate massimo 0,167, 0,40 e 0;
+   - sensitivity funding completa su 12 fold-candidato, inclusi confronti
+     q80/q90/q95 full/pre-2019 e metriche episodio pre/post;
+   - ranking, shortlist, composizione, outer OOS e promozione restano chiusi.
+14. E14.6h - consolidamento no-go e nuova ipotesi informativa (COMPLETATO):
+   - decomporre i fallimenti per episodio, profilo e componente informativa;
+   - distinguere assenza di segnale, direzione/trasformazione inadeguata e
+     label eterogenee senza ritoccare post-hoc soglie o gate;
+   - decidere se chiudere E14 con no-go oppure preregistrare una nuova
+     foundation/candidate grammar prima di qualsiasi nuova valutazione.
+   - esito: zero fallimenti del gate hard-negative e zero fallimenti di
+     threshold range; il limite dominante e' esclusivamente la generalizzazione
+     positiva cross-episode, con worst recall zero per tutti i 28 candidati;
+   - banking manca interamente euro-sovereign 2011, broad manca 5 episodi su 6,
+     cross-border 3 su 5 e funding tutti e 3;
+   - chiusa con no-go l'intera famiglia v2 esistente; autorizzato soltanto il
+     design preregistrato di una nuova ipotesi informativa, senza materializzare
+     dati, generare o rivalutare candidati.
+15. E14.7 - preregistrazione nuova ipotesi informativa (PROSSIMO PASSO):
+   - definire famiglie feature complementari per meccanismo con firme attese
+     episodio per episodio e fonti verificabili;
+   - separare onset, intensita' e recovery e congelare direzione, trasformazione
+     e ablation prima di popolare nuovi dati;
+   - mantenere taxonomy v5, gate, fitting, ranking, composizione e outer OOS
+     immutati/chiusi fino a un nuovo readiness audit.
 
 Analisi E14:
 `docs/e14-riesame-problema-informativo.md`.
@@ -952,6 +995,15 @@ Checkpoint E14.6d:
 
 Checkpoint E14.6e:
 `docs/checkpoints/0087-fase-e14-6e-candidate-manifest-v2-generated.md`.
+
+Checkpoint E14.6f:
+`docs/checkpoints/0088-fase-e14-6f-loeo-v2-preregistered.md`.
+
+Checkpoint E14.6g:
+`docs/checkpoints/0089-fase-e14-6g-loeo-v2-no-go.md`.
+
+Checkpoint E14.6h:
+`docs/checkpoints/0090-fase-e14-6h-no-go-diagnostic.md`.
 
 
 

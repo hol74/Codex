@@ -1,0 +1,41 @@
+{
+  "schemaVersion": 1,
+  "contractId": "e14-loeo-no-go-diagnostic-contract-v1",
+  "frozenAt": "2026-07-15",
+  "inputHashes": {
+    "taxonomyV5Sha256": "d141416d08b68e932bc6cd2a25b9cd0eab06d159b8904907b7fff29d8c637d50",
+    "candidateManifestV2Sha256": "a41040eca75e9f7009c03efc9ee850979fd1776a98fb28d5e2b30128defadccb",
+    "candidateProtocolV2Sha256": "edf3cbeb9bb77d502109fc25ccdb463d9f39f7496f7c24039468c70e7c379955",
+    "loeoPreregistrationV2Sha256": "5c2b4014d2e2d4e58ef00f95d6a7122ed0c4e2983eab06191e8c4fc6620a8e1f",
+    "loeoPreregistrationAuditV2Sha256": "db28f35a8165ea6a50d165a28e4652b98c6b9540f64cb4cfcf53a7c0add8c15a",
+    "loeoReportV2Sha256": "e0912b017aaeddb15c1f218107c1aa7a58df2643b55293a0354bc769ea59e855",
+    "diagnosticSchemaV1Sha256": "7afe7364b374fe2c215921758135eb9530eedcce4732c8fb765a55770ddf6ece"
+  },
+  "expectedCandidateCount": 28,
+  "expectedFoldCount": 140,
+  "expectedPassingCandidateCount": 0,
+  "decisionPolicy": {
+    "lowHardNegativeAlertDoesNotRescuePositiveGeneralizationFailure": true,
+    "stableThresholdsDoNotRescuePositiveGeneralizationFailure": true,
+    "postHocThresholdRetuningForbidden": true,
+    "absoluteGateRelaxationForbidden": true,
+    "relativeRankingRescueForbidden": true,
+    "existingCandidateFamilyMustClose": true,
+    "newInformationHypothesisRequiresPreregistration": true
+  },
+  "authorizationPolicy": {
+    "noGoDiagnosticAuthorized": true,
+    "newInformationHypothesisDesignAuthorizedOnNoGo": true,
+    "taxonomyMutationAuthorized": false,
+    "featureFoundationMaterializationAuthorized": false,
+    "candidateGenerationAuthorized": false,
+    "candidateFittingAuthorized": false,
+    "candidateEvaluationAuthorized": false,
+    "candidateRankingAuthorized": false,
+    "crossMechanismCompositionAuthorized": false,
+    "outerOosAuthorized": false,
+    "promotionAuthorized": false
+  },
+  "expectedStatus": "LOEO_V2_NO_GO_DIAGNOSED_NEW_INFORMATION_HYPOTHESIS_REQUIRED",
+  "nextAllowedAction": "E14.7 preregister a finite mechanism-specific information hypothesis with evidence-backed feature families and episode-level expected signatures; do not materialize data, generate candidates, retune gates or reevaluate in E14.6h"
+}

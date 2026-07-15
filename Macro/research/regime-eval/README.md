@@ -792,3 +792,59 @@ il lifecycle in `research-generated-not-fit`. Il manifest ha generation ID
 L'audit conferma zero trasformazioni e zero righe outer. Il prossimo passo
 E14.6f deve preregistrare fitting inner-only e LOEO v2 prima di calcolare
 qualsiasi feature o soglia.
+
+E14.6f congela fold e gate prima del fitting:
+
+```text
+python -m regime_eval e14-preregister-loeo-v2 --contract models/e14-four-detector-loeo-readiness-contract-v2.json --taxonomy ground-truth/us-financial-stress-v5.json --candidate-manifest models/e14-generated-four-detector-candidates-v2.json --candidate-manifest-audit ../../data/historical-real-v12-2008-2025/challengers/e14-four-detector-candidate-manifest-audit-v2.json --foundation ../../data/historical-real-v12-2008-2025/e14-feature-foundation-v2/e14-mechanism-feature-foundation-v2.json --foundation-lock models/e14-mechanism-feature-foundation-lock-v2.json --foundation-audit ../../data/historical-real-v12-2008-2025/challengers/e14-mechanism-feature-foundation-audit-v2.json --candidate-protocol models/e14-four-detector-candidate-generation-protocol-v2.json --protocol-audit ../../data/historical-real-v12-2008-2025/challengers/e14-four-detector-protocol-readiness-audit-v2.json --preregistration models/e14-four-detector-loeo-preregistration-v2.json --preregistration-schema models/e14-four-detector-loeo-preregistration-schema-v2.json --output ../../data/historical-real-v12-2008-2025/challengers/e14-four-detector-loeo-preregistration-audit-v2.json
+```
+
+L'audit congela 140 fold candidato-episodio: 12 banking, 96 broad, 20
+cross-border e 12 funding. Ogni fold esclude il positivo held-out da
+trasformazioni e selezione soglia; le q80/q90/q95 sono calcolabili soltanto sui
+training score. I gate assoluti non ammettono salvataggi per ranking relativo o
+per risultato di un altro meccanismo. La sensitivity funding 2019 e il
+controllo degli hash snapshot sono obbligatori prima del ranking.
+
+Lo stato
+`INNER_LOEO_V2_PREREGISTERED_FULL_READINESS_FITTING_EVALUATION_AUTHORIZED_OUTER_OOS_CLOSED`
+autorizza E14.6g a eseguire trasformazioni, fitting e valutazione inner-only.
+E14.6f non ha eseguito nessuna di queste operazioni; ranking, composizione,
+outer OOS e promozione restano chiusi.
+
+E14.6g esegue i 140 fold congelati:
+
+```text
+python -m regime_eval e14-loeo-evaluate-v2 --contract models/e14-four-detector-loeo-evaluation-contract-v2.json --taxonomy ground-truth/us-financial-stress-v5.json --candidate-manifest models/e14-generated-four-detector-candidates-v2.json --candidate-manifest-audit ../../data/historical-real-v12-2008-2025/challengers/e14-four-detector-candidate-manifest-audit-v2.json --foundation ../../data/historical-real-v12-2008-2025/e14-feature-foundation-v2/e14-mechanism-feature-foundation-v2.json --foundation-lock models/e14-mechanism-feature-foundation-lock-v2.json --foundation-audit ../../data/historical-real-v12-2008-2025/challengers/e14-mechanism-feature-foundation-audit-v2.json --candidate-protocol models/e14-four-detector-candidate-generation-protocol-v2.json --protocol-audit ../../data/historical-real-v12-2008-2025/challengers/e14-four-detector-protocol-readiness-audit-v2.json --preregistration models/e14-four-detector-loeo-preregistration-v2.json --preregistration-audit ../../data/historical-real-v12-2008-2025/challengers/e14-four-detector-loeo-preregistration-audit-v2.json --report-schema models/e14-four-detector-loeo-report-schema-v2.json --output ../../data/historical-real-v12-2008-2025/challengers/e14-four-detector-loeo-report-v2.json
+```
+
+La trasformazione usa percentile causale midrank, cosi' gli zeri ripetuti FDIC
+non diventano artificialmente valori di stress elevato. Il valore held-out puo'
+essere trasformato come input corrente, ma non entra nella storia usata dai
+mesi successivi. Missingness non viene imputata e azzera la persistenza.
+
+L'esito e' un no-go: zero candidati su 28 supera tutti i gate. I migliori hit
+rate per meccanismo sono 0,667 banking, 0,167 broad, 0,40 cross-border e zero
+funding. La sensitivity funding e' completa su 12 fold-candidato, ma non puo'
+recuperare i gate positivi falliti. Non sono prodotti ranking o shortlist e
+outer OOS resta chiuso. Il prossimo passo E14.6h deve riesaminare il problema
+informativo per episodio e profilo oppure chiudere E14 con un no-go esplicito;
+il tuning post-hoc delle soglie e' vietato.
+
+E14.6h decompone il no-go senza rieseguire il modello:
+
+```text
+python -m regime_eval e14-diagnose-loeo-no-go --contract models/e14-loeo-no-go-diagnostic-contract-v1.json --taxonomy ground-truth/us-financial-stress-v5.json --candidate-manifest models/e14-generated-four-detector-candidates-v2.json --candidate-protocol models/e14-four-detector-candidate-generation-protocol-v2.json --preregistration models/e14-four-detector-loeo-preregistration-v2.json --preregistration-audit ../../data/historical-real-v12-2008-2025/challengers/e14-four-detector-loeo-preregistration-audit-v2.json --loeo-report ../../data/historical-real-v12-2008-2025/challengers/e14-four-detector-loeo-report-v2.json --diagnostic-schema models/e14-loeo-no-go-diagnostic-schema-v1.json --output ../../data/historical-real-v12-2008-2025/challengers/e14-loeo-no-go-diagnostic-v1.json
+```
+
+Il diagnostico mostra zero fallimenti del gate hard-negative alert e zero
+fallimenti del threshold range: falsi allarmi sui controlli e instabilita' delle
+soglie non spiegano il no-go. Tutti i candidati hanno invece worst episode
+recall zero. Banking manca euro-sovereign 2011, broad manca cinque episodi su
+sei, cross-border tre su cinque e funding tutti i positivi.
+
+Lo stato `LOEO_V2_NO_GO_DIAGNOSED_NEW_INFORMATION_HYPOTHESIS_REQUIRED` chiude
+l'attuale famiglia v2. Autorizza soltanto E14.7, il design preregistrato di
+nuove firme informative complementari; non autorizza modifica taxonomy,
+materializzazione foundation, generation, fitting, evaluation, ranking,
+composizione o outer OOS.
