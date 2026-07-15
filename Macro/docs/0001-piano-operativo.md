@@ -993,7 +993,7 @@ copertura degli episodi.
    - taxonomy v5, fonti, dataset, fitting, evaluation e outer OOS restano
      immutati/chiusi.
 20. E14.7e - post-2005 scope and banking hard-negative feasibility
-    (PROSSIMO PASSO):
+    (COMPLETATO):
    - preregistrare criteri e candidati documentali per almeno 2 hard negative
      banking-credit post-2005, indipendenti dai positivi e dagli esiti modello;
    - riesaminare la disponibilita' source/vintage nel nuovo scope senza
@@ -1001,6 +1001,26 @@ copertura degli episodi.
      bloccate E14.7c;
    - autorizzare una proposta di taxonomy separata soltanto se positivi,
      controlli e fonti raggiungono la fattibilita' minima congelata.
+   - esito controlli: `london-whale-contained-2012` e
+     `archegos-contained-2021` sono due candidati documentali indipendenti,
+     post-cutoff e senza sovrapposizione con finestre positive;
+   - entrambi hanno evidenza evento provider-primary ed evidenza separata di
+     contenimento sistemico; non sono ancora label accettate in taxonomy;
+   - conteggi dopo i candidati: positivi 2/4/2/2 e hard negative 2/2/2/2 per
+     banking, broad, cross-border e funding;
+   - pronte esattamente 4 famiglie di fattibilita', una per meccanismo: H.8/QBP
+     archiviati, DGS2-DGS10 con vintages ALFRED post-2005, H.10 release archive
+     e DCPF3M-DTB3 con regimi CP espliciti;
+   - lo scope non e' attivo: e' autorizzata soltanto la preregistrazione di una
+     proposta taxonomy separata e della relativa review indipendente.
+21. E14.7f - post-2005 taxonomy proposal and independent-review queue
+    (PROSSIMO PASSO):
+   - materializzare una proposta con identificatori nuovi senza mutare
+     `us-financial-stress-v5.json`;
+   - creare dossier hash-bound per i due controlli banking e una queue
+     write-once per revisori indipendenti;
+   - mantenere acquisizione osservazioni, foundation, candidati, evaluation e
+     outer OOS chiusi fino all'accettazione esplicita della proposta.
 
 Analisi E14:
 `docs/e14-riesame-problema-informativo.md`.
@@ -1112,6 +1132,9 @@ Checkpoint E14.7c:
 
 Checkpoint E14.7d:
 `docs/checkpoints/0095-fase-e14-7d-vintage-policy-post-2005-selected.md`.
+
+Checkpoint E14.7e:
+`docs/checkpoints/0096-fase-e14-7e-post2005-scope-feasible.md`.
 
 
 

@@ -852,6 +852,18 @@ Checkpoint in corso: `docs/checkpoints/0034-fase-e-slice6-feature-baseline-redes
   `98af6a7b301240d2ff9ba763dc1f4e579676774361237dc1c61296e1c64eda69`;
   autorizza soltanto E14.7e, design di scope/fonti e controlli banking senza
   mutare taxonomy o acquisire osservazioni. La regressione supera 158/158 test.
+- Fase E14.7e - fattibilita' scope post-2005: congelati due nuovi candidati
+  hard-negative banking-credit, London Whale 2012 e Archegos 2021. Sono eventi
+  distinti dai positivi, senza sovrapposizioni temporali, con evidenza evento
+  provider-primary ed evidenza indipendente di contenimento sistemico. I
+  conteggi diventano 2/2/2/2 hard negative contro 2/4/2/2 positivi. Il nuovo
+  audit non eredita automaticamente le famiglie bloccate E14.7c e identifica
+  una famiglia source/vintage `ready` per meccanismo: H.8/QBP per banking,
+  DGS2-DGS10 per broad, H.10 per cross-border e DCPF3M-DTB3 per funding. Audit
+  SHA-256 `0b4869ed5a774248b7223b41ac7e49d1624587bb2536857536eeb8e1736b27bd`.
+  E' autorizzata soltanto E14.7f, proposta taxonomy separata con dossier e
+  queue di review indipendente; scope, dati, foundation e modelli restano
+  chiusi. La regressione completa supera 162/162 test Python.
 
 ## Deviazione documentata dal piano originario
 

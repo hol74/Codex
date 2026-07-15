@@ -1,0 +1,141 @@
+{
+  "schemaVersion": 1,
+  "evidencePackId": "e14-post2005-source-feasibility-evidence-v1",
+  "checkedAtUtc": "2026-07-15T15:30:00Z",
+  "networkPolicy": "provider-metadata-only-no-series-observation-download",
+  "documentaryEvidence": [
+    {
+      "sourceId": "us-senate-london-whale-report",
+      "providerPrimary": true,
+      "eventIdentityVerified": true,
+      "systemContainmentEvidence": false,
+      "evidenceUrls": ["https://www.hsgac.senate.gov/wp-content/uploads/imo/media/doc/REPORT%20-%20JPMorgan%20Chase%20Whale%20Trades%20%283-26-13%29.pdf"],
+      "evidenceNotes": ["The Senate investigation identifies the 2012 synthetic-credit portfolio losses and supervisory failures at JPMorgan Chase; it is event evidence, not aggregate containment evidence."]
+    },
+    {
+      "sourceId": "fdic-qbp-2012q2-archive",
+      "providerPrimary": true,
+      "eventIdentityVerified": false,
+      "systemContainmentEvidence": true,
+      "evidenceUrls": ["https://archive.fdic.gov/view/fdic/9095"],
+      "evidenceNotes": ["The FDIC archive fixes the Q2 2012 publication date, supplies an immutable PDF checksum and states that the document is an authentic reproduction of the contemporaneous release."]
+    },
+    {
+      "sourceId": "federal-reserve-archegos-supervisory-assessment",
+      "providerPrimary": true,
+      "eventIdentityVerified": true,
+      "systemContainmentEvidence": true,
+      "evidenceUrls": ["https://www.federalreserve.gov/publications/2021-november-supervision-and-regulation-report-supervisory-developments.htm"],
+      "evidenceNotes": ["The Federal Reserve dates the default to March 26, 2021, records losses above $10 billion principally outside the United States and separately reports stable, well-capitalized community and regional banking organizations."]
+    },
+    {
+      "sourceId": "federal-reserve-2021-financial-stability-report",
+      "providerPrimary": true,
+      "eventIdentityVerified": false,
+      "systemContainmentEvidence": true,
+      "evidenceUrls": ["https://www.federalreserve.gov/publications/2021-november-financial-stability-report-leverage.htm"],
+      "evidenceNotes": ["The November 2021 report states that bank capital and reserves remained above pre-pandemic levels and profitability was strong during the first half of 2021."]
+    },
+    {
+      "sourceId": "fdic-qbp-2021q2-archive",
+      "providerPrimary": true,
+      "eventIdentityVerified": false,
+      "systemContainmentEvidence": true,
+      "evidenceUrls": ["https://www.fdic.gov/analysis/quarterly-banking-profile/qbp/2021jun/"],
+      "evidenceNotes": ["The FDIC QBP collection supplies the contemporaneous system-level publication independently of the event report; its observations remain unopened in this feasibility step."]
+    }
+  ],
+  "sources": [
+    {
+      "sourceId": "federal-reserve-h8-release-archive",
+      "coverageFrom": "2005-12-16",
+      "providerPrimaryPageReachable": true,
+      "licensingCleared": true,
+      "componentCoverageVerified": true,
+      "releaseProofComplete": true,
+      "vintageProofComplete": true,
+      "methodologyManifestFeasible": true,
+      "evidenceUrls": ["https://www.federalreserve.gov/releases/h8/20120921/", "https://www.federalreserve.gov/releases/h8/h8notes.htm"],
+      "evidenceNotes": ["Dated H.8 releases expose release dates and contemporaneous tables; the Board points to archived notes back to December 16, 2005 and explicitly records benchmark revisions in each release."],
+      "blockingReasons": []
+    },
+    {
+      "sourceId": "fdic-qbp-archive",
+      "coverageFrom": "1986-03-31",
+      "providerPrimaryPageReachable": true,
+      "licensingCleared": true,
+      "componentCoverageVerified": true,
+      "releaseProofComplete": true,
+      "vintageProofComplete": true,
+      "methodologyManifestFeasible": true,
+      "evidenceUrls": ["https://www.fdic.gov/analysis/quarterly-banking-profile/qbp/", "https://archive.fdic.gov/view/fdic/9118"],
+      "evidenceNotes": ["The FDIC maintains past QBPs and its archive fixes publication dates and SHA-256 checksums for authentic contemporaneous documents; quarter-specific notes preserve methodology and comparability warnings."],
+      "blockingReasons": []
+    },
+    {
+      "sourceId": "fred-dgs2",
+      "coverageFrom": "1976-06-01",
+      "providerPrimaryPageReachable": true,
+      "licensingCleared": true,
+      "componentCoverageVerified": true,
+      "releaseProofComplete": true,
+      "vintageProofComplete": true,
+      "methodologyManifestFeasible": true,
+      "evidenceUrls": ["https://fred.stlouisfed.org/series/DGS2", "https://alfred.stlouisfed.org/series?seid=DGS2", "https://fred.stlouisfed.org/docs/api/fred/realtime_period.html"],
+      "evidenceNotes": ["Public-domain H.15 data and ALFRED real-time periods are available from June 2005, before the frozen 2006 scope boundary."],
+      "blockingReasons": []
+    },
+    {
+      "sourceId": "fred-dgs10",
+      "coverageFrom": "1962-01-02",
+      "providerPrimaryPageReachable": true,
+      "licensingCleared": true,
+      "componentCoverageVerified": true,
+      "releaseProofComplete": true,
+      "vintageProofComplete": true,
+      "methodologyManifestFeasible": true,
+      "evidenceUrls": ["https://fred.stlouisfed.org/series/DGS10", "https://alfred.stlouisfed.org/series?seid=DGS10", "https://fred.stlouisfed.org/docs/api/fred/series_observations.html"],
+      "evidenceNotes": ["Public-domain H.15 data can be retrieved by historical vintage date; the post-2005 scope removes the vintage gap that blocked the legacy episodes."],
+      "blockingReasons": []
+    },
+    {
+      "sourceId": "federal-reserve-h10-release-archive",
+      "coverageFrom": "2006-01-02",
+      "providerPrimaryPageReachable": true,
+      "licensingCleared": true,
+      "componentCoverageVerified": true,
+      "releaseProofComplete": true,
+      "vintageProofComplete": true,
+      "methodologyManifestFeasible": true,
+      "evidenceUrls": ["https://www.federalreserve.gov/releases/H10/About.HTM", "https://www.federalreserve.gov/datadownload/Review.aspx?filetype=csv&label=include&lastobs=10&layout=seriescolumn&rel=H10&series=122e3bcb627e8e53f1bf72a1a09cfb81&type=package", "https://www.federalreserve.gov/econres/notes/feds-notes/revisions-to-the-federal-reserve-dollar-indexes-20190115.html"],
+      "evidenceNotes": ["The Board states that historical H.10 releases are archived and not revised; nominal Broad and EME dollar indexes begin on the exact frozen scope boundary, while the 2019 methodology change can be represented as a separate regime."],
+      "blockingReasons": []
+    },
+    {
+      "sourceId": "fred-dcpf3m",
+      "coverageFrom": "1997-01-02",
+      "providerPrimaryPageReachable": true,
+      "licensingCleared": true,
+      "componentCoverageVerified": true,
+      "releaseProofComplete": true,
+      "vintageProofComplete": true,
+      "methodologyManifestFeasible": true,
+      "evidenceUrls": ["https://fred.stlouisfed.org/series/DCPF3M", "https://www.federalreserve.gov/releases/CP/about.htm", "https://www.federalreserve.gov/feeds/CP.html"],
+      "evidenceNotes": ["The public-domain 90-day AA financial CP rate has history from 1997 and more than 60 months before the 2019 positive; Board announcements expose the 2006 and 2007 definition regimes and ALFRED supplies post-2005 vintages."],
+      "blockingReasons": []
+    },
+    {
+      "sourceId": "fred-dtb3",
+      "coverageFrom": "1954-01-04",
+      "providerPrimaryPageReachable": true,
+      "licensingCleared": true,
+      "componentCoverageVerified": true,
+      "releaseProofComplete": true,
+      "vintageProofComplete": true,
+      "methodologyManifestFeasible": true,
+      "evidenceUrls": ["https://fred.stlouisfed.org/series/DTB3", "https://alfred.stlouisfed.org/series?seid=DTB3"],
+      "evidenceNotes": ["The ready Treasury-bill reference leg is reused with its previously frozen discount-basis semantics."],
+      "blockingReasons": []
+    }
+  ]
+}

@@ -944,3 +944,24 @@ hard negative sono 0/2/2/2. Lo stato
 `VINTAGE_POLICY_POST_2005_SCOPE_SELECTED_BANKING_CONTROLS_REQUIRED` mantiene lo
 scope inattivo e autorizza soltanto E14.7e: fattibilita' di almeno due nuovi
 controlli banking e nuova mappa source/vintage, senza taxonomy mutation o dati.
+
+E14.7e verifica lo scope post-2005 usando soltanto metadati provider-primary:
+
+```text
+python -m regime_eval e14-audit-post2005-scope-feasibility --contract models/e14-post2005-scope-feasibility-contract-v1.json --taxonomy ground-truth/us-financial-stress-v5.json --vintage-policy-contract models/e14-vintage-policy-decision-contract-v1.json --vintage-policy-plan models/e14-vintage-policy-decision-plan-v1.json --vintage-policy-audit ../../data/historical-real-v12-2008-2025/challengers/e14-vintage-policy-decision-audit-v1.json --scope-plan models/e14-post2005-scope-feasibility-plan-v1.json --source-evidence models/e14-post2005-source-feasibility-evidence-v1.json --scope-schema models/e14-post2005-scope-feasibility-schema-v1.json --output ../../data/historical-real-v12-2008-2025/challengers/e14-post2005-scope-feasibility-audit-v1.json
+```
+
+I due controlli banking preregistrati sono London Whale 2012 e Archegos 2021.
+Le finestre non si sovrappongono ai positivi e ogni candidato dispone di
+evidenza ufficiale dell'evento e di evidenza sistemica separata. Con questi
+candidati i minimi post-cutoff sono soddisfatti: hard negative 2/2/2/2 e
+positivi 2/4/2/2 per banking, broad, cross-border e funding.
+
+Il source audit identifica una famiglia pronta per meccanismo senza ereditare
+automaticamente i blocchi E14.7c: release H.8 e QBP archiviate, DGS2/DGS10 con
+vintages post-2005, release H.10 non revisionate e DCPF3M/DTB3 con break CP
+manifestabili. Lo stato
+`POST_2005_SCOPE_FEASIBLE_TAXONOMY_PROPOSAL_PREREGISTRATION_AUTHORIZED`
+autorizza soltanto E14.7f, cioe' proposta taxonomy separata, dossier hash-bound
+e queue di review indipendente. Non attiva lo scope e non autorizza download,
+taxonomy mutation, foundation, candidati, evaluation o outer OOS.

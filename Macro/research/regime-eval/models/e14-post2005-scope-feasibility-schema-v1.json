@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "e14-post2005-scope-feasibility-schema-v1",
+  "title": "E14.7e Post-2005 Scope Feasibility Plan",
+  "type": "object",
+  "required": ["schemaVersion", "planId", "frozenAt", "scopeId", "cutoffInclusive", "researchBoundary", "feasibilityCriteria", "bankingHardNegativeCandidates", "post2005FeatureFamilies", "governance", "authorizations"],
+  "properties": {
+    "schemaVersion": {"const": 1},
+    "planId": {"const": "e14-post2005-scope-feasibility-plan-v1"},
+    "frozenAt": {"type": "string", "format": "date"},
+    "scopeId": {"const": "e14-post-2005-research-scope-proposal-v1"},
+    "cutoffInclusive": {"const": "2006-01-01"},
+    "researchBoundary": {"type": "string", "minLength": 1},
+    "feasibilityCriteria": {"type": "object"},
+    "bankingHardNegativeCandidates": {"type": "array", "minItems": 2, "uniqueItems": true},
+    "post2005FeatureFamilies": {"type": "array", "minItems": 4, "uniqueItems": true},
+    "governance": {"type": "object"},
+    "authorizations": {"type": "object"}
+  },
+  "additionalProperties": false
+}

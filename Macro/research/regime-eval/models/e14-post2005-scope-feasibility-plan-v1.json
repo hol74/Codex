@@ -1,0 +1,109 @@
+{
+  "schemaVersion": 1,
+  "planId": "e14-post2005-scope-feasibility-plan-v1",
+  "frozenAt": "2026-07-15",
+  "scopeId": "e14-post-2005-research-scope-proposal-v1",
+  "cutoffInclusive": "2006-01-01",
+  "researchBoundary": "Metadata-only feasibility gate. Legacy E14 and taxonomy v5 remain immutable; no observations, foundation rows, candidates, scores or outer OOS may be read or produced.",
+  "feasibilityCriteria": {
+    "minimumPositiveEpisodesPerMechanism": 2,
+    "minimumHardNegativeEpisodesPerMechanism": 2,
+    "minimumNewBankingHardNegativeCandidates": 2,
+    "minimumReadyFeatureFamiliesPerMechanism": 1,
+    "candidateMustUseIndependentEventId": true,
+    "candidateMustNotOverlapPositiveWindow": true,
+    "candidateRequiresProviderPrimaryEventEvidence": true,
+    "candidateRequiresIndependentSystemContainmentEvidence": true,
+    "sourceRequiresReleaseOrEventTimeSnapshot": true,
+    "sourceRequiresResearchSnapshotPermission": true,
+    "methodologyBreaksMustBeExplicit": true
+  },
+  "bankingHardNegativeCandidates": [
+    {
+      "candidateId": "london-whale-contained-2012",
+      "independentEventId": "london-whale-contained-2012",
+      "name": "JPMorgan London Whale loss containment",
+      "mechanism": "banking-credit",
+      "firstMonth": "2012-04-01",
+      "lastMonth": "2012-07-01",
+      "eventEvidenceSourceIds": ["us-senate-london-whale-report"],
+      "containmentEvidenceSourceIds": ["fdic-qbp-2012q2-archive", "federal-reserve-h8-release-archive"],
+      "selectionRationale": "A large bank-specific credit-derivatives loss and supervisory failure is a near-mechanism event, while the separately archived system-level releases permit an independent test that aggregate bank credit, deposits, capital and asset quality did not enter a banking-system stress state.",
+      "proposalStatus": "documentary-feasibility-candidate-not-taxonomy"
+    },
+    {
+      "candidateId": "archegos-contained-2021",
+      "independentEventId": "archegos-contained-2021",
+      "name": "Archegos counterparty default containment",
+      "mechanism": "banking-credit",
+      "firstMonth": "2021-03-01",
+      "lastMonth": "2021-05-01",
+      "eventEvidenceSourceIds": ["federal-reserve-archegos-supervisory-assessment"],
+      "containmentEvidenceSourceIds": ["federal-reserve-2021-financial-stability-report", "fdic-qbp-2021q2-archive"],
+      "selectionRationale": "The counterparty default caused material losses at several banks but official Federal Reserve evidence locates most losses outside the United States and separately documents resilient U.S. bank capital, profitability and credit conditions.",
+      "proposalStatus": "documentary-feasibility-candidate-not-taxonomy"
+    }
+  ],
+  "post2005FeatureFamilies": [
+    {
+      "familyId": "bank-release-archived-balance-sheet-post2005",
+      "mechanism": "banking-credit",
+      "sourceIds": ["federal-reserve-h8-release-archive", "fdic-qbp-archive"],
+      "components": ["deposit-and-bank-credit-change", "borrowings-pressure", "release-available-capital-and-asset-quality"],
+      "minimumHistoryMonths": 60,
+      "applicablePositiveEpisodeIds": ["euro-sovereign-stress-2011", "regional-bank-stress-2023"],
+      "designStatus": "feasibility-only-not-acquired"
+    },
+    {
+      "familyId": "broad-treasury-rate-dislocation-post2005",
+      "mechanism": "broad-market-repricing",
+      "sourceIds": ["fred-dgs2", "fred-dgs10"],
+      "components": ["maximum-absolute-daily-yield-change", "two-ten-curve-rotation", "one-month-yield-range"],
+      "minimumHistoryMonths": 60,
+      "applicablePositiveEpisodeIds": ["euro-sovereign-stress-2011", "taper-tantrum-2013", "china-eme-stress-2015-2016", "risk-repricing-2018q4"],
+      "designStatus": "feasibility-only-not-acquired"
+    },
+    {
+      "familyId": "cross-fed-dollar-shock-post2005",
+      "mechanism": "cross-border-growth",
+      "sourceIds": ["federal-reserve-h10-release-archive"],
+      "components": ["broad-dollar-one-month-change", "eme-dollar-one-month-change", "broad-dollar-acceleration"],
+      "minimumHistoryMonths": 60,
+      "applicablePositiveEpisodeIds": ["taper-tantrum-2013", "china-eme-stress-2015-2016"],
+      "designStatus": "feasibility-only-not-acquired"
+    },
+    {
+      "familyId": "funding-financial-cp-tiering-post2005",
+      "mechanism": "funding-liquidity",
+      "sourceIds": ["fred-dcpf3m", "fred-dtb3"],
+      "components": ["financial-cp-minus-tbill-spread", "one-month-spread-change", "monthly-maximum-spread"],
+      "minimumHistoryMonths": 60,
+      "applicablePositiveEpisodeIds": ["repo-stress-2019", "regional-bank-stress-2023"],
+      "designStatus": "feasibility-only-not-acquired"
+    }
+  ],
+  "governance": {
+    "candidateSelectionUsedSeriesObservations": false,
+    "candidateSelectionUsedLoeoScores": false,
+    "candidateSelectionUsedOuterOos": false,
+    "legacyE14ClosedAndImmutable": true,
+    "legacyTaxonomyV5Unchanged": true,
+    "blockedE14cFamiliesNotAutomaticallyInherited": true,
+    "newScopeRequiresSeparateVersionIdentifiers": true,
+    "feasibilityDoesNotConstituteLabelAcceptance": true,
+    "independentReviewRequiredBeforeTaxonomyProposalAcceptance": true
+  },
+  "authorizations": {
+    "post2005ScopeFeasibilityAuditAuthorized": true,
+    "bankingHardNegativeDocumentaryFeasibilityAuthorized": true,
+    "taxonomyProposalPreregistrationAuthorized": true,
+    "sourceAcquisitionAuthorized": false,
+    "featureFoundationMaterializationAuthorized": false,
+    "taxonomyMutationAuthorized": false,
+    "candidateGenerationAuthorized": false,
+    "candidateFittingAuthorized": false,
+    "candidateEvaluationAuthorized": false,
+    "outerOosAuthorized": false,
+    "promotionAuthorized": false
+  }
+}

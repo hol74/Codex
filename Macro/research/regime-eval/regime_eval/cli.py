@@ -46,6 +46,7 @@ from .e14_source_vintage_feasibility import write_e14_source_vintage_feasibility
 from .e14_feasibility_remediation import write_e14_feasibility_remediation_audit
 from .e14_replacement_source_feasibility import write_e14_replacement_source_feasibility_audit
 from .e14_vintage_policy_decision import write_e14_vintage_policy_decision_audit
+from .e14_post2005_scope_feasibility import write_e14_post2005_scope_feasibility_audit
 from .e14_coverage_repair import write_e14_coverage_repair_audit
 from .e14_taxonomy_v4 import write_e14_taxonomy_v4
 from .e14_taxonomy_v5 import write_e14_taxonomy_v5
@@ -86,6 +87,15 @@ def main(argv: list[str] | None = None) -> int:
     parser = _parser()
     args = parser.parse_args(argv)
     try:
+        if args.command == "e14-audit-post2005-scope-feasibility":
+            output = write_e14_post2005_scope_feasibility_audit(
+                args.contract, args.taxonomy, args.vintage_policy_contract,
+                args.vintage_policy_plan, args.vintage_policy_audit,
+                args.scope_plan, args.source_evidence, args.scope_schema,
+                args.output,
+            )
+            print(output)
+            return 0
         if args.command == "e14-preregister-vintage-policy-decision":
             output = write_e14_vintage_policy_decision_audit(
                 args.contract, args.taxonomy, args.hypothesis_plan,
@@ -1159,6 +1169,19 @@ def _parser() -> argparse.ArgumentParser:
     e14_vintage_policy.add_argument("--decision-plan", required=True)
     e14_vintage_policy.add_argument("--decision-schema", required=True)
     e14_vintage_policy.add_argument("--output", required=True)
+    e14_post2005_feasibility = subparsers.add_parser(
+        "e14-audit-post2005-scope-feasibility",
+        help="audit E14.7e post-2005 controls and source vintages without observations",
+    )
+    e14_post2005_feasibility.add_argument("--contract", required=True)
+    e14_post2005_feasibility.add_argument("--taxonomy", required=True)
+    e14_post2005_feasibility.add_argument("--vintage-policy-contract", required=True)
+    e14_post2005_feasibility.add_argument("--vintage-policy-plan", required=True)
+    e14_post2005_feasibility.add_argument("--vintage-policy-audit", required=True)
+    e14_post2005_feasibility.add_argument("--scope-plan", required=True)
+    e14_post2005_feasibility.add_argument("--source-evidence", required=True)
+    e14_post2005_feasibility.add_argument("--scope-schema", required=True)
+    e14_post2005_feasibility.add_argument("--output", required=True)
     e14_taxonomy_v4 = subparsers.add_parser(
         "e14-materialize-taxonomy-v4",
         help="version the accepted E14 foundation proposal into an immutable mechanism-aware taxonomy v4",
