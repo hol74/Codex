@@ -1,0 +1,98 @@
+{
+  "schemaVersion": 1,
+  "protocolId": "e14-four-detector-candidate-generation-protocol-v1",
+  "frozenAt": "2026-07-15",
+  "taxonomyV5Sha256": "d141416d08b68e932bc6cd2a25b9cd0eab06d159b8904907b7fff29d8c637d50",
+  "featureFoundationSha256": "bca70e5f5ca224fe23e4b29970dc651a2b708c047e3364a3575a235ae80a64b9",
+  "featureFoundationLockSha256": "34448522085f5949e341cc62cda3b8088a47eac9a7f01ea9c5f0a7220d9a61dc",
+  "researchBoundary": "inner-development-only-current-history-snapshot",
+  "candidateBudget": 40,
+  "detectors": {
+    "broad-market-repricing": {
+      "detectorId": "e14-broad-market-repricing-detector",
+      "profiles": [
+        {"profileId": "vix-only", "seriesIds": ["e14-vix-monthly-maximum"], "aggregator": "identity"},
+        {"profileId": "baa10y-only", "seriesIds": ["e14-baa10y-monthly-maximum"], "aggregator": "identity"},
+        {"profileId": "joint-maximum", "seriesIds": ["e14-vix-monthly-maximum", "e14-baa10y-monthly-maximum"], "aggregator": "maximum"},
+        {"profileId": "joint-mean", "seriesIds": ["e14-vix-monthly-maximum", "e14-baa10y-monthly-maximum"], "aggregator": "mean"}
+      ],
+      "candidateCount": 16
+    },
+    "funding-liquidity": {
+      "detectorId": "e14-funding-liquidity-detector",
+      "profiles": [
+        {"profileId": "tedrate-only", "seriesIds": ["e14-tedrate-monthly-maximum"], "aggregator": "identity"}
+      ],
+      "candidateCount": 4
+    },
+    "banking-credit": {
+      "detectorId": "e14-banking-credit-detector",
+      "profiles": [
+        {"profileId": "fdic-only", "seriesIds": ["e14-fdic-noncurrent-loan-rate-quarterly"], "aggregator": "identity"},
+        {"profileId": "baa10y-only", "seriesIds": ["e14-baa10y-monthly-maximum"], "aggregator": "identity"},
+        {"profileId": "joint-maximum", "seriesIds": ["e14-fdic-noncurrent-loan-rate-quarterly", "e14-baa10y-monthly-maximum"], "aggregator": "maximum"},
+        {"profileId": "joint-mean", "seriesIds": ["e14-fdic-noncurrent-loan-rate-quarterly", "e14-baa10y-monthly-maximum"], "aggregator": "mean"}
+      ],
+      "candidateCount": 16
+    },
+    "cross-border-growth": {
+      "detectorId": "e14-cross-border-growth-detector",
+      "profiles": [
+        {"profileId": "dtwexb-only", "seriesIds": ["e14-dtwexb-monthly-maximum-absolute-change"], "aggregator": "identity"}
+      ],
+      "candidateCount": 4
+    }
+  },
+  "thresholdSelection": {
+    "quantiles": [0.8, 0.9, 0.95],
+    "scope": "inner-train-within-leave-one-episode-out",
+    "direction": "higher-is-more-stress",
+    "minimumHistoryMonths": 60,
+    "selectedSeparatelyPerDetectorProfile": true
+  },
+  "persistence": {
+    "entryPersistenceMonths": [1, 2],
+    "recoveryPersistenceMonths": [1, 2],
+    "hysteresisRequired": true
+  },
+  "selectionPolicy": {
+    "method": "leave-one-episode-out-within-inner-validation",
+    "ranking": "pareto-on-mechanism-metrics-stability-and-complexity",
+    "maximumShortlistPerMechanism": 2,
+    "outerOos": "Forbidden for generation, transforms, fitting, ranking, threshold selection and tuning."
+  },
+  "evaluationPolicy": {
+    "labelUnit": "mechanism-month-and-independent-episode",
+    "requiredMetrics": [
+      "episode-hit-rate",
+      "episode-recall",
+      "worst-episode-recall",
+      "onset-delay-months",
+      "recovery-lag-months",
+      "hard-negative-alert-rate",
+      "unlabeled-alert-count-reported-not-scored"
+    ],
+    "positiveAndHardNegativeRequiredPerMechanism": true,
+    "unlabeledMonthsAreNotNegatives": true
+  },
+  "vintageRiskPolicy": {
+    "currentHistorySnapshotsAcceptedForResearchGeneration": true,
+    "strictVintageReady": false,
+    "revisionSensitivityGateRequiredBeforePromotion": true,
+    "operationalPromotionFromThisProtocolForbidden": true
+  },
+  "constraints": {
+    "deterministicEnumeration": true,
+    "causalFeaturesOnly": true,
+    "trainOnlyTransforms": true,
+    "missingValuesRemainExplicit": true,
+    "zeroImputationForbidden": true,
+    "crossMethodologySplicingForbidden": true,
+    "crossMechanismFusion": false,
+    "reuseRejectedE12CandidateIds": false
+  },
+  "compositionPolicy": {
+    "compositionAuthorized": false,
+    "requiredBeforeComposition": "Each detector must independently pass its absolute mechanism gate and vintage-sensitivity diagnostics."
+  }
+}

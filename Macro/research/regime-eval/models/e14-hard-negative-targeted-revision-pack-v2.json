@@ -1,0 +1,68 @@
+{
+  "schemaVersion": 1,
+  "packId": "e14-hard-negative-targeted-revision-pack-v2",
+  "frozenAt": "2026-07-15",
+  "dossierAuthor": "codex-primary-source-revision-2026-07-15-v2",
+  "scope": "Second hash-scoped correction of the sole remaining non-accepted dossier; fifteen accepted manifests remain byte-identical.",
+  "inputHashes": {
+    "reviewedQueueV7Sha256": "c9f791b287fd7431b61acf054ab85aa5358dd92d5b92f103483305c076314370",
+    "reviewIngestionAuditV2Sha256": "309bdf7b5f28a801500034cbb4945bee3616de8bafd4091271ca6929a32d268b",
+    "dossierSchemaSha256": "6163ab4cf6249aa314708361d1572ade403844b2cca9b4deb9c6bfaca3c7702f",
+    "reviewSchemaV2Sha256": "77310369e3ba33a6a5dbde84ce6cc445a6a87c7e9e03ba3842718a684822dd58"
+  },
+  "policy": {
+    "acceptedManifestsMustRemainByteIdentical": true,
+    "onlyNeedsRevisionManifestsMayChange": true,
+    "unsupportedMechanismMustBeReplacedNotRelabeled": true,
+    "twoIndependentEvidenceProvidersRequired": true,
+    "counterEvidenceRequired": true,
+    "selfAcceptanceForbidden": true,
+    "taxonomyMutationAuthorized": false,
+    "candidateGenerationAuthorized": false,
+    "outerOosAuthorized": false
+  },
+  "revisions": [
+    {
+      "operation": "revise",
+      "baseDossierId": "e14-dossier-flash-crash-2010-cross-border-growth-hard-negative",
+      "baseSha256": "699aba2dec1893cb744ad3975be0ceb96a904f46647ecda2fc7ffd855327c651",
+      "dossierId": "e14-dossier-flash-crash-2010-cross-border-growth-hard-negative",
+      "hypothesisId": "flash-crash-2010",
+      "mechanism": "cross-border-growth",
+      "firstMonth": "2010-05-01",
+      "lastMonth": "2010-05-01",
+      "boundaryRationale": "May isolates the May 6 flash crash. The live CPB July monitor page exposes the official downloadable table that records positive May world-trade growth and positive second-quarter momentum, while the WTO later raised its annual forecast. The label is negative only for cross-border real transmission, not for market functioning.",
+      "evidenceItems": [
+        {
+          "sourceId": "cpb-world-trade-monitor-july-2010",
+          "provider": "CPB Netherlands Bureau for Economic Policy Analysis",
+          "independenceGroup": "cpb-netherlands",
+          "publishedAt": "2010-09-23",
+          "role": "quantitative-observation",
+          "locator": "https://www.cpb.nl/cijfer/wereldhandelsmonitor-juli-2010",
+          "summary": "The live CPB release page provides the official July 2010 World Trade Monitor download; its table reports world-trade volume growth of 2.2 percent in May and positive second-quarter growth of 3.4 percent, directly measuring continued cross-border real activity around the flash crash."
+        },
+        {
+          "sourceId": "wto-trade-growth-revision-2010",
+          "provider": "World Trade Organization",
+          "independenceGroup": "wto",
+          "publishedAt": "2010-09-20",
+          "role": "official-narrative",
+          "locator": "https://www.wto.org/english/news_e/pres10_e/pr616_e.htm",
+          "summary": "WTO economists raised the 2010 world-trade growth forecast to 13.5 percent after faster-than-expected recovery and reported that merchandise trade rose sharply in the first two quarters, confirming that the May market shock did not interrupt the cross-border recovery."
+        }
+      ],
+      "counterEvidence": [
+        {
+          "sourceId": "cftc-sec-joint-flash-crash-report-release",
+          "provider": "U.S. Commodity Futures Trading Commission and Securities and Exchange Commission",
+          "independenceGroup": "cftc-sec",
+          "publishedAt": "2010-10-01",
+          "role": "counterevidence",
+          "locator": "https://www.cftc.gov/PressRoom/PressReleases/5912-10",
+          "summary": "The CFTC and SEC joint investigation identifies the severe and rapid market disruption of May 6, preserving the underlying broad-market event as counterevidence to the mechanism-specific hard negative."
+        }
+      ]
+    }
+  ]
+}

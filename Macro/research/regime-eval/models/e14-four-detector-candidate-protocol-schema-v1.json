@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://macro-regime.local/schemas/e14-four-detector-candidate-protocol-v1.json",
+  "title": "E14 four-detector research candidate protocol",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "protocolId",
+    "frozenAt",
+    "taxonomyV5Sha256",
+    "featureFoundationSha256",
+    "featureFoundationLockSha256",
+    "researchBoundary",
+    "candidateBudget",
+    "detectors",
+    "thresholdSelection",
+    "persistence",
+    "selectionPolicy",
+    "evaluationPolicy",
+    "vintageRiskPolicy",
+    "constraints",
+    "compositionPolicy"
+  ],
+  "properties": {
+    "schemaVersion": {"const": 1},
+    "protocolId": {"const": "e14-four-detector-candidate-generation-protocol-v1"},
+    "frozenAt": {"type": "string", "format": "date"},
+    "taxonomyV5Sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "featureFoundationSha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "featureFoundationLockSha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "researchBoundary": {"const": "inner-development-only-current-history-snapshot"},
+    "candidateBudget": {"const": 40},
+    "detectors": {"type": "object", "minProperties": 4, "maxProperties": 4},
+    "thresholdSelection": {"type": "object"},
+    "persistence": {"type": "object"},
+    "selectionPolicy": {"type": "object"},
+    "evaluationPolicy": {"type": "object"},
+    "vintageRiskPolicy": {"type": "object"},
+    "constraints": {"type": "object"},
+    "compositionPolicy": {"type": "object"}
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "artifactType": "E14MechanismFeatureFoundationLock",
+  "candidateGenerationAuthorized": false,
+  "cutoffDate": "2025-12-31",
+  "detectorBindingCount": 6,
+  "foundation": {
+    "fileName": "e14-mechanism-feature-foundation-v1.json",
+    "sha256": "bca70e5f5ca224fe23e4b29970dc651a2b708c047e3364a3575a235ae80a64b9",
+    "sizeBytes": 300218
+  },
+  "lockId": "e14-mechanism-feature-foundation-lock-v1",
+  "outerOosAuthorized": false,
+  "rawSnapshotHashes": {
+    "cboe-vix-history.csv": "0b2ed656686791c38d4230a2cedeb169a4b56014323079c740722ab5b3bebda9",
+    "fdic-qbp-timeseries-2025q4.xlsx": "97eaf69c51e1e8b373dc0837219ba5f5e8c1ffee101b8c1cadc07d0cdcd42253",
+    "fred-baa10y.csv": "265ed909e3bd010f1b3b8b9799af375fe526c294d34ccbf302b511701cdda90b",
+    "fred-dtwexb.csv": "c7b0270b4bc75cfae32127a5d07f77093c0e9241052f39a62d1a4d0c277db699",
+    "fred-tedrate.csv": "291d6007c287e3a1a56fff7879dcfa5aaa44620bc0a68cb2ab8ccf032795c99d"
+  },
+  "researchProtocolDesignAuthorized": true,
+  "schemaVersion": 1,
+  "seriesObservationCounts": {
+    "e14-baa10y-monthly-maximum": 480,
+    "e14-dtwexb-monthly-maximum-absolute-change": 300,
+    "e14-fdic-noncurrent-loan-rate-quarterly": 167,
+    "e14-tedrate-monthly-maximum": 433,
+    "e14-vix-monthly-maximum": 432
+  },
+  "status": "FEATURE_FOUNDATION_MATERIALIZED_WITH_VINTAGE_LIMITATIONS",
+  "strictVintageReady": false,
+  "taxonomyV5": {
+    "fileName": "us-financial-stress-v5.json",
+    "sha256": "d141416d08b68e932bc6cd2a25b9cd0eab06d159b8904907b7fff29d8c637d50",
+    "sizeBytes": 27662
+  }
+}

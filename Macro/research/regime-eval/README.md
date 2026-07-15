@@ -565,3 +565,104 @@ queue v7. Con quattro ricevute valide scrive una queue completa: tutti gli
 `reject` o `needs-revision` richiede la revisione dei soli hash non accettati.
 Il run reale corrente trova 0/4 ricevute. Nessuna review viene prodotta o
 attribuita al processo di ingestione.
+
+Dopo la consegna indipendente, il retry reale ha validato quattro ricevute e
+ha scritto `e14-independent-review-queue-v7.json`. L'esito e' 2 `accept`, 2
+`needs-revision`, zero `reject`: 1987 banking-credit e 2018Q4 funding sono
+accettati; 2023 broad-market richiede un locator IMF direttamente accessibile;
+repo 2019 cross-border richiede evidenza sul meccanismo di crescita reale, non
+soltanto sugli spillover nei mercati repo. Lo stato
+`EXPANSION_DOSSIER_REVISIONS_REQUIRED` mantiene chiuso E14.4h. Il prossimo
+incremento deve preservare i 14 accept e revisionare/riesaminare soltanto i due
+hash non accettati.
+
+E14.4g2 implementa quella revisione senza riaprire gli accept. Il comando
+`e14-revise-hard-negative-expansion` accetta sia il pack v1 (due hash) sia il
+retry v2 (un solo hash); `e14-ingest-hard-negative-targeted-reviews` scrive la
+queue successiva soltanto quando tutte le ricevute attese sono presenti.
+
+Il regional-bank 2023 e' stato accettato usando il capitolo PDF IMF vivo. Il
+repo 2019 e' stato ritirato invece di forzare il meccanismo ed e' stato
+sostituito dal Flash Crash 2010 cross-border. Il primo locator CPB diretto era
+404 ed e' stato respinto; il retry lega la pagina CPB live e il download XLS
+ufficiale, nel quale il reviewer ha verificato 154,0 ad aprile e 157,4 a maggio
+(circa +2,2%) e crescita Q2 circa +3,4%. La seconda receipt e' `accept`.
+
+La queue v11 contiene 16/16 dossier accettati. L'audit
+`e14-hard-negative-targeted-review-ingestion-audit-v2.json` raggiunge 6 eventi
+hard-negative indipendenti e 2 per meccanismo e autorizza esclusivamente il
+coverage gate E14.4h. Tassonomia, candidati e outer OOS restano chiusi.
+
+E14.4h riconta la copertura accettata senza materializzare label:
+
+```text
+python -m regime_eval e14-hard-negative-coverage-gate --contract models/e14-hard-negative-coverage-gate-contract-v1.json --reviewed-queue ../../data/historical-real-v12-2008-2025/challengers/e14-independent-review-queue-v11.json --targeted-ingestion-audit ../../data/historical-real-v12-2008-2025/challengers/e14-hard-negative-targeted-review-ingestion-audit-v2.json --taxonomy ground-truth/us-financial-stress-v4.json --dossier-schema models/e14-episode-dossier-schema-v1.json --label-audit-contract models/e14-label-audit-contract-v1.json --mechanism-contract models/e14-mechanism-detector-contract-v1.json --expansion-contract models/e14-hard-negative-expansion-contract-v1.json --dossier-dir ../../data/historical-real-v12-2008-2025/challengers/e14-dossiers-v1 --dossier-dir ../../data/historical-real-v12-2008-2025/challengers/e14-hard-negative-dossiers-v2 --dossier-dir ../../data/historical-real-v12-2008-2025/challengers/e14-revised-dossiers-v1 --dossier-dir ../../data/historical-real-v12-2008-2025/challengers/e14-hard-negative-expansion-dossiers-v1 --dossier-dir ../../data/historical-real-v12-2008-2025/challengers/e14-hard-negative-expansion-revised-dossiers-v1 --dossier-dir ../../data/historical-real-v12-2008-2025/challengers/e14-hard-negative-expansion-revised-dossiers-v2 --output ../../data/historical-real-v12-2008-2025/challengers/e14-hard-negative-coverage-gate-audit-v1.json
+```
+
+Ogni manifest deve risolversi contro esattamente un file con hash e dimensione
+corretti. I 12 dossier gia' presenti in v4 devono mantenere lo stesso hash; i
+quattro restanti devono essere hard negative, coprire quattro eventi distinti
+e uno per meccanismo. Il run reale raggiunge 6 eventi hard-negative e 2 per
+meccanismo senza conflitti. `ACCEPTED_HARD_NEGATIVE_COVERAGE_READY` autorizza
+E14.4i a creare una nuova tassonomia immutabile, ma non autorizza ancora
+candidate generation, outer OOS o promozione.
+
+E14.4i materializza l'espansione accettata in una nuova tassonomia write-once:
+
+```text
+python -m regime_eval e14-materialize-taxonomy-v5 --contract models/e14-taxonomy-v5-materialization-contract-v1.json --taxonomy-v4 ground-truth/us-financial-stress-v4.json --coverage-gate-audit ../../data/historical-real-v12-2008-2025/challengers/e14-hard-negative-coverage-gate-audit-v1.json --reviewed-queue ../../data/historical-real-v12-2008-2025/challengers/e14-independent-review-queue-v11.json --taxonomy-v4-schema models/e14-financial-stress-taxonomy-v4-schema.json --taxonomy-v5-schema models/e14-financial-stress-taxonomy-v5-schema.json --label-audit-contract models/e14-label-audit-contract-v1.json --mechanism-contract models/e14-mechanism-detector-contract-v1.json --taxonomy-output ground-truth/us-financial-stress-v5.json --output ../../data/historical-real-v12-2008-2025/challengers/e14-taxonomy-v5-materialization-audit-v1.json
+```
+
+Il comando non sovrascrive output esistenti, verifica gli hash di tutti gli
+input e conserva strutturalmente episodi ed evidenze della v4. La run reale
+produce 16 evidenze, 11 eventi positivi e 6 hard negative indipendenti, con 2
+hard negative per meccanismo e zero conflitti. Lo stato
+`TAXONOMY_V5_VERSIONED_CANDIDATE_READINESS_REQUIRED` consente soltanto il gate
+E14.4j; non genera candidati e non legge outer OOS.
+
+E14.4j verifica separatamente la readiness della generazione:
+
+```text
+python -m regime_eval e14-candidate-readiness-gate --contract models/e14-candidate-readiness-gate-contract-v1.json --taxonomy ground-truth/us-financial-stress-v5.json --materialization-audit ../../data/historical-real-v12-2008-2025/challengers/e14-taxonomy-v5-materialization-audit-v1.json --mechanism-contract models/e14-mechanism-detector-contract-v1.json --source-catalog models/e14-historical-source-catalog-v1.json --legacy-candidate-protocol models/e13-candidate-generation-protocol-v1.json --legacy-foundation-lock models/e12-data-foundation-lock-v1.json --output ../../data/historical-real-v12-2008-2025/challengers/e14-candidate-readiness-gate-audit-v1.json
+```
+
+La run reale termina intenzionalmente con codice non zero e stato
+`CANDIDATE_READINESS_BLOCKED_FOUNDATION_AND_PROTOCOL`. Tassonomia, coverage e
+detector superano i controlli, ma le sei feature sono ancora proposte non
+popolate e manca una foundation point-in-time manifestata. Il protocollo E13
+e' inoltre legato al lock E12 e definisce due task, non i quattro meccanismi
+E14. Restano riusabili soltanto le sue policy causali, train-only, inner-only e
+missingness-explicit. Il gate non legge dataset, non genera candidati e non
+apre outer OOS. Il passo successivo e' E14.4k.
+
+E14.4k materializza la feature foundation reale e il relativo lock:
+
+```text
+python -m regime_eval e14-materialize-feature-foundation --contract models/e14-mechanism-feature-foundation-contract-v1.json --taxonomy ground-truth/us-financial-stress-v5.json --readiness-audit ../../data/historical-real-v12-2008-2025/challengers/e14-candidate-readiness-gate-audit-v1.json --mechanism-contract models/e14-mechanism-detector-contract-v1.json --source-catalog models/e14-historical-source-catalog-v1.json --foundation-schema models/e14-mechanism-feature-foundation-schema-v1.json --raw-dir ../../data/historical-real-v12-2008-2025/e14-feature-foundation-v1/raw --foundation-output ../../data/historical-real-v12-2008-2025/e14-feature-foundation-v1/e14-mechanism-feature-foundation-v1.json --lock-output models/e14-mechanism-feature-foundation-lock-v1.json --output ../../data/historical-real-v12-2008-2025/challengers/e14-mechanism-feature-foundation-audit-v1.json
+```
+
+Gli input sono cinque snapshot ufficiali congelati tramite hash. Il comando
+materializza cinque serie e sei binding detector, per 1.812 osservazioni. Le
+serie interrotte restano assenti dopo il proprio confine: TEDRATE non viene
+unito a SOFR e DTWEXB non viene unito al successore. Il dato FDIC e' reso
+disponibile dopo un lag conservativo di 60 giorni; Q4 2025 e' quindi escluso
+dal cutoff 2025-12-31. Lo stato
+`FEATURE_FOUNDATION_MATERIALIZED_WITH_VINTAGE_LIMITATIONS` registra anche che
+FRED daily e il workbook FDIC sono snapshot correnti soggetti a correzioni.
+Il lock autorizza soltanto E14.4l a progettare il protocollo a quattro
+detector; candidati, outer OOS e promozione restano chiusi.
+
+E14.4l congela e verifica il protocollo research a quattro detector:
+
+```text
+python -m regime_eval e14-freeze-candidate-protocol --contract models/e14-four-detector-protocol-readiness-contract-v1.json --taxonomy ground-truth/us-financial-stress-v5.json --foundation ../../data/historical-real-v12-2008-2025/e14-feature-foundation-v1/e14-mechanism-feature-foundation-v1.json --foundation-lock models/e14-mechanism-feature-foundation-lock-v1.json --foundation-audit ../../data/historical-real-v12-2008-2025/challengers/e14-mechanism-feature-foundation-audit-v1.json --mechanism-contract models/e14-mechanism-detector-contract-v1.json --protocol models/e14-four-detector-candidate-generation-protocol-v1.json --protocol-schema models/e14-four-detector-candidate-protocol-schema-v1.json --output ../../data/historical-real-v12-2008-2025/challengers/e14-four-detector-protocol-readiness-audit-v1.json
+```
+
+Il protocollo contiene dieci profili e un budget finito di 40 candidati: 16
+broad-market, 4 funding, 16 banking e 4 cross-border. Le soglie sono quantili
+inner-train, i transform sono causali e train-only e i mesi unlabeled non sono
+negativi impliciti. La run reale termina
+`RESEARCH_CANDIDATE_GENERATION_READY_OUTER_OOS_CLOSED`: E14.5 puo' generare il
+solo manifest deterministico. Fitting, evaluation, composizione, outer OOS e
+promozione restano chiusi; il rischio vintage e' accettato soltanto entro il
+confine research.

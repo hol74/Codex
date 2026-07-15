@@ -1,0 +1,54 @@
+{
+  "schemaVersion": 1,
+  "contractId": "e14-taxonomy-v5-materialization-contract-v1",
+  "frozenAt": "2026-07-15",
+  "inputHashes": {
+    "taxonomyV4Sha256": "d7f11a0ecc2bf2856d89b2aeb897e87e34d37e745bb9fecc0d16ad6558fa40cc",
+    "coverageGateAuditSha256": "a0caa0643d1a46c57bc45e7ac08e547789f42642a055214c445063344ba905c9",
+    "reviewedQueueV11Sha256": "fb77f001f22d981d42eb29d1fc7e4397bf4a5ebde8729179436aea322516c264",
+    "taxonomyV4SchemaSha256": "1a7f4bb3e22e2bf287d4fe6773727e623fcd0345306d41328682c510fd663df5",
+    "taxonomyV5SchemaSha256": "8fedda0df0455f4a5f1b600bda1e8aa7e0fa5a9b5063c241019d1cbed65648f3",
+    "labelAuditContractSha256": "edee49028b9d8601c9d22bf956e4e8c8a393897c8d388f94c9d21a1d79d0d570",
+    "mechanismContractSha256": "b974b5b5e865a46438449e6d1dc0beb8d821e3656f0074b207d0eca96fd6d685"
+  },
+  "requiredCoverageGateStatus": "ACCEPTED_HARD_NEGATIVE_COVERAGE_READY",
+  "requiredGroundTruthId": "us-financial-stress-mechanism-aware-v4",
+  "outputGroundTruthId": "us-financial-stress-mechanism-aware-v5",
+  "expectedPriorFoundationEvidenceCount": 12,
+  "expectedAddedDossierCount": 4,
+  "expectedFinalFoundationEvidenceCount": 16,
+  "requiredMechanisms": [
+    "broad-market-repricing",
+    "funding-liquidity",
+    "banking-credit",
+    "cross-border-growth"
+  ],
+  "coverageThresholds": {
+    "minimumFullPositiveEpisodes": 6,
+    "minimumFullPositiveEpisodesPerMechanism": 3,
+    "minimumHardNegativeEpisodes": 6,
+    "minimumHardNegativeEpisodesPerMechanism": 2
+  },
+  "materializationPolicy": {
+    "versioningMode": "create-new-file-never-mutate-v4",
+    "priorEpisodesPreservedByteStructurally": true,
+    "priorFoundationEvidencePreserved": true,
+    "oneEntryPerAcceptedExpansionDossier": true,
+    "independentEventIdentityFromHypothesisId": true,
+    "mechanismMonthStatesRemainIndependent": true,
+    "crossMechanismMixedStatesAllowed": true,
+    "sameMechanismMonthOpposingStatesForbidden": true,
+    "aggregateMonthStateIsViewOnly": true,
+    "coverageMustEqualAcceptedCoverageGate": true
+  },
+  "authorizationPolicy": {
+    "taxonomyV5MaterializationAuthorized": true,
+    "taxonomyV4MutationAuthorized": false,
+    "candidateReadinessGateAuthorized": true,
+    "candidateGenerationAuthorized": false,
+    "outerOosAuthorized": false,
+    "promotionAuthorized": false
+  },
+  "expectedStatus": "TAXONOMY_V5_VERSIONED_CANDIDATE_READINESS_REQUIRED",
+  "nextAllowedAction": "E14.4j run a separate candidate-readiness gate against taxonomy v5; do not generate or evaluate candidates in the materialization step"
+}

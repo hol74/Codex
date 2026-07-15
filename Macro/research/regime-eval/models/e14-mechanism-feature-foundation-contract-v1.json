@@ -1,0 +1,57 @@
+{
+  "schemaVersion": 1,
+  "contractId": "e14-mechanism-feature-foundation-contract-v1",
+  "frozenAt": "2026-07-15",
+  "cutoffDate": "2025-12-31",
+  "inputHashes": {
+    "taxonomyV5Sha256": "d141416d08b68e932bc6cd2a25b9cd0eab06d159b8904907b7fff29d8c637d50",
+    "candidateReadinessAuditSha256": "019e7df71066c0407e48860efa57635a8f7bd8aca976ae5544d4a71f3ff05f95",
+    "mechanismContractSha256": "b974b5b5e865a46438449e6d1dc0beb8d821e3656f0074b207d0eca96fd6d685",
+    "sourceCatalogSha256": "e2da8ce5dfacb144871d9d152d2114a30ba4b16adea938a96fabc05031b69271",
+    "foundationSchemaSha256": "936cc95f464565f5282af5bd26070c197459a2183c5338cfb754309819691d32"
+  },
+  "rawSnapshotHashes": {
+    "cboe-vix-history.csv": "0b2ed656686791c38d4230a2cedeb169a4b56014323079c740722ab5b3bebda9",
+    "fdic-qbp-timeseries-2025q4.xlsx": "97eaf69c51e1e8b373dc0837219ba5f5e8c1ffee101b8c1cadc07d0cdcd42253",
+    "fred-baa10y.csv": "265ed909e3bd010f1b3b8b9799af375fe526c294d34ccbf302b511701cdda90b",
+    "fred-dtwexb.csv": "c7b0270b4bc75cfae32127a5d07f77093c0e9241052f39a62d1a4d0c277db699",
+    "fred-tedrate.csv": "291d6007c287e3a1a56fff7879dcfa5aaa44620bc0a68cb2ab8ccf032795c99d"
+  },
+  "expectedObservationCounts": {
+    "e14-vix-monthly-maximum": 432,
+    "e14-baa10y-monthly-maximum": 480,
+    "e14-tedrate-monthly-maximum": 433,
+    "e14-dtwexb-monthly-maximum-absolute-change": 300,
+    "e14-fdic-noncurrent-loan-rate-quarterly": 167
+  },
+  "requiredMechanisms": [
+    "broad-market-repricing",
+    "funding-liquidity",
+    "banking-credit",
+    "cross-border-growth"
+  ],
+  "materializationPolicy": {
+    "rawSnapshotsHashBound": true,
+    "outputsWriteOnce": true,
+    "observationsAfterCutoffForbidden": true,
+    "missingValuesRemainAbsent": true,
+    "zeroImputationForbidden": true,
+    "crossMethodologySplicingForbidden": true,
+    "dailyLevelAggregation": "monthly-maximum",
+    "dtwexbAggregation": "monthly-maximum-absolute-daily-change",
+    "fdicMetric": "Percent of Loans and Leases Noncurrent - All Insured Institutions",
+    "fdicConservativeReleaseLagDays": 60,
+    "currentHistoryRevisionRiskExplicit": true,
+    "diagnosticCompositeInputsForbidden": true
+  },
+  "authorizationPolicy": {
+    "featureFoundationMaterializationAuthorized": true,
+    "taxonomyV5ProtocolDesignAuthorized": true,
+    "candidateGenerationAuthorized": false,
+    "outerOosAuthorized": false,
+    "promotionAuthorized": false,
+    "taxonomyMutationAuthorized": false
+  },
+  "expectedStatus": "FEATURE_FOUNDATION_MATERIALIZED_WITH_VINTAGE_LIMITATIONS",
+  "nextAllowedAction": "E14.4l freeze a four-detector research candidate protocol bound to taxonomy v5 and this feature-foundation lock; rerun readiness before generation"
+}

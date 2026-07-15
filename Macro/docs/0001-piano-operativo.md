@@ -691,7 +691,7 @@ copertura degli episodi.
      - impedita per contratto la review da parte del generatore e mantenuti
        chiusi coverage accettata, tassonomia, candidati e outer OOS;
      - esito: `EXPANSION_AWAITING_EXTERNAL_REVIEW`, zero ricevute.
-   - E14.4g ingestione review indipendente espansione (IMPLEMENTATA, AWAITING RECEIPTS, 2026-07-15):
+   - E14.4g ingestione review indipendente espansione (COMPLETATA, REVISIONI RICHIESTE, 2026-07-15):
      - congelato il contratto e implementata la validazione schema v2 contro
        i quattro hash dell'handoff E14.4f;
      - preservati byte-identici i 12 accept precedenti e vietate ricevute su
@@ -701,20 +701,92 @@ copertura degli episodi.
      - la queue v7 viene scritta soltanto quando sono presenti esattamente
        quattro ricevute valide; un run incompleto scrive solo un audit
        retry-safe;
-     - run reale: 0/4 ricevute, `EXPANSION_REVIEW_INCOMPLETE`, nessuna queue
-       v7 e nessuna autorizzazione a coverage, tassonomia o candidati;
-     - prossimo input: review esterna sui quattro dossier, poi retry E14.4g.
-   - E14.4h accepted hard-negative coverage gate (BLOCCATA DALLE REVIEW):
-     - aprire soltanto se E14.4g termina con quattro `accept`;
-     - ricontare la copertura accettata per evento e meccanismo prima di
-       qualsiasi nuova tassonomia;
-     - mantenere chiusi candidati e outer OOS fino a un gate separato.
+     - il preflight reale iniziale con 0/4 ricevute ha prodotto soltanto
+       `EXPANSION_REVIEW_INCOMPLETE`, senza queue parziale;
+     - un reviewer indipendente ha poi verificato tutti i 12 locator e
+       prodotto quattro ricevute valide: 2 `accept`, 2 `needs-revision`, zero
+       `reject`;
+     - accettati 1987 banking-credit e 2018Q4 funding-liquidity;
+     - da revisionare 2023 broad-market per locator IMF non direttamente
+       accessibile e repo 2019 cross-border per evidenza insufficiente sul
+       meccanismo di crescita reale;
+     - esito: queue v7 completa e
+       `EXPANSION_DOSSIER_REVISIONS_REQUIRED`; coverage, tassonomia e
+       candidati restano chiusi.
+   - E14.4g2 revisione mirata espansione (COMPLETATA, 2026-07-15):
+     - preservati byte-identici i 14 accept complessivi e modificati soltanto
+       i due manifest `needs-revision`;
+     - regional-bank 2023 mantiene evento e confini, sostituendo `text.ashx`
+       con il capitolo PDF IMF direttamente accessibile: rereview `accept`;
+     - il dossier repo 2019 e' stato ritirato, non relabelled: gli spillover
+       repo esteri non misuravano il meccanismo reale cross-border;
+     - sostituito con Flash Crash 2010 cross-border, basato su CPB, WTO e
+       CFTC/SEC; un primo locator PDF CPB 404 ha prodotto correttamente un
+       ulteriore `needs-revision` senza aprire il gate;
+     - una seconda revisione hash-scoped ha usato la pagina CPB live e il suo
+       XLS ufficiale: indice world trade 154,0 ad aprile e 157,4 a maggio
+       (circa +2,2%), con crescita Q2 circa +3,4%; rereview `accept`;
+     - queue v11: 16/16 dossier accettati; coverage potenziale accettata per
+       il prossimo gate pari a 6 eventi indipendenti e 2 per meccanismo;
+     - tassonomia e candidati restano invariati: l'ingestione autorizza solo
+       E14.4h, non il merge diretto.
+   - E14.4h accepted hard-negative coverage gate (COMPLETATA, 2026-07-15):
+     - congelati gli hash di queue v11, audit mirato v2, tassonomia v4,
+       schemi e contratti di copertura/meccanismo;
+     - risolti 16/16 manifest accettati contro un solo file/hash e preservati
+       i 12 dossier gia' materializzati nella tassonomia v4;
+     - identificati 4 nuovi hard negative accettati, quattro eventi distinti
+       e un evento per ciascun meccanismo;
+     - ricontata la copertura con `hypothesisId` come identita' indipendente:
+       11 positivi e 6 hard negative complessivi, con 2 hard negative per
+       broad-market, funding, banking e cross-border;
+     - verificati zero conflitti sulla chiave `(mese, meccanismo)` e stati
+       misti cross-meccanismo preservati;
+     - esito `ACCEPTED_HARD_NEGATIVE_COVERAGE_READY`;
+     - autorizzata soltanto una proposta di tassonomia v5; tassonomia v4,
+       candidati, outer OOS e promozione restano immutati/chiusi.
+   - E14.4i taxonomy v5 accepted expansion materialization (COMPLETATO):
+     - creata `us-financial-stress-v5.json` come nuova versione immutabile,
+       senza modificare in-place la v4;
+     - incorporati quattro dossier hard-negative accettati con provenienza e
+       hash congelati: 16 evidenze di fondazione complessive;
+     - ricontati 11 eventi positivi e 6 hard negative indipendenti, con 2 hard
+       negative per meccanismo e zero conflitti `(mese, meccanismo)`;
+     - stato `TAXONOMY_V5_VERSIONED_CANDIDATE_READINESS_REQUIRED`: candidate
+       generation, outer OOS e promozione restano chiusi.
+   - E14.4j candidate-readiness gate (COMPLETATO):
+     - verificata l'integrita' hash-bound della tassonomia v5, la copertura
+       sufficiente, quattro detector indipendenti e zero conflitti;
+     - rilevati quattro blocker: sei feature ancora non popolate, foundation
+       point-in-time non materializzata, protocollo E13 legato alla foundation
+       E12 e grammatica a due task non compatibile con quattro meccanismi;
+     - esito `CANDIDATE_READINESS_BLOCKED_FOUNDATION_AND_PROTOCOL`:
+       candidate generation, outer OOS e promozione restano chiusi.
+   - E14.4k mechanism feature foundation (COMPLETATO):
+     - congelati cinque snapshot ufficiali Cboe/FRED/FDIC e materializzate
+       1.812 osservazioni in cinque serie, con sei binding sui detector;
+     - TEDRATE termina a gennaio 2022 e DTWEXB a dicembre 2019 senza splicing;
+       FDIC usa un lag conservativo di 60 giorni e missingness esplicita;
+     - prodotto un lock immutabile con stato
+       `FEATURE_FOUNDATION_MATERIALIZED_WITH_VINTAGE_LIMITATIONS`;
+     - esplicitato che FRED daily e il workbook FDIC sono snapshot di storia
+       corrente, non una ricostruzione vintage perfetta; candidati chiusi.
+   - E14.4l taxonomy-v5 candidate protocol (COMPLETATO):
+     - sostituita la grammatica E13 a due task con quattro detector autonomi e
+       dieci profili, per un budget finito di 40 candidati research;
+     - legato il protocollo agli hash di tassonomia v5, foundation e lock;
+     - riusati i controlli causali, train-only, inner-only e missingness-explicit;
+     - readiness v2 `RESEARCH_CANDIDATE_GENERATION_READY_OUTER_OOS_CLOSED`:
+       autorizzata soltanto la generazione deterministica del manifest;
+       fitting, evaluation, composizione, outer OOS e promozione restano chiusi.
    - definire feature relative al regime storico, onset e recovery separati;
    - definire dossier e hard negative a livello di singolo meccanismo;
    - vietare composizione finche' ogni detector non ha evidenza autonoma.
-5. E14.5 - generazione condizionata:
-   - aprire nuovi candidati soltanto se tassonomia e coverage superano i gate
-     informativi; altrimenti accumulare evidenza prospettica.
+5. E14.5 - generazione condizionata (PROSSIMO PASSO):
+   - generare deterministicamente i 40 candidati autorizzati, separati per
+     meccanismo, senza fitting o valutazione;
+   - legare ogni candidate ID al protocollo e mantenere outer OOS chiuso;
+   - produrre soltanto un manifest write-once verificabile.
 
 Analisi E14:
 `docs/e14-riesame-problema-informativo.md`.
@@ -760,6 +832,27 @@ Checkpoint E14.4f:
 
 Checkpoint E14.4g:
 `docs/checkpoints/0073-fase-e14-4g-expansion-review-ingestion-ready.md`.
+
+Checkpoint review E14.4g:
+`docs/checkpoints/0074-fase-e14-4g-expansion-review-ingested.md`.
+
+Checkpoint E14.4g2:
+`docs/checkpoints/0075-fase-e14-4g2-targeted-expansion-accepted.md`.
+
+Checkpoint E14.4h:
+`docs/checkpoints/0076-fase-e14-4h-accepted-coverage-gate.md`.
+
+Checkpoint E14.4i:
+`docs/checkpoints/0077-fase-e14-4i-taxonomy-v5-versioned.md`.
+
+Checkpoint E14.4j:
+`docs/checkpoints/0078-fase-e14-4j-candidate-readiness-blocked.md`.
+
+Checkpoint E14.4k:
+`docs/checkpoints/0079-fase-e14-4k-feature-foundation-materialized.md`.
+
+Checkpoint E14.4l:
+`docs/checkpoints/0080-fase-e14-4l-four-detector-protocol-ready.md`.
 
 
 

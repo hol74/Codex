@@ -581,6 +581,102 @@ Checkpoint in corso: `docs/checkpoints/0034-fase-e-slice6-feature-baseline-redes
   reviewer indipendente, poi lo stesso comando potra' essere rieseguito con
   nuovi output immutabili. La regressione supera 87/87 test Python, la
   compilazione bytecode e 240/240 test .NET Debug/net10.0.
+- Fase E14.4g - independent expansion review completata: un reviewer distinto
+  ha aperto tutti i 12 locator e prodotto quattro ricevute schema v2. Sono
+  accettati il contrasto banking-credit del crash 1987 e il contrasto funding
+  del repricing 2018Q4. Il dossier regional-bank 2023 richiede revisione per
+  il locator IMF `text.ashx` non direttamente accessibile; il dossier repo
+  2019 richiede revisione perche' le fonti dimostrano spillover repo esteri
+  limitati, ma non lo stato del meccanismo di crescita cross-border. La queue
+  v7 preserva i 12 accept precedenti e registra 2 nuovi accept, 2
+  `needs-revision`, zero reject. Lo stato e'
+  `EXPANSION_DOSSIER_REVISIONS_REQUIRED`: E14.4h, tassonomia e candidati
+  restano chiusi. La revisione successiva deve riguardare soltanto i due hash
+  non accettati.
+- Fase E14.4g2 - targeted expansion revision: preservati i 14 accept e
+  revisionati soltanto i due hash non accettati. Il regional-bank 2023 e'
+  stato accettato dopo la sostituzione del locator IMF `text.ashx` con il PDF
+  ufficiale accessibile. Il repo 2019 e' stato ritirato, perche' misurava
+  funding estero e non crescita reale, e sostituito dal Flash Crash 2010.
+  La prima rilettura del sostituto ha restituito `needs-revision` per un PDF
+  CPB indicizzato ma HTTP 404; il gate e' rimasto correttamente chiuso. Una
+  seconda revisione ha usato la pagina CPB live e verificato il relativo XLS:
+  indice world trade 154,0 ad aprile e 157,4 a maggio (circa +2,2%), oltre a
+  crescita Q2 circa +3,4%. Il reviewer indipendente ha emesso `accept`.
+  Queue v11 e audit mirato v2 registrano 16/16 accept, 6 eventi hard-negative
+  indipendenti e 2 per ciascun meccanismo. Lo stato e'
+  `READY_FOR_HARD_NEGATIVE_COVERAGE_GATE`: autorizza E14.4h, ma non muta
+  tassonomia v4 e non apre ancora candidati o outer OOS. La regressione finale
+  supera 94/94 test Python, compilazione bytecode e test .NET.
+- Fase E14.4h - accepted hard-negative coverage gate: introdotto un gate
+  read-only e hash-bound che risolve 16/16 manifest accettati, protegge i 12
+  dossier gia' presenti nella tassonomia v4 e considera nuovi soltanto i
+  quattro dossier non ancora materializzati. Gli eventi sono contati per
+  `hypothesisId`, non per dossier: la copertura passa da 2 a 6 hard negative
+  indipendenti e raggiunge esattamente 2 eventi per ciascuno dei quattro
+  meccanismi. Restano 11 positivi, zero conflitti `(mese, meccanismo)` e stati
+  misti cross-meccanismo intatti. Lo stato e'
+  `ACCEPTED_HARD_NEGATIVE_COVERAGE_READY`. Il gate autorizza soltanto una
+  proposta/versione di tassonomia v5; non ha scritto label, mutato la v4,
+  generato candidati, letto outer OOS o autorizzato promozioni. La regressione
+  completa supera 97/97 test Python, compilazione bytecode e test .NET.
+- Fase E14.4i - taxonomy v5 accepted expansion materialization: creati schema,
+  contratto hash-bound e materializzatore write-once per una nuova tassonomia
+  `us-financial-stress-mechanism-aware-v5`, lasciando byte-identica la v4. I
+  quattro dossier hard-negative accettati sono stati aggiunti come episodi
+  monomeccanismo con `hypothesisId` quale identita' indipendente e provenienza
+  completa verso dossier, queue e coverage gate. La v5 contiene 16 evidenze
+  di fondazione, 11 episodi positivi e 6 hard negative indipendenti; ciascun
+  meccanismo dispone di 2 hard negative e non risultano conflitti
+  `(mese, meccanismo)`. Lo stato
+  `TAXONOMY_V5_VERSIONED_CANDIDATE_READINESS_REQUIRED` autorizza soltanto il
+  successivo gate E14.4j: candidate generation, outer OOS e promozione restano
+  false. La regressione completa supera 99/99 test Python, compilazione
+  bytecode e test .NET.
+- Fase E14.4j - candidate-readiness gate: introdotti un contratto hash-bound,
+  un audit write-once e un comando CLI che separano la validita' informativa
+  della tassonomia dalla prontezza operativa della generazione. Il gate reale
+  conferma che tassonomia v5, copertura, conflitti e quattro detector sono
+  coerenti, ma termina
+  `CANDIDATE_READINESS_BLOCKED_FOUNDATION_AND_PROTOCOL`. Le sei feature dei
+  detector risultano ancora `proposal-not-populated` e manca una foundation
+  point-in-time materializzata. Inoltre il protocollo E13 e' legato al lock
+  E12 e descrive due task aggregati, non quattro detector indipendenti. I
+  controlli E13 causali, train-only, missingness-explicit e inner-only restano
+  riusabili, ma nessun candidato e' stato generato e outer OOS/promozione
+  restano chiusi. Il piano e' stato esteso con E14.4k per la feature foundation
+  ed E14.4l per il nuovo protocollo taxonomy-v5-bound. La regressione completa
+  supera 102/102 test Python, compilazione bytecode e test .NET.
+- Fase E14.4k - mechanism feature foundation: scaricati e congelati tramite
+  SHA-256 gli snapshot ufficiali Cboe VIX, FRED BAA10Y/TEDRATE/DTWEXB e il
+  workbook aggregato FDIC Q4 2025. Il materializzatore produce cinque serie e
+  sei binding per i quattro detector: 432 mesi VIX, 480 BAA10Y, 433 TEDRATE,
+  300 DTWEXB e 167 trimestri FDIC, per 1.812 osservazioni complessive e zero
+  record oltre il cutoff 2025-12-31. TEDRATE e DTWEXB terminano ai confini di
+  metodologia documentati; FDIC usa un lag conservativo di 60 giorni e il Q4
+  2025 resta escluso perche' non disponibile al cutoff. Foundation, lock e
+  audit sono write-once e hash-bound. Lo stato
+  `FEATURE_FOUNDATION_MATERIALIZED_WITH_VINTAGE_LIMITATIONS` esplicita che le
+  storie daily FRED e il workbook FDIC sono snapshot correnti, non vintage
+  perfette. E14.4l puo' progettare il protocollo research a quattro detector,
+  ma candidate generation, outer OOS e promozione restano chiusi. La
+  regressione completa supera 105/105 test Python, compilazione bytecode e test
+  .NET.
+- Fase E14.4l - four-detector candidate protocol: congelati schema, protocollo
+  e readiness contract legati tramite hash alla tassonomia v5, alla feature
+  foundation e al relativo lock. La grammatica E13 a due task e' stata
+  sostituita con quattro grammatiche indipendenti e dieci profili: 16 candidati
+  broad-market, 4 funding, 16 banking e 4 cross-border, per un budget massimo
+  di 40. Le soglie sono quantili selezionabili esclusivamente nei train inner
+  dei fold leave-one-episode-out; persistenza di ingresso e recovery restano
+  separate. Il protocollo richiede metriche positive e hard-negative per
+  meccanismo e non considera i mesi unlabeled come negativi. Lo stato reale
+  `RESEARCH_CANDIDATE_GENERATION_READY_OUTER_OOS_CLOSED` autorizza soltanto la
+  futura generazione deterministica del manifest E14.5. Fitting, evaluation,
+  composizione cross-meccanismo, outer OOS e promozione restano falsi. I limiti
+  vintage sono accettati solo per ricerca e richiederanno sensitivity gate
+  prima di qualunque promozione. La regressione completa supera 108/108 test
+  Python, compilazione bytecode e test .NET.
 
 ## Deviazione documentata dal piano originario
 

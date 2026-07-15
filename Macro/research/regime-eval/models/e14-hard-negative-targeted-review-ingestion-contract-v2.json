@@ -1,0 +1,42 @@
+{
+  "schemaVersion": 1,
+  "contractId": "e14-hard-negative-targeted-review-ingestion-contract-v2",
+  "frozenAt": "2026-07-15",
+  "inputHashes": {
+    "targetedQueueV8Sha256": "e5abc11a7d8d11ad77320a4d34b67130474c6fa5ac777029b0b910f2a2a40ab9",
+    "targetedRevisionAuditSha256": "de5c30f8b4a3f82245ae6bc724e335e56615f87ec10af013cab80ed57a28a060",
+    "targetedRevisionPackSha256": "83eb675fffacb1e75947fcdabc0e6619ed5a6b8f81d99243c2e75aff64e1c44c",
+    "reviewSchemaV2Sha256": "77310369e3ba33a6a5dbde84ce6cc445a6a87c7e9e03ba3842718a684822dd58"
+  },
+  "expectedPreservedAcceptedDossierCount": 15,
+  "expectedTargetedReceiptCount": 1,
+  "receiptPolicy": {
+    "schemaV2Required": true,
+    "exactlyOneReceiptPerChangedHash": true,
+    "unexpectedDossierReceiptsForbidden": true,
+    "exactQueueDossierHashRequired": true,
+    "reviewerMustDifferFromRevisionAuthor": true,
+    "independenceDeclarationRequired": true,
+    "strictAcceptChecksRequired": true,
+    "counterEvidenceRequiredForEveryDecision": true,
+    "modelOutputsForbidden": true,
+    "fifteenAcceptedManifestsMustRemainUnchanged": true
+  },
+  "decisionPolicy": {
+    "missingReceipt": "TARGETED_EXPANSION_REVIEW_INCOMPLETE",
+    "allAccepted": "READY_FOR_HARD_NEGATIVE_COVERAGE_GATE",
+    "anyRejectOrNeedsRevision": "TARGETED_EXPANSION_DOSSIER_REVISIONS_REQUIRED"
+  },
+  "authorizationPolicy": {
+    "receiptValidationAuthorized": true,
+    "reviewedQueueWriteAuthorizedWhenComplete": true,
+    "hardNegativeCoverageGateAuthorizedOnlyWhenAllAccepted": true,
+    "taxonomyMutationAuthorized": false,
+    "candidateGenerationAuthorized": false,
+    "outerOosAuthorized": false,
+    "promotionAuthorized": false
+  },
+  "readinessDecision": "READY_TO_VALIDATE_TARGETED_EXPANSION_RECEIPTS",
+  "nextAfterAllAccepted": "Run E14.4h hard-negative coverage gate over the six independent accepted events",
+  "nextAfterNonAccept": "Retire the remaining hypothesis and return to evidence acquisition"
+}

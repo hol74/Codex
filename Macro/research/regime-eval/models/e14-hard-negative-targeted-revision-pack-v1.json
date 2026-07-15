@@ -1,0 +1,110 @@
+{
+  "schemaVersion": 1,
+  "packId": "e14-hard-negative-targeted-revision-pack-v1",
+  "frozenAt": "2026-07-15",
+  "dossierAuthor": "codex-primary-source-revision-2026-07-15",
+  "scope": "Hash-scoped correction of the two non-accepted E14.4e dossiers; fourteen accepted manifests remain byte-identical.",
+  "inputHashes": {
+    "reviewedQueueV7Sha256": "0085272a6541d7115b130d7fa156ee3fe53ceb3a81541145fbd56c6aac2238bf",
+    "reviewIngestionAuditV2Sha256": "8db6e1873790ef5e0a731a99a039a1ad6a4842e710ea0d640c70395b8965af27",
+    "dossierSchemaSha256": "6163ab4cf6249aa314708361d1572ade403844b2cca9b4deb9c6bfaca3c7702f",
+    "reviewSchemaV2Sha256": "77310369e3ba33a6a5dbde84ce6cc445a6a87c7e9e03ba3842718a684822dd58"
+  },
+  "policy": {
+    "acceptedManifestsMustRemainByteIdentical": true,
+    "onlyNeedsRevisionManifestsMayChange": true,
+    "unsupportedMechanismMustBeReplacedNotRelabeled": true,
+    "twoIndependentEvidenceProvidersRequired": true,
+    "counterEvidenceRequired": true,
+    "selfAcceptanceForbidden": true,
+    "taxonomyMutationAuthorized": false,
+    "candidateGenerationAuthorized": false,
+    "outerOosAuthorized": false
+  },
+  "revisions": [
+    {
+      "operation": "revise",
+      "baseDossierId": "e14-dossier-regional-bank-stress-2023-broad-market-repricing-hard-negative",
+      "baseSha256": "8f39d55e5521bd7e388ba98aa365dd5485273e9d481576942585eca227bbc291",
+      "dossierId": "e14-dossier-regional-bank-stress-2023-broad-market-repricing-hard-negative",
+      "hypothesisId": "regional-bank-stress-2023",
+      "mechanism": "broad-market-repricing",
+      "firstMonth": "2023-03-01",
+      "lastMonth": "2023-05-01",
+      "boundaryRationale": "March begins with the regional-bank failures and May closes at the Federal Reserve stability assessment. The claim is deliberately limited to policy-assisted containment of broad-market repricing; bank failures, fragile sentiment, funding strains and emergency facilities remain explicit counterevidence.",
+      "evidenceItems": [
+        {
+          "sourceId": "fed-financial-stability-report-2023-05",
+          "provider": "Board of Governors of the Federal Reserve System",
+          "independenceGroup": "federal-reserve",
+          "publishedAt": "2023-05-08",
+          "role": "official-narrative",
+          "locator": "https://www.federalreserve.gov/publications/2023-may-financial-stability-report-overview.htm",
+          "summary": "The Federal Reserve reports that policy actions and sector resilience led financial markets to normalize and that corporate-bond risk premiums remained near the middle of their historical distributions despite regional-bank stress."
+        },
+        {
+          "sourceId": "imf-gfsr-2023-04-chapter-1",
+          "provider": "International Monetary Fund",
+          "independenceGroup": "imf",
+          "publishedAt": "2023-04-11",
+          "role": "quantitative-observation",
+          "locator": "https://www.imf.org/-/media/files/publications/gfsr/2023/april/english/ch1.pdf",
+          "summary": "The accessible IMF chapter states that forceful policy responses reduced market anxiety, while also recording fragile sentiment and continuing strains; this supports containment rather than an assertion of system-wide calm."
+        }
+      ],
+      "counterEvidence": [
+        {
+          "sourceId": "gao-23-106736-bank-failures",
+          "provider": "U.S. Government Accountability Office",
+          "independenceGroup": "gao",
+          "publishedAt": "2023-04-28",
+          "role": "counterevidence",
+          "locator": "https://www.gao.gov/products/gao-23-106736",
+          "summary": "GAO documents two of the largest U.S. bank failures, weak liquidity and risk management, emergency guarantees and a new lending facility intended to minimize financial contagion."
+        }
+      ]
+    },
+    {
+      "operation": "replace",
+      "baseDossierId": "e14-dossier-repo-stress-2019-cross-border-growth-hard-negative",
+      "baseSha256": "c67c58a0312d68996ab72a79a50e5c8f2d524d70076fcadccff2a2097f64beb0",
+      "dossierId": "e14-dossier-flash-crash-2010-cross-border-growth-hard-negative",
+      "hypothesisId": "flash-crash-2010",
+      "mechanism": "cross-border-growth",
+      "firstMonth": "2010-05-01",
+      "lastMonth": "2010-05-01",
+      "boundaryRationale": "May isolates the May 6 flash crash. CPB subsequently measured May world-trade volume growth of 2.3 percent and 5.1 percent momentum, while WTO monitoring found no measurable trade impact from the contemporaneous volatility. The label is therefore negative only for cross-border real transmission, not for market functioning.",
+      "evidenceItems": [
+        {
+          "sourceId": "cpb-world-trade-monitor-june-2010",
+          "provider": "CPB Netherlands Bureau for Economic Policy Analysis",
+          "independenceGroup": "cpb-netherlands",
+          "publishedAt": "2010-08-25",
+          "role": "quantitative-observation",
+          "locator": "https://www.cpb.nl/sites/default/files/cijfer/wereldhandelsmonitor-juni-2010/trademonitorjuni2010.pdf",
+          "summary": "CPB reports an upwardly revised 2.3 percent month-on-month increase in world-trade volume in May 2010 and world-trade momentum of 5.1 percent, directly measuring continued cross-border real activity during the flash-crash month."
+        },
+        {
+          "sourceId": "wto-trade-growth-revision-2010",
+          "provider": "World Trade Organization",
+          "independenceGroup": "wto",
+          "publishedAt": "2010-09-20",
+          "role": "official-narrative",
+          "locator": "https://www.wto.org/english/news_e/pres10_e/pr616_e.htm",
+          "summary": "WTO economists raised the 2010 world-trade growth forecast to 13.5 percent after faster-than-expected recovery and reported that merchandise trade rose sharply in the first two quarters, confirming that the May market shock did not interrupt the cross-border recovery."
+        }
+      ],
+      "counterEvidence": [
+        {
+          "sourceId": "cftc-sec-joint-flash-crash-report-release",
+          "provider": "U.S. Commodity Futures Trading Commission and Securities and Exchange Commission",
+          "independenceGroup": "cftc-sec",
+          "publishedAt": "2010-10-01",
+          "role": "counterevidence",
+          "locator": "https://www.cftc.gov/PressRoom/PressReleases/5912-10",
+          "summary": "The CFTC and SEC joint investigation identifies the severe and rapid market disruption of May 6, preserving the underlying broad-market event as counterevidence to the mechanism-specific hard negative."
+        }
+      ]
+    }
+  ]
+}

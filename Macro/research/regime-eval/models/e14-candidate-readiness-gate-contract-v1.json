@@ -1,0 +1,49 @@
+{
+  "schemaVersion": 1,
+  "contractId": "e14-candidate-readiness-gate-contract-v1",
+  "frozenAt": "2026-07-15",
+  "inputHashes": {
+    "taxonomyV5Sha256": "d141416d08b68e932bc6cd2a25b9cd0eab06d159b8904907b7fff29d8c637d50",
+    "taxonomyV5MaterializationAuditSha256": "95322cb3b0952c85dae1b9f8edbb90193a2caaf44271bdc4cbb026addea42391",
+    "mechanismContractSha256": "b974b5b5e865a46438449e6d1dc0beb8d821e3656f0074b207d0eca96fd6d685",
+    "sourceCatalogSha256": "e2da8ce5dfacb144871d9d152d2114a30ba4b16adea938a96fabc05031b69271",
+    "legacyCandidateProtocolSha256": "81e39ad49d41c2f886cb4ee222c70ed4041f3fe2cea1b1961969dc3101356b70",
+    "legacyFoundationLockSha256": "28a74235ee9cd4968792a68939dc4cf9b7c09c402b5a22fd55a4671f0bdee325"
+  },
+  "requiredTaxonomyStatus": "TAXONOMY_V5_VERSIONED_CANDIDATE_READINESS_REQUIRED",
+  "requiredGroundTruthId": "us-financial-stress-mechanism-aware-v5",
+  "requiredMechanisms": [
+    "broad-market-repricing",
+    "funding-liquidity",
+    "banking-credit",
+    "cross-border-growth"
+  ],
+  "readinessPolicy": {
+    "taxonomyIntegrityRequired": true,
+    "acceptedCoverageRequired": true,
+    "zeroSameMechanismMonthConflictsRequired": true,
+    "independentDetectorPerMechanismRequired": true,
+    "materializedPointInTimeFeatureFoundationRequired": true,
+    "allDetectorFeaturesPopulatedRequired": true,
+    "generationProtocolBoundToTaxonomyV5Required": true,
+    "generationProtocolMechanismSeparatedRequired": true,
+    "innerOnlyThresholdSelectionRequired": true,
+    "causalTrainOnlyTransformsRequired": true,
+    "missingnessExplicitRequired": true
+  },
+  "authorizationPolicy": {
+    "readinessAuditAuthorized": true,
+    "candidateGenerationAuthorizedOnlyOnPass": true,
+    "outerOosAuthorized": false,
+    "promotionAuthorized": false,
+    "taxonomyMutationAuthorized": false
+  },
+  "expectedCurrentBlockers": [
+    "DETECTOR_FEATURES_NOT_POPULATED",
+    "FEATURE_FOUNDATION_NOT_MATERIALIZED",
+    "GENERATION_PROTOCOL_FOUNDATION_MISMATCH",
+    "GENERATION_PROTOCOL_TASK_GRAMMAR_MISMATCH"
+  ],
+  "expectedBlockedStatus": "CANDIDATE_READINESS_BLOCKED_FOUNDATION_AND_PROTOCOL",
+  "nextAfterBlocked": "E14.4k materialize and manifest the point-in-time mechanism feature foundation, then E14.4l freeze a taxonomy-v5-bound four-detector candidate-generation protocol"
+}

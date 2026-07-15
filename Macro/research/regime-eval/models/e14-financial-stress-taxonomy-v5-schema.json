@@ -1,0 +1,76 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://macro-regime.local/schemas/e14-financial-stress-taxonomy-v5.json",
+  "title": "E14 mechanism-aware financial stress taxonomy v5",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "groundTruthId",
+    "label",
+    "geography",
+    "frequency",
+    "coverageFrom",
+    "coverageTo",
+    "derivedFrom",
+    "foundation",
+    "acceptedExpansion",
+    "stateDefinitions",
+    "monthResolutionPolicy",
+    "mechanisms",
+    "sources",
+    "episodes",
+    "hardNegativeEpisodes",
+    "foundationEvidence",
+    "coverage",
+    "governance",
+    "limitations"
+  ],
+  "properties": {
+    "schemaVersion": {"const": 5},
+    "groundTruthId": {"const": "us-financial-stress-mechanism-aware-v5"},
+    "label": {"type": "string", "minLength": 1},
+    "geography": {"type": "string", "minLength": 1},
+    "frequency": {"const": "monthly"},
+    "coverageFrom": {"type": "string", "format": "date"},
+    "coverageTo": {"type": "string", "format": "date"},
+    "derivedFrom": {"const": "us-financial-stress-mechanism-aware-v4"},
+    "foundation": {"type": "object"},
+    "acceptedExpansion": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "versionedAt",
+        "coverageGateStatus",
+        "coverageGateAuditSha256",
+        "sourceQueueSha256",
+        "addedDossierCount",
+        "addedDossierIds"
+      ],
+      "properties": {
+        "versionedAt": {"type": "string", "format": "date"},
+        "coverageGateStatus": {"const": "ACCEPTED_HARD_NEGATIVE_COVERAGE_READY"},
+        "coverageGateAuditSha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+        "sourceQueueSha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+        "addedDossierCount": {"const": 4},
+        "addedDossierIds": {
+          "type": "array",
+          "minItems": 4,
+          "maxItems": 4,
+          "uniqueItems": true,
+          "items": {"type": "string", "pattern": "^e14-dossier-[a-z0-9-]+$"}
+        }
+      }
+    },
+    "stateDefinitions": {"type": "object"},
+    "monthResolutionPolicy": {"type": "string", "minLength": 1},
+    "mechanisms": {"type": "object", "minProperties": 4},
+    "sources": {"type": "array"},
+    "episodes": {"type": "array", "minItems": 1},
+    "hardNegativeEpisodes": {"type": "array", "minItems": 8},
+    "foundationEvidence": {"type": "array", "minItems": 16, "maxItems": 16},
+    "coverage": {"type": "object"},
+    "governance": {"type": "object"},
+    "limitations": {"type": "array", "minItems": 1}
+  }
+}

@@ -1,0 +1,53 @@
+{
+  "schemaVersion": 1,
+  "contractId": "e14-hard-negative-coverage-gate-contract-v1",
+  "frozenAt": "2026-07-15",
+  "inputHashes": {
+    "reviewedQueueV11Sha256": "fb77f001f22d981d42eb29d1fc7e4397bf4a5ebde8729179436aea322516c264",
+    "targetedIngestionAuditV2Sha256": "a4d076d1555c412c634ef7f8d63c3cf9b83a4b6d5cabf6a2942108b39b6a80c4",
+    "taxonomyV4Sha256": "d7f11a0ecc2bf2856d89b2aeb897e87e34d37e745bb9fecc0d16ad6558fa40cc",
+    "dossierSchemaSha256": "6163ab4cf6249aa314708361d1572ade403844b2cca9b4deb9c6bfaca3c7702f",
+    "labelAuditContractSha256": "edee49028b9d8601c9d22bf956e4e8c8a393897c8d388f94c9d21a1d79d0d570",
+    "mechanismContractSha256": "b974b5b5e865a46438449e6d1dc0beb8d821e3656f0074b207d0eca96fd6d685",
+    "expansionContractSha256": "c917db0b7ee9a2a32095b6b6c06ca1ff08ede44e12c52f66515ccf7b1a57d44d"
+  },
+  "requiredTaxonomyId": "us-financial-stress-mechanism-aware-v4",
+  "requiredQueueStatus": "EXPANSION_REVIEW_COMPLETE_ALL_ACCEPTED",
+  "requiredIngestionStatus": "READY_FOR_HARD_NEGATIVE_COVERAGE_GATE",
+  "requiredAcceptedDossierCount": 16,
+  "requiredNewHardNegativeDossierCount": 4,
+  "requiredMechanisms": [
+    "broad-market-repricing",
+    "funding-liquidity",
+    "banking-credit",
+    "cross-border-growth"
+  ],
+  "coverageThresholds": {
+    "minimumFullPositiveEpisodes": 6,
+    "minimumFullPositiveEpisodesPerMechanism": 3,
+    "minimumHardNegativeEpisodes": 6,
+    "minimumHardNegativeEpisodesPerMechanism": 2
+  },
+  "gatePolicy": {
+    "allQueueDossiersMustBeAccepted": true,
+    "allManifestHashesMustResolveExactlyOnce": true,
+    "taxonomyFoundationDossiersMustRemainUnchanged": true,
+    "independentEventsCountByHypothesisId": true,
+    "sameMechanismMonthOpposingStatesForbidden": true,
+    "crossMechanismMixedStatesAllowed": true,
+    "oneNewIndependentEventPerMechanismRequired": true,
+    "taxonomyMutationForbiddenInGate": true,
+    "candidateGenerationForbiddenInGate": true,
+    "outerOosForbiddenInGate": true
+  },
+  "authorizationPolicy": {
+    "coverageAuditAuthorized": true,
+    "taxonomyV5ProposalAuthorizedOnPass": true,
+    "taxonomyMutationAuthorized": false,
+    "candidateGenerationAuthorized": false,
+    "outerOosAuthorized": false,
+    "promotionAuthorized": false
+  },
+  "expectedPassStatus": "ACCEPTED_HARD_NEGATIVE_COVERAGE_READY",
+  "nextAfterPass": "E14.4i materialize the four accepted expansion dossiers into a new immutable taxonomy version; candidate readiness remains a separate gate"
+}
