@@ -17,7 +17,7 @@ Aiutare a gestire in modo ordinato, verificabile e ripetibile le attivita legate
 - Usa l'italiano come lingua predefinita.
 - Mantieni un tono istituzionale, chiaro e collaborativo.
 - Per email, comunicati e messaggi ufficiali usa formule cortesi, concise e prive di ambiguita.
-- Evita espressioni informali quando il testo e destinato a societa, tesserati, arbitri o organismi federali.
+- Evita espressioni informali quando il testo è destinato a societa, tesserati, arbitri o organismi federali.
 - Quando prepari bozze, distingui sempre tra testo pronto da inviare e note interne.
 
 ## Principi operativi
@@ -186,6 +186,59 @@ Quando va eseguita?
 Quali errori devono essere segnalati?
 ```
 
+### Gestione eccezioni e casi limite (FIPAV Online)
+
+Il portale FIPAV Online non e omogeneo: formati, layout e contenuti variano per tipo di campionato e fase. Le automazioni devono gestire le eccezioni in modo esplicito, tracciabile e prudente.
+
+#### Principi
+
+- **Mai successo silenzioso**: se un output e vuoto o ambiguo, segnalarlo nel registro e nel riepilogo a fine run.
+- **Conservare le fonti**: non sovrascrivere file input originali; in fallback HTML conservare sia `.xlsx` che `.html`.
+- **Tracciabilita**: ogni eccezione deve finire in `calendari.md` con stato, nota standardizzata e riferimento al girone.
+- **Prudenza operativa**: gironi `da_verificare` o `errore` non vanno usati per decisioni su spostamenti finche non confermati.
+
+#### Stati del registro
+
+| Stato | Quando usarlo |
+| --- | --- |
+| `convertito` | Almeno una gara estratta; file output utilizzabile |
+| `da_verificare` | Download riuscito ma 0 gare, dati incompleti, nomi `DA_VERIFICARE`, o schema anomalo |
+| `errore` | Fallimento tecnico (rete, parsing, file corrotto) dopo retry |
+| `scaricato` | Solo input salvato, conversione non completata (uso manuale) |
+
+#### Catalogo casi limite noti
+
+Pattern osservati nella stagione 2025_2026:
+
+1. **XLSX senza righe gara** — frequente su fasi finali, playoff e semifinali; usare fallback `gare_girone`. Nota: `N gare da HTML; XLSX senza righe gara`.
+2. **XLSX vuoto anche su gironi regolari** — es. girone 60897 (Prima Div. M Girone A); stesso fallback HTML.
+3. **Nomi non ricavabili** — registrare `DA_VERIFICARE` per campionato o girone; aggiungere nota `nome girone DA_VERIFICARE`.
+4. **Calendario non ancora pubblicato** — entrambe le fonti restituiscono 0 gare; stato `da_verificare`, nota `nessuna gara pubblicata`.
+5. **Risposta non-XLSX** — il portale puo restituire HTML al posto del file; tentare fallback `gare_girone` prima di segnalare errore. Nota: `N gare da HTML; risposta non-XLSX`.
+6. **Variazione struttura pagina campionati** — se lo script trova 0 gironi, fermarsi: probabile cambio layout HTML.
+7. **Differenza schema output** — output da HTML include colonne `Risultato` e `Parziali`; le automazioni downstream devono accettare 8 o 10 colonne.
+
+Quando scopri un nuovo caso limite ricorrente, aggiungilo a questo catalogo con data e esempio di numero girone. Non modificare la logica di parsing senza un esempio salvato in `data/input/calendari/`.
+
+#### Playbook dopo ogni run
+
+1. Controllare il riepilogo stdout (`convertiti / saltati / errori / da_verificare`).
+2. Filtrare in `calendari.md` le righe con stato `errore` o `da_verificare`.
+3. Per ogni `da_verificare` con 0 gare: verificare manualmente `https://fipavonline.it/main/gare_girone/{numero_girone}` — puo essere normale pre-pubblicazione.
+4. Per ogni `errore`: rieseguire lo script (retry automatico); se persiste, aprire l'URL e ispezionare la risposta.
+5. Per aggiornamenti calendario: usare `--force` solo se richiesto esplicitamente.
+
+#### Convenzione note nel registro
+
+```text
+{N} gare da XLSX
+{N} gare da HTML; XLSX senza righe gara
+{N} gare da HTML; risposta non-XLSX
+nessuna gara pubblicata
+nome girone DA_VERIFICARE
+{messaggio errore sintetico}
+```
+
 ### Workflow `downcal`
 
 Usa il workflow `downcal` per scaricare e convertire i calendari dei campionati dal sito FIPAV Online.
@@ -200,18 +253,21 @@ URL calendario: https://fipavonline.it/gironi/stampa_calendario/{numero_girone}
 
 Regole operative:
 
+- Applica il catalogo eccezioni e il playbook definiti nella sezione **Gestione eccezioni e casi limite (FIPAV Online)**.
 - Lavora sempre dentro una stagione esplicita. Se non indicata, usa `stagioni/2025_2026/` per test.
 - Leggi la pagina campionati e individua i gironi tramite link con `href` nel formato `/main/gare_girone/{numero_girone}` oppure `/gironi/edit/{numero_girone}`.
 - Per ogni girone, ricava dal contesto della pagina il nome del campionato e il nome del girone. Se il nome non e ricavabile con certezza, registra il valore come `DA_VERIFICARE`.
 - Prima di scaricare un calendario, controlla il registro `stagioni/<stagione>/calendari.md`.
-- Se il numero girone e gia presente nel registro, non riscaricare il file salvo richiesta esplicita di aggiornamento.
+- Salta i gironi gia in stato `convertito` o `scaricato`. Ri-tenta automaticamente i gironi in stato `errore` o `da_verificare` al run successivo, senza `--force`.
+- Usa `--force` solo per riscaricare gironi gia `convertito`, su richiesta esplicita di aggiornamento.
 - Scarica il calendario dall'URL `https://fipavonline.it/gironi/stampa_calendario/{numero_girone}`.
 - Salva il file originale in `stagioni/<stagione>/data/input/calendari/`.
 - Converti il calendario in Markdown e salva il risultato in `stagioni/<stagione>/data/output/calendari/`.
-- Se il file scaricato da `stampa_calendario` contiene solo l'intestazione e nessuna gara, usa la pagina pubblica `https://fipavonline.it/main/gare_girone/{numero_girone}` come fonte di fallback per generare il Markdown e conserva l'HTML in `data/input/calendari/`.
+- Se la risposta non e un file XLSX valido, o se l'XLSX contiene solo l'intestazione senza gare, usa la pagina pubblica `https://fipavonline.it/main/gare_girone/{numero_girone}` come fallback e conserva l'HTML in `data/input/calendari/`.
+- Se entrambe le fonti restituiscono 0 gare, registra stato `da_verificare` con nota `nessuna gara pubblicata` — non usare `convertito`.
 - Usa `SAMPLE/calendario_gare.xlsx` come esempio di struttura del calendario da interpretare.
-- Dopo ogni download riuscito, aggiorna `stagioni/<stagione>/calendari.md`.
-- Se un download o una conversione fallisce, registra comunque il tentativo con stato `errore` e una nota sintetica.
+- Dopo ogni tentativo, aggiorna `stagioni/<stagione>/calendari.md` appendendo una nuova riga (audit trail).
+- Se un download o una conversione fallisce dopo i retry, registra stato `errore` con nota sintetica.
 - Lo script operativo del workflow e `scripts/downcal.py`.
 
 Convenzione consigliata per i file:

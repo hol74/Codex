@@ -4,9 +4,11 @@ import http.cookiejar
 import re
 import ssl
 import sys
+import time
 import unicodedata
 from datetime import date
 from pathlib import Path
+from urllib.error import HTTPError, URLError
 from urllib.request import HTTPCookieProcessor, HTTPSHandler, Request, build_opener, urlopen
 
 from openpyxl import load_workbook
@@ -18,6 +20,9 @@ CHAMPIONSHIPS_URL = f"{BASE_URL}/main/tutti_i_campionati/{COMITATO}"
 CALENDAR_URL = f"{BASE_URL}/gironi/stampa_calendario/{{girone_id}}"
 MATCHES_URL = f"{BASE_URL}/main/gare_girone/{{girone_id}}"
 USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
+XLSX_MAGIC = b"PK\x03\x04"
+SKIP_STATUSES = frozenset({"convertito", "scaricato"})
+RETRYABLE_HTTP_CODES = {500, 502, 503, 504}
 
 
 def make_opener():
@@ -34,6 +39,29 @@ def fetch_bytes(url: str, opener=None) -> bytes:
             return response.read()
     with urlopen(request, context=context, timeout=30) as response:
         return response.read()
+
+
+def is_retryable_error(exc: BaseException) -> bool:
+    if isinstance(exc, HTTPError):
+        return exc.code in RETRYABLE_HTTP_CODES
+    return isinstance(exc, (TimeoutError, URLError))
+
+
+def fetch_bytes_with_retry(url: str, opener=None, max_retries: int = 3, backoff: float = 2.0) -> bytes:
+    last_exc: BaseException | None = None
+    for attempt in range(max_retries):
+        try:
+            return fetch_bytes(url, opener=opener)
+        except BaseException as exc:
+            last_exc = exc
+            if not is_retryable_error(exc) or attempt == max_retries - 1:
+                raise
+            time.sleep(backoff * (attempt + 1))
+    raise last_exc  # pragma: no cover
+
+
+def is_xlsx(data: bytes) -> bool:
+    return data.startswith(XLSX_MAGIC)
 
 
 def clean_text(value: str) -> str:
@@ -92,17 +120,29 @@ def parse_gironi(page_html: str) -> list[dict[str, str]]:
     return gironi
 
 
-def read_downloaded_ids(registry_path: Path) -> set[str]:
+def read_registry_status(registry_path: Path) -> dict[str, str]:
     if not registry_path.exists():
-        return set()
-    ids = set()
+        return {}
+    status_by_id: dict[str, str] = {}
     for line in registry_path.read_text(encoding="utf-8").splitlines():
         if not line.startswith("|") or line.startswith("| ---"):
             continue
         parts = [part.strip() for part in line.strip("|").split("|")]
         if len(parts) >= 5 and parts[4].isdigit():
-            ids.add(parts[4])
-    return ids
+            status_by_id[parts[4]] = parts[0].lower()
+    return status_by_id
+
+
+def has_unverified_names(meta: dict[str, str]) -> bool:
+    return meta["campionato"] == "DA_VERIFICARE" or meta["girone"] == "DA_VERIFICARE"
+
+
+def resolve_status_and_note(matches: int, note: str, meta: dict[str, str]) -> tuple[str, str]:
+    if matches == 0:
+        return "da_verificare", "nessuna gara pubblicata"
+    if has_unverified_names(meta):
+        return "convertito", f"{note}; nome girone DA_VERIFICARE"
+    return "convertito", note
 
 
 def cell_to_text(value) -> str:
@@ -265,6 +305,23 @@ def convert_matches_html_to_markdown(html_text: str, md_path: Path, meta: dict[s
     return total_matches
 
 
+def fetch_and_convert_html(
+    girone_id: str,
+    html_path: Path,
+    md_path: Path,
+    girone: dict[str, str],
+    opener,
+    fallback_reason: str,
+) -> tuple[int, str]:
+    html_data = fetch_bytes_with_retry(MATCHES_URL.format(girone_id=girone_id), opener=opener).decode(
+        "utf-8", "replace"
+    )
+    html_path.write_text(html_data, encoding="utf-8")
+    matches = convert_matches_html_to_markdown(html_data, md_path, girone)
+    note = f"{matches} gare da HTML; {fallback_reason}"
+    return matches, note
+
+
 def append_registry_row(registry_path: Path, row: list[str]) -> None:
     with registry_path.open("a", encoding="utf-8", newline="\n") as handle:
         handle.write("| " + " | ".join(value.replace("|", "\\|") for value in row) + " |\n")
@@ -296,6 +353,47 @@ def ensure_registry(registry_path: Path, season: str, reset: bool = False) -> No
     registry_path.write_text(registry_template(season), encoding="utf-8")
 
 
+def process_girone(
+    girone: dict[str, str],
+    input_dir: Path,
+    output_dir: Path,
+    season_dir: Path,
+    opener,
+) -> tuple[str, str, str, str]:
+    girone_id = girone["id"]
+    basename = (
+        f"girone_{girone_id}_"
+        f"{slugify(girone['campionato'])}_"
+        f"{slugify(girone['girone'])}"
+    )
+    xlsx_path = input_dir / f"{basename}.xlsx"
+    html_path = input_dir / f"{basename}.html"
+    md_path = output_dir / f"{basename}.md"
+
+    data = fetch_bytes_with_retry(CALENDAR_URL.format(girone_id=girone_id), opener=opener)
+
+    if is_xlsx(data):
+        xlsx_path.write_bytes(data)
+        matches = convert_xlsx_to_markdown(xlsx_path, md_path, girone)
+        note = f"{matches} gare da XLSX"
+        if matches == 0:
+            matches, note = fetch_and_convert_html(
+                girone_id, html_path, md_path, girone, opener, "XLSX senza righe gara"
+            )
+    else:
+        html_path.write_bytes(data)
+        matches, note = fetch_and_convert_html(
+            girone_id, html_path, md_path, girone, opener, "risposta non-XLSX"
+        )
+
+    status, note = resolve_status_and_note(matches, note, girone)
+    input_ref = xlsx_path.relative_to(season_dir).as_posix()
+    if not is_xlsx(data) and html_path.exists():
+        input_ref = html_path.relative_to(season_dir).as_posix()
+
+    return status, note, input_ref, md_path.relative_to(season_dir).as_posix()
+
+
 def run(season: str, force: bool, rebuild_registry: bool) -> int:
     root = Path.cwd()
     season_dir = root / "stagioni" / season
@@ -308,64 +406,67 @@ def run(season: str, force: bool, rebuild_registry: bool) -> int:
     ensure_registry(registry_path, season, reset=rebuild_registry)
 
     opener = make_opener()
-    page = fetch_bytes(CHAMPIONSHIPS_URL, opener=opener).decode("utf-8", "replace")
+    page = fetch_bytes_with_retry(CHAMPIONSHIPS_URL, opener=opener).decode("utf-8", "replace")
     gironi = parse_gironi(page)
-    downloaded_ids = set() if force else read_downloaded_ids(registry_path)
+    registry_status = read_registry_status(registry_path)
+
+    if not gironi:
+        print("ERRORE: nessun girone trovato nella pagina campionati — probabile cambio layout HTML.", file=sys.stderr)
+        return 1
 
     print(f"Trovati {len(gironi)} gironi nella pagina campionati.")
-    print(f"Gia presenti nel registro: {len(downloaded_ids)}.")
+    print(f"Gia presenti nel registro: {len(registry_status)}.")
 
     today = date.today().isoformat()
     processed = 0
     skipped = 0
     errors = 0
+    to_verify = 0
+    verify_ids: list[str] = []
+    error_ids: list[str] = []
 
     for girone in gironi:
         girone_id = girone["id"]
-        if girone_id in downloaded_ids:
-            skipped += 1
-            continue
-
-        basename = (
-            f"girone_{girone_id}_"
-            f"{slugify(girone['campionato'])}_"
-            f"{slugify(girone['girone'])}"
-        )
-        xlsx_path = input_dir / f"{basename}.xlsx"
-        html_path = input_dir / f"{basename}.html"
-        md_path = output_dir / f"{basename}.md"
+        if not force:
+            status = registry_status.get(girone_id)
+            if status in SKIP_STATUSES:
+                skipped += 1
+                continue
 
         try:
-            data = fetch_bytes(CALENDAR_URL.format(girone_id=girone_id), opener=opener)
-            xlsx_path.write_bytes(data)
-            matches = convert_xlsx_to_markdown(xlsx_path, md_path, girone)
-            note = f"{matches} gare da XLSX"
-
-            if matches == 0:
-                html_data = fetch_bytes(MATCHES_URL.format(girone_id=girone_id), opener=opener).decode(
-                    "utf-8", "replace"
-                )
-                html_path.write_text(html_data, encoding="utf-8")
-                matches = convert_matches_html_to_markdown(html_data, md_path, girone)
-                note = f"{matches} gare da HTML; XLSX senza righe gara"
-
+            status, note, input_ref, output_ref = process_girone(
+                girone, input_dir, output_dir, season_dir, opener
+            )
             append_registry_row(
                 registry_path,
                 [
-                    "convertito",
+                    status,
                     today,
                     girone["campionato"],
                     girone["girone"],
                     girone_id,
-                    xlsx_path.relative_to(season_dir).as_posix(),
-                    md_path.relative_to(season_dir).as_posix(),
+                    input_ref,
+                    output_ref,
                     note,
                 ],
             )
             processed += 1
-            print(f"OK {girone_id} - {girone['titolo']} ({note})")
+            registry_status[girone_id] = status
+
+            if status == "da_verificare":
+                to_verify += 1
+                verify_ids.append(girone_id)
+                print(f"DA_VERIFICARE {girone_id} - {girone['titolo']} ({note})")
+            else:
+                print(f"OK {girone_id} - {girone['titolo']} ({note})")
         except Exception as exc:
             errors += 1
+            error_ids.append(girone_id)
+            basename = (
+                f"girone_{girone_id}_"
+                f"{slugify(girone['campionato'])}_"
+                f"{slugify(girone['girone'])}"
+            )
             append_registry_row(
                 registry_path,
                 [
@@ -374,14 +475,22 @@ def run(season: str, force: bool, rebuild_registry: bool) -> int:
                     girone["campionato"],
                     girone["girone"],
                     girone_id,
-                    xlsx_path.relative_to(season_dir).as_posix(),
-                    md_path.relative_to(season_dir).as_posix(),
+                    (input_dir / f"{basename}.xlsx").relative_to(season_dir).as_posix(),
+                    (output_dir / f"{basename}.md").relative_to(season_dir).as_posix(),
                     str(exc).replace("\n", " ")[:180],
                 ],
             )
+            registry_status[girone_id] = "errore"
             print(f"ERRORE {girone_id} - {girone['titolo']}: {exc}", file=sys.stderr)
 
-    print(f"Completato: {processed} convertiti, {skipped} saltati, {errors} errori.")
+    print(
+        f"Completato: {processed} convertiti, {skipped} saltati, {errors} errori, {to_verify} da_verificare."
+    )
+    if verify_ids:
+        print(f"Elenco da_verificare: {', '.join(verify_ids)}")
+    if error_ids:
+        print(f"Elenco errori: {', '.join(error_ids)}")
+
     return 1 if errors else 0
 
 
