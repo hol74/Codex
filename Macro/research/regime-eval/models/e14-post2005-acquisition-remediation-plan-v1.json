@@ -1,0 +1,22 @@
+{
+  "schemaVersion": 1,
+  "planId": "e14-post2005-acquisition-remediation-plan-v1",
+  "frozenAt": "2026-07-16",
+  "remediationItems": [
+    {"itemId": "h8-calendar-catalog-addition", "disposition": "propose", "newRequestId": "h8-release-calendar-v3", "url": "https://www.federalreserve.gov/releases/h8/releaseDates.json", "expectedProviderDiscoveredReleaseCount": 1042, "catalogV3MaterializationBlockedPendingReview": true},
+    {"itemId": "fdic-past-archive-catalog-addition", "disposition": "propose", "newRequestId": "fdic-past-qbp-index-v3", "url": "https://www.fdic.gov/quarterly-banking-profile/past-quarterly-banking-profiles", "expectedEligibleQuarterCount": 79, "catalogV3MaterializationBlockedPendingReview": true},
+    {"itemId": "fdic-publication-date-ledger", "disposition": "open-evidence-collection", "requiredRowCount": 79, "catalogV3MaterializationBlockedUntilCompleteAndReviewed": true},
+    {"itemId": "g5-duplicate-month-adjudication", "disposition": "independent-review-required", "months": ["2024-08", "2024-10"], "proposedRule": "preserve-both-raw-original-effective-until-correction-date-correction-effective-from-provider-date", "noRetroactiveApplication": true, "catalogV3MaterializationBlockedPendingReview": true}
+  ],
+  "outputPolicy": {
+    "proposalAndDossierMayBeMaterialized": true,
+    "reviewQueueMayBeMaterialized": true,
+    "requestCatalogV3MayBeMaterialized": false,
+    "networkRequestsAuthorized": false,
+    "sourceAcquisitionAuthorized": false,
+    "featureTransformationAuthorized": false,
+    "candidateGenerationAuthorized": false,
+    "evaluationAuthorized": false,
+    "outerOosAuthorized": false
+  }
+}

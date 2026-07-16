@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 1,
+  "contractId": "e14-post2005-vintage-remediation-contract-v1",
+  "inputHashes": {
+    "vintageFitnessAuditSha256": "8dc95ac6f6155f09fa25b713cee893bf5e065c93745d019c717cc230d8db1ecb",
+    "snapshotIndexSha256": "79cbe527e0435980ce2b89f24585b62b6939937e5baf4ac4a1ad04c8cad967d9",
+    "acquisitionAuditSha256": "1bd44b531ff72eecddefde4d7da74ea2096d5afb50678a25155353fbe701fd55",
+    "scopePlanSha256": "177bce224260ba9559ddc153edab80ceabf3d9cfbf156aed271047272ba42a70",
+    "fitnessPlanSha256": "041c8113f0377a8020ad7e7cc7f0f739c02d0ac26b4e1134e4f3a5d9176c07e2",
+    "sourceAcquisitionManifestSha256": "2203aba40264054476a28b6c162e5eecc7346563bfb8a26f1339e65033881b90",
+    "remediationEvidenceSha256": "6dfc0e640132fb557784a57efdfaa88bb37e4b2cf6f8aad1e0ef583d930ce8b4",
+    "remediationPlanSha256": "2e56c989feb5ac181503ff957ea1850e3c406294de668c1e897dd52b43a48aba",
+    "remediationSchemaSha256": "3e6d2d70a0f6e7e6e8d8943eb5274f141718352b8fa7aff73940ed00f51e2bf7"
+  },
+  "expectedRemediationSourceIds": ["federal-reserve-h8-release-archive", "fdic-qbp-archive", "federal-reserve-h10-release-archive"],
+  "expectedPreservedReadyMechanisms": ["broad-market-repricing", "funding-liquidity"],
+  "expectedBlockedMechanisms": ["banking-credit", "cross-border-growth"],
+  "expectedH10MissingMonthCount": 31,
+  "expectedLatestEligibleFDICQuarter": "2025Q3",
+  "authorizationPolicy": {
+    "remediationFeasibilityAuditAuthorized": true,
+    "requestCatalogGenerationAuthorized": false,
+    "sourceAcquisitionAuthorized": false,
+    "featureTransformationAuthorized": false,
+    "candidateGenerationAuthorized": false,
+    "evaluationAuthorized": false,
+    "outerOosAuthorized": false
+  },
+  "expectedStatus": "TARGETED_VINTAGE_REMEDIATION_BLOCKED_POLICY_REDESIGN_REQUIRED",
+  "nextAllowedAction": "Preregister a separately reviewed policy-redesign proposal that preserves the two ready mechanisms, replaces the structurally gapped H.10 source, and defines FDIC availability by actual publication vintage; do not acquire or transform observations"
+}

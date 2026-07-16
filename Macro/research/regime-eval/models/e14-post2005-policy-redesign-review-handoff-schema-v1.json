@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://macro-regime.local/schemas/e14-post2005-policy-redesign-review-handoff-audit-v1.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "artifactType", "status", "inputs", "inventory", "bundleArtifacts", "checks", "protocol", "decision", "implementation"],
+  "properties": {
+    "schemaVersion": {"const": 1},
+    "artifactType": {"const": "E14Post2005PolicyRedesignReviewHandoffAudit"},
+    "status": {"const": "POST_2005_POLICY_REDESIGN_EXTERNAL_REVIEW_HANDOFF_READY"},
+    "inputs": {"type": "object"},
+    "inventory": {"type": "object"},
+    "bundleArtifacts": {"type": "array", "minItems": 12, "maxItems": 12},
+    "checks": {"type": "object"},
+    "protocol": {"type": "object"},
+    "decision": {"type": "object"},
+    "implementation": {"type": "object"}
+  }
+}

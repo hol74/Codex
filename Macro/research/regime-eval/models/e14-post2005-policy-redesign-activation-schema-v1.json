@@ -1,0 +1,119 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://macro-regime.local/schemas/e14-post2005-policy-redesign-activation-audit-v1.json",
+  "title": "E14 post-2005 policy redesign activation audit v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "artifactType", "status", "inputs", "outputs", "inventory", "checks", "protocol", "decision", "implementation"],
+  "$defs": {
+    "artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["fileName", "sha256", "sizeBytes"],
+      "properties": {
+        "fileName": { "type": "string", "minLength": 1 },
+        "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+        "sizeBytes": { "type": "integer", "minimum": 1 }
+      }
+    }
+  },
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "artifactType": { "const": "E14Post2005PolicyRedesignActivationAudit" },
+    "status": { "const": "POST_2005_REDESIGNED_POLICY_ACTIVE_REQUEST_CATALOG_PREREGISTRATION_REQUIRED" },
+    "inputs": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["activationContract", "policyRedesignProposal", "policyRedesignProposalAudit", "reviewedQueueV3", "reviewIngestionAudit", "baseActiveTaxonomy", "scopeActivationAudit", "policyRedesignPlan", "activationPlan", "activationAuditSchema"],
+      "properties": {
+        "activationContract": { "$ref": "#/$defs/artifact" },
+        "policyRedesignProposal": { "$ref": "#/$defs/artifact" },
+        "policyRedesignProposalAudit": { "$ref": "#/$defs/artifact" },
+        "reviewedQueueV3": { "$ref": "#/$defs/artifact" },
+        "reviewIngestionAudit": { "$ref": "#/$defs/artifact" },
+        "baseActiveTaxonomy": { "$ref": "#/$defs/artifact" },
+        "scopeActivationAudit": { "$ref": "#/$defs/artifact" },
+        "policyRedesignPlan": { "$ref": "#/$defs/artifact" },
+        "activationPlan": { "$ref": "#/$defs/artifact" },
+        "activationAuditSchema": { "$ref": "#/$defs/artifact" }
+      }
+    },
+    "outputs": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["activePolicy"],
+      "properties": { "activePolicy": { "$ref": "#/$defs/artifact" } }
+    },
+    "inventory": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["proposalItemCount", "acceptedDossierCount", "authenticIndependentReceiptCount", "preservedReadyMechanismCount"],
+      "properties": {
+        "proposalItemCount": { "const": 2 },
+        "acceptedDossierCount": { "const": 2 },
+        "authenticIndependentReceiptCount": { "const": 2 },
+        "preservedReadyMechanismCount": { "const": 2 }
+      }
+    },
+    "checks": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["allInputHashesExact", "reviewedQueueBoundToProposal", "reviewedQueueBoundToIngestionAudit", "allDossiersAcceptedByAuthenticIndependentReceipts", "proposalItemsBoundToAcceptedDossiers", "g5MethodologySeparationPreserved", "fdicPublicationProofPolicyPreserved", "legacyArtifactsUnchanged", "baseScopeAndAcceptedLabelsUnchanged", "legacyH10ManifestAndSnapshotNotReused", "sourceObservationsRead", "outerOosRead"],
+      "properties": {
+        "allInputHashesExact": { "const": true },
+        "reviewedQueueBoundToProposal": { "const": true },
+        "reviewedQueueBoundToIngestionAudit": { "const": true },
+        "allDossiersAcceptedByAuthenticIndependentReceipts": { "const": true },
+        "proposalItemsBoundToAcceptedDossiers": { "const": true },
+        "g5MethodologySeparationPreserved": { "const": true },
+        "fdicPublicationProofPolicyPreserved": { "const": true },
+        "legacyArtifactsUnchanged": { "const": true },
+        "baseScopeAndAcceptedLabelsUnchanged": { "const": true },
+        "legacyH10ManifestAndSnapshotNotReused": { "const": true },
+        "sourceObservationsRead": { "const": false },
+        "outerOosRead": { "const": false }
+      }
+    },
+    "protocol": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["policyActivated", "requestCatalogGenerated", "requestCatalogGenerationAuthorized", "observationsAcquired", "featuresTransformed", "candidatesGenerated", "evaluationPerformed", "outerOosRead"],
+      "properties": {
+        "policyActivated": { "const": true },
+        "requestCatalogGenerated": { "const": false },
+        "requestCatalogGenerationAuthorized": { "const": true },
+        "observationsAcquired": { "const": 0 },
+        "featuresTransformed": { "const": 0 },
+        "candidatesGenerated": { "const": 0 },
+        "evaluationPerformed": { "const": false },
+        "outerOosRead": { "const": false }
+      }
+    },
+    "decision": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["post2005PolicyRedesignActivated", "sourceManifestAndRequestCatalogPreregistrationAuthorized", "requestCatalogGenerationAuthorized", "requestCatalogGenerationPerformed", "sourceAcquisitionAuthorized", "featureTransformationAuthorized", "candidateGenerationAuthorized", "evaluationAuthorized", "outerOosAuthorized", "nextAllowedAction"],
+      "properties": {
+        "post2005PolicyRedesignActivated": { "const": true },
+        "sourceManifestAndRequestCatalogPreregistrationAuthorized": { "const": true },
+        "requestCatalogGenerationAuthorized": { "const": true },
+        "requestCatalogGenerationPerformed": { "const": false },
+        "sourceAcquisitionAuthorized": { "const": false },
+        "featureTransformationAuthorized": { "const": false },
+        "candidateGenerationAuthorized": { "const": false },
+        "evaluationAuthorized": { "const": false },
+        "outerOosAuthorized": { "const": false },
+        "nextAllowedAction": { "const": "Preregister a versioned post-2005 source-acquisition manifest and request catalog bound to the active source-vintage policy v2; do not acquire observations yet" }
+      }
+    },
+    "implementation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["module", "sourceSha256"],
+      "properties": {
+        "module": { "const": "regime_eval.e14_post2005_policy_redesign_activation" },
+        "sourceSha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" }
+      }
+    }
+  }
+}

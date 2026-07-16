@@ -1,0 +1,76 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://macro-regime.local/schemas/e14-post2005-source-execution-gate-audit-v2.json",
+  "title": "E14 post-2005 source acquisition metadata execution gate audit v2",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "artifactType", "status", "executedAtUtc", "inputs", "inventory", "credentialResults", "probeResults", "checks", "protocol", "decision", "implementation"],
+  "properties": {
+    "schemaVersion": {"const": 2},
+    "artifactType": {"const": "E14Post2005SourceAcquisitionExecutionGateAudit"},
+    "status": {"enum": ["POST_2005_SOURCE_V2_METADATA_GATE_PASSED_ACQUISITION_EXECUTION_SEPARATELY_AUTHORIZED", "POST_2005_SOURCE_V2_METADATA_GATE_BLOCKED"]},
+    "executedAtUtc": {"type": "string", "minLength": 20},
+    "inputs": {"type": "object", "additionalProperties": {"$ref": "#/$defs/artifact"}, "minProperties": 6, "maxProperties": 6},
+    "inventory": {"$ref": "#/$defs/inventory"},
+    "credentialResults": {"type": "array", "minItems": 1, "maxItems": 1, "items": {"$ref": "#/$defs/credentialResult"}},
+    "probeResults": {"type": "array", "minItems": 7, "maxItems": 7, "items": {"$ref": "#/$defs/probeResult"}},
+    "checks": {"$ref": "#/$defs/checks"},
+    "protocol": {"$ref": "#/$defs/protocol"},
+    "decision": {"$ref": "#/$defs/decision"},
+    "implementation": {"$ref": "#/$defs/implementation"}
+  },
+  "$defs": {
+    "artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["fileName", "sha256", "sizeBytes"],
+      "properties": {
+        "fileName": {"type": "string", "minLength": 1},
+        "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+        "sizeBytes": {"type": "integer", "minimum": 1}
+      }
+    },
+    "inventory": {
+      "type": "object", "additionalProperties": false,
+      "required": ["requiredCredentialCount", "sourceProbeCount", "requestTemplateCount", "passedProbeCount", "failedProbeCount", "retiredH10ReferenceCount"],
+      "properties": {
+        "requiredCredentialCount": {"const": 1}, "sourceProbeCount": {"const": 7}, "requestTemplateCount": {"const": 11},
+        "passedProbeCount": {"type": "integer", "minimum": 0, "maximum": 7}, "failedProbeCount": {"type": "integer", "minimum": 0, "maximum": 7}, "retiredH10ReferenceCount": {"const": 0}
+      }
+    },
+    "credentialResult": {
+      "type": "object", "additionalProperties": false,
+      "required": ["environmentVariable", "appliesToSourceIds", "present", "formatValid", "secretPersisted"],
+      "properties": {"environmentVariable": {"const": "FRED_API_KEY"}, "appliesToSourceIds": {"type": "array", "minItems": 4, "maxItems": 4, "items": {"type": "string"}}, "present": {"type": "boolean"}, "formatValid": {"type": "boolean"}, "secretPersisted": {"const": false}}
+    },
+    "probeResult": {
+      "type": "object", "additionalProperties": false,
+      "required": ["sourceId", "urlTemplate", "attempted", "passed", "statusCode", "finalHost", "redirectChainHosts", "contentType", "bytesInspected", "expectedMarkerFound", "failureReason"],
+      "properties": {
+        "sourceId": {"type": "string"}, "urlTemplate": {"type": "string"}, "attempted": {"type": "boolean"}, "passed": {"type": "boolean"},
+        "statusCode": {"type": ["integer", "null"]}, "finalHost": {"type": ["string", "null"]}, "redirectChainHosts": {"type": "array", "items": {"type": "string"}},
+        "contentType": {"type": ["string", "null"]}, "bytesInspected": {"type": "integer", "minimum": 0, "maximum": 65536}, "expectedMarkerFound": {"type": "boolean"}, "failureReason": {"type": ["string", "null"]}
+      }
+    },
+    "checks": {
+      "type": "object", "additionalProperties": false,
+      "required": ["allInputHashesExact", "manifestAndCatalogExact", "preregistrationExecutionWasClosed", "requestCatalogSemanticsExact", "h10AbsentAndG5Present", "requiredCredentialsReady", "allMetadataProbesPassed", "secretsExcludedFromAudit", "redirectsStayedOnAllowlist", "observationsAndRawArtifactsAbsent"],
+      "properties": {"allInputHashesExact": {"const": true}, "manifestAndCatalogExact": {"const": true}, "preregistrationExecutionWasClosed": {"const": true}, "requestCatalogSemanticsExact": {"const": true}, "h10AbsentAndG5Present": {"const": true}, "requiredCredentialsReady": {"type": "boolean"}, "allMetadataProbesPassed": {"type": "boolean"}, "secretsExcludedFromAudit": {"const": true}, "redirectsStayedOnAllowlist": {"type": "boolean"}, "observationsAndRawArtifactsAbsent": {"const": true}}
+    },
+    "protocol": {
+      "type": "object", "additionalProperties": false,
+      "required": ["networkRequestsMade", "metadataOnlyRequests", "requestTemplatesExecuted", "observationsAcquired", "rawArtifactsWritten", "featuresTransformed", "candidatesGenerated", "evaluationPerformed", "outerOosRead"],
+      "properties": {"networkRequestsMade": {"type": "integer", "minimum": 0, "maximum": 7}, "metadataOnlyRequests": {"type": "integer", "minimum": 0, "maximum": 7}, "requestTemplatesExecuted": {"const": 0}, "observationsAcquired": {"const": 0}, "rawArtifactsWritten": {"const": 0}, "featuresTransformed": {"const": 0}, "candidatesGenerated": {"const": 0}, "evaluationPerformed": {"const": false}, "outerOosRead": {"const": false}}
+    },
+    "decision": {
+      "type": "object", "additionalProperties": false,
+      "required": ["separateSourceAcquisitionExecutionAuthorized", "featureTransformationAuthorized", "candidateGenerationAuthorized", "evaluationAuthorized", "outerOosAuthorized", "nextAllowedAction"],
+      "properties": {"separateSourceAcquisitionExecutionAuthorized": {"type": "boolean"}, "featureTransformationAuthorized": {"const": false}, "candidateGenerationAuthorized": {"const": false}, "evaluationAuthorized": {"const": false}, "outerOosAuthorized": {"const": false}, "nextAllowedAction": {"type": "string", "minLength": 1}}
+    },
+    "implementation": {
+      "type": "object", "additionalProperties": false,
+      "required": ["module", "sourceSha256"],
+      "properties": {"module": {"const": "regime_eval.e14_post2005_source_execution_gate_v2"}, "sourceSha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}}
+    }
+  }
+}

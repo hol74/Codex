@@ -1,0 +1,36 @@
+{
+  "schemaVersion": 2,
+  "planId": "e14-post2005-source-acquisition-execution-plan-v2",
+  "frozenAt": "2026-07-16",
+  "manifestId": "e14-post2005-source-acquisition-manifest-v2",
+  "requestCatalogId": "e14-post2005-source-acquisition-requests-v2",
+  "authorizedGateAuditSha256": "54f444fea108c355763044fbe060a765dd6099bc66345c33748fa21332b5b2f2",
+  "discoveryFirstRequestIds": ["h8-release-index-v2", "fdic-qbp-publication-index-v2", "g5-release-calendar-v2"],
+  "discoveryPolicy": {
+    "onlyPreregisteredDiscoveryUrlsMayBeRequested": true,
+    "linkedButUnpreregisteredCalendarsOrArchivesMayNotBeFollowed": true,
+    "allExpansionValuesMustExistInDiscoveryPayload": true,
+    "h8DirectDatedReleaseValuesRequired": true,
+    "h8ExpectedWeeklyCount": 1043,
+    "fdicAll79DocumentsAndActualPublicationDatesRequired": true,
+    "g5Exactly240UniqueMonthsRequired": true,
+    "g5DuplicateMonthsRequireSeparateAdjudication": true,
+    "anyDiscoveryBlockerStopsBeforeEventTimeOrFredRequests": true
+  },
+  "networkPolicy": {
+    "allowedHosts": ["www.federalreserve.gov", "www.fdic.gov"],
+    "httpsOnly": true,
+    "redirectsMustRemainOnAllowlist": true,
+    "maximumLogicalRequests": 3
+  },
+  "failurePolicy": {
+    "rawPayloadsMustNotBePublished": true,
+    "snapshotMustNotBeCreated": true,
+    "stagingMustBeRemoved": true,
+    "failureAuditMustBeWriteOnce": true,
+    "featureTransformationAuthorized": false,
+    "candidateGenerationAuthorized": false,
+    "evaluationAuthorized": false,
+    "outerOosAuthorized": false
+  }
+}

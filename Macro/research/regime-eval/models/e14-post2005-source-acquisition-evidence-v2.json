@@ -1,0 +1,99 @@
+{
+  "schemaVersion": 2,
+  "evidencePackId": "e14-post2005-source-acquisition-evidence-v2",
+  "checkedAtUtc": "2026-07-16T00:00:00Z",
+  "networkPolicy": "provider-metadata-only-no-series-observation-download",
+  "sources": [
+    {
+      "sourceId": "federal-reserve-h8-release-archive",
+      "coverageFrom": "2005-12-16",
+      "providerPrimaryPageReachable": true,
+      "licensingCleared": true,
+      "componentCoverageVerified": true,
+      "releaseProofComplete": true,
+      "vintageProofComplete": true,
+      "methodologyManifestFeasible": true,
+      "evidenceUrls": ["https://www.federalreserve.gov/releases/h8/default.htm", "https://www.federalreserve.gov/releases/h8/h8notes.htm"],
+      "evidenceNotes": ["Dated H.8 releases expose publication dates, contemporaneous tables and benchmark-revision notes."],
+      "blockingReasons": []
+    },
+    {
+      "sourceId": "fdic-qbp-archive",
+      "coverageFrom": "1986-03-31",
+      "providerPrimaryPageReachable": true,
+      "licensingCleared": true,
+      "componentCoverageVerified": true,
+      "releaseProofComplete": true,
+      "vintageProofComplete": true,
+      "methodologyManifestFeasible": true,
+      "evidenceUrls": ["https://www.fdic.gov/analysis/quarterly-banking-profile/", "https://www.fdic.gov/news/speeches/2025/fdic-quarterly-banking-profile-third-quarter-2025", "https://www.fdic.gov/news/speeches/2026/fdic-quarterly-banking-profile-fourth-quarter-2025"],
+      "evidenceNotes": ["Provider-primary statements prove that quarter end is not publication time: 2025Q3 was released on 2025-11-24 and 2025Q4 on 2026-02-24."],
+      "blockingReasons": []
+    },
+    {
+      "sourceId": "fred-dgs2",
+      "coverageFrom": "1976-06-01",
+      "providerPrimaryPageReachable": true,
+      "licensingCleared": true,
+      "componentCoverageVerified": true,
+      "releaseProofComplete": true,
+      "vintageProofComplete": true,
+      "methodologyManifestFeasible": true,
+      "evidenceUrls": ["https://fred.stlouisfed.org/series/DGS2", "https://alfred.stlouisfed.org/series?seid=DGS2"],
+      "evidenceNotes": ["ALFRED exposes historical realtime periods for the H.15 series."],
+      "blockingReasons": []
+    },
+    {
+      "sourceId": "fred-dgs10",
+      "coverageFrom": "1962-01-02",
+      "providerPrimaryPageReachable": true,
+      "licensingCleared": true,
+      "componentCoverageVerified": true,
+      "releaseProofComplete": true,
+      "vintageProofComplete": true,
+      "methodologyManifestFeasible": true,
+      "evidenceUrls": ["https://fred.stlouisfed.org/series/DGS10", "https://alfred.stlouisfed.org/series?seid=DGS10"],
+      "evidenceNotes": ["ALFRED exposes historical realtime periods for the H.15 series."],
+      "blockingReasons": []
+    },
+    {
+      "sourceId": "federal-reserve-g5-release-archive",
+      "coverageFrom": "2006-01-03",
+      "providerPrimaryPageReachable": true,
+      "licensingCleared": true,
+      "componentCoverageVerified": true,
+      "releaseProofComplete": true,
+      "vintageProofComplete": true,
+      "methodologyManifestFeasible": true,
+      "evidenceUrls": ["https://www.federalreserve.gov/releases/g5/releaseDates.json", "https://www.federalreserve.gov/releases/g5/20060103/", "https://www.federalreserve.gov/releases/g5/20130401/", "https://www.federalreserve.gov/econres/notes/feds-notes/revisions-to-the-federal-reserve-dollar-indexes-20190115.html"],
+      "evidenceNotes": ["The provider calendar has one dated monthly release for every month from 2006-01 through 2013-04; endpoint releases expose Broad, Major and OITP components. The redesigned methodology became effective on 2019-02-04 and its backcast is not event-time history."],
+      "blockingReasons": []
+    },
+    {
+      "sourceId": "fred-dcpf3m",
+      "coverageFrom": "1997-01-02",
+      "providerPrimaryPageReachable": true,
+      "licensingCleared": true,
+      "componentCoverageVerified": true,
+      "releaseProofComplete": true,
+      "vintageProofComplete": true,
+      "methodologyManifestFeasible": true,
+      "evidenceUrls": ["https://fred.stlouisfed.org/series/DCPF3M", "https://www.federalreserve.gov/releases/CP/about.htm"],
+      "evidenceNotes": ["ALFRED vintages and Board methodology metadata cover the commercial-paper definition regimes."],
+      "blockingReasons": []
+    },
+    {
+      "sourceId": "fred-dtb3",
+      "coverageFrom": "1954-01-04",
+      "providerPrimaryPageReachable": true,
+      "licensingCleared": true,
+      "componentCoverageVerified": true,
+      "releaseProofComplete": true,
+      "vintageProofComplete": true,
+      "methodologyManifestFeasible": true,
+      "evidenceUrls": ["https://fred.stlouisfed.org/series/DTB3", "https://alfred.stlouisfed.org/series?seid=DTB3"],
+      "evidenceNotes": ["The Treasury-bill reference leg remains available with its discount-basis semantics."],
+      "blockingReasons": []
+    }
+  ]
+}

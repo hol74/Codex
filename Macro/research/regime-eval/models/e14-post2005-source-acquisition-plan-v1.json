@@ -1,0 +1,132 @@
+{
+  "schemaVersion": 1,
+  "planId": "e14-post2005-source-acquisition-plan-v1",
+  "frozenAt": "2026-07-16",
+  "scopeId": "e14-post-2005-research-scope-proposal-v1",
+  "taxonomyId": "us-financial-stress-post2005-v1",
+  "window": {
+    "startInclusive": "2006-01-01",
+    "endInclusive": "2025-12-31"
+  },
+  "researchBoundary": "Preregistration only. This plan freezes provider-primary source identities, vintage semantics, raw paths and completeness checks without downloading or parsing any observation.",
+  "snapshotRoot": "data/historical-real-v12-2008-2025/post2005-source-snapshots-v1",
+  "sources": [
+    {
+      "sourceId": "federal-reserve-h8-release-archive",
+      "provider": "Board of Governors of the Federal Reserve System",
+      "frequency": "weekly-release",
+      "retrievalMode": "dated-release-archive",
+      "seriesOrTables": ["deposits", "bank-credit", "borrowings"],
+      "rawArtifactPath": "federal-reserve/h8/releases",
+      "asOfPolicy": "Use only a dated H.8 release available on or before each research as-of date; record release date and benchmark-revision note.",
+      "methodologyRegimes": ["release-specific-benchmark-revisions-recorded"]
+    },
+    {
+      "sourceId": "fdic-qbp-archive",
+      "provider": "Federal Deposit Insurance Corporation",
+      "frequency": "quarterly-release",
+      "retrievalMode": "authenticated-archive-document",
+      "seriesOrTables": ["capital", "asset-quality", "problem-bank-count", "bank-failures"],
+      "rawArtifactPath": "fdic/qbp",
+      "asOfPolicy": "Use the contemporaneous quarter publication and preserve its publication date, archive checksum and comparability notes.",
+      "methodologyRegimes": ["quarter-specific-comparability-notes-recorded"]
+    },
+    {
+      "sourceId": "fred-dgs2",
+      "provider": "Federal Reserve Bank of St. Louis / ALFRED",
+      "frequency": "daily",
+      "retrievalMode": "historical-vintage-series",
+      "seriesOrTables": ["DGS2"],
+      "rawArtifactPath": "fred/dgs2",
+      "asOfPolicy": "Request observations with a realtime period no later than each research as-of date and preserve realtime_start and realtime_end.",
+      "methodologyRegimes": ["h15-public-domain-vintage"]
+    },
+    {
+      "sourceId": "fred-dgs10",
+      "provider": "Federal Reserve Bank of St. Louis / ALFRED",
+      "frequency": "daily",
+      "retrievalMode": "historical-vintage-series",
+      "seriesOrTables": ["DGS10"],
+      "rawArtifactPath": "fred/dgs10",
+      "asOfPolicy": "Request observations with a realtime period no later than each research as-of date and preserve realtime_start and realtime_end.",
+      "methodologyRegimes": ["h15-public-domain-vintage"]
+    },
+    {
+      "sourceId": "federal-reserve-h10-release-archive",
+      "provider": "Board of Governors of the Federal Reserve System",
+      "frequency": "daily-release",
+      "retrievalMode": "non-revised-release-archive",
+      "seriesOrTables": ["broad-dollar-index", "eme-dollar-index"],
+      "rawArtifactPath": "federal-reserve/h10/releases",
+      "asOfPolicy": "Use only a dated non-revised H.10 release available on or before each research as-of date.",
+      "methodologyRegimes": ["2006-index-start", "2019-dollar-index-methodology-change"]
+    },
+    {
+      "sourceId": "fred-dcpf3m",
+      "provider": "Federal Reserve Bank of St. Louis / Federal Reserve Board",
+      "frequency": "daily",
+      "retrievalMode": "historical-vintage-series",
+      "seriesOrTables": ["DCPF3M"],
+      "rawArtifactPath": "fred/dcpf3m",
+      "asOfPolicy": "Use ALFRED vintages no later than each research as-of date and preserve the underlying Federal Reserve CP definition regime.",
+      "methodologyRegimes": ["2006-commercial-paper-redefinition", "2007-commercial-paper-redefinition"]
+    },
+    {
+      "sourceId": "fred-dtb3",
+      "provider": "Federal Reserve Bank of St. Louis / Federal Reserve Board",
+      "frequency": "daily",
+      "retrievalMode": "historical-vintage-series",
+      "seriesOrTables": ["DTB3"],
+      "rawArtifactPath": "fred/dtb3",
+      "asOfPolicy": "Use ALFRED vintages no later than each research as-of date and preserve the Treasury-bill discount-basis semantics.",
+      "methodologyRegimes": ["treasury-bill-discount-basis"]
+    }
+  ],
+  "featureFamilies": [
+    {
+      "familyId": "bank-release-archived-balance-sheet-post2005",
+      "mechanism": "banking-credit",
+      "sourceIds": ["federal-reserve-h8-release-archive", "fdic-qbp-archive"],
+      "components": ["deposit-and-bank-credit-change", "borrowings-pressure", "release-available-capital-and-asset-quality"],
+      "minimumHistoryMonths": 60
+    },
+    {
+      "familyId": "broad-treasury-rate-dislocation-post2005",
+      "mechanism": "broad-market-repricing",
+      "sourceIds": ["fred-dgs2", "fred-dgs10"],
+      "components": ["maximum-absolute-daily-yield-change", "two-ten-curve-rotation", "one-month-yield-range"],
+      "minimumHistoryMonths": 60
+    },
+    {
+      "familyId": "cross-fed-dollar-shock-post2005",
+      "mechanism": "cross-border-growth",
+      "sourceIds": ["federal-reserve-h10-release-archive"],
+      "components": ["broad-dollar-one-month-change", "eme-dollar-one-month-change", "broad-dollar-acceleration"],
+      "minimumHistoryMonths": 60
+    },
+    {
+      "familyId": "funding-financial-cp-tiering-post2005",
+      "mechanism": "funding-liquidity",
+      "sourceIds": ["fred-dcpf3m", "fred-dtb3"],
+      "components": ["financial-cp-minus-tbill-spread", "one-month-spread-change", "monthly-maximum-spread"],
+      "minimumHistoryMonths": 60
+    }
+  ],
+  "integrityPolicy": {
+    "providerPrimaryLocatorRequired": true,
+    "rawBytesPreserved": true,
+    "sha256Required": true,
+    "retrievedAtUtcRequired": true,
+    "releaseOrVintageMetadataRequired": true,
+    "partialAcquisitionFailsClosed": true,
+    "unexpectedMethodologyBreakFailsClosed": true
+  },
+  "authorizationPolicy": {
+    "manifestMaterializationAuthorized": true,
+    "sourceAcquisitionExecutionAuthorized": false,
+    "featureTransformationAuthorized": false,
+    "candidateGenerationAuthorized": false,
+    "evaluationAuthorized": false,
+    "outerOosAuthorized": false
+  }
+}

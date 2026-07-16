@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 2,
+  "contractId": "e14-post2005-source-acquisition-execution-contract-v2",
+  "inputHashes": {
+    "sourceAcquisitionManifestV2Sha256": "cbe3e50768381c6772a8a5b70efa04fe62fb27d4f33b5623f5f7fc8caeb128dc",
+    "requestCatalogV2Sha256": "cf4d1c8643d4123ff7ac3ef3bd780766cd46f4b3fbddeda858b4682ffcc36935",
+    "sourceExecutionGateAuditV3Sha256": "54f444fea108c355763044fbe060a765dd6099bc66345c33748fa21332b5b2f2",
+    "executionPlanV2Sha256": "87339999e0545c818ce0bc5e5c1eb5bc83900830474ca1a3670cf377572baf84",
+    "preflightSchemaV2Sha256": "bfa02a5da2b64889117d0a1f0616b41f6c8eb5d893676b556fa3ee07a6934909"
+  },
+  "expectedDiscoveryRequestIds": ["h8-release-index-v2", "fdic-qbp-publication-index-v2", "g5-release-calendar-v2"],
+  "decisionPolicy": {
+    "authorizedGateMustBindExactManifestAndCatalog": true,
+    "discoveryMustPrecedeAllBulkAcquisition": true,
+    "onlyFrozenDiscoveryUrlsMayBeRequested": true,
+    "incompleteProviderDiscoveryMustFailClosed": true,
+    "g5DuplicateMonthsRequireSeparateAdjudication": true,
+    "failedPreflightCannotPublishRawPayloadsOrSnapshot": true,
+    "secretsMustNotBePersisted": true,
+    "featureTransformationRemainsForbidden": true
+  },
+  "nextActionIfReady": "Run the full atomic acquisition against provider-discovered values only; do not transform features",
+  "nextActionIfBlocked": "Version the request catalog to preregister the H8 calendar and FDIC historical publication-proof discovery, and separately adjudicate duplicate G5 release months; do not acquire event-time or FRED payloads"
+}

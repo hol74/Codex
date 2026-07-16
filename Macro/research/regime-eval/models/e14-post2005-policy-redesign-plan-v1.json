@@ -1,0 +1,64 @@
+{
+  "schemaVersion": 1,
+  "planId": "e14-post2005-policy-redesign-plan-v1",
+  "frozenAt": "2026-07-16",
+  "proposalAuthor": "codex-post2005-policy-redesign-2026-07-16",
+  "researchBoundary": "Proposal and independent-review queue only. Preserve accepted labels and the two vintage-fit mechanisms; do not mutate E14.7l, acquire observations, generate candidates, evaluate, or read outer OOS.",
+  "preservedReadyMechanisms": ["broad-market-repricing", "funding-liquidity"],
+  "redesignProposals": [
+    {
+      "proposalItemId": "cross-g5-monthly-release-replacement-v1",
+      "mechanism": "cross-border-growth",
+      "replacesFamilyId": "cross-fed-dollar-shock-post2005",
+      "proposedFamilyId": "cross-g5-dollar-shock-post2005-v2",
+      "retiredSourceIds": ["federal-reserve-h10-release-archive"],
+      "proposedSourceIds": ["federal-reserve-g5-release-archive"],
+      "components": ["broad-dollar-one-month-change", "oitp-or-eme-dollar-one-month-change", "broad-dollar-acceleration"],
+      "minimumHistoryMonths": 60,
+      "applicablePositiveEpisodeIds": ["taper-tantrum-2013", "china-eme-stress-2015-2016"],
+      "releaseCadence": "monthly",
+      "observationFrequency": "monthly",
+      "methodologyPolicy": "Legacy Broad/OITP and redesigned Broad/EME are separate regimes. No cross-regime percentile history, splice, rebasing or threshold sharing is authorized until a later reviewed transformation contract.",
+      "proposalStatus": "awaiting-independent-review"
+    },
+    {
+      "proposalItemId": "bank-fdic-publication-vintage-policy-v1",
+      "mechanism": "banking-credit",
+      "replacesFamilyId": "bank-release-archived-balance-sheet-post2005",
+      "proposedFamilyId": "bank-release-archived-balance-sheet-post2005-v2",
+      "retiredSourceIds": [],
+      "proposedSourceIds": ["federal-reserve-h8-release-archive", "fdic-qbp-archive"],
+      "components": ["deposit-and-bank-credit-change", "borrowings-pressure", "release-available-capital-and-asset-quality"],
+      "minimumHistoryMonths": 60,
+      "applicablePositiveEpisodeIds": ["euro-sovereign-stress-2011", "regional-bank-stress-2023"],
+      "availabilityPolicy": {
+        "h8": "latest dated H.8 release published on or before each as-of date",
+        "fdic": "latest QBP whose corroborated actual publication date is on or before each as-of date; accepted proof is a contemporaneous FDIC release statement or equivalent provider-primary timestamp, while quarter-end metadata and the 60-day feasibility envelope cannot substitute for publication proof",
+        "coverageEndMeaning": "latest eligible vintage within the research calendar, not forced equality to quarter-end",
+        "postCutoffBackfillForbidden": true
+      },
+      "proposalStatus": "awaiting-independent-review"
+    }
+  ],
+  "reviewRequirements": {
+    "independentReviewerRequired": true,
+    "selfAcceptanceForbidden": true,
+    "bothProposalItemsMustBeAccepted": true,
+    "reviewerMustOpenProviderPrimaryLocators": true,
+    "reviewerMustVerifyG5ComponentSemantics": true,
+    "reviewerMustVerifyMethodologyBoundary": true,
+    "reviewerMustVerifyFDICAvailabilityRule": true,
+    "partialAcceptanceDoesNotAuthorizeActivation": true
+  },
+  "authorizationPolicy": {
+    "proposalMaterializationAuthorized": true,
+    "independentReviewHandoffAuthorized": true,
+    "policyActivationAuthorized": false,
+    "requestCatalogGenerationAuthorized": false,
+    "sourceAcquisitionAuthorized": false,
+    "featureTransformationAuthorized": false,
+    "candidateGenerationAuthorized": false,
+    "evaluationAuthorized": false,
+    "outerOosAuthorized": false
+  }
+}

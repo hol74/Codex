@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "contractId": "e14-fdic-publication-metadata-execution-gate-contract-v1",
+  "inputHashes": {
+    "preregistrationContractV1Sha256": "42b4c7b3b8761f956aee7eec27d1a2db230d99c8229440a1c3c0f012caba4ffc",
+    "preregistrationAuditV1Sha256": "22c537fe81603169035b37bbc9635e8d390191a476fa0de51bd3ad3121a739f4",
+    "independentReviewV1Sha256": "8fa7948109b0e519d847bb07750a07daa6d2a554a4bd8ed8121e51aee7591444",
+    "independentReviewSchemaV1Sha256": "e764a314e68983b62860642023b631c7b8120fd606ad2bf589efd82bc7bc60f1",
+    "executionPlanV1Sha256": "54a6974d7e9d89dfae3649e5298dddec3248b4f35df249eeda901a3af5de514b",
+    "gateSchemaV1Sha256": "c81930311f7cc213236f9e5c34d7e52781a4245f50ee365f92a720ff4f43155e"
+  },
+  "decisionPolicy": {
+    "allInputHashesMustMatchExactly": true,
+    "independentReviewMustAcceptAllAssessments": true,
+    "quarterRosterMustRemain79": true,
+    "networkLimitsMustBeBounded": true,
+    "offProviderRedirectMustFailClosed": true,
+    "partialPublicationForbidden": true,
+    "gateItselfMustMakeZeroNetworkRequests": true,
+    "catalogV3MustRemainAbsent": true,
+    "snapshotV2MustRemainAbsent": true
+  },
+  "nextAllowedAction": "Execute one metadata-only FDIC publication-proof collection against the exact E14.7aa limits and publish only a complete validated 79-row ledger atomically; do not materialize catalog v3 or download event-time payloads"
+}

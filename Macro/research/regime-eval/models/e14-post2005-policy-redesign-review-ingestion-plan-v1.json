@@ -1,0 +1,34 @@
+{
+  "schemaVersion": 1,
+  "planId": "e14-post2005-policy-redesign-review-ingestion-plan-v1",
+  "objective": "Ingest exactly two authentic independent policy-redesign review receipts fail-closed, preserve every immutable binding, and keep policy activation separate.",
+  "receiptPolicy": {
+    "exactlyOneReceiptPerDossier": true,
+    "exactQueueEvidenceSchemaAndDossierHashesRequired": true,
+    "reviewerMustDifferFromProposalAuthor": true,
+    "reviewerMustDeclareIndependence": true,
+    "everyProviderPrimaryLocatorMustBeOpened": true,
+    "everyRequiredFindingMustBeAssessed": true,
+    "everyCounterEvidenceItemMustBeConsidered": true,
+    "noModelEvaluationOutputMayBeUsed": true,
+    "acceptRequiresAllFindingsAndStrictChecks": true,
+    "missingDuplicateUnexpectedOrInvalidReceiptFailsBeforeWrite": true,
+    "receiptBytesRemainUnchanged": true
+  },
+  "authorizationPolicy": {
+    "receiptIngestionAuthorized": true,
+    "reviewDecisionRecordingAuthorized": true,
+    "separatePolicyActivationGateAuthorizedOnlyIfBothAccepted": true,
+    "policyActivationPerformedByIngestion": false,
+    "requestCatalogGenerationAuthorized": false,
+    "sourceAcquisitionAuthorized": false,
+    "featureTransformationAuthorized": false,
+    "candidateGenerationAuthorized": false,
+    "evaluationAuthorized": false,
+    "outerOosAuthorized": false
+  },
+  "expectedReceiptCount": 2,
+  "receiptDirectoryName": "completed-policy-redesign-receipts-v1",
+  "nextAllowedActionIfAccepted": "Run a separate versioned policy-activation gate against the reviewed queue v3 and ingestion audit; do not generate requests, acquire sources, or transform features",
+  "nextAllowedActionIfRevisionsRequired": "Version only the rejected or needs-revision review materials and repeat independent review; do not activate policy or acquire sources"
+}

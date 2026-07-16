@@ -1,0 +1,78 @@
+{
+  "schemaVersion": 1,
+  "planId": "e14-post2005-vintage-fitness-audit-plan-v1",
+  "frozenAt": "2026-07-16",
+  "snapshotId": "e14-post2005-source-snapshot-v1",
+  "researchBoundary": "Audit raw hashes, container integrity, temporal coverage and release/vintage metadata only. Observation values may be parsed only to validate dates and uniqueness; no feature is calculated.",
+  "familyPolicies": [
+    {
+      "familyId": "bank-release-archived-balance-sheet-post2005",
+      "mechanism": "banking-credit",
+      "sourceIds": ["federal-reserve-h8-release-archive", "fdic-qbp-archive"],
+      "coverageStartRequired": "2006-01-01",
+      "coverageEndRequired": "2025-12-31",
+      "eventTimeEvidenceRequired": true,
+      "minimumHistoryMonths": 60
+    },
+    {
+      "familyId": "broad-treasury-rate-dislocation-post2005",
+      "mechanism": "broad-market-repricing",
+      "sourceIds": ["fred-dgs2", "fred-dgs10"],
+      "coverageStartTolerance": "2006-01-11",
+      "coverageEndTolerance": "2025-12-30",
+      "eventTimeEvidenceRequired": true,
+      "minimumHistoryMonths": 60
+    },
+    {
+      "familyId": "cross-fed-dollar-shock-post2005",
+      "mechanism": "cross-border-growth",
+      "sourceIds": ["federal-reserve-h10-release-archive"],
+      "coverageStartRequired": "2006-01-02",
+      "coverageEndRequired": "2025-12-31",
+      "eventTimeEvidenceRequired": true,
+      "minimumHistoryMonths": 60
+    },
+    {
+      "familyId": "funding-financial-cp-tiering-post2005",
+      "mechanism": "funding-liquidity",
+      "sourceIds": ["fred-dcpf3m", "fred-dtb3"],
+      "coverageStartToleranceBySource": {"fred-dcpf3m": "2006-03-23", "fred-dtb3": "2006-01-11"},
+      "coverageEndTolerance": "2025-12-30",
+      "eventTimeEvidenceRequired": true,
+      "minimumHistoryMonths": 60
+    }
+  ],
+  "fredInitialReleaseMaximumLagDaysBySource": {
+    "fred-dgs2": 10,
+    "fred-dgs10": 10,
+    "fred-dcpf3m": 45,
+    "fred-dtb3": 10
+  },
+  "positiveEpisodeFirstMonthById": {
+    "china-eme-stress-2015-2016": "2015-08-01",
+    "euro-sovereign-stress-2011": "2011-09-01",
+    "regional-bank-stress-2023": "2023-03-01",
+    "repo-stress-2019": "2019-09-01",
+    "risk-repricing-2018q4": "2018-10-01",
+    "taper-tantrum-2013": "2013-05-01"
+  },
+  "fitnessPolicy": {
+    "allArtifactHashesMustMatch": true,
+    "allContainersMustPassIntegrityTest": true,
+    "fredDatesMustBeUniquePerSeries": true,
+    "fredRealtimeDatesMustRemainInsideFrozenChunks": true,
+    "fredPayloadMustReconcileWithFrozenIndex": true,
+    "fredInitialReleaseChronologyMustPass": true,
+    "rawOnlyPayloadCannotProveEventTimeFitness": true,
+    "allSourcesInFamilyMustPass": true,
+    "minimumHistoryMustPass": true,
+    "globalTransformationRequiresAllFourFamilies": true
+  },
+  "authorizationPolicy": {
+    "auditAuthorized": true,
+    "featureTransformationAuthorized": false,
+    "candidateGenerationAuthorized": false,
+    "evaluationAuthorized": false,
+    "outerOosAuthorized": false
+  }
+}

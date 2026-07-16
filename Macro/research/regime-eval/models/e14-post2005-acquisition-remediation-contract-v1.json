@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 1,
+  "contractId": "e14-post2005-acquisition-remediation-contract-v1",
+  "inputHashes": {
+    "preflightAuditV2Sha256": "63e3a440d1f4756e05c9b278d220f322cf26441933b3504c2ec91c74ef13dee0",
+    "manifestV2Sha256": "cbe3e50768381c6772a8a5b70efa04fe62fb27d4f33b5623f5f7fc8caeb128dc",
+    "requestCatalogV2Sha256": "cf4d1c8643d4123ff7ac3ef3bd780766cd46f4b3fbddeda858b4682ffcc36935",
+    "activePolicyV2Sha256": "94db6eb64b83ea3d54ca36c8d3311f983ab48f998c4b6bb9e7218df8aad049fd",
+    "remediationEvidenceV1Sha256": "e8d47f7ba704772ae3200ffdc926db6a012997f439998752a0ec7d2102ef9ea5",
+    "remediationPlanV1Sha256": "e2c32ade7945700fa84c9681506df4acd2361847fad41d5f111c24e6f165aa24",
+    "proposalSchemaV1Sha256": "6a3da8ba2b4ae150350e76c52b2a5422d85591f2eddcc1411dcf96e529c6f75d",
+    "dossierSchemaV1Sha256": "1b26c69e6511cd9a67a13947722b60b9e8a55d85c78dc026666536d4339fa504",
+    "queueSchemaV1Sha256": "d366a8c2524cc2d3abcc228ff1f817a2ab88f75991ddadf5de0c377d9baa1103",
+    "reviewReceiptSchemaV1Sha256": "5a1ad516a327c01fd49fed691d5ab8c191238ef0cb18ba9f4c32d40e0fbed07b",
+    "auditSchemaV1Sha256": "473b44d3f23b79e0bc9fd8f8c7f6b725f0a039991e60b7024cb55ca714e0c69f"
+  },
+  "decisionPolicy": {
+    "preflightMustRemainBlocked": true,
+    "h8CountRevisionRequiresIndependentReview": true,
+    "fdic79QuarterRosterMayBeProposed": true,
+    "fdic79PublicationProofLedgerMustRemainOpen": true,
+    "g5OriginalAndCorrectionMustBothBeRetained": true,
+    "g5CorrectionCannotApplyRetroactively": true,
+    "catalogV3MaterializationForbidden": true,
+    "sourceAcquisitionForbidden": true
+  },
+  "expectedOutputs": ["e14-post2005-acquisition-remediation-proposal-v1.json", "e14-g5-duplicate-release-adjudication-dossier-v1.json", "e14-post2005-acquisition-remediation-review-queue-v1.json", "e14-post2005-acquisition-remediation-audit-v1.json"],
+  "nextAllowedAction": "Perform independent review of the H8 count revision, FDIC roster/proof gap, and G5 correction chains; do not materialize request catalog v3 or acquire sources"
+}

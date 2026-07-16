@@ -1,0 +1,141 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://macro-regime.local/schemas/e14-policy-redesign-independent-review-v1.json",
+  "title": "E14 post-2005 policy-redesign independent review receipt v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "reviewId", "dossierId", "dossierSha256", "queueId", "queueSha256", "evidenceContractId", "evidenceContractSha256", "reviewSchemaId", "reviewSchemaSha256", "reviewerId", "reviewerAffiliation", "independenceDeclaration", "reviewedAt", "decision", "rationale", "findingAssessments", "counterEvidenceAssessments", "checks"],
+  "properties": {
+    "schemaVersion": {"const": 1},
+    "reviewId": {"type": "string", "pattern": "^e14-policy-redesign-review-[a-z0-9-]+$"},
+    "dossierId": {
+      "enum": [
+        "e14-post2005-policy-redesign-dossier-cross-g5-monthly-release-replacement-v1",
+        "e14-post2005-policy-redesign-dossier-bank-fdic-publication-vintage-policy-v1"
+      ]
+    },
+    "dossierSha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "queueId": {"const": "e14-post2005-policy-redesign-review-queue-v2"},
+    "queueSha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "evidenceContractId": {"const": "e14-post2005-policy-redesign-review-remediation-evidence-v1"},
+    "evidenceContractSha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "reviewSchemaId": {"const": "https://macro-regime.local/schemas/e14-policy-redesign-independent-review-v1.json"},
+    "reviewSchemaSha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "reviewerId": {"type": "string", "minLength": 1},
+    "reviewerAffiliation": {"type": "string", "minLength": 1},
+    "independenceDeclaration": {
+      "const": "I did not author the policy-redesign proposal, dossier, evidence contract, or review materials and reviewed every cited provider-primary locator independently."
+    },
+    "reviewedAt": {"type": "string", "format": "date"},
+    "decision": {"enum": ["accept", "reject", "needs-revision"]},
+    "rationale": {"type": "string", "minLength": 100},
+    "findingAssessments": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["findingId", "supported", "rationale"],
+        "properties": {
+          "findingId": {"type": "string", "minLength": 1},
+          "supported": {"type": "boolean"},
+          "rationale": {"type": "string", "minLength": 20}
+        }
+      }
+    },
+    "counterEvidenceAssessments": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["counterEvidenceId", "considered", "rationale"],
+        "properties": {
+          "counterEvidenceId": {"type": "string", "minLength": 1},
+          "considered": {"const": true},
+          "rationale": {"type": "string", "minLength": 20}
+        }
+      }
+    },
+    "checks": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["providerPrimaryLocatorsOpened", "proposalSemanticsSupported", "methodologyOrAvailabilityBoundarySupported", "counterEvidenceConsidered", "noModelOutputUsed"],
+      "properties": {
+        "providerPrimaryLocatorsOpened": {"type": "boolean"},
+        "proposalSemanticsSupported": {"type": "boolean"},
+        "methodologyOrAvailabilityBoundarySupported": {"type": "boolean"},
+        "counterEvidenceConsidered": {"const": true},
+        "noModelOutputUsed": {"const": true}
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"decision": {"const": "accept"}}, "required": ["decision"]},
+      "then": {
+        "properties": {
+          "checks": {
+            "properties": {
+              "providerPrimaryLocatorsOpened": {"const": true},
+              "proposalSemanticsSupported": {"const": true},
+              "methodologyOrAvailabilityBoundarySupported": {"const": true}
+            }
+          },
+          "findingAssessments": {
+            "items": {"properties": {"supported": {"const": true}}}
+          }
+        },
+        "required": ["findingAssessments", "counterEvidenceAssessments"]
+      }
+    },
+    {
+      "if": {"properties": {"dossierId": {"const": "e14-post2005-policy-redesign-dossier-cross-g5-monthly-release-replacement-v1"}}, "required": ["dossierId"]},
+      "then": {
+        "properties": {
+          "findingAssessments": {
+            "minItems": 4,
+            "maxItems": 4,
+            "prefixItems": [
+              {"properties": {"findingId": {"const": "g5-monthly-coverage"}}},
+              {"properties": {"findingId": {"const": "g5-legacy-components"}}},
+              {"properties": {"findingId": {"const": "g5-methodology-boundary"}}},
+              {"properties": {"findingId": {"const": "g5-no-backcast-event-time"}}}
+            ],
+            "items": false
+          },
+          "counterEvidenceAssessments": {
+            "minItems": 1,
+            "maxItems": 1,
+            "prefixItems": [{"properties": {"counterEvidenceId": {"const": "g5-backcast-not-event-time"}}}],
+            "items": false
+          }
+        }
+      }
+    },
+    {
+      "if": {"properties": {"dossierId": {"const": "e14-post2005-policy-redesign-dossier-bank-fdic-publication-vintage-policy-v1"}}, "required": ["dossierId"]},
+      "then": {
+        "properties": {
+          "findingAssessments": {
+            "minItems": 4,
+            "maxItems": 4,
+            "prefixItems": [
+              {"properties": {"findingId": {"const": "fdic-actual-publication-required"}}},
+              {"properties": {"findingId": {"const": "fdic-q3-eligible"}}},
+              {"properties": {"findingId": {"const": "fdic-q4-ineligible"}}},
+              {"properties": {"findingId": {"const": "fdic-forward-fill-stale-age"}}}
+            ],
+            "items": false
+          },
+          "counterEvidenceAssessments": {
+            "minItems": 1,
+            "maxItems": 1,
+            "prefixItems": [{"properties": {"counterEvidenceId": {"const": "fdic-quarter-end-not-publication-proof"}}}],
+            "items": false
+          }
+        }
+      }
+    }
+  ]
+}

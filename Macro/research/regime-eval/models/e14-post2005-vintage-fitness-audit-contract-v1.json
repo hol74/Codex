@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 1,
+  "contractId": "e14-post2005-vintage-fitness-audit-contract-v1",
+  "inputHashes": {
+    "snapshotIndexSha256": "79cbe527e0435980ce2b89f24585b62b6939937e5baf4ac4a1ad04c8cad967d9",
+    "acquisitionAuditSha256": "1bd44b531ff72eecddefde4d7da74ea2096d5afb50678a25155353fbe701fd55",
+    "scopeFeasibilityPlanSha256": "177bce224260ba9559ddc153edab80ceabf3d9cfbf156aed271047272ba42a70",
+    "fitnessPlanSha256": "041c8113f0377a8020ad7e7cc7f0f739c02d0ac26b4e1134e4f3a5d9176c07e2",
+    "fitnessSchemaSha256": "3b8bf4e0ba9d01d0f821f6f969841761810637e3f05022ac58fc06d49afd5f90"
+  },
+  "expectedSourceIds": [
+    "federal-reserve-h8-release-archive",
+    "fdic-qbp-archive",
+    "fred-dgs2",
+    "fred-dgs10",
+    "federal-reserve-h10-release-archive",
+    "fred-dcpf3m",
+    "fred-dtb3"
+  ],
+  "expectedMechanisms": ["banking-credit", "broad-market-repricing", "cross-border-growth", "funding-liquidity"],
+  "decisionPolicy": {
+    "hashMismatchFailsClosed": true,
+    "coverageFailureBlocksFamily": true,
+    "rawOnlyUsageBlocksEventTimeFitness": true,
+    "familyFailureBlocksGlobalTransformation": true,
+    "auditCannotTransformValues": true,
+    "auditCannotGenerateCandidates": true
+  },
+  "nextActionIfAllReady": "Run a separate feature-foundation transformation preregistration gate; do not calculate features yet",
+  "nextActionIfPartial": "Remediate only non-vintage-fit banking and cross-border raw sources with dated release artifacts, then repeat this audit"
+}

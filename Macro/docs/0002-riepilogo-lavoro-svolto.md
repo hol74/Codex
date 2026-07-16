@@ -864,6 +864,120 @@ Checkpoint in corso: `docs/checkpoints/0034-fase-e-slice6-feature-baseline-redes
   E' autorizzata soltanto E14.7f, proposta taxonomy separata con dossier e
   queue di review indipendente; scope, dati, foundation e modelli restano
   chiusi. La regressione completa supera 162/162 test Python.
+- Fase E14.7f - proposta taxonomy post-2005: materializzata la proposta
+  inattiva `us-financial-stress-post2005-v1` con identificatori nuovi e soli
+  riferimenti hash-bound alla taxonomy v5. La proposta contiene 6 episodi
+  positivi post-cutoff, 6 righe hard-negative legacy e 2 nuovi controlli
+  banking-credit. London Whale e Archegos sono rappresentati da dossier
+  reviewed ma non accepted, legati tramite SHA-256 a una queue write-once con
+  0 receipt e self-acceptance vietata. Proposal SHA-256
+  `73bc241078d7fb32196bdff3adec45932a1cf1f1cf3846721909a27af4aa814f`,
+  queue SHA-256
+  `c5839d76422e3dd22bcf478a46bb6ca73da9bda32aec2aa15614fa40d9fa27da`
+  e audit SHA-256
+  `7b9cf376728820c794a9324447eae3e2675c5a3ccd8adb31b516faca6c0d381b`.
+  Taxonomy v5 resta byte-identica; scope, acquisizione, foundation, fitting,
+  evaluation e outer OOS restano chiusi. Il solo passo autorizzato e' E14.7g,
+  handoff e ingestion di receipt indipendenti hash-matching.
+  La regressione completa supera 166/166 test Python e 240/240 test .NET.
+- Fase E14.7g1 - handoff review esterna: generato un bundle immutabile con
+  copia byte-identica della proposta e della queue, 2 dossier verificati, 2
+  worksheet e 2 template receipt schema v2 intenzionalmente invalidi finche'
+  non compilati da un reviewer indipendente. Audit handoff SHA-256
+  `0bf1cbcc51ca8cbf9c7eee7e3bae228a1b0cf1dfad0464b8c6aebf856beb8243`.
+  Il validatore E14.7g2 rifiuta hash errati, self-review, receipt duplicate e
+  accept privi dei controlli stretti. Il dry-run senza receipt produce stato
+  `POST_2005_INDEPENDENT_REVIEW_INCOMPLETE`, queue readiness SHA-256
+  `13e13f0d71d58c003c472820524ba33414b4a30713909d3fbdf80d89325078a0`
+  e audit SHA-256
+  `71a48069d7dc3731f341910bd31f2227c73cf7f16b7913705c79c5234835c120`.
+  Nessuna review e' stata simulata sugli artefatti reali: E14.7g resta aperto
+  in attesa di due receipt esterne autentiche. La regressione supera 171/171
+  test Python e 240/240 test .NET.
+- Fasi E14.7g-E14.7l - completate review e remediation, attivato lo scope
+  post-2005 separato, preregistrate e acquisite atomicamente sette fonti in 23
+  raw artifact. L'audit vintage fail-closed qualifica
+  `broad-market-repricing` e `funding-liquidity`, ma blocca `banking-credit` e
+  `cross-border-growth` per assenza di release-level vintages H.8/H.10/FDIC.
+  La trasformazione globale resta chiusa. La regressione supera 188/188 test
+  Python.
+- Fase E14.7m - remediation vintage metadata-only: H.8 e' locator-feasible;
+  H.10 ha un gap strutturale di 31 mesi e FDIC 2025Q4 e' post-cutoff. Nessuna
+  acquisizione e' autorizzata; serve un redesign revisionato di fonte e policy.
+- Fase E14.7n - proposta di redesign: G.5 mensile candidato sostitutivo H.10,
+  break 2019 esplicito e FDIC vincolato alla pubblicazione corroborata. Due
+  dossier hash-bound attendono review indipendente; ogni gate downstream resta
+  chiuso.
+- Fase E14.7o - gate di handoff bloccato: i due dossier ID E14.7n non possono
+  produrre receipt valide sotto lo schema v2 e la struttura di counterevidence
+  non coincide. Nessun bundle o template e' stato pubblicato; serve uno schema
+  ed evidence contract versionati, senza mutare E14.7n.
+- Fase E14.7p - remediation del contratto di review: queue v2, schema receipt
+  dedicato ed evidence contract con sette locator, otto finding e due
+  counterevidence. I dossier E14.7n restano byte-identici; e' aperto soltanto
+  l'handoff immutabile, senza receipt o attivazione.
+- Fase E14.7q - handoff immutabile: bundle di 12 file con copie byte-identiche,
+  due worksheet e due template hash-bound non ingeribili. Nessuna receipt o
+  review e' stata prodotta; il reviewer esterno puo' ora eseguire la review.
+- Fase E14.7r - review indipendente e ingestion completate: due receipt
+  autentiche accettano entrambi i dossier, con otto finding supportati e due
+  counterevidence considerate. La queue v3 e l'audit sono immutabili; solo il
+  gate di attivazione policy separato e' autorizzato, mentre tutti i gate dati e
+  modello restano chiusi. La regressione supera 222/222 test Python.
+- Fase E14.7s - attivato un overlay source-vintage policy v2 senza modificare
+  taxonomy o label. G.5 sostituisce H.10 con regimi metodologici separati e
+  FDIC usa la pubblicazione effettiva. Il vecchio snapshot non e'
+  reinterpretato; e' aperta soltanto la preregistrazione del nuovo manifest e
+  request catalog. Acquisizione e gate modello restano chiusi; la regressione
+  complessiva supera 229/229 test Python.
+- Fase E14.7t - preregistrati manifest e request catalog v2: sette sorgenti,
+  H.10 assente, G.5 con 240 mesi unici e FDIC con 79 trimestri eleggibili fino
+  al 2025Q3. Gli 11 template sono congelati ma nessuna rete o acquisizione e'
+  stata eseguita; resta aperto soltanto il gate metadata separato. La
+  regressione complessiva supera 237/237 test Python.
+- Fase E14.7u - eseguito il gate metadata fail-closed su manifest/catalog v2.
+  Un primo audit immutabile ha bloccato 6/7 sul marker G.5; la remediation v3,
+  legata a quel fallimento, ha adottato il campo provider-primary `MonthValue`
+  e superato 7/7 probe. Zero template, osservazioni e raw artifact; e'
+  autorizzata soltanto l'acquisizione atomica separata. Review indipendente
+  approvata e regressione complessiva a 246/246 test Python.
+- Fase E14.7v - il preflight discovery-only ha eseguito i tre URL congelati e
+  bloccato la full acquisition: H.8 richiede il calendario separato, FDIC
+  archivio e prove di pubblicazione, G.5 adjudication per i duplicati 2024-08 e
+  2024-10. Staging rimosso, snapshot assente e zero richieste event-time/FRED.
+  Review indipendente approvata e regressione a 254/254 test Python.
+- Fase E14.7w - preregistrato il docket remediation review-first: H.8 corregge
+  1043 a 1042 release, FDIC congela il roster 79/79 ma resta 0/79 sulle date di
+  pubblicazione, G.5 conserva originali e correzioni senza backdating.
+  Catalogo v3 e snapshot sono assenti; e' aperta soltanto la review
+  indipendente. Regressione complessiva a 260/260 test Python.
+- Fase E14.7x - review indipendente hash-bound completata con decisione
+  `accept`: confermati H.8 1042, roster FDIC 79/79 con gap probatorio ancora
+  0/79 e catene G.5 senza retroattivita'. Il docket resta non eseguibile;
+  catalogo v3, snapshot v2, rete, acquisizione e downstream restano chiusi.
+  Regressione complessiva confermata a 260/260 test Python.
+- Fase E14.7y - preregistrata senza rete la raccolta metadata-only delle 79
+  prove FDIC: roster esatto 2006Q1-2025Q3, campi provider-primary congelati e
+  quarter-end, Last-Modified, lag stimati e fonti secondarie vietati. Il gap
+  resta 0/79; l'esecuzione richiede review separata. Catalogo v3 e downstream
+  restano chiusi. Regressione complessiva a 266/266 test Python.
+- Fase E14.7z - review indipendente del disegno metadata-only completata con
+  decisione `accept`: confermati hash, roster 79/79, campi probatori, pinning
+  FDIC e guard fail-closed. La review autorizza soltanto un gate di esecuzione
+  separato; rete, catalogo v3 e downstream restano chiusi. Suite ancora
+  266/266.
+- Fase E14.7aa - gate operativo metadata-only superato senza rete: congelati
+  host FDIC, budget 158/316, redirect, timeout, limite 8 MiB, content type,
+  retry e pubblicazione atomica solo a 79/79. E' autorizzato soltanto il
+  collector separato; catalogo v3 e downstream restano chiusi. Regressione
+  complessiva a 273/273 test Python.
+- Fase E14.7ab - il preflight del collector ha fallito chiuso prima della rete:
+  il piano E14.7aa non congela URL seed esatti ne' template hash-bound. Zero
+  richieste, righe, raw artifact, ledger e cataloghi pubblicati. La ricognizione
+  provider-primary segnala inoltre release storiche su `archive.fdic.gov`, host
+  non ammesso dal gate corrente. E' autorizzata soltanto la preregistrazione
+  versionata del request catalog e una nuova review del gate. Regressione
+  complessiva a 278/278 test Python.
 
 ## Deviazione documentata dal piano originario
 

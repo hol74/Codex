@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://macro-regime.local/schemas/e14-post2005-policy-redesign-proposal-v1.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "artifactType", "proposalId", "status", "preservedReadyMechanisms", "proposalItems", "governance"],
+  "properties": {
+    "schemaVersion": {"const": 1},
+    "artifactType": {"const": "E14Post2005PolicyRedesignProposal"},
+    "proposalId": {"const": "e14-post2005-policy-redesign-proposal-v1"},
+    "status": {"const": "AWAITING_INDEPENDENT_REVIEW"},
+    "preservedReadyMechanisms": {"type": "array", "minItems": 2, "maxItems": 2},
+    "proposalItems": {"type": "array", "minItems": 2, "maxItems": 2},
+    "governance": {"type": "object"}
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "schemaVersion": 1,
+  "contractId": "e14-post2005-policy-redesign-activation-contract-v1",
+  "inputHashes": {
+    "policyRedesignProposalSha256": "d88716b411e22332545422086521d2987232e293dc92c78b9a426bbeb10a019a",
+    "policyRedesignProposalAuditSha256": "a477ffe7ed6731bf92ab260740baada0e1976fffb525dbb0416669d900fb4fe0",
+    "reviewedQueueV3Sha256": "dd639fbf829afb10df69d7260ee56e66c57779e2a205b55c71bf97180db35f10",
+    "reviewIngestionAuditSha256": "e27fd8c5c2e34170ea292fc47bd32ce12aff1eb75008a3c20583a75be91c5914",
+    "baseActiveTaxonomySha256": "3f69670e43315904e47a9bcae1957c62d780665b047355230198bb7a129e9d58",
+    "scopeActivationAuditSha256": "77b38fe8be5c6fa235d4d68437ae0c184fa70eab7ea23d5839def575c112e9db",
+    "policyRedesignPlanSha256": "232b64e624e2514bbd1bc810b7bb332a94afbed65724911686a0a2f1b027ffaa",
+    "activationPlanSha256": "94c7efa8f78118c5cd6983e601b769987c89571da4535461c4f4561dde600e87",
+    "activationAuditSchemaSha256": "978a77c7bc89704032c4999045b0ec1e60e1db6506792ac236c6d0fd9d6db71e"
+  },
+  "expectedProposalId": "e14-post2005-policy-redesign-proposal-v1",
+  "expectedReviewedQueueId": "e14-post2005-policy-redesign-reviewed-queue-v3",
+  "expectedActivePolicyId": "e14-post2005-active-source-vintage-policy-v2",
+  "expectedDossierIds": [
+    "e14-post2005-policy-redesign-dossier-cross-g5-monthly-release-replacement-v1",
+    "e14-post2005-policy-redesign-dossier-bank-fdic-publication-vintage-policy-v1"
+  ],
+  "activationPolicy": {
+    "allRedesignDossiersMustBeAuthenticallyAccepted": true,
+    "baseScopeAndAcceptedLabelsRemainUnchanged": true,
+    "policyOverlayMustBeSeparatelyVersioned": true,
+    "legacyH10ArtifactsCannotSatisfyRedesignedCrossBorderPolicy": true,
+    "g5MethodologyRegimesMustRemainSeparated": true,
+    "fdicEligibilityRequiresProviderPrimaryActualPublicationProof": true,
+    "requestCatalogGenerationAuthorizedByGate": true,
+    "requestCatalogNotGeneratedByGate": true,
+    "sourceAcquisitionNotPerformedOrAuthorizedByGate": true,
+    "featureTransformationRemainsForbidden": true,
+    "candidateGenerationRemainsForbidden": true,
+    "evaluationRemainsForbidden": true,
+    "outerOosRemainsClosed": true
+  },
+  "authorizationPolicy": {
+    "policyActivationAuthorized": true,
+    "sourceManifestAndRequestCatalogPreregistrationAuthorized": true,
+    "requestCatalogGenerationAuthorized": true,
+    "requestCatalogGenerationPerformedByActivation": false,
+    "sourceAcquisitionAuthorized": false,
+    "featureTransformationAuthorized": false,
+    "candidateGenerationAuthorized": false,
+    "evaluationAuthorized": false,
+    "outerOosAuthorized": false
+  },
+  "nextAllowedAction": "Preregister a versioned post-2005 source-acquisition manifest and request catalog bound to the active source-vintage policy v2; do not acquire observations yet"
+}

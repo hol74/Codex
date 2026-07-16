@@ -1,0 +1,72 @@
+{
+  "schemaVersion": 1,
+  "evidenceId": "e14-post2005-vintage-remediation-evidence-v1",
+  "observedAt": "2026-07-16",
+  "researchCutoff": "2025-12-31",
+  "sources": [
+    {
+      "sourceId": "federal-reserve-h8-release-archive",
+      "provider": "Board of Governors of the Federal Reserve System",
+      "discoveryUrl": "https://www.federalreserve.gov/releases/h8/releaseDates.json",
+      "discoverySha256": "c9caa76a2f69a13e93cfc8aafb94e5ef17f368f18294239575241ce8eef51d6b",
+      "discoverySizeBytes": 79228,
+      "datedUrlPattern": "https://www.federalreserve.gov/releases/h8/YYYYMMDD/",
+      "post2005ReleaseCountThrough2025": 1042,
+      "firstPost2005Release": "2006-01-06",
+      "lastReleaseInResearchCalendar": "2025-12-29",
+      "requiredMonthsBeforeTaper": 88,
+      "observedReleaseMonthsBeforeTaper": 88,
+      "missingReleaseMonthsBeforeTaper": [],
+      "releaseCadence": "weekly",
+      "observationFrequency": "weekly",
+      "discoveryStatus": "DATED_RELEASE_ARCHIVE_LOCATORS_COMPLETE"
+    },
+    {
+      "sourceId": "federal-reserve-h10-release-archive",
+      "provider": "Board of Governors of the Federal Reserve System",
+      "discoveryUrl": "https://www.federalreserve.gov/releases/h10/releaseDates.json",
+      "discoverySha256": "16a9d0539cbc26daff7fc5de6b059ce41a0e122fc9fe06e0a608125544ce2d08",
+      "discoverySizeBytes": 72372,
+      "datedUrlPattern": "https://www.federalreserve.gov/releases/h10/YYYYMMDD/",
+      "post2005ReleaseCountThrough2025": 910,
+      "firstPost2005Release": "2006-01-03",
+      "lastReleaseInResearchCalendar": "2025-12-29",
+      "requiredMonthsBeforeTaper": 88,
+      "observedReleaseMonthsBeforeTaper": 57,
+      "missingReleaseMonthsBeforeTaper": [
+        "2006-06", "2006-07", "2006-08", "2006-09", "2006-10", "2006-11", "2006-12",
+        "2007-01", "2007-02", "2007-03", "2007-04", "2007-05", "2007-06", "2007-07", "2007-08", "2007-09", "2007-10", "2007-11", "2007-12",
+        "2008-01", "2008-02", "2008-03", "2008-04", "2008-05", "2008-06", "2008-07", "2008-08", "2008-09", "2008-10", "2008-11", "2008-12"
+      ],
+      "releaseCadence": "weekly",
+      "observationFrequency": "daily",
+      "providerPublicationNote": "Weekly H.10 publication ceased from May 22, 2006 to January 2009; DDP history for the gap is current-history rather than dated release evidence.",
+      "discoveryStatus": "DATED_RELEASE_ARCHIVE_HAS_STRUCTURAL_GAP"
+    },
+    {
+      "sourceId": "fdic-qbp-archive",
+      "provider": "Federal Deposit Insurance Corporation",
+      "discoveryUrl": "https://www.fdic.gov/quarterly-banking-profile/past-quarterly-banking-profiles",
+      "frozenIndexSha256": "bf543bfad42d6b9bb156066ade09cd3d083bacb15cc4767210874f43322ee916",
+      "datedUrlPattern": "https://www.fdic.gov/analysis/quarterly-banking-profile/qbp/YYYYmmm/qbp.pdf",
+      "firstRequiredQuarter": "2006Q1",
+      "latestEligibleQuarterAtCutoff": "2025Q3",
+      "ineligibleQuarterAtCutoff": "2025Q4",
+      "conservativeAvailabilityLagDays": 60,
+      "requiredCoverageEnd": "2025-12-31",
+      "eligibleCoverageEndAtCutoff": "2025-09-30",
+      "releaseCadence": "quarterly",
+      "observationFrequency": "quarterly",
+      "discoveryStatus": "DATED_QBP_LOCATORS_EXIST_BUT_FROZEN_END_POLICY_FAILS"
+    }
+  ],
+  "governance": {
+    "providerPrimaryOnly": true,
+    "discoveryMetadataOnly": true,
+    "currentBulkNeverVintageProof": true,
+    "quarterEndNeverPublicationDate": true,
+    "seriesObservationsDownloaded": false,
+    "featuresTransformed": false,
+    "outerOosRead": false
+  }
+}

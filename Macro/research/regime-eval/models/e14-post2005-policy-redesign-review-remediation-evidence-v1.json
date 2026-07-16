@@ -1,0 +1,107 @@
+{
+  "schemaVersion": 1,
+  "evidenceId": "e14-post2005-policy-redesign-review-remediation-evidence-v1",
+  "observedAt": "2026-07-16",
+  "reviewItems": [
+    {
+      "proposalItemId": "cross-g5-monthly-release-replacement-v1",
+      "dossierId": "e14-post2005-policy-redesign-dossier-cross-g5-monthly-release-replacement-v1",
+      "dossierSha256": "0bcdfa3891fe880775cf2f64b5967e0c165e76ee43c0b7672147dd2f9eaeb12c",
+      "requiredFindings": [
+        {"findingId": "g5-monthly-coverage", "statement": "The provider calendar contains one unique dated G.5 release for every required pre-taper calendar month."},
+        {"findingId": "g5-legacy-components", "statement": "The dated legacy releases contain Broad and OITP components contemporaneously."},
+        {"findingId": "g5-methodology-boundary", "statement": "The methodology change became effective on 2019-02-04 and separates legacy Broad/OITP from redesigned Broad/AFE/EME."},
+        {"findingId": "g5-no-backcast-event-time", "statement": "The redesigned historical backcast is not treated as event-time history before its 2019 release."}
+      ],
+      "evidenceItems": [
+        {
+          "role": "legacy-component-proof-start",
+          "provider": "Board of Governors of the Federal Reserve System",
+          "locator": "https://www.federalreserve.gov/releases/g5/20060103/",
+          "assertion": "The dated G.5 release for January 3, 2006 contains Broad, Major Currency, and OITP dollar index components.",
+          "assertionSha256": "8c062491de977f0d2384f54cf32352a9cf79903e8958154610b41a18df1aea83"
+        },
+        {
+          "role": "legacy-component-proof-end",
+          "provider": "Board of Governors of the Federal Reserve System",
+          "locator": "https://www.federalreserve.gov/releases/g5/20130401/",
+          "assertion": "The dated G.5 release for April 1, 2013 contains Broad, Major Currency, and OITP dollar index components.",
+          "assertionSha256": "ec09bafe144d6cecee661d7f95dd632f93f9268c36e7c9f6c2a9a04425b33b3e"
+        },
+        {
+          "role": "release-calendar-and-component-availability",
+          "provider": "Board of Governors of the Federal Reserve System",
+          "locator": "https://www.federalreserve.gov/releases/g5/releaseDates.json",
+          "assertion": "The provider calendar exposes dated monthly G.5 releases used to verify unique calendar-month coverage.",
+          "assertionSha256": "49a587da1d4623175c5fca16c6567aede602845aac4abd77fa99350d87f023a9"
+        },
+        {
+          "role": "methodology-boundary",
+          "provider": "Board of Governors of the Federal Reserve System",
+          "locator": "https://www.federalreserve.gov/econres/notes/feds-notes/revisions-to-the-federal-reserve-dollar-indexes-20190115.html",
+          "assertion": "The Federal Reserve methodology changes became effective on February 4, 2019; the new Broad/AFE/EME indexes include a backcast that must not be treated as event-time history before that release date.",
+          "assertionSha256": "a079d19b616d9acc4396108627f3f1771e64ebd4a1fe7f65ea16e561fa35c0e4"
+        }
+      ],
+      "counterEvidence": [
+        {
+          "counterEvidenceId": "g5-backcast-not-event-time",
+          "role": "backcast-is-not-event-time-history",
+          "provider": "Board of Governors of the Federal Reserve System",
+          "locator": "https://www.federalreserve.gov/econres/notes/feds-notes/revisions-to-the-federal-reserve-dollar-indexes-20190115.html",
+          "summary": "The redesigned indexes provide history before their 2019 effective date; that backcast is a current-methodology reconstruction and cannot be silently substituted for contemporaneously released legacy observations."
+        }
+      ]
+    },
+    {
+      "proposalItemId": "bank-fdic-publication-vintage-policy-v1",
+      "dossierId": "e14-post2005-policy-redesign-dossier-bank-fdic-publication-vintage-policy-v1",
+      "dossierSha256": "fdd2f345b23c0e3f1a3919fb2e8b5f7ba868906f7b8ce9e8050f39c06b818ff0",
+      "requiredFindings": [
+        {"findingId": "fdic-actual-publication-required", "statement": "Every eligible QBP quarter requires provider-primary proof of its actual publication date."},
+        {"findingId": "fdic-q3-eligible", "statement": "Q3 2025 became eligible on 2025-11-24 before the research cutoff."},
+        {"findingId": "fdic-q4-ineligible", "statement": "Q4 2025 was released on 2026-02-24 and is ineligible at the 2025-12-31 cutoff."},
+        {"findingId": "fdic-forward-fill-stale-age", "statement": "Forward-fill uses only the latest actually published QBP and carries explicit stale age."}
+      ],
+      "evidenceItems": [
+        {
+          "role": "publication-cadence-policy",
+          "provider": "Federal Deposit Insurance Corporation",
+          "locator": "https://www.fdic.gov/analysis/quarterly-banking-profile/",
+          "assertion": "The FDIC states that the Quarterly Banking Profile is published about 55 days after quarter end, so quarter-end metadata cannot establish the actual publication date.",
+          "assertionSha256": "9e909e6a74415135250f240d83f26a72bd0c8a2a441dbd1b7c96c4acec3187a5"
+        },
+        {
+          "role": "latest-eligible-quarter-publication",
+          "provider": "Federal Deposit Insurance Corporation",
+          "locator": "https://www.fdic.gov/news/speeches/2025/fdic-quarterly-banking-profile-third-quarter-2025",
+          "assertion": "The FDIC released the Third Quarter 2025 Quarterly Banking Profile on November 24, 2025, before the 2025-12-31 research cutoff.",
+          "assertionSha256": "fa68eb5555976d99b5736e3253f16a93333481838184ff36ee22a97429a37707"
+        },
+        {
+          "role": "first-post-cutoff-quarter-publication",
+          "provider": "Federal Deposit Insurance Corporation",
+          "locator": "https://www.fdic.gov/news/speeches/2026/fdic-quarterly-banking-profile-fourth-quarter-2025",
+          "assertion": "The FDIC released the Fourth Quarter 2025 Quarterly Banking Profile on February 24, 2026, after the 2025-12-31 research cutoff.",
+          "assertionSha256": "7da69659605c5af3e1eb86e3dd70f878c7e1a5d49e8153780aa25614527cb033"
+        }
+      ],
+      "counterEvidence": [
+        {
+          "counterEvidenceId": "fdic-quarter-end-not-publication-proof",
+          "role": "quarter-end-does-not-prove-publication",
+          "provider": "Federal Deposit Insurance Corporation",
+          "locator": "https://www.fdic.gov/news/speeches/2026/fdic-quarterly-banking-profile-fourth-quarter-2025",
+          "summary": "The Q4 2025 reporting period ended at the research cutoff, but the provider did not release the QBP until 2026-02-24; quarter-end therefore cannot establish event-time availability."
+        }
+      ]
+    }
+  ],
+  "governance": {
+    "providerPrimaryLocatorsOnly": true,
+    "locatorContentNotSnapshotted": true,
+    "reviewerMustOpenEveryLocator": true,
+    "assertionDigestsAreNotPageContentDigests": true,
+    "e14nOutputsMutated": false
+  }
+}

@@ -1,0 +1,66 @@
+{
+  "schemaVersion": 1,
+  "evidenceId": "e14-post2005-policy-redesign-evidence-v1",
+  "observedAt": "2026-07-16",
+  "replacementSource": {
+    "sourceId": "federal-reserve-g5-release-archive",
+    "provider": "Board of Governors of the Federal Reserve System",
+    "releaseIndexUrl": "https://www.federalreserve.gov/releases/g5/default.htm",
+    "releaseCalendarUrl": "https://www.federalreserve.gov/releases/g5/releaseDates.json",
+    "releaseCalendarSha256": "cd174da9e75c85f540c411f2f989ac5aca0f0d50ac6c475a2ebf039bbf322aec",
+    "releaseCalendarSizeBytes": 51442,
+    "datedUrlPattern": "https://www.federalreserve.gov/releases/g5/YYYYMMDD/",
+    "post2005ReleaseCountThrough2025": 242,
+    "firstPost2005Release": "2006-01-03",
+    "lastReleaseInResearchCalendar": "2025-12-01",
+    "requiredMonthsBeforeTaper": 88,
+    "observedReleaseMonthsBeforeTaper": 88,
+    "missingReleaseMonthsBeforeTaper": [],
+    "releaseCadence": "monthly",
+    "observationFrequency": "monthly",
+    "componentProofs": [
+      {
+        "releaseDate": "2006-01-03",
+        "url": "https://www.federalreserve.gov/releases/g5/20060103/",
+        "markers": ["BROAD", "MAJOR CURRENCY", "OITP"]
+      },
+      {
+        "releaseDate": "2013-04-01",
+        "url": "https://www.federalreserve.gov/releases/g5/20130401/",
+        "markers": ["BROAD", "MAJOR CURRENCY", "OITP"]
+      }
+    ],
+    "methodologyBoundary": {
+      "effectiveReleaseDate": "2019-02-04",
+      "legacyRegime": "broad-major-oitp",
+      "redesignedRegime": "broad-afe-eme",
+      "silentSpliceForbidden": true,
+      "exactReleaseBoundaryMustBeVerifiedDuringAcquisitionGate": true
+    },
+    "feasibilityStatus": "PROVIDER_PRIMARY_DATED_MONTHLY_RELEASES_COMPLETE_PRE_TAPER"
+  },
+  "fdicAvailabilityEvidence": {
+    "sourceId": "fdic-qbp-archive",
+    "researchCutoff": "2025-12-31",
+    "latestEligibleQuarterAtCutoff": "2025Q3",
+    "latestEligibleActualPublicationDate": "2025-11-24",
+    "latestEligiblePublicationProofUrl": "https://www.fdic.gov/news/speeches/2025/fdic-quarterly-banking-profile-third-quarter-2025",
+    "ineligibleQuarterAtCutoff": "2025Q4",
+    "conservativeAvailabilityLagDays": 60,
+    "policyBasis": "Require a corroborated actual publication date from a contemporaneous FDIC release statement or equivalent provider-primary timestamp. Quarter-end plus 60 days remains a feasibility envelope only and cannot substitute for actual publication metadata.",
+    "currentArchiveLinkDoesNotBackdateAvailability": true
+  },
+  "governance": {
+    "metadataOnly": true,
+    "seriesObservationsDownloaded": false,
+    "featureTransformationPerformed": false,
+    "loeoScoresRead": false,
+    "outerOosRead": false
+  },
+  "futureAcquisitionGateRequirements": {
+    "g5ReleaseCountCannotSubstituteForUniqueCalendarMonthCoverage": true,
+    "everySelectedG5ReleaseMustContainRegimeAppropriateComponents": true,
+    "g5CalendarMonthsMustBeDeduplicated": true,
+    "fdicActualPublicationProofRequiredPerQuarter": true
+  }
+}

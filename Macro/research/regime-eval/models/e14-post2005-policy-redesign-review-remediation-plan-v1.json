@@ -1,0 +1,36 @@
+{
+  "schemaVersion": 1,
+  "planId": "e14-post2005-policy-redesign-review-remediation-plan-v1",
+  "objective": "Version a review queue, external evidence contract, and dedicated receipt schema so authentic independent review can be completed against byte-identical E14.7n dossiers.",
+  "expectedDossierIds": [
+    "e14-post2005-policy-redesign-dossier-cross-g5-monthly-release-replacement-v1",
+    "e14-post2005-policy-redesign-dossier-bank-fdic-publication-vintage-policy-v1"
+  ],
+  "rules": {
+    "proposalItemsUnchanged": true,
+    "dossiersCopiedByteIdenticallyFromE14n": true,
+    "providerPrimaryEvidenceItemsRequired": true,
+    "counterEvidenceRequired": true,
+    "dedicatedBoundaryLocatorRequired": true,
+    "receiptSchemaMustAcceptExactE14nIds": true,
+    "receiptMustBindQueueEvidenceContractAndSchema": true,
+    "completedAcceptReceiptMustBeSchemaValid": true,
+    "placeholderReceiptMustRemainSchemaInvalid": true,
+    "e14nOutputsImmutable": true
+  },
+  "authorizationPolicy": {
+    "reviewRemediationMaterializationAuthorized": true,
+    "independentReviewHandoffAuthorized": true,
+    "reviewPerformedByRemediator": false,
+    "receiptIngestionAuthorized": false,
+    "policyActivationAuthorized": false,
+    "requestCatalogGenerationAuthorized": false,
+    "sourceAcquisitionAuthorized": false,
+    "featureTransformationAuthorized": false,
+    "candidateGenerationAuthorized": false,
+    "evaluationAuthorized": false,
+    "outerOosAuthorized": false
+  },
+  "expectedStatus": "POST_2005_POLICY_REDESIGN_REVIEW_CONTRACT_REMEDIATED_AWAITING_HANDOFF",
+  "nextAllowedAction": "Build an immutable handoff bundle from the byte-identical E14.7n dossiers, review queue v2, external evidence contract, and dedicated policy-redesign review schema; collect no receipt and activate no policy in this step"
+}

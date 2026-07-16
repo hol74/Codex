@@ -1,0 +1,56 @@
+{
+  "schemaVersion": 1,
+  "contractId": "e14-post2005-taxonomy-proposal-contract-v1",
+  "frozenAt": "2026-07-16",
+  "inputHashes": {
+    "taxonomyV5Sha256": "d141416d08b68e932bc6cd2a25b9cd0eab06d159b8904907b7fff29d8c637d50",
+    "scopeFeasibilityAuditV1Sha256": "0b4869ed5a774248b7223b41ac7e49d1624587bb2536857536eeb8e1736b27bd",
+    "scopePlanV1Sha256": "177bce224260ba9559ddc153edab80ceabf3d9cfbf156aed271047272ba42a70",
+    "sourceEvidenceV1Sha256": "888eb21b45f2de76e4460135c2a828b81602b262017b56e3b5d44d7e2316cc2c",
+    "proposalPlanV1Sha256": "a949c1e6e3473b9a0657d5e35c6bd63cb72d04c3229e4969d9ed593e35054c23",
+    "proposalSchemaV1Sha256": "92e8087b893a886961f96d48c9bd91754cdbbd8ac764191ca96424d36bbb7a1d",
+    "dossierSchemaV1Sha256": "6163ab4cf6249aa314708361d1572ade403844b2cca9b4deb9c6bfaca3c7702f",
+    "reviewSchemaV2Sha256": "77310369e3ba33a6a5dbde84ce6cc445a6a87c7e9e03ba3842718a684822dd58"
+  },
+  "expectedPositiveEpisodeCounts": {
+    "banking-credit": 2,
+    "broad-market-repricing": 4,
+    "cross-border-growth": 2,
+    "funding-liquidity": 2
+  },
+  "expectedHardNegativeEpisodeCounts": {
+    "banking-credit": 2,
+    "broad-market-repricing": 2,
+    "cross-border-growth": 2,
+    "funding-liquidity": 2
+  },
+  "expectedNewBankingDossierCount": 2,
+  "identityPolicy": {
+    "newProposalIdRequired": true,
+    "newTaxonomyIdRequired": true,
+    "newProposalEntryIdsRequired": true,
+    "legacyEventIdsReferenceOnly": true,
+    "taxonomyV5MustRemainByteIdentical": true
+  },
+  "reviewPolicy": {
+    "dossiersMustBeHashBound": true,
+    "queueMustBeWriteOnce": true,
+    "selfAcceptanceForbidden": true,
+    "bothBankingControlsRequireIndependentReceipt": true,
+    "proposalCannotActivateScope": true
+  },
+  "authorizationPolicy": {
+    "taxonomyProposalMaterializationAuthorized": true,
+    "independentReviewQueueWriteAuthorized": true,
+    "post2005ScopeActivationAuthorized": false,
+    "sourceAcquisitionAuthorized": false,
+    "featureFoundationMaterializationAuthorized": false,
+    "taxonomyMutationAuthorized": false,
+    "candidateGenerationAuthorized": false,
+    "candidateEvaluationAuthorized": false,
+    "outerOosAuthorized": false,
+    "promotionAuthorized": false
+  },
+  "expectedStatus": "POST_2005_TAXONOMY_PROPOSAL_AWAITING_INDEPENDENT_REVIEW",
+  "nextAllowedAction": "E14.7g hand off the immutable hash-bound queue to an independent reviewer and ingest only receipts matching both dossier hashes; do not activate the scope or acquire observations"
+}

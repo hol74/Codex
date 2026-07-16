@@ -1,0 +1,41 @@
+{
+  "schemaVersion": 1,
+  "contractId": "e14-post2005-policy-redesign-review-remediation-contract-v1",
+  "inputHashes": {
+    "proposalSha256": "d88716b411e22332545422086521d2987232e293dc92c78b9a426bbeb10a019a",
+    "reviewQueueV1Sha256": "6f60c9e7c224a4840ff9d1545028ef5a044362614fc676f73dec2f7bafea9ab0",
+    "proposalAuditSha256": "a477ffe7ed6731bf92ab260740baada0e1976fffb525dbb0416669d900fb4fe0",
+    "blockedHandoffAuditSha256": "a80a8dc262db558bd149fe085a1c237f42906f1b9eac9a967fddfd5251c342b4",
+    "crossG5DossierSha256": "0bcdfa3891fe880775cf2f64b5967e0c165e76ee43c0b7672147dd2f9eaeb12c",
+    "bankFdicDossierSha256": "fdd2f345b23c0e3f1a3919fb2e8b5f7ba868906f7b8ce9e8050f39c06b818ff0",
+    "legacyReviewSchemaV2Sha256": "77310369e3ba33a6a5dbde84ce6cc445a6a87c7e9e03ba3842718a684822dd58",
+    "dedicatedReviewSchemaSha256": "e0c6a1f4f2cf897552c4bf451849498e0785611c405890eac0fc8b7cc8c51a4a",
+    "remediationEvidenceSha256": "6de9c7eb1cc16f8bcf8e44caf59cf9654583010ca271367e1f55950bcaabb6b3",
+    "remediationPlanSha256": "fb6dc44263d0e283cac14db802dff17a85ed3377d629bc3001efcbaa8e147e3c",
+    "remediationAuditSchemaSha256": "813353bc7ed74172d916e29499c3d427ed77226099d76c1ad0a984fe94512954"
+  },
+  "expectedDossierIds": [
+    "e14-post2005-policy-redesign-dossier-cross-g5-monthly-release-replacement-v1",
+    "e14-post2005-policy-redesign-dossier-bank-fdic-publication-vintage-policy-v1"
+  ],
+  "expectedQueueId": "e14-post2005-policy-redesign-review-queue-v2",
+  "expectedLegacyQueueId": "e14-post2005-policy-redesign-review-queue-v1",
+  "expectedDedicatedReviewSchemaId": "https://macro-regime.local/schemas/e14-policy-redesign-independent-review-v1.json",
+  "expectedEvidenceItemCount": 7,
+  "expectedCounterEvidenceItemCount": 2,
+  "authorizationPolicy": {
+    "reviewRemediationMaterializationAuthorized": true,
+    "independentReviewHandoffAuthorized": true,
+    "reviewPerformedByRemediator": false,
+    "receiptIngestionAuthorized": false,
+    "policyActivationAuthorized": false,
+    "requestCatalogGenerationAuthorized": false,
+    "sourceAcquisitionAuthorized": false,
+    "featureTransformationAuthorized": false,
+    "candidateGenerationAuthorized": false,
+    "evaluationAuthorized": false,
+    "outerOosAuthorized": false
+  },
+  "expectedStatus": "POST_2005_POLICY_REDESIGN_REVIEW_CONTRACT_REMEDIATED_AWAITING_HANDOFF",
+  "nextAllowedAction": "Build an immutable handoff bundle from the byte-identical E14.7n dossiers, review queue v2, external evidence contract, and dedicated policy-redesign review schema; collect no receipt and activate no policy in this step"
+}

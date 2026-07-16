@@ -1,0 +1,57 @@
+{
+  "schemaVersion": 1,
+  "contractId": "e14-post2005-policy-redesign-review-handoff-contract-v1",
+  "inputHashes": {
+    "proposalSha256": "d88716b411e22332545422086521d2987232e293dc92c78b9a426bbeb10a019a",
+    "reviewQueueV2Sha256": "b14f22a31abf197c1bf3227abfa35c9449003ccef81e52b1b25f583035bceb33",
+    "reviewRemediationAuditSha256": "b4d70cfb47f90e942cda0c2effe317e57e3e3b287fb962c8dc52921c8054b8ab",
+    "crossG5DossierSha256": "0bcdfa3891fe880775cf2f64b5967e0c165e76ee43c0b7672147dd2f9eaeb12c",
+    "bankFdicDossierSha256": "fdd2f345b23c0e3f1a3919fb2e8b5f7ba868906f7b8ce9e8050f39c06b818ff0",
+    "evidenceContractSha256": "6de9c7eb1cc16f8bcf8e44caf59cf9654583010ca271367e1f55950bcaabb6b3",
+    "dedicatedReviewSchemaSha256": "e0c6a1f4f2cf897552c4bf451849498e0785611c405890eac0fc8b7cc8c51a4a",
+    "reviewRemediationPlanSha256": "fb6dc44263d0e283cac14db802dff17a85ed3377d629bc3001efcbaa8e147e3c",
+    "handoffPlanSha256": "69c580022cccdab897f6bb5dc46577881a76ad51ed87acfa98785331527eb989",
+    "handoffAuditSchemaSha256": "d87b7ecf31ef7acdfc783bf30626595df93ba1c08672bc34082fc955d50b9eea"
+  },
+  "expectedDossierIds": [
+    "e14-post2005-policy-redesign-dossier-cross-g5-monthly-release-replacement-v1",
+    "e14-post2005-policy-redesign-dossier-bank-fdic-publication-vintage-policy-v1"
+  ],
+  "expectedQueueId": "e14-post2005-policy-redesign-review-queue-v2",
+  "expectedEvidenceContractId": "e14-post2005-policy-redesign-review-remediation-evidence-v1",
+  "expectedReviewSchemaId": "https://macro-regime.local/schemas/e14-policy-redesign-independent-review-v1.json",
+  "bundleRules": {
+    "proposalCopiedByteIdentically": true,
+    "queueV2CopiedByteIdentically": true,
+    "dossiersCopiedByteIdentically": true,
+    "evidenceContractCopiedByteIdentically": true,
+    "dedicatedReviewSchemaCopiedByteIdentically": true,
+    "remediationAuditCopiedByteIdentically": true,
+    "oneWorksheetPerDossier": true,
+    "oneNonIngestibleTemplatePerDossier": true,
+    "templatesBindExactQueueEvidenceSchemaAndDossierHashes": true,
+    "templatesEnumerateAllRequiredFindingsAndCounterEvidence": true,
+    "completedReceiptsStoredOutsideBundle": true,
+    "bundleGeneratorCannotReview": true
+  },
+  "receiptOutputConvention": {
+    "directory": "completed-policy-redesign-receipts-v1/",
+    "fileName": "e14-policy-redesign-review-<dossier-slug>-<reviewer-id>.json"
+  },
+  "authorizationPolicy": {
+    "handoffBundlePublicationAuthorized": true,
+    "independentReviewExecutionAuthorized": true,
+    "reviewPerformedByBundleGenerator": false,
+    "receiptIngestionAuthorized": false,
+    "policyActivationAuthorized": false,
+    "requestCatalogGenerationAuthorized": false,
+    "sourceAcquisitionAuthorized": false,
+    "featureTransformationAuthorized": false,
+    "candidateGenerationAuthorized": false,
+    "evaluationAuthorized": false,
+    "outerOosAuthorized": false
+  },
+  "expectedBundleArtifactCount": 12,
+  "expectedStatus": "POST_2005_POLICY_REDESIGN_EXTERNAL_REVIEW_HANDOFF_READY",
+  "nextAllowedAction": "A genuinely independent reviewer copies each template outside the immutable bundle, opens every provider-primary locator, completes every finding and counterevidence assessment, and returns two authentic receipts; ingestion and policy activation remain separate gates"
+}

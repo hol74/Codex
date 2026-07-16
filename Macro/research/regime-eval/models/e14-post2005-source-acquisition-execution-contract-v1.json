@@ -1,0 +1,33 @@
+{
+  "schemaVersion": 1,
+  "contractId": "e14-post2005-source-acquisition-execution-contract-v1",
+  "inputHashes": {
+    "sourceAcquisitionManifestSha256": "2203aba40264054476a28b6c162e5eecc7346563bfb8a26f1339e65033881b90",
+    "sourceExecutionGateAuditSha256": "ffb5330a9c6b7590e06a0a98afc76f6d66527e3fa2ec81ffd892d3f2a5cc10a9",
+    "requestCatalogSha256": "051b4015400375f0205e03551325053adf6fd1e1da588859162d9bd57b485ff1",
+    "snapshotSchemaSha256": "e1dbdd9b0d5d4e976cbdb88cee68b0de3aee0b2e64caebaf54dc7ec602d7b618"
+  },
+  "expectedRequestCount": 11,
+  "expectedArtifactCount": 23,
+  "expectedRequestCountBySource": {
+    "federal-reserve-h8-release-archive": 2,
+    "fdic-qbp-archive": 3,
+    "fred-dgs2": 1,
+    "fred-dgs10": 1,
+    "federal-reserve-h10-release-archive": 2,
+    "fred-dcpf3m": 1,
+    "fred-dtb3": 1
+  },
+  "decisionPolicy": {
+    "executionGateMustAuthorizeExactManifest": true,
+    "allRequestsMustComplete": true,
+    "allPayloadsMustPassContentValidation": true,
+    "allPayloadsRequireSha256": true,
+    "publishMustBeAtomic": true,
+    "partialSnapshotMustNotSurviveFailure": true,
+    "secretsMustNotBePersisted": true,
+    "featureTransformationRemainsForbidden": true
+  },
+  "expectedStatus": "POST_2005_RAW_SOURCE_SNAPSHOT_ACQUIRED_TRANSFORMATION_GATE_REQUIRED",
+  "nextAllowedAction": "Audit raw snapshot completeness and vintage fitness per feature family before any parsing or feature transformation"
+}

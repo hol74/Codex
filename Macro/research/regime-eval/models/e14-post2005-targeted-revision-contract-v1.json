@@ -1,0 +1,26 @@
+{
+  "contractId": "e14-post2005-targeted-revision-contract-v1",
+  "dossierAuthor": "codex-primary-source-revision-2026-07-16",
+  "inputHashes": {
+    "dossierSchemaSha256": "6163ab4cf6249aa314708361d1572ade403844b2cca9b4deb9c6bfaca3c7702f",
+    "reviewIngestionAuditSha256": "e412a2bc8d6f9a9f1f9d23e462cde87fada8a1cffe552a982134b19e4626e002",
+    "reviewedQueueSha256": "6153fc63f676b14a8521f97bccbd5e1924292b8cffd3ba8a26f883091aadc94d"
+  },
+  "policy": {
+    "acceptedDossierBytesMustRemainUnchanged": true,
+    "onlyNeedsRevisionHashMayChange": true,
+    "revisionAuthorMustDifferFromReviewer": true,
+    "scopeActivationForbidden": true,
+    "targetedIndependentRereviewRequired": true
+  },
+  "readinessDecision": "READY_FOR_HASH_SCOPED_POST_2005_DOSSIER_REVISION",
+  "revision": {
+    "baseSha256": "a581790af7cfa2da640e08b1fe1752d3340eea78dda0f9b5b889e9c86a12f49f",
+    "boundaryRationale": "The interval starts with the March 26 counterparty default and ends at the June 30 quarter boundary directly measured by the FDIC Q2 2021 profile. The label remains limited to containment in the aggregate United States banking-credit mechanism, while the documented counterparty losses and risk-management failures remain explicit counterevidence.",
+    "dossierId": "e14-dossier-post2005-archegos-contained-2021-banking-credit",
+    "firstMonth": "2021-03-01",
+    "lastMonth": "2021-06-01",
+    "replacementLocator": "https://www.fdic.gov/analysis/quarterly-banking-profile/qbp/2021jun/qbp.pdf",
+    "replacementSummary": "The official FDIC Q2 2021 profile measures the quarter through June 30 and reports aggregate loan growth, improving asset quality, nine banks below well-capitalized requirements, and no bank failures during the quarter."
+  }
+}

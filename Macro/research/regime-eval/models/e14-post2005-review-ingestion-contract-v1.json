@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "contractId": "e14-post2005-review-ingestion-contract-v1",
+  "frozenAt": "2026-07-16",
+  "inputHashes": {
+    "taxonomyProposalSha256": "73bc241078d7fb32196bdff3adec45932a1cf1f1cf3846721909a27af4aa814f",
+    "reviewQueueSha256": "c5839d76422e3dd22bcf478a46bb6ca73da9bda32aec2aa15614fa40d9fa27da",
+    "proposalAuditSha256": "7b9cf376728820c794a9324447eae3e2675c5a3ccd8adb31b516faca6c0d381b",
+    "handoffAuditSha256": "0bf1cbcc51ca8cbf9c7eee7e3bae228a1b0cf1dfad0464b8c6aebf856beb8243",
+    "reviewSchemaV2Sha256": "77310369e3ba33a6a5dbde84ce6cc445a6a87c7e9e03ba3842718a684822dd58"
+  },
+  "receiptPolicy": {
+    "schemaVersionTwoRequired": true,
+    "dossierHashMustMatchQueue": true,
+    "reviewerMustDifferFromDossierAuthor": true,
+    "oneReceiptPerDossier": true,
+    "acceptRequiresAllStrictChecks": true,
+    "missingOrInvalidReceiptFailsClosed": true,
+    "ingestionCannotActivateScope": true
+  },
+  "expectedDossierCount": 2,
+  "expectedReceiptCountForCompletion": 2,
+  "readinessDecision": "READY_TO_INGEST_EXTERNAL_RECEIPTS_FAIL_CLOSED"
+}

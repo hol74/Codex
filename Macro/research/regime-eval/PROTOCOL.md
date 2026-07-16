@@ -468,3 +468,343 @@ test: baseline v1.5, changepoint-duration v1 e rare-event-logit v1 sono tutti
 `REJECTED_FOR_SHADOW`. L'outer OOS 2008-2025 non viene aperto perche' nessun
 modello ha superato il prerequisito inner. Il laboratorio si chiude senza
 shadow-candidate e senza modifiche post-hoc.
+
+## E14.7f - Proposta taxonomy post-2005 e review indipendente
+
+La proposta post-2005 e' un artefatto separato: non modifica e non sostituisce
+`us-financial-stress-v5.json`. Ogni entry riceve un nuovo `proposalEntryId`; gli
+identificatori v5 sono conservati soltanto come riferimenti verificabili.
+
+I due nuovi controlli banking-credit devono essere dossier `reviewed`, mai
+auto-accettati. Ogni dossier contiene evidenza affermativa da almeno due gruppi
+indipendenti, counterevidence esplicita e digest deterministici. La queue lega
+proposta, schema e dossier tramite SHA-256 ed e' write-once.
+
+Soltanto un reviewer diverso dal curatore puo' produrre receipt v2. Receipt
+mancanti, hash mismatch, reject o needs-revision lasciano la proposta inattiva.
+Questo step non legge osservazioni, dataset, score LOEO o outer OOS e non
+autorizza source acquisition, foundation, candidate generation o evaluation.
+
+### E14.7g - Handoff e ingestion receipt
+
+Il generatore del bundle non puo' svolgere la review. Copia byte-identici
+proposta, queue e dossier, aggiunge worksheet e template schema v2 con campi
+obbligatori volutamente incompleti. Le receipt finite vivono fuori dal bundle.
+
+L'ingestion richiede un hash dossier esatto, un reviewer diverso dal curatore,
+una sola receipt per dossier, counterevidence considerata e nessun output
+modello usato. Un `accept` richiede inoltre locator aperti, meccanismo e confini
+supportati. Qualunque receipt mancante o invalida fallisce chiusa.
+
+Nemmeno due accept attivano automaticamente lo scope: autorizzano soltanto un
+gate E14.7h separato. Fino ad allora dati, foundation, candidati, evaluation e
+outer OOS restano chiusi.
+
+### E14.7g3/g4 - Revisione mirata e nuova receipt
+
+Una decisione `needs-revision` consente di cambiare soltanto il dossier e
+l'hash contestati. I dossier gia' accettati devono restare byte-identici e non
+entrano nel bundle mirato. L'autore della revisione deve essere diverso dal
+reviewer; la nuova receipt deve legarsi al nuovo hash e riaprire ogni locator.
+
+L'ingestion mirata richiede esattamente una receipt v2 e applica gli stessi
+controlli stretti della review iniziale. Un nuovo `accept` non attiva lo scope:
+autorizza soltanto E14.7h.
+
+### E14.7h - Attivazione dello scope post-2005
+
+Il gate richiede che ogni dossier corrente sia accettato da receipt
+indipendente e propaga nella taxonomy il dossier revisionato e il suo nuovo
+confine. Materializza `us-financial-stress-post2005-v1` senza modificare la
+taxonomy legacy v5 e senza leggere osservazioni o outer OOS.
+
+L'attivazione accetta lo scope e le label, ma mantiene chiuse acquisizione,
+feature foundation, candidati, fitting ed evaluation. Il solo passo successivo
+ammesso e' la preregistrazione separata di un manifest di acquisizione fonti.
+
+### E14.7i - Manifest di acquisizione fonti
+
+Il manifest congela prima di ogni accesso di rete: identita' delle fonti,
+locator provider-primary, finestra 2006-2025, frequenze, serie o tabelle,
+semantica event-time/as-of, regimi metodologici, percorsi raw e policy di
+integrita'. Ogni fonte deve essere gia' metadata-ready e deve risolvere in una
+delle quattro famiglie preregistrate.
+
+La materializzazione del manifest effettua zero richieste, scrive zero raw
+artifact e acquisisce zero osservazioni. Hash mismatch, fonte non pronta,
+percorso duplicato o autorizzazione di rete anticipata falliscono chiusi.
+L'esecuzione richiede un gate successivo legato all'hash esatto; feature,
+candidati, evaluation e outer OOS restano vietati.
+
+### E14.7j - Gate di esecuzione acquisizione
+
+Il gate verifica l'hash esatto del manifest, la chiave FRED richiesta e un
+endpoint metadata per ciascuna delle sette fonti. I segreti sono letti soltanto
+dall'ambiente e non possono entrare nell'audit. Sono ammessi esclusivamente
+HTTPS e redirect verso gli host provider-primary congelati.
+
+Tutti i probe devono restituire HTTP 200 e il marker atteso; credenziale
+mancante, errore provider o redirect fuori allowlist bloccano l'intera
+acquisizione. Il gate non scarica osservazioni e non scrive raw artifact. Un
+esito positivo autorizza soltanto l'acquisizione atomica dei bytes originali e
+dei metadati release/vintage; ogni trasformazione rimane vietata.
+
+### E14.7k - Acquisizione raw atomica
+
+Ogni richiesta scrive in una directory staging sorella dello snapshot. I
+payload devono rispettare maximum bytes, host allowlist, marker o magic bytes,
+finestra e metadati realtime. Al primo errore lo staging viene eliminato; lo
+snapshot diventa visibile soltanto con un singolo rename dopo che tutti gli
+artifact hanno ricevuto SHA-256.
+
+Le API FRED initial-release sono suddivise in tranche real-time da meno di
+2.000 vintage dates e i payload originali restano separati. Il parser in questo
+step puo' leggere soltanto struttura, date e metadati necessari alla validazione;
+non calcola feature.
+
+I bulk provider che possono contenere revisioni sono marcati `raw-only`.
+L'acquisizione completa non costituisce quindi automaticamente vintage fitness:
+un audit separato per famiglia deve controllare completezza, metodologia ed
+event-time prima di aprire la trasformazione.
+
+### E14.7l - Audit completezza e vintage fitness
+
+L'audit lega per SHA-256 contratto, indice, acquisition audit, scope plan,
+fitness plan e schema. Ogni raw artifact viene riletto e confrontato con hash e
+dimensione congelati. Per FRED sono obbligatori riconciliazione esatta di
+conteggio ed estremi per tranche, date uniche, tranche realtime contigue,
+cronologia observation-date/release-date, lag massimo preregistrato e almeno 60
+mesi di lookback prima di ogni episodio applicabile. I container SDMX/XLSX devono superare nuovamente l'integrity
+test.
+
+Un payload `raw-only` non puo' provare event-time fitness. Sullo snapshot v1
+passano `broad-market-repricing` e `funding-liquidity`; falliscono
+`banking-credit` e `cross-border-growth` per assenza di release-level vintages,
+con l'ulteriore termine FDIC al 2011Q4. Il gate globale richiede quattro famiglie
+su quattro: nessuna feature viene trasformata, nessun candidato viene generato
+e outer OOS resta chiuso. Il solo passo ammesso e' acquisire artifact datati di
+release per H.8/H.10 e FDIC e ripetere lo stesso audit.
+
+### E14.7m - Remediation mirata e blocco strutturale
+
+La remediation legge soltanto calendari e locator provider-primary e resta
+legata agli hash E14.7l. H.8 presenta tutti gli 88 mesi di release richiesti tra
+gennaio 2006 e aprile 2013. H.10 ne presenta 57: la sospensione della
+pubblicazione lascia 31 mesi consecutivi senza release, da giugno 2006 a
+dicembre 2008. Il DDP/current bulk non e' ammesso come sostituto vintage.
+
+Per FDIC la disponibilita' e' determinata dalla pubblicazione effettiva, non
+dal quarter-end o dall'esistenza odierna del link. Con cutoff 2025-12-31 e lag
+conservativo gia' congelato, 2025Q3 e' l'ultimo trimestre eleggibile; 2025Q4
+resta post-cutoff. Le policy E14.7l non vengono rilassate. Di conseguenza non si
+genera alcun request catalog e non si autorizza l'acquisizione. Il passo
+successivo deve essere un redesign revisionato che sostituisca H.10 e definisca
+la copertura FDIC per vintage di pubblicazione, preservando le due famiglie gia'
+vintage-fit.
+
+### E14.7n - Proposta di redesign e review indipendente
+
+La proposta preserva byte-per-byte gli esiti E14.7l/E14.7m e le famiglie
+`broad-market-repricing` e `funding-liquidity`. Per `cross-border-growth`
+propone l'archivio mensile G.5: il calendario provider-primary copre 88 mesi su
+88 prima del taper tantrum e le release legacy contengono Broad e OITP. Il
+cambio metodologico effettivo dal 2019-02-04 crea regimi separati; nessuno
+splice o uso event-time della backhistory ricalcolata e' consentito.
+
+Per FDIC, un trimestre e' eleggibile soltanto quando una statement/release
+contemporanea o un timestamp provider-primary equivalente prova la data reale
+di pubblicazione. Q3 2025 e' eleggibile dal 2025-11-24; Q4 2025 resta fuori dal
+cutoff. Due dossier immutabili e una queue senza receipt aprono esclusivamente
+l'handoff alla review indipendente. Nessuna policy viene attivata e nessun dato
+viene acquisito.
+
+### E14.7o - Gate di compatibilita' dell'handoff
+
+Prima di generare worksheet o template, il gate deve dimostrare che una receipt
+completata puo' essere simultaneamente valida rispetto allo schema congelato e
+legata all'ID/hash esatto della queue. Un alias non e' ammesso. Nel caso E14.7n
+entrambi gli ID falliscono il pattern v2 `^e14-dossier-[a-z0-9-]+$`; anche la
+semantica `counterEvidenceConsidered=true` non coincide con la struttura dei
+dossier redesign. Il gate pubblica quindi soltanto un audit immutabile bloccato,
+con inventario bundle/template/receipt a zero. Ogni autorizzazione downstream
+resta falsa finche' uno schema e un evidence contract versionati non superano
+nuovamente il gate.
+
+### E14.7p - Remediation versionata del contratto di review
+
+La remediation non cambia i bytes dei dossier E14.7n. Una queue v2 supersede
+la queue incompatibile per hash e lega uno schema receipt dedicato e un evidence
+contract esterno. Ogni receipt deve includere gli hash esatti di dossier, queue,
+evidence contract e schema, oltre agli assessment nominativi di tutti i finding
+e di tutta la counterevidence. Un accept richiede locator aperti, tutti i
+finding supportati, counterevidence considerata e nessun model output.
+
+Il contratto include sette locator provider-primary: calendario e due release
+G.5 legacy, nota metodologica Fed, policy QBP e statement FDIC Q3/Q4 2025. La
+pubblicazione Q4 del 2026-02-24 prova direttamente l'esclusione al cutoff
+2025-12-31. E14.7p materializza solo queue v2 e audit; bundle, receipt,
+ingestion, attivazione e ogni lavoro sui dati restano separati e chiusi.
+
+### E14.7q - Handoff immutabile al reviewer indipendente
+
+Il bundle viene costruito soltanto dopo un preflight completo di input, path e
+destinazioni. Proposta, queue v2, dossier, evidence contract, schema dedicato e
+remediation audit sono copiati byte-identici. Il manifest esterno registra per
+ogni file path relativo, ruolo, SHA-256 e dimensione.
+
+Ogni worksheet elenca quattro finding, tutti i locator anche quando ripetuti
+per ruoli distinti, e la counterevidence nominativa. Ogni template contiene i
+binding esatti ma placeholder/null che lo rendono non ingeribile. Il reviewer
+deve copiarlo fuori dal bundle prima di compilarlo. Il generatore non produce
+receipt, non svolge review e non autorizza ingestion o policy activation.
+
+### E14.7r - Ingestion fail-closed della review indipendente
+
+L'ingestion accetta soltanto due file JSON regolari, uno per dossier, fuori dal
+bundle immutabile. Ogni receipt deve legare gli hash canonici di dossier, queue
+v2, evidence contract e schema dedicato; il reviewer deve differire dall'autore
+della proposta e dichiarare l'indipendenza. Un `accept` richiede tutti i finding
+supportati, tutti i locator aperti, la counterevidence considerata e nessun
+model output.
+
+Le due receipt autentiche accettano entrambi i redesign. La queue v3 registra
+le decisioni senza mutare le receipt. Output dentro receipt, dossier o bundle,
+entry inattese, symlink, hash errati e pubblicazioni parziali falliscono chiusi.
+L'esito autorizza esclusivamente un gate di attivazione policy separato:
+request catalog, acquisizione, trasformazione, candidati, evaluation e outer
+OOS restano vietati.
+
+### E14.7s - Attivazione dell'overlay source-vintage policy v2
+
+Il gate lega per hash canonico proposta e proposal audit, queue v3, ingestion
+audit, taxonomy post-2005 attiva, scope activation audit e piani versionati.
+Non modifica taxonomy o label: pubblica un overlay immutabile specifico per la
+policy di sorgente e vintage.
+
+Per `cross-border-growth`, H.10 viene ritirato e G.5 e' attivo con storia
+percentile separata fra regime legacy Broad/OITP e regime Broad/AFE/EME; splice
+e backcast event-time restano vietati. Per `banking-credit`, l'eleggibilita'
+FDIC richiede prova provider-primary della data reale di pubblicazione. I
+vecchi manifest e snapshot H.10 non soddisfano la policy v2 e non vengono
+reinterpretati.
+
+Il gate autorizza soltanto il prossimo step separato di preregistrazione di un
+manifest e request catalog versionati. Non genera il catalogo, non acquisisce
+osservazioni e mantiene chiusi trasformazione, candidati, evaluation e outer
+OOS.
+
+### E14.7t - Manifest e request catalog source-vintage v2
+
+Il manifest v2 supersede per provenienza il manifest v1 senza modificarlo. Il
+roster resta di sette sorgenti: H.8, FDIC QBP, DGS2, DGS10, G.5, DCPF3M e DTB3.
+H.10 e i relativi raw path devono essere assenti da manifest e catalogo.
+
+Il catalogo preregistra 11 template. Le espansioni di H.8, FDIC e G.5 possono
+usare soltanto valori scoperti sulle pagine provider-primary. G.5 richiede 240
+mesi unici tra 2006-01 e 2025-12 e ogni duplicato/correzione richiede
+adjudication. FDIC richiede 79 trimestri da 2006Q1 a 2025Q3; 2025Q4 e'
+esplicitamente escluso e il quarter-end non sostituisce la data di
+pubblicazione.
+
+La preregistrazione non esegue rete, non crea raw artifact e non autorizza
+l'acquisizione. Il solo passo ammesso e' un gate metadata separato e
+fail-closed contro gli hash esatti di manifest e catalogo v2.
+
+### E14.7u - Gate metadata e autorizzazione separata
+
+Il gate richiede gli hash canonici di manifest v2, request catalog v2 e audit
+di preregistrazione. La credenziale FRED viene verificata solo in memoria. Ogni
+probe e' HTTPS, limitato a 65.536 byte e vincolato per marker, content type e
+intera catena di redirect; un redirect off-allowlist viene rifiutato prima
+della richiesta.
+
+L'audit v2 ha fallito chiuso sul marker del calendario G.5. Il piano v3 lega
+per hash quell'audit e sostituisce esclusivamente `releaseDate` con il campo
+provider-primary `MonthValue`. Il retry supera sette probe su sette. Il gate
+esegue zero request template, non acquisisce osservazioni e non scrive raw
+artifact. Autorizza solo il successivo executor atomico; trasformazione,
+candidati, evaluation e outer OOS restano chiusi.
+
+### E14.7v - Preflight discovery-first dell'acquisizione
+
+Prima di qualsiasi richiesta event-time o FRED, l'executor esegue soltanto i
+tre discovery URL congelati. Non segue calendari o archivi collegati ma non
+preregistrati. Ogni payload deve rispettare marker, content type, limite byte e
+provider-host pinning; i redirect off-provider sono rifiutati prima del follow.
+
+La landing H.8 non contiene direttamente le 1.043 date, la landing FDIC non
+contiene i 79 documenti ne' le 79 date effettive di pubblicazione, e il
+calendario G.5 contiene due mesi duplicati che richiedono adjudication. Il
+preflight rimuove lo staging e pubblica soltanto un audit bloccato. Full
+acquisition, raw snapshot, trasformazione, candidati, evaluation e outer OOS
+restano vietati finche' catalogo e adjudication non sono versionati.
+
+### E14.7w - Docket di remediation review-first
+
+Il docket sostituisce l'assunzione H.8 di 1.043 settimane con il conteggio
+provider-primary di 1.042 release, senza autorizzare automaticamente il nuovo
+requisito. Per FDIC congela il roster completo 79/79 ma mantiene il ledger
+delle date di pubblicazione a 0/79: quarter-end, Last-Modified e lag stimati
+restano sostituti vietati.
+
+Per G.5 entrambe le versioni duplicate sono preservate. L'originale rimane
+efficace fino alla data della correzione; nessuna correzione viene applicata
+retroattivamente all'inizio del mese. Il docket pubblica solo proposta,
+dossier, queue e audit. Catalogo v3, snapshot e qualsiasi esecuzione restano
+assenti; il solo gate successivo e' la review indipendente.
+
+### E14.7x - Review indipendente del docket
+
+La review hash-bound accetta il conteggio H.8 di 1.042 release, il roster FDIC
+79/79 con gap probatorio preservato a 0/79 e le catene G.5 senza retroattivita'.
+La decisione non rende eseguibile il docket e non autorizza catalogo v3,
+snapshot v2, rete, acquisizione o trasformazioni. Il solo passo successivo
+ammesso e' la preregistrazione fail-closed di una raccolta metadata-only delle
+79 prove provider-primary di pubblicazione FDIC, seguita da review separata.
+
+### E14.7y - Preregistrazione raccolta metadata FDIC
+
+Il gate congela un roster esatto di 79 quarter da 2006Q1 a 2025Q3 e richiede,
+per ogni riga futura, data effettiva, URL provider-primary FDIC, tipo di
+evidenza, hash della risposta e timestamp. Quarter-end, Last-Modified, lag
+stimati e fonti secondarie non sono prove ammissibili.
+
+La preregistrazione esegue zero richieste e raccoglie zero righe. Autorizza
+soltanto la review indipendente del disegno di esecuzione metadata-only. Rete,
+catalogo v3, snapshot v2, payload event-time e ogni fase downstream restano
+chiusi fino a un gate separato.
+
+### E14.7z - Review indipendente del disegno metadata FDIC
+
+La review hash-bound accetta il roster 79/79, i campi di prova, i sostituti
+vietati, il pinning a `www.fdic.gov` e i guard fail-closed. Conferma inoltre che
+E14.7y ha effettuato zero richieste e raccolto zero righe.
+
+La receipt non autorizza direttamente la rete. Il solo passo successivo e' un
+gate di esecuzione separato che congeli limiti e comportamento operativo della
+raccolta metadata-only. Catalogo v3, snapshot v2, payload event-time e
+downstream restano vietati.
+
+### E14.7aa - Gate operativo raccolta metadata FDIC
+
+Il gate congela `www.fdic.gov` come unico host, budget 158 richieste logiche e
+316 tentativi fisici, redirect same-host, timeout 30 secondi, limite 8 MiB,
+content type HTML/PDF e retry soltanto sugli status transitori ammessi.
+Redirect off-provider, content type errato e oversize falliscono senza retry.
+
+Il gate esegue zero richieste. Autorizza soltanto il collector separato, che
+puo' pubblicare mediante rename atomico esclusivamente un ledger completo e
+validato 79/79. Ledger parziali, catalogo v3, snapshot v2, payload event-time e
+downstream restano vietati.
+
+### E14.7ab - Preflight fail-closed del collector FDIC
+
+Prima della rete il collector deve trovare nel materiale hash-bound sia gli
+URL seed esatti sia i template di richiesta. I soli limiti operativi non sono
+sufficienti a rendere deterministica l'esecuzione.
+
+Il piano E14.7aa non contiene tali elementi. Il preflight pubblica quindi un
+audit bloccato con zero richieste, zero righe, zero raw artifact, zero ledger e
+zero cataloghi. E' ammessa soltanto la preregistrazione versionata del request
+catalog metadata-only; ogni variazione degli host ammessi richiede un nuovo
+gate e review indipendente prima della raccolta.

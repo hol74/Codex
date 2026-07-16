@@ -47,6 +47,48 @@ from .e14_feasibility_remediation import write_e14_feasibility_remediation_audit
 from .e14_replacement_source_feasibility import write_e14_replacement_source_feasibility_audit
 from .e14_vintage_policy_decision import write_e14_vintage_policy_decision_audit
 from .e14_post2005_scope_feasibility import write_e14_post2005_scope_feasibility_audit
+from .e14_post2005_taxonomy_proposal import write_e14_post2005_taxonomy_proposal
+from .e14_post2005_review_handoff import write_e14_post2005_review_handoff
+from .e14_post2005_review_ingestion import write_e14_post2005_review_ingestion
+from .e14_post2005_targeted_revision import (
+    write_e14_post2005_targeted_revision,
+    write_e14_post2005_targeted_review_ingestion,
+)
+from .e14_post2005_scope_activation import write_e14_post2005_scope_activation
+from .e14_post2005_source_acquisition import write_e14_post2005_source_acquisition_manifest
+from .e14_post2005_source_execution_gate import write_e14_post2005_source_execution_gate
+from .e14_post2005_source_execution_gate_v2 import write_e14_post2005_source_execution_gate_v2
+from .e14_post2005_source_acquisition_execution_v2 import write_e14_post2005_source_acquisition_execution_preflight_v2
+from .e14_post2005_acquisition_remediation import write_e14_post2005_acquisition_remediation
+from .e14_fdic_publication_metadata_preregistration import (
+    write_e14_fdic_publication_metadata_preregistration,
+)
+from .e14_fdic_publication_metadata_execution_gate import (
+    write_e14_fdic_publication_metadata_execution_gate,
+)
+from .e14_fdic_publication_metadata_collection_preflight import (
+    write_e14_fdic_publication_metadata_collection_preflight,
+)
+from .e14_post2005_source_acquisition_execution import write_e14_post2005_atomic_source_snapshot
+from .e14_post2005_vintage_fitness import write_e14_post2005_vintage_fitness_audit
+from .e14_post2005_vintage_remediation import write_e14_post2005_vintage_remediation_audit
+from .e14_post2005_policy_redesign import write_e14_post2005_policy_redesign_proposal
+from .e14_post2005_policy_redesign_handoff import (
+    write_e14_post2005_policy_redesign_handoff_audit,
+)
+from .e14_post2005_policy_redesign_review_remediation import (
+    write_e14_post2005_policy_redesign_review_remediation,
+)
+from .e14_post2005_policy_redesign_review_handoff import (
+    write_e14_post2005_policy_redesign_review_handoff,
+)
+from .e14_post2005_policy_redesign_review_ingestion import (
+    write_e14_post2005_policy_redesign_review_ingestion,
+)
+from .e14_post2005_policy_redesign_activation import (
+    write_e14_post2005_policy_redesign_activation,
+)
+from .e14_post2005_source_acquisition_v2 import write_e14_post2005_source_acquisition_v2
 from .e14_coverage_repair import write_e14_coverage_repair_audit
 from .e14_taxonomy_v4 import write_e14_taxonomy_v4
 from .e14_taxonomy_v5 import write_e14_taxonomy_v5
@@ -87,6 +129,219 @@ def main(argv: list[str] | None = None) -> int:
     parser = _parser()
     args = parser.parse_args(argv)
     try:
+        if args.command == "e14-preflight-fdic-publication-metadata-collection":
+            output = write_e14_fdic_publication_metadata_collection_preflight(
+                args.contract, args.execution_gate_contract,
+                args.execution_gate_audit, args.execution_plan,
+                args.preflight_schema, args.repository_root, args.output,
+            )
+            print(output)
+            return 0
+        if args.command == "e14-gate-fdic-publication-metadata-execution":
+            output = write_e14_fdic_publication_metadata_execution_gate(
+                args.contract, args.preregistration_contract,
+                args.preregistration_audit, args.independent_review,
+                args.independent_review_schema, args.execution_plan,
+                args.gate_schema, args.repository_root, args.output,
+            )
+            print(output)
+            return 0
+        if args.command == "e14-preregister-fdic-publication-metadata":
+            output = write_e14_fdic_publication_metadata_preregistration(
+                args.contract, args.remediation_proposal, args.remediation_audit,
+                args.independent_review, args.independent_review_schema,
+                args.collection_plan, args.audit_schema,
+                args.repository_root, args.output,
+            )
+            print(output)
+            return 0
+        if args.command == "e14-preregister-post2005-acquisition-remediation":
+            outputs = write_e14_post2005_acquisition_remediation(
+                args.contract, args.preflight_audit, args.manifest,
+                args.request_catalog, args.active_policy, args.evidence,
+                args.plan, args.proposal_schema, args.dossier_schema,
+                args.queue_schema, args.review_schema, args.audit_schema,
+                args.proposal_output, args.dossier_output,
+                args.queue_output, args.audit_output,
+            )
+            print("\n".join(str(output) for output in outputs))
+            return 0
+        if args.command == "e14-preflight-post2005-source-acquisition-v2":
+            output = write_e14_post2005_source_acquisition_execution_preflight_v2(
+                args.contract, args.manifest, args.request_catalog,
+                args.gate_audit, args.execution_plan, args.audit_schema,
+                args.repository_root, args.output,
+            )
+            print(output)
+            return 0
+        if args.command == "e14-gate-post2005-source-execution-v2":
+            output = write_e14_post2005_source_execution_gate_v2(
+                args.contract, args.manifest, args.request_catalog,
+                args.preregistration_audit, args.gate_plan,
+                args.gate_schema, args.output,
+            )
+            print(output)
+            return 0
+        if args.command == "e14-preregister-post2005-source-acquisition-v2":
+            outputs = write_e14_post2005_source_acquisition_v2(
+                args.contract, args.active_policy, args.policy_activation_audit,
+                args.base_taxonomy, args.scope_activation_audit,
+                args.legacy_manifest, args.evidence, args.plan,
+                args.manifest_schema, args.request_schema, args.audit_schema,
+                args.manifest_output, args.request_catalog_output,
+                args.audit_output,
+            )
+            print("\n".join(str(output) for output in outputs))
+            return 0
+        if args.command == "e14-activate-post2005-policy-redesign":
+            outputs = write_e14_post2005_policy_redesign_activation(
+                args.contract, args.proposal, args.proposal_audit,
+                args.reviewed_queue, args.review_ingestion_audit,
+                args.base_active_taxonomy, args.scope_activation_audit,
+                args.policy_redesign_plan, args.activation_plan,
+                args.activation_audit_schema, args.active_policy_output,
+                args.audit_output,
+            )
+            print("\n".join(str(output) for output in outputs))
+            return 0
+        if args.command == "e14-ingest-post2005-policy-redesign-reviews":
+            outputs = write_e14_post2005_policy_redesign_review_ingestion(
+                args.contract, args.proposal, args.review_queue_v2,
+                args.remediation_audit, args.handoff_audit, args.dossier_dir,
+                args.evidence_contract, args.dedicated_review_schema,
+                args.remediation_plan, args.ingestion_plan,
+                args.ingestion_audit_schema, args.receipt_dir,
+                args.reviewed_queue_output, args.audit_output,
+            )
+            print("\n".join(str(output) for output in outputs))
+            return 0
+        if args.command == "e14-build-post2005-policy-redesign-review-handoff":
+            output = write_e14_post2005_policy_redesign_review_handoff(
+                args.contract, args.proposal, args.review_queue_v2,
+                args.remediation_audit, args.dossier_dir,
+                args.evidence_contract, args.dedicated_review_schema,
+                args.remediation_plan, args.handoff_plan,
+                args.handoff_audit_schema, args.bundle_dir, args.audit_output,
+            )
+            print(output)
+            return 0
+        if args.command == "e14-remediate-post2005-policy-redesign-review":
+            outputs = write_e14_post2005_policy_redesign_review_remediation(
+                args.contract, args.proposal, args.review_queue_v1,
+                args.proposal_audit, args.blocked_handoff_audit,
+                args.legacy_review_schema, args.dedicated_review_schema,
+                args.dossier_dir, args.remediation_evidence,
+                args.remediation_plan, args.remediation_audit_schema,
+                args.queue_output, args.audit_output,
+            )
+            print("\n".join(str(output) for output in outputs))
+            return 0
+        if args.command == "e14-audit-post2005-policy-redesign-handoff":
+            output = write_e14_post2005_policy_redesign_handoff_audit(
+                args.contract, args.proposal, args.review_queue,
+                args.proposal_audit, args.review_schema, args.dossier_dir,
+                args.handoff_evidence, args.handoff_plan,
+                args.handoff_schema, args.output,
+            )
+            print(output)
+            return 0
+        if args.command == "e14-preregister-post2005-policy-redesign":
+            outputs = write_e14_post2005_policy_redesign_proposal(
+                args.contract, args.vintage_fitness_audit, args.vintage_remediation_audit,
+                args.scope_plan, args.fitness_plan, args.redesign_evidence,
+                args.redesign_plan, args.redesign_schema, args.independent_review_schema,
+                args.proposal_output, args.dossier_output_dir, args.queue_output,
+                args.audit_output,
+            )
+            print("\n".join(str(output) for output in outputs))
+            return 0
+        if args.command == "e14-preregister-post2005-vintage-remediation":
+            output = write_e14_post2005_vintage_remediation_audit(
+                args.contract, args.vintage_fitness_audit, args.snapshot_index,
+                args.acquisition_audit, args.scope_plan, args.fitness_plan,
+                args.source_acquisition_manifest, args.remediation_evidence,
+                args.remediation_plan, args.remediation_schema, args.output,
+            )
+            print(output)
+            return 0
+        if args.command == "e14-audit-post2005-vintage-fitness":
+            output = write_e14_post2005_vintage_fitness_audit(
+                args.contract, args.snapshot_index, args.acquisition_audit,
+                args.scope_plan, args.fitness_plan, args.fitness_schema,
+                args.snapshot_root, args.output,
+            )
+            print(output)
+            return 0
+        if args.command == "e14-acquire-post2005-sources":
+            outputs = write_e14_post2005_atomic_source_snapshot(
+                args.contract, args.manifest, args.execution_gate_audit,
+                args.request_catalog, args.snapshot_schema, args.repository_root,
+            )
+            print("\n".join(str(output) for output in outputs))
+            return 0
+        if args.command == "e14-gate-post2005-source-execution":
+            output = write_e14_post2005_source_execution_gate(
+                args.contract, args.manifest, args.preregistration_audit,
+                args.gate_plan, args.gate_schema, args.output,
+            )
+            print(output)
+            return 0
+        if args.command == "e14-preregister-post2005-source-acquisition":
+            outputs = write_e14_post2005_source_acquisition_manifest(
+                args.contract, args.taxonomy, args.activation_audit, args.scope_plan,
+                args.source_evidence, args.acquisition_plan, args.manifest_schema,
+                args.manifest_output, args.audit_output,
+            )
+            print("\n".join(str(output) for output in outputs))
+            return 0
+        if args.command == "e14-activate-post2005-scope":
+            outputs = write_e14_post2005_scope_activation(
+                args.contract, args.proposal, args.final_reviewed_queue,
+                args.review_ingestion_audit, args.taxonomy_output, args.audit_output,
+            )
+            print("\n".join(str(output) for output in outputs))
+            return 0
+        if args.command == "e14-ingest-post2005-targeted-review":
+            outputs = write_e14_post2005_targeted_review_ingestion(
+                args.targeted_queue, args.revision_audit, args.review_schema,
+                args.receipt_dir, args.queue_output, args.audit_output,
+            )
+            print("\n".join(str(output) for output in outputs))
+            return 0
+        if args.command == "e14-revise-post2005-dossier":
+            outputs = write_e14_post2005_targeted_revision(
+                args.contract, args.reviewed_queue, args.ingestion_audit,
+                args.dossier_schema, args.dossier_dir, args.revised_dossier_dir,
+                args.bundle_dir, args.queue_output, args.audit_output,
+            )
+            print("\n".join(str(output) for output in outputs))
+            return 0
+        if args.command == "e14-ingest-post2005-independent-reviews":
+            outputs = write_e14_post2005_review_ingestion(
+                args.contract, args.proposal, args.review_queue,
+                args.proposal_audit, args.handoff_audit, args.review_schema,
+                args.receipt_dir, args.queue_output, args.audit_output,
+            )
+            print("\n".join(str(output) for output in outputs))
+            return 0
+        if args.command == "e14-build-post2005-review-handoff":
+            output = write_e14_post2005_review_handoff(
+                args.contract, args.proposal, args.review_queue,
+                args.proposal_audit, args.review_schema, args.dossier_dir,
+                args.bundle_dir, args.output,
+            )
+            print(output)
+            return 0
+        if args.command == "e14-preregister-post2005-taxonomy-proposal":
+            outputs = write_e14_post2005_taxonomy_proposal(
+                args.contract, args.taxonomy, args.scope_feasibility_audit,
+                args.scope_plan, args.source_evidence, args.proposal_plan,
+                args.proposal_schema, args.dossier_schema, args.review_schema,
+                args.proposal_output, args.dossier_output_dir,
+                args.queue_output, args.audit_output,
+            )
+            print("\n".join(str(output) for output in outputs))
+            return 0
         if args.command == "e14-audit-post2005-scope-feasibility":
             output = write_e14_post2005_scope_feasibility_audit(
                 args.contract, args.taxonomy, args.vintage_policy_contract,
@@ -1182,6 +1437,304 @@ def _parser() -> argparse.ArgumentParser:
     e14_post2005_feasibility.add_argument("--source-evidence", required=True)
     e14_post2005_feasibility.add_argument("--scope-schema", required=True)
     e14_post2005_feasibility.add_argument("--output", required=True)
+    e14_post2005_proposal = subparsers.add_parser(
+        "e14-preregister-post2005-taxonomy-proposal",
+        help="materialize the inactive E14.7f post-2005 taxonomy proposal and review queue",
+    )
+    e14_post2005_proposal.add_argument("--contract", required=True)
+    e14_post2005_proposal.add_argument("--taxonomy", required=True)
+    e14_post2005_proposal.add_argument("--scope-feasibility-audit", required=True)
+    e14_post2005_proposal.add_argument("--scope-plan", required=True)
+    e14_post2005_proposal.add_argument("--source-evidence", required=True)
+    e14_post2005_proposal.add_argument("--proposal-plan", required=True)
+    e14_post2005_proposal.add_argument("--proposal-schema", required=True)
+    e14_post2005_proposal.add_argument("--dossier-schema", required=True)
+    e14_post2005_proposal.add_argument("--review-schema", required=True)
+    e14_post2005_proposal.add_argument("--proposal-output", required=True)
+    e14_post2005_proposal.add_argument("--dossier-output-dir", required=True)
+    e14_post2005_proposal.add_argument("--queue-output", required=True)
+    e14_post2005_proposal.add_argument("--audit-output", required=True)
+    e14_post2005_handoff = subparsers.add_parser(
+        "e14-build-post2005-review-handoff",
+        help="build the immutable E14.7g1 external-review bundle without reviewing dossiers",
+    )
+    e14_post2005_handoff.add_argument("--contract", required=True)
+    e14_post2005_handoff.add_argument("--proposal", required=True)
+    e14_post2005_handoff.add_argument("--review-queue", required=True)
+    e14_post2005_handoff.add_argument("--proposal-audit", required=True)
+    e14_post2005_handoff.add_argument("--review-schema", required=True)
+    e14_post2005_handoff.add_argument("--dossier-dir", required=True)
+    e14_post2005_handoff.add_argument("--bundle-dir", required=True)
+    e14_post2005_handoff.add_argument("--output", required=True)
+    e14_post2005_ingestion = subparsers.add_parser(
+        "e14-ingest-post2005-independent-reviews",
+        help="ingest E14.7g2 independent receipts fail-closed without activating the scope",
+    )
+    e14_post2005_ingestion.add_argument("--contract", required=True)
+    e14_post2005_ingestion.add_argument("--proposal", required=True)
+    e14_post2005_ingestion.add_argument("--review-queue", required=True)
+    e14_post2005_ingestion.add_argument("--proposal-audit", required=True)
+    e14_post2005_ingestion.add_argument("--handoff-audit", required=True)
+    e14_post2005_ingestion.add_argument("--review-schema", required=True)
+    e14_post2005_ingestion.add_argument("--receipt-dir", required=True)
+    e14_post2005_ingestion.add_argument("--queue-output", required=True)
+    e14_post2005_ingestion.add_argument("--audit-output", required=True)
+    e14_post2005_revision = subparsers.add_parser(
+        "e14-revise-post2005-dossier",
+        help="revise only the rejected E14.7g dossier hash and build a targeted rereview bundle",
+    )
+    e14_post2005_revision.add_argument("--contract", required=True)
+    e14_post2005_revision.add_argument("--reviewed-queue", required=True)
+    e14_post2005_revision.add_argument("--ingestion-audit", required=True)
+    e14_post2005_revision.add_argument("--dossier-schema", required=True)
+    e14_post2005_revision.add_argument("--dossier-dir", required=True)
+    e14_post2005_revision.add_argument("--revised-dossier-dir", required=True)
+    e14_post2005_revision.add_argument("--bundle-dir", required=True)
+    e14_post2005_revision.add_argument("--queue-output", required=True)
+    e14_post2005_revision.add_argument("--audit-output", required=True)
+    e14_post2005_targeted_ingestion = subparsers.add_parser(
+        "e14-ingest-post2005-targeted-review",
+        help="ingest the single hash-bound E14.7g targeted rereview receipt fail-closed",
+    )
+    e14_post2005_targeted_ingestion.add_argument("--targeted-queue", required=True)
+    e14_post2005_targeted_ingestion.add_argument("--revision-audit", required=True)
+    e14_post2005_targeted_ingestion.add_argument("--review-schema", required=True)
+    e14_post2005_targeted_ingestion.add_argument("--receipt-dir", required=True)
+    e14_post2005_targeted_ingestion.add_argument("--queue-output", required=True)
+    e14_post2005_targeted_ingestion.add_argument("--audit-output", required=True)
+    e14_post2005_activation = subparsers.add_parser(
+        "e14-activate-post2005-scope",
+        help="activate the separately versioned E14.7h scope without acquiring observations",
+    )
+    e14_post2005_activation.add_argument("--contract", required=True)
+    e14_post2005_activation.add_argument("--proposal", required=True)
+    e14_post2005_activation.add_argument("--final-reviewed-queue", required=True)
+    e14_post2005_activation.add_argument("--review-ingestion-audit", required=True)
+    e14_post2005_activation.add_argument("--taxonomy-output", required=True)
+    e14_post2005_activation.add_argument("--audit-output", required=True)
+    e14_post2005_acquisition = subparsers.add_parser(
+        "e14-preregister-post2005-source-acquisition",
+        help="freeze the E14.7i post-2005 source acquisition manifest without network requests",
+    )
+    e14_post2005_acquisition.add_argument("--contract", required=True)
+    e14_post2005_acquisition.add_argument("--taxonomy", required=True)
+    e14_post2005_acquisition.add_argument("--activation-audit", required=True)
+    e14_post2005_acquisition.add_argument("--scope-plan", required=True)
+    e14_post2005_acquisition.add_argument("--source-evidence", required=True)
+    e14_post2005_acquisition.add_argument("--acquisition-plan", required=True)
+    e14_post2005_acquisition.add_argument("--manifest-schema", required=True)
+    e14_post2005_acquisition.add_argument("--manifest-output", required=True)
+    e14_post2005_acquisition.add_argument("--audit-output", required=True)
+    e14_post2005_execution_gate = subparsers.add_parser(
+        "e14-gate-post2005-source-execution",
+        help="probe E14.7j provider metadata and credentials before any source acquisition",
+    )
+    e14_post2005_execution_gate.add_argument("--contract", required=True)
+    e14_post2005_execution_gate.add_argument("--manifest", required=True)
+    e14_post2005_execution_gate.add_argument("--preregistration-audit", required=True)
+    e14_post2005_execution_gate.add_argument("--gate-plan", required=True)
+    e14_post2005_execution_gate.add_argument("--gate-schema", required=True)
+    e14_post2005_execution_gate.add_argument("--output", required=True)
+    e14_post2005_execute = subparsers.add_parser(
+        "e14-acquire-post2005-sources",
+        help="atomically acquire the E14.7k raw provider snapshot without transforming features",
+    )
+    e14_post2005_execute.add_argument("--contract", required=True)
+    e14_post2005_execute.add_argument("--manifest", required=True)
+    e14_post2005_execute.add_argument("--execution-gate-audit", required=True)
+    e14_post2005_execute.add_argument("--request-catalog", required=True)
+    e14_post2005_execute.add_argument("--snapshot-schema", required=True)
+    e14_post2005_execute.add_argument("--repository-root", required=True)
+    e14_post2005_fitness = subparsers.add_parser(
+        "e14-audit-post2005-vintage-fitness",
+        help="audit E14.7l raw-source coverage and event-time vintage fitness without transforming features",
+    )
+    e14_post2005_fitness.add_argument("--contract", required=True)
+    e14_post2005_fitness.add_argument("--snapshot-index", required=True)
+    e14_post2005_fitness.add_argument("--acquisition-audit", required=True)
+    e14_post2005_fitness.add_argument("--scope-plan", required=True)
+    e14_post2005_fitness.add_argument("--fitness-plan", required=True)
+    e14_post2005_fitness.add_argument("--fitness-schema", required=True)
+    e14_post2005_fitness.add_argument("--snapshot-root", required=True)
+    e14_post2005_fitness.add_argument("--output", required=True)
+    e14_post2005_remediation = subparsers.add_parser(
+        "e14-preregister-post2005-vintage-remediation",
+        help="preregister E14.7m blocked-source remediation feasibility without acquiring observations",
+    )
+    e14_post2005_remediation.add_argument("--contract", required=True)
+    e14_post2005_remediation.add_argument("--vintage-fitness-audit", required=True)
+    e14_post2005_remediation.add_argument("--snapshot-index", required=True)
+    e14_post2005_remediation.add_argument("--acquisition-audit", required=True)
+    e14_post2005_remediation.add_argument("--scope-plan", required=True)
+    e14_post2005_remediation.add_argument("--fitness-plan", required=True)
+    e14_post2005_remediation.add_argument("--source-acquisition-manifest", required=True)
+    e14_post2005_remediation.add_argument("--remediation-evidence", required=True)
+    e14_post2005_remediation.add_argument("--remediation-plan", required=True)
+    e14_post2005_remediation.add_argument("--remediation-schema", required=True)
+    e14_post2005_remediation.add_argument("--output", required=True)
+    e14_post2005_redesign = subparsers.add_parser(
+        "e14-preregister-post2005-policy-redesign",
+        help="materialize the E14.7n policy-redesign proposal and independent review queue",
+    )
+    e14_post2005_redesign.add_argument("--contract", required=True)
+    e14_post2005_redesign.add_argument("--vintage-fitness-audit", required=True)
+    e14_post2005_redesign.add_argument("--vintage-remediation-audit", required=True)
+    e14_post2005_redesign.add_argument("--scope-plan", required=True)
+    e14_post2005_redesign.add_argument("--fitness-plan", required=True)
+    e14_post2005_redesign.add_argument("--redesign-evidence", required=True)
+    e14_post2005_redesign.add_argument("--redesign-plan", required=True)
+    e14_post2005_redesign.add_argument("--redesign-schema", required=True)
+    e14_post2005_redesign.add_argument("--independent-review-schema", required=True)
+    e14_post2005_redesign.add_argument("--proposal-output", required=True)
+    e14_post2005_redesign.add_argument("--dossier-output-dir", required=True)
+    e14_post2005_redesign.add_argument("--queue-output", required=True)
+    e14_post2005_redesign.add_argument("--audit-output", required=True)
+    e14_post2005_redesign_handoff = subparsers.add_parser(
+        "e14-audit-post2005-policy-redesign-handoff",
+        help="fail closed E14.7o when redesign dossier IDs cannot produce schema-v2 review receipts",
+    )
+    e14_post2005_redesign_handoff.add_argument("--contract", required=True)
+    e14_post2005_redesign_handoff.add_argument("--proposal", required=True)
+    e14_post2005_redesign_handoff.add_argument("--review-queue", required=True)
+    e14_post2005_redesign_handoff.add_argument("--proposal-audit", required=True)
+    e14_post2005_redesign_handoff.add_argument("--review-schema", required=True)
+    e14_post2005_redesign_handoff.add_argument("--dossier-dir", required=True)
+    e14_post2005_redesign_handoff.add_argument("--handoff-evidence", required=True)
+    e14_post2005_redesign_handoff.add_argument("--handoff-plan", required=True)
+    e14_post2005_redesign_handoff.add_argument("--handoff-schema", required=True)
+    e14_post2005_redesign_handoff.add_argument("--output", required=True)
+    e14_post2005_review_remediation = subparsers.add_parser(
+        "e14-remediate-post2005-policy-redesign-review",
+        help="version the E14.7p review queue, evidence contract, and dedicated receipt schema without changing E14.7n dossiers",
+    )
+    e14_post2005_review_remediation.add_argument("--contract", required=True)
+    e14_post2005_review_remediation.add_argument("--proposal", required=True)
+    e14_post2005_review_remediation.add_argument("--review-queue-v1", required=True)
+    e14_post2005_review_remediation.add_argument("--proposal-audit", required=True)
+    e14_post2005_review_remediation.add_argument("--blocked-handoff-audit", required=True)
+    e14_post2005_review_remediation.add_argument("--legacy-review-schema", required=True)
+    e14_post2005_review_remediation.add_argument("--dedicated-review-schema", required=True)
+    e14_post2005_review_remediation.add_argument("--dossier-dir", required=True)
+    e14_post2005_review_remediation.add_argument("--remediation-evidence", required=True)
+    e14_post2005_review_remediation.add_argument("--remediation-plan", required=True)
+    e14_post2005_review_remediation.add_argument("--remediation-audit-schema", required=True)
+    e14_post2005_review_remediation.add_argument("--queue-output", required=True)
+    e14_post2005_review_remediation.add_argument("--audit-output", required=True)
+    e14_post2005_review_handoff = subparsers.add_parser(
+        "e14-build-post2005-policy-redesign-review-handoff",
+        help="build the immutable E14.7q policy-redesign independent-review bundle without creating receipts",
+    )
+    e14_post2005_review_handoff.add_argument("--contract", required=True)
+    e14_post2005_review_handoff.add_argument("--proposal", required=True)
+    e14_post2005_review_handoff.add_argument("--review-queue-v2", required=True)
+    e14_post2005_review_handoff.add_argument("--remediation-audit", required=True)
+    e14_post2005_review_handoff.add_argument("--dossier-dir", required=True)
+    e14_post2005_review_handoff.add_argument("--evidence-contract", required=True)
+    e14_post2005_review_handoff.add_argument("--dedicated-review-schema", required=True)
+    e14_post2005_review_handoff.add_argument("--remediation-plan", required=True)
+    e14_post2005_review_handoff.add_argument("--handoff-plan", required=True)
+    e14_post2005_review_handoff.add_argument("--handoff-audit-schema", required=True)
+    e14_post2005_review_handoff.add_argument("--bundle-dir", required=True)
+    e14_post2005_review_handoff.add_argument("--audit-output", required=True)
+    e14_post2005_review_ingestion = subparsers.add_parser(
+        "e14-ingest-post2005-policy-redesign-reviews",
+        help="ingest exactly two hash-bound E14.7r independent review receipts without activating policy",
+    )
+    e14_post2005_review_ingestion.add_argument("--contract", required=True)
+    e14_post2005_review_ingestion.add_argument("--proposal", required=True)
+    e14_post2005_review_ingestion.add_argument("--review-queue-v2", required=True)
+    e14_post2005_review_ingestion.add_argument("--remediation-audit", required=True)
+    e14_post2005_review_ingestion.add_argument("--handoff-audit", required=True)
+    e14_post2005_review_ingestion.add_argument("--dossier-dir", required=True)
+    e14_post2005_review_ingestion.add_argument("--evidence-contract", required=True)
+    e14_post2005_review_ingestion.add_argument("--dedicated-review-schema", required=True)
+    e14_post2005_review_ingestion.add_argument("--remediation-plan", required=True)
+    e14_post2005_review_ingestion.add_argument("--ingestion-plan", required=True)
+    e14_post2005_review_ingestion.add_argument("--ingestion-audit-schema", required=True)
+    e14_post2005_review_ingestion.add_argument("--receipt-dir", required=True)
+    e14_post2005_review_ingestion.add_argument("--reviewed-queue-output", required=True)
+    e14_post2005_review_ingestion.add_argument("--audit-output", required=True)
+    e14_post2005_redesign_activation = subparsers.add_parser(
+        "e14-activate-post2005-policy-redesign",
+        help="activate the reviewed E14.7s source-vintage policy v2 without generating requests or acquiring data",
+    )
+    e14_post2005_redesign_activation.add_argument("--contract", required=True)
+    e14_post2005_redesign_activation.add_argument("--proposal", required=True)
+    e14_post2005_redesign_activation.add_argument("--proposal-audit", required=True)
+    e14_post2005_redesign_activation.add_argument("--reviewed-queue", required=True)
+    e14_post2005_redesign_activation.add_argument("--review-ingestion-audit", required=True)
+    e14_post2005_redesign_activation.add_argument("--base-active-taxonomy", required=True)
+    e14_post2005_redesign_activation.add_argument("--scope-activation-audit", required=True)
+    e14_post2005_redesign_activation.add_argument("--policy-redesign-plan", required=True)
+    e14_post2005_redesign_activation.add_argument("--activation-plan", required=True)
+    e14_post2005_redesign_activation.add_argument("--activation-audit-schema", required=True)
+    e14_post2005_redesign_activation.add_argument("--active-policy-output", required=True)
+    e14_post2005_redesign_activation.add_argument("--audit-output", required=True)
+    e14_post2005_source_v2 = subparsers.add_parser(
+        "e14-preregister-post2005-source-acquisition-v2",
+        help="freeze E14.7t manifest v2 and request catalog v2 without network requests or acquisition",
+    )
+    e14_post2005_source_v2.add_argument("--contract", required=True)
+    e14_post2005_source_v2.add_argument("--active-policy", required=True)
+    e14_post2005_source_v2.add_argument("--policy-activation-audit", required=True)
+    e14_post2005_source_v2.add_argument("--base-taxonomy", required=True)
+    e14_post2005_source_v2.add_argument("--scope-activation-audit", required=True)
+    e14_post2005_source_v2.add_argument("--legacy-manifest", required=True)
+    e14_post2005_source_v2.add_argument("--evidence", required=True)
+    e14_post2005_source_v2.add_argument("--plan", required=True)
+    e14_post2005_source_v2.add_argument("--manifest-schema", required=True)
+    e14_post2005_source_v2.add_argument("--request-schema", required=True)
+    e14_post2005_source_v2.add_argument("--audit-schema", required=True)
+    e14_post2005_source_v2.add_argument("--manifest-output", required=True)
+    e14_post2005_source_v2.add_argument("--request-catalog-output", required=True)
+    e14_post2005_source_v2.add_argument("--audit-output", required=True)
+    e14_post2005_gate_v2 = subparsers.add_parser(
+        "e14-gate-post2005-source-execution-v2",
+        help="run E14.7u metadata-only fail-closed gate for exact manifest/catalog v2",
+    )
+    e14_post2005_gate_v2.add_argument("--contract", required=True)
+    e14_post2005_gate_v2.add_argument("--manifest", required=True)
+    e14_post2005_gate_v2.add_argument("--request-catalog", required=True)
+    e14_post2005_gate_v2.add_argument("--preregistration-audit", required=True)
+    e14_post2005_gate_v2.add_argument("--gate-plan", required=True)
+    e14_post2005_gate_v2.add_argument("--gate-schema", required=True)
+    e14_post2005_gate_v2.add_argument("--output", required=True)
+    e14_post2005_acquisition_preflight_v2 = subparsers.add_parser(
+        "e14-preflight-post2005-source-acquisition-v2",
+        help="run E14.7v discovery-first acquisition preflight before any event-time/FRED downloads",
+    )
+    e14_post2005_acquisition_preflight_v2.add_argument("--contract", required=True)
+    e14_post2005_acquisition_preflight_v2.add_argument("--manifest", required=True)
+    e14_post2005_acquisition_preflight_v2.add_argument("--request-catalog", required=True)
+    e14_post2005_acquisition_preflight_v2.add_argument("--gate-audit", required=True)
+    e14_post2005_acquisition_preflight_v2.add_argument("--execution-plan", required=True)
+    e14_post2005_acquisition_preflight_v2.add_argument("--audit-schema", required=True)
+    e14_post2005_acquisition_preflight_v2.add_argument("--repository-root", required=True)
+    e14_post2005_acquisition_preflight_v2.add_argument("--output", required=True)
+    e14_post2005_acquisition_remediation = subparsers.add_parser(
+        "e14-preregister-post2005-acquisition-remediation",
+        help="preregister E14.7w review-first acquisition remediation without catalog v3 or acquisition",
+    )
+    for argument in ("contract", "preflight-audit", "manifest", "request-catalog", "active-policy", "evidence", "plan", "proposal-schema", "dossier-schema", "queue-schema", "review-schema", "audit-schema", "proposal-output", "dossier-output", "queue-output", "audit-output"):
+        e14_post2005_acquisition_remediation.add_argument("--" + argument, required=True)
+    e14_fdic_metadata_preregistration = subparsers.add_parser(
+        "e14-preregister-fdic-publication-metadata",
+        help="preregister E14.7y metadata-only collection of 79 FDIC publication proofs without network",
+    )
+    for argument in ("contract", "remediation-proposal", "remediation-audit", "independent-review", "independent-review-schema", "collection-plan", "audit-schema", "repository-root", "output"):
+        e14_fdic_metadata_preregistration.add_argument("--" + argument, required=True)
+    e14_fdic_metadata_execution_gate = subparsers.add_parser(
+        "e14-gate-fdic-publication-metadata-execution",
+        help="authorize bounded E14.7aa FDIC metadata-only collection without making network requests",
+    )
+    for argument in ("contract", "preregistration-contract", "preregistration-audit", "independent-review", "independent-review-schema", "execution-plan", "gate-schema", "repository-root", "output"):
+        e14_fdic_metadata_execution_gate.add_argument("--" + argument, required=True)
+    e14_fdic_metadata_collection_preflight = subparsers.add_parser(
+        "e14-preflight-fdic-publication-metadata-collection",
+        help="fail closed before E14.7ab network when exact FDIC request templates are not frozen",
+    )
+    for argument in ("contract", "execution-gate-contract", "execution-gate-audit", "execution-plan", "preflight-schema", "repository-root", "output"):
+        e14_fdic_metadata_collection_preflight.add_argument("--" + argument, required=True)
     e14_taxonomy_v4 = subparsers.add_parser(
         "e14-materialize-taxonomy-v4",
         help="version the accepted E14 foundation proposal into an immutable mechanism-aware taxonomy v4",

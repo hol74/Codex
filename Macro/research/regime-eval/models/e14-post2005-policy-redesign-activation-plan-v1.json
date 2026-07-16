@@ -1,0 +1,38 @@
+{
+  "schemaVersion": 1,
+  "planId": "e14-post2005-policy-redesign-activation-plan-v1",
+  "expectedProposalId": "e14-post2005-policy-redesign-proposal-v1",
+  "expectedReviewedQueueId": "e14-post2005-policy-redesign-reviewed-queue-v3",
+  "expectedActivePolicyId": "e14-post2005-active-source-vintage-policy-v2",
+  "expectedDossierIds": [
+    "e14-post2005-policy-redesign-dossier-cross-g5-monthly-release-replacement-v1",
+    "e14-post2005-policy-redesign-dossier-bank-fdic-publication-vintage-policy-v1"
+  ],
+  "activationPolicy": {
+    "allRedesignDossiersMustBeAuthenticallyAccepted": true,
+    "baseScopeAndAcceptedLabelsRemainUnchanged": true,
+    "policyOverlayMustBeSeparatelyVersioned": true,
+    "legacyH10ArtifactsCannotSatisfyRedesignedCrossBorderPolicy": true,
+    "g5MethodologyRegimesMustRemainSeparated": true,
+    "fdicEligibilityRequiresProviderPrimaryActualPublicationProof": true,
+    "requestCatalogGenerationAuthorizedByGate": true,
+    "requestCatalogNotGeneratedByGate": true,
+    "sourceAcquisitionNotPerformedOrAuthorizedByGate": true,
+    "featureTransformationRemainsForbidden": true,
+    "candidateGenerationRemainsForbidden": true,
+    "evaluationRemainsForbidden": true,
+    "outerOosRemainsClosed": true
+  },
+  "authorizationPolicy": {
+    "policyActivationAuthorized": true,
+    "sourceManifestAndRequestCatalogPreregistrationAuthorized": true,
+    "requestCatalogGenerationAuthorized": true,
+    "requestCatalogGenerationPerformedByActivation": false,
+    "sourceAcquisitionAuthorized": false,
+    "featureTransformationAuthorized": false,
+    "candidateGenerationAuthorized": false,
+    "evaluationAuthorized": false,
+    "outerOosAuthorized": false
+  },
+  "nextAllowedAction": "Preregister a versioned post-2005 source-acquisition manifest and request catalog bound to the active source-vintage policy v2; do not acquire observations yet"
+}

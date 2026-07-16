@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "planId": "e14-post2005-policy-redesign-handoff-plan-v1",
+  "objective": "Fail closed before publishing an independent-review bundle unless every immutable queue dossierId can produce a completed receipt valid under the frozen review schema.",
+  "checks": [
+    "validate all input hashes before assessing compatibility",
+    "require the proposal and queue to remain awaiting independent review",
+    "require exactly two hash-valid immutable dossiers and zero receipts",
+    "evaluate every queued dossierId against the frozen schema pattern",
+    "require review-schema semantics to match the dossier evidence and counterevidence structure",
+    "require every mandatory policy finding to have a dedicated hash-bound provider-primary locator",
+    "forbid aliases that would break queue and dossier identity",
+    "publish no bundle, worksheet or receipt template when compatibility fails"
+  ],
+  "authorizationPolicy": {
+    "handoffReadinessAuditAuthorized": true,
+    "bundlePublicationAuthorized": false,
+    "receiptTemplatePublicationAuthorized": false,
+    "receiptIngestionAuthorized": false,
+    "policyActivationAuthorized": false,
+    "requestCatalogGenerationAuthorized": false,
+    "sourceAcquisitionAuthorized": false,
+    "featureTransformationAuthorized": false,
+    "candidateGenerationAuthorized": false,
+    "evaluationAuthorized": false,
+    "outerOosAuthorized": false
+  },
+  "expectedStatus": "POST_2005_POLICY_REDESIGN_HANDOFF_BLOCKED_SCHEMA_ID_INCOMPATIBILITY",
+  "nextAllowedAction": "Version a dedicated independent-review schema that accepts the exact immutable policy-redesign dossier IDs, or version the proposal and dossiers with schema-compatible canonical IDs; then repeat this handoff gate without mutating E14.7n"
+}

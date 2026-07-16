@@ -1,0 +1,44 @@
+{
+  "schemaVersion": 2,
+  "contractId": "e14-post2005-source-acquisition-contract-v2",
+  "inputHashes": {
+    "activeSourceVintagePolicyV2Sha256": "94db6eb64b83ea3d54ca36c8d3311f983ab48f998c4b6bb9e7218df8aad049fd",
+    "policyActivationAuditSha256": "0c86c0545cddc580680804b4b3c0b701718450fd818381a19d435d94071c3d2f",
+    "baseActiveTaxonomySha256": "3f69670e43315904e47a9bcae1957c62d780665b047355230198bb7a129e9d58",
+    "scopeActivationAuditSha256": "77b38fe8be5c6fa235d4d68437ae0c184fa70eab7ea23d5839def575c112e9db",
+    "legacySourceManifestV1Sha256": "2203aba40264054476a28b6c162e5eecc7346563bfb8a26f1339e65033881b90",
+    "sourceAcquisitionEvidenceV2Sha256": "8d7c9e386c6a3adfce60e5f83acd0d14cc73c13ef2582cfb6519440671e446ef",
+    "sourceAcquisitionPlanV2Sha256": "30572d4d2ac7332714b4f08b877e9567c49ddeb729ca2d043bd953c8acff23e4",
+    "manifestSchemaV2Sha256": "c094f12716d83581382f566d5399775b041cd4e1d7f2f791a1f98824c0cf4b4b",
+    "requestCatalogSchemaV2Sha256": "9cf67d3f0692494287c2f79426a1e45e3cd5dc913aa4e4aed3701627a44de58a",
+    "preregistrationAuditSchemaV2Sha256": "5d4e5257d0c830e3de13a28b647747ae8cd6a234dc83a0fb025ac682f37deac2"
+  },
+  "expectedSourceIds": ["federal-reserve-h8-release-archive", "fdic-qbp-archive", "fred-dgs2", "fred-dgs10", "federal-reserve-g5-release-archive", "fred-dcpf3m", "fred-dtb3"],
+  "retiredSourceIdsForbiddenEverywhere": ["federal-reserve-h10-release-archive"],
+  "expectedFeatureFamilyIds": ["bank-release-archived-balance-sheet-post2005-v2", "broad-treasury-rate-dislocation-post2005", "cross-g5-dollar-shock-post2005-v2", "funding-financial-cp-tiering-post2005"],
+  "expectedRequestTemplateCount": 11,
+  "decisionPolicy": {
+    "activePolicyV2AndBaseScopeMustBeExact": true,
+    "h10MustBeAbsentFromManifestCatalogAndRawPaths": true,
+    "g5RegimesAndNoBackcastPolicyMustBeFrozen": true,
+    "g5MustRequire240UniqueMonthsAndDuplicateAdjudication": true,
+    "fdicMustRequire79EligibleQuartersThrough2025Q3": true,
+    "fdicQuarterEndCannotSubstituteForPublicationDate": true,
+    "allSevenSourcesMustRemainMetadataReady": true,
+    "manifestAndCatalogCannotMakeNetworkRequests": true,
+    "executionRequiresSeparateGate": true,
+    "legacyManifestAndSnapshotRemainImmutable": true
+  },
+  "authorizationPolicy": {
+    "manifestAndRequestCatalogMaterializationAuthorized": true,
+    "separateMetadataExecutionGateAuthorized": true,
+    "networkRequestsAuthorized": false,
+    "sourceAcquisitionExecutionAuthorized": false,
+    "featureTransformationAuthorized": false,
+    "candidateGenerationAuthorized": false,
+    "evaluationAuthorized": false,
+    "outerOosAuthorized": false
+  },
+  "expectedStatus": "POST_2005_SOURCE_MANIFEST_V2_AND_REQUEST_CATALOG_V2_PREREGISTERED_EXECUTION_GATE_REQUIRED",
+  "nextAllowedAction": "Run a separate fail-closed metadata execution gate against manifest v2 and request catalog v2; do not acquire observations yet"
+}

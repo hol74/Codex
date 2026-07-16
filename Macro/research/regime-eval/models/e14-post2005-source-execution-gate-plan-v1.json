@@ -1,0 +1,77 @@
+{
+  "schemaVersion": 1,
+  "planId": "e14-post2005-source-execution-gate-plan-v1",
+  "frozenAt": "2026-07-16",
+  "manifestId": "e14-post2005-source-acquisition-manifest-v1",
+  "timeoutSeconds": 30,
+  "maximumProbeBytes": 65536,
+  "credentialRequirements": [
+    {
+      "environmentVariable": "FRED_API_KEY",
+      "appliesToSourceIds": ["fred-dgs2", "fred-dgs10", "fred-dcpf3m", "fred-dtb3"],
+      "required": true,
+      "secretMustNotBePersisted": true
+    }
+  ],
+  "probes": [
+    {
+      "sourceId": "federal-reserve-h8-release-archive",
+      "urlTemplate": "https://www.federalreserve.gov/releases/h8/default.htm",
+      "expectedMarker": "Assets and Liabilities of Commercial Banks",
+      "credentialEnvironmentVariable": null
+    },
+    {
+      "sourceId": "fdic-qbp-archive",
+      "urlTemplate": "https://www.fdic.gov/analysis/quarterly-banking-profile/",
+      "expectedMarker": "Quarterly Banking Profile",
+      "credentialEnvironmentVariable": null
+    },
+    {
+      "sourceId": "fred-dgs2",
+      "urlTemplate": "https://api.stlouisfed.org/fred/series?series_id=DGS2&api_key={FRED_API_KEY}&file_type=json",
+      "expectedMarker": "DGS2",
+      "credentialEnvironmentVariable": "FRED_API_KEY"
+    },
+    {
+      "sourceId": "fred-dgs10",
+      "urlTemplate": "https://api.stlouisfed.org/fred/series?series_id=DGS10&api_key={FRED_API_KEY}&file_type=json",
+      "expectedMarker": "DGS10",
+      "credentialEnvironmentVariable": "FRED_API_KEY"
+    },
+    {
+      "sourceId": "federal-reserve-h10-release-archive",
+      "urlTemplate": "https://www.federalreserve.gov/releases/H10/About.HTM",
+      "expectedMarker": "Foreign Exchange Rates",
+      "credentialEnvironmentVariable": null
+    },
+    {
+      "sourceId": "fred-dcpf3m",
+      "urlTemplate": "https://api.stlouisfed.org/fred/series?series_id=DCPF3M&api_key={FRED_API_KEY}&file_type=json",
+      "expectedMarker": "DCPF3M",
+      "credentialEnvironmentVariable": "FRED_API_KEY"
+    },
+    {
+      "sourceId": "fred-dtb3",
+      "urlTemplate": "https://api.stlouisfed.org/fred/series?series_id=DTB3&api_key={FRED_API_KEY}&file_type=json",
+      "expectedMarker": "DTB3",
+      "credentialEnvironmentVariable": "FRED_API_KEY"
+    }
+  ],
+  "networkPolicy": {
+    "allowedHosts": ["www.federalreserve.gov", "www.fdic.gov", "api.stlouisfed.org"],
+    "httpsOnly": true,
+    "metadataOnly": true,
+    "redirectsMustRemainOnAllowlist": true
+  },
+  "authorizationPolicy": {
+    "allCredentialsRequired": true,
+    "allSevenProbesMustPass": true,
+    "gateWritesSourceObservations": false,
+    "gateWritesRawArtifacts": false,
+    "successfulGateAuthorizesAcquisitionExecution": true,
+    "featureTransformationAuthorized": false,
+    "candidateGenerationAuthorized": false,
+    "evaluationAuthorized": false,
+    "outerOosAuthorized": false
+  }
+}

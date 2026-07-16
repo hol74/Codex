@@ -1,0 +1,49 @@
+{
+  "schemaVersion": 1,
+  "evidenceId": "e14-post2005-acquisition-remediation-evidence-v1",
+  "capturedAtUtc": "2026-07-16T14:00:00Z",
+  "providerPrimaryEvidence": {
+    "h8ReleaseCalendar": {
+      "url": "https://www.federalreserve.gov/releases/h8/releaseDates.json",
+      "statusCode": 200,
+      "contentType": "application/json",
+      "responseTextSha256": "c9caa76a2f69a13e93cfc8aafb94e5ef17f368f18294239575241ce8eef51d6b",
+      "windowReleaseCount": 1042,
+      "uniqueReleaseCount": 1042,
+      "firstReleaseDate": "20060106",
+      "lastReleaseDate": "20251229",
+      "supersedesDerivedPreflightRequirement": 1043
+    },
+    "fdicPastQbpArchive": {
+      "url": "https://www.fdic.gov/quarterly-banking-profile/past-quarterly-banking-profiles",
+      "statusCode": 200,
+      "contentType": "text/html",
+      "responseTextSha256": "34f66d30999744fe458efe39c21acac181264f04e76bb7a77d530c1ba37080ab",
+      "eligibleQuarterCount": 79,
+      "firstEligibleQuarter": "2006Q1",
+      "lastEligibleQuarter": "2025Q3",
+      "missingEligibleQuarters": [],
+      "actualPublicationDateProofCount": 0
+    },
+    "g5DuplicateReleasePairs": [
+      {
+        "month": "2024-08",
+        "earlier": {"releaseDate": "20240801", "url": "https://www.federalreserve.gov/releases/g5/20240801/", "responseTextSha256": "ae1e6cfe442889bea5a82713a7f44be1af9e8340c0d3314ec7391c094910eed4", "broad": "123.7002", "afe": "116.7915", "eme": "132.4764"},
+        "later": {"releaseDate": "20240807", "url": "https://www.federalreserve.gov/releases/g5/20240807/", "responseTextSha256": "202e7852fdc7b81fa2b81d31262b2b11e4dcb81291f2f91cc0ee6f4d66c2ec46", "broad": "123.7208", "afe": "116.8040", "eme": "132.5058"}
+      },
+      {
+        "month": "2024-10",
+        "earlier": {"releaseDate": "20241001", "url": "https://www.federalreserve.gov/releases/g5/20241001/", "responseTextSha256": "8bb8b8ddbe3985f7e68d6b094defe91ab2e3f080597a9c0706aab3ddb21073d7", "broad": "120.9062", "afe": "112.4384", "eme": "132.9531"},
+        "later": {"releaseDate": "20241003", "url": "https://www.federalreserve.gov/releases/g5/20241003/", "responseTextSha256": "40556cc3af8af5be2cfdc7f83bf17e48a44609ae888cd6ee298dffae2aafbbe3", "broad": "122.1296", "afe": "113.2979", "eme": "132.9531"}
+      }
+    ]
+  },
+  "openEvidenceRequirement": {
+    "requirementId": "fdic-79-provider-primary-publication-date-ledger",
+    "requiredRowCount": 79,
+    "quarterEndInferenceForbidden": true,
+    "providerPrimaryReleaseOrStatementUrlRequired": true,
+    "independentReviewRequired": true,
+    "satisfied": false
+  }
+}

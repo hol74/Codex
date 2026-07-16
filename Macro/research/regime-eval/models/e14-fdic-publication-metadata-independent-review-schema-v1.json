@@ -1,0 +1,61 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://macro-regime.local/schemas/e14-fdic-publication-metadata-independent-review-v1.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "artifactType",
+    "reviewId",
+    "reviewerId",
+    "reviewedAtUtc",
+    "independenceDeclared",
+    "contractSha256",
+    "planSha256",
+    "auditSha256",
+    "reviewSchemaSha256",
+    "assessments",
+    "decision",
+    "rationale"
+  ],
+  "properties": {
+    "schemaVersion": {"const": 1},
+    "artifactType": {"const": "E14FdicPublicationMetadataIndependentReview"},
+    "reviewId": {"type": "string", "minLength": 1},
+    "reviewerId": {"type": "string", "minLength": 1},
+    "reviewedAtUtc": {"type": "string", "minLength": 20},
+    "independenceDeclared": {"const": true},
+    "contractSha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "planSha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "auditSha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "reviewSchemaSha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "assessments": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "hashBindingsExact",
+        "quarterRosterExact",
+        "requiredEvidenceFieldsSufficient",
+        "forbiddenSubstitutesExplicit",
+        "providerHostPinningSupported",
+        "preregistrationMadeZeroNetworkRequests",
+        "metadataExecutionStillUnauthorized",
+        "catalogV3StillBlocked",
+        "failClosedGuardsSupported"
+      ],
+      "properties": {
+        "hashBindingsExact": {"type": "boolean"},
+        "quarterRosterExact": {"type": "boolean"},
+        "requiredEvidenceFieldsSufficient": {"type": "boolean"},
+        "forbiddenSubstitutesExplicit": {"type": "boolean"},
+        "providerHostPinningSupported": {"type": "boolean"},
+        "preregistrationMadeZeroNetworkRequests": {"type": "boolean"},
+        "metadataExecutionStillUnauthorized": {"type": "boolean"},
+        "catalogV3StillBlocked": {"type": "boolean"},
+        "failClosedGuardsSupported": {"type": "boolean"}
+      }
+    },
+    "decision": {"enum": ["accept", "reject"]},
+    "rationale": {"type": "string", "minLength": 100}
+  }
+}

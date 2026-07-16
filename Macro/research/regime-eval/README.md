@@ -965,3 +965,317 @@ manifestabili. Lo stato
 autorizza soltanto E14.7f, cioe' proposta taxonomy separata, dossier hash-bound
 e queue di review indipendente. Non attiva lo scope e non autorizza download,
 taxonomy mutation, foundation, candidati, evaluation o outer OOS.
+
+E14.7f materializza la proposta separata e la queue write-once:
+
+```text
+python -m regime_eval e14-preregister-post2005-taxonomy-proposal --contract models/e14-post2005-taxonomy-proposal-contract-v1.json --taxonomy ground-truth/us-financial-stress-v5.json --scope-feasibility-audit ../../data/historical-real-v12-2008-2025/challengers/e14-post2005-scope-feasibility-audit-v1.json --scope-plan models/e14-post2005-scope-feasibility-plan-v1.json --source-evidence models/e14-post2005-source-feasibility-evidence-v1.json --proposal-plan models/e14-post2005-taxonomy-proposal-plan-v1.json --proposal-schema models/e14-post2005-taxonomy-proposal-schema-v1.json --dossier-schema models/e14-episode-dossier-schema-v1.json --review-schema models/e14-independent-review-schema-v2.json --proposal-output ../../data/historical-real-v12-2008-2025/challengers/e14-post2005-taxonomy-proposal-v1.json --dossier-output-dir ../../data/historical-real-v12-2008-2025/challengers/e14-post2005-dossiers-v1 --queue-output ../../data/historical-real-v12-2008-2025/challengers/e14-post2005-review-queue-v1.json --audit-output ../../data/historical-real-v12-2008-2025/challengers/e14-post2005-taxonomy-proposal-audit-v1.json
+```
+
+La proposta usa il nuovo taxonomy id `us-financial-stress-post2005-v1` e nuovi
+`proposalEntryId`; gli ID degli eventi v5 sono soltanto riferimenti. Contiene 6
+positivi post-cutoff, 6 righe hard-negative legacy e 2 nuovi controlli banking.
+I dossier London Whale e Archegos sono `reviewed`, non `accepted`, e la queue
+parte con zero receipt. Proposal, dossier e queue sono legati tramite SHA-256.
+
+Lo stato `POST_2005_TAXONOMY_PROPOSAL_AWAITING_INDEPENDENT_REVIEW` autorizza
+soltanto E14.7g: handoff byte-identico e ingestion di receipt conformi allo
+schema v2, prodotti da un reviewer indipendente. Lo scope resta inattivo e non
+sono autorizzati download, foundation, candidati, fitting, evaluation o outer
+OOS.
+
+E14.7g1 costruisce il bundle per il reviewer senza eseguire la review:
+
+```text
+python -m regime_eval e14-build-post2005-review-handoff --contract models/e14-post2005-review-handoff-contract-v1.json --proposal ../../data/historical-real-v12-2008-2025/challengers/e14-post2005-taxonomy-proposal-v1.json --review-queue ../../data/historical-real-v12-2008-2025/challengers/e14-post2005-review-queue-v1.json --proposal-audit ../../data/historical-real-v12-2008-2025/challengers/e14-post2005-taxonomy-proposal-audit-v1.json --review-schema models/e14-independent-review-schema-v2.json --dossier-dir ../../data/historical-real-v12-2008-2025/challengers/e14-post2005-dossiers-v1 --bundle-dir ../../data/historical-real-v12-2008-2025/challengers/e14-post2005-review-handoff-v1 --output ../../data/historical-real-v12-2008-2025/challengers/e14-post2005-review-handoff-audit-v1.json
+```
+
+Il bundle contiene proposta e queue byte-identiche, dossier, worksheet e
+template v2 separati. I template hanno placeholder e valori `null`, quindi non
+sono ingeribili accidentalmente. Le receipt completate devono essere salvate
+fuori dal bundle, in `e14-post2005-independent-reviews-v1/`.
+
+E14.7g2 valida le receipt in modalita' fail-closed:
+
+```text
+python -m regime_eval e14-ingest-post2005-independent-reviews --contract models/e14-post2005-review-ingestion-contract-v1.json --proposal ../../data/historical-real-v12-2008-2025/challengers/e14-post2005-taxonomy-proposal-v1.json --review-queue ../../data/historical-real-v12-2008-2025/challengers/e14-post2005-review-queue-v1.json --proposal-audit ../../data/historical-real-v12-2008-2025/challengers/e14-post2005-taxonomy-proposal-audit-v1.json --handoff-audit ../../data/historical-real-v12-2008-2025/challengers/e14-post2005-review-handoff-audit-v1.json --review-schema models/e14-independent-review-schema-v2.json --receipt-dir ../../data/historical-real-v12-2008-2025/challengers/e14-post2005-independent-reviews-v1 --queue-output ../../data/historical-real-v12-2008-2025/challengers/e14-post2005-reviewed-queue-v1.json --audit-output ../../data/historical-real-v12-2008-2025/challengers/e14-post2005-review-ingestion-audit-v1.json
+```
+
+Receipt mancanti producono `POST_2005_INDEPENDENT_REVIEW_INCOMPLETE`. Anche due
+accept validi autorizzano soltanto un gate di attivazione separato E14.7h: non
+attivano direttamente scope, acquisizione, foundation o evaluation.
+
+La prima review indipendente ha accettato London Whale e richiesto una
+revisione Archegos: il locator FDIC era una landing non apribile e il confine
+di maggio non era direttamente supportato. E14.7g3 cambia soltanto quel dossier:
+
+```text
+python -m regime_eval e14-revise-post2005-dossier --contract models/e14-post2005-targeted-revision-contract-v1.json --reviewed-queue ../../data/historical-real-v12-2008-2025/challengers/e14-post2005-reviewed-queue-v1.json --ingestion-audit ../../data/historical-real-v12-2008-2025/challengers/e14-post2005-review-ingestion-audit-v1.json --dossier-schema models/e14-episode-dossier-schema-v1.json --dossier-dir ../../data/historical-real-v12-2008-2025/challengers/e14-post2005-dossiers-v1 --revised-dossier-dir ../../data/historical-real-v12-2008-2025/challengers/e14-post2005-revised-dossiers-v1 --bundle-dir ../../data/historical-real-v12-2008-2025/challengers/e14-post2005-targeted-review-handoff-v1 --queue-output ../../data/historical-real-v12-2008-2025/challengers/e14-post2005-targeted-review-queue-v1.json --audit-output ../../data/historical-real-v12-2008-2025/challengers/e14-post2005-targeted-revision-audit-v1.json
+```
+
+Il dossier revisione usa il PDF FDIC ufficiale, estende il confine a giugno
+2021 e riceve un nuovo hash. London Whale resta byte-identico e non entra nel
+bundle mirato. Lo stesso reviewer indipendente riapre entrambe le fonti sul
+nuovo hash e produce una nuova receipt `accept`; E14.7g4 la valida:
+
+```text
+python -m regime_eval e14-ingest-post2005-targeted-review --targeted-queue ../../data/historical-real-v12-2008-2025/challengers/e14-post2005-targeted-review-queue-v1.json --revision-audit ../../data/historical-real-v12-2008-2025/challengers/e14-post2005-targeted-revision-audit-v1.json --review-schema models/e14-independent-review-schema-v2.json --receipt-dir ../../data/historical-real-v12-2008-2025/challengers/e14-post2005-targeted-independent-reviews-v1 --queue-output ../../data/historical-real-v12-2008-2025/challengers/e14-post2005-final-reviewed-queue-v1.json --audit-output ../../data/historical-real-v12-2008-2025/challengers/e14-post2005-targeted-review-ingestion-audit-v1.json
+```
+
+E14.7h attiva infine soltanto lo scope separatamente versionato:
+
+```text
+python -m regime_eval e14-activate-post2005-scope --contract models/e14-post2005-scope-activation-contract-v1.json --proposal ../../data/historical-real-v12-2008-2025/challengers/e14-post2005-taxonomy-proposal-v1.json --final-reviewed-queue ../../data/historical-real-v12-2008-2025/challengers/e14-post2005-final-reviewed-queue-v1.json --review-ingestion-audit ../../data/historical-real-v12-2008-2025/challengers/e14-post2005-targeted-review-ingestion-audit-v1.json --taxonomy-output ../../data/historical-real-v12-2008-2025/challengers/us-financial-stress-post2005-v1.json --audit-output ../../data/historical-real-v12-2008-2025/challengers/e14-post2005-scope-activation-audit-v1.json
+```
+
+La taxonomy legacy v5 non cambia. Lo scope post-2005 e le label sono attivi,
+ma l'acquisizione richiede una preregistrazione separata; foundation,
+candidati, evaluation e outer OOS restano chiusi.
+
+E14.7i congela il manifest di acquisizione senza effettuare richieste di rete:
+
+```text
+python -m regime_eval e14-preregister-post2005-source-acquisition --contract models/e14-post2005-source-acquisition-contract-v1.json --taxonomy ../../data/historical-real-v12-2008-2025/challengers/us-financial-stress-post2005-v1.json --activation-audit ../../data/historical-real-v12-2008-2025/challengers/e14-post2005-scope-activation-audit-v1.json --scope-plan models/e14-post2005-scope-feasibility-plan-v1.json --source-evidence models/e14-post2005-source-feasibility-evidence-v1.json --acquisition-plan models/e14-post2005-source-acquisition-plan-v1.json --manifest-schema models/e14-post2005-source-acquisition-schema-v1.json --manifest-output ../../data/historical-real-v12-2008-2025/challengers/e14-post2005-source-acquisition-manifest-v1.json --audit-output ../../data/historical-real-v12-2008-2025/challengers/e14-post2005-source-acquisition-preregistration-audit-v1.json
+```
+
+Il manifest lega sette fonti provider-primary alle quattro famiglie di feature,
+con finestra 2006-2025, semantica as-of, regimi metodologici, percorsi raw e
+controlli SHA-256 fail-closed. Non contiene osservazioni e non autorizza ancora
+l'esecuzione dell'acquisizione. Il passo successivo richiede un gate separato
+contro l'hash esatto del manifest.
+
+E14.7j esegue il preflight metadata-only contro il manifest congelato:
+
+```text
+python -m regime_eval e14-gate-post2005-source-execution --contract models/e14-post2005-source-execution-gate-contract-v1.json --manifest ../../data/historical-real-v12-2008-2025/challengers/e14-post2005-source-acquisition-manifest-v1.json --preregistration-audit ../../data/historical-real-v12-2008-2025/challengers/e14-post2005-source-acquisition-preregistration-audit-v1.json --gate-plan models/e14-post2005-source-execution-gate-plan-v1.json --gate-schema models/e14-post2005-source-execution-gate-schema-v1.json --output ../../data/historical-real-v12-2008-2025/challengers/e14-post2005-source-execution-gate-audit-v1.json
+```
+
+Il gate richiede la credenziale FRED senza persisterla, limita i redirect a
+Federal Reserve, FDIC e St. Louis Fed e controlla sette endpoint metadata. Il
+run reale supera 7/7 probe e autorizza soltanto l'acquisizione raw atomica.
+Nessuna osservazione e' acquisita dal gate; feature, candidati, evaluation e
+outer OOS restano chiusi.
+
+E14.7k acquisisce e pubblica lo snapshot con un singolo rename atomico:
+
+```text
+python -m regime_eval e14-acquire-post2005-sources --contract models/e14-post2005-source-acquisition-execution-contract-v1.json --manifest ../../data/historical-real-v12-2008-2025/challengers/e14-post2005-source-acquisition-manifest-v1.json --execution-gate-audit ../../data/historical-real-v12-2008-2025/challengers/e14-post2005-source-execution-gate-audit-v1.json --request-catalog models/e14-post2005-source-acquisition-requests-v1.json --snapshot-schema models/e14-post2005-source-snapshot-schema-v1.json --repository-root ../..
+```
+
+Il primo tentativo e' fallito chiuso per il limite FRED di 2.000 vintage dates
+per risposta JSON; nessuno staging e' sopravvissuto. Il catalogo e' stato
+corretto congelando quattro tranche real-time per ciascuna serie. Il run finale
+pubblica 23 artifact per 13.451.891 bytes: 16 JSON FRED initial-release, due
+bulk ZIP Federal Reserve, due indici HTML, due spreadsheet FDIC e l'indice QBP.
+
+Tutti gli artifact hanno SHA-256 verificato; ZIP e XLSX superano l'integrity
+test e nessun segreto e' presente nello snapshot. Le 20.810 osservazioni FRED
+sono state lette soltanto per validare finestra e metadati realtime. I bulk H.8,
+H.10 e gli spreadsheet FDIC restano `raw-only`: un audit vintage separato deve
+autorizzarne l'uso prima di qualsiasi trasformazione.
+
+E14.7l verifica completezza e vintage fitness dello snapshot senza trasformare
+valori:
+
+```text
+python -m regime_eval e14-audit-post2005-vintage-fitness --contract models/e14-post2005-vintage-fitness-audit-contract-v1.json --snapshot-index ../../data/historical-real-v12-2008-2025/post2005-source-snapshots-v1/snapshot-index.json --acquisition-audit ../../data/historical-real-v12-2008-2025/post2005-source-snapshots-v1/acquisition-audit.json --scope-plan models/e14-post2005-scope-feasibility-plan-v1.json --fitness-plan models/e14-post2005-vintage-fitness-audit-plan-v1.json --fitness-schema models/e14-post2005-vintage-fitness-audit-schema-v1.json --snapshot-root ../../data/historical-real-v12-2008-2025/post2005-source-snapshots-v1 --output ../../data/historical-real-v12-2008-2025/challengers/e14-post2005-vintage-fitness-audit-v1.json
+```
+
+L'audit riconcilia ogni JSON FRED con conteggio ed estremi dell'indice,
+controlla tranche realtime contigue, cronologia e lag initial-release, oltre ai
+60 mesi minimi prima di ogni episodio applicabile. `broad-market-repricing` e `funding-liquidity` risultano
+vintage-fit. `banking-credit` e `cross-border-growth` restano bloccati: i bulk
+H.8/H.10 correnti non conservano vintage di release e gli XLSX FDIC terminano
+nel 2011 e non conservano le pubblicazioni trimestrali originali. Poiche' non
+passano tutte e quattro le famiglie, la trasformazione globale resta chiusa.
+
+E14.7m preregistra la remediation mirata come audit metadata-only:
+
+```text
+python -m regime_eval e14-preregister-post2005-vintage-remediation --contract models/e14-post2005-vintage-remediation-contract-v1.json --vintage-fitness-audit ../../data/historical-real-v12-2008-2025/challengers/e14-post2005-vintage-fitness-audit-v1.json --snapshot-index ../../data/historical-real-v12-2008-2025/post2005-source-snapshots-v1/snapshot-index.json --acquisition-audit ../../data/historical-real-v12-2008-2025/post2005-source-snapshots-v1/acquisition-audit.json --scope-plan models/e14-post2005-scope-feasibility-plan-v1.json --fitness-plan models/e14-post2005-vintage-fitness-audit-plan-v1.json --source-acquisition-manifest ../../data/historical-real-v12-2008-2025/challengers/e14-post2005-source-acquisition-manifest-v1.json --remediation-evidence models/e14-post2005-vintage-remediation-evidence-v1.json --remediation-plan models/e14-post2005-vintage-remediation-plan-v1.json --remediation-schema models/e14-post2005-vintage-remediation-schema-v1.json --output ../../data/historical-real-v12-2008-2025/challengers/e14-post2005-vintage-remediation-audit-v1.json
+```
+
+La discovery trova locator datati completi H.8, ma non chiude il gate globale.
+H.10 ha 31 mesi senza release tra giugno 2006 e dicembre 2008, quindi non puo'
+fornire il lookback event-time invariato prima del taper tantrum. Per FDIC,
+Q4 2025 non e' eleggibile al cutoff 2025-12-31: l'ultimo trimestre disponibile
+con il lag conservativo congelato e' 2025Q3. Current bulk e quarter-end non
+possono colmare questi difetti. Request catalog, acquisizione e trasformazione
+restano vietati; serve una proposta separatamente revisionata di redesign.
+
+E14.7n materializza la proposta di redesign e due dossier hash-bound:
+
+```text
+python -m regime_eval e14-preregister-post2005-policy-redesign --contract models/e14-post2005-policy-redesign-contract-v1.json --vintage-fitness-audit ../../data/historical-real-v12-2008-2025/challengers/e14-post2005-vintage-fitness-audit-v1.json --vintage-remediation-audit ../../data/historical-real-v12-2008-2025/challengers/e14-post2005-vintage-remediation-audit-v1.json --scope-plan models/e14-post2005-scope-feasibility-plan-v1.json --fitness-plan models/e14-post2005-vintage-fitness-audit-plan-v1.json --redesign-evidence models/e14-post2005-policy-redesign-evidence-v1.json --redesign-plan models/e14-post2005-policy-redesign-plan-v1.json --redesign-schema models/e14-post2005-policy-redesign-schema-v1.json --independent-review-schema models/e14-independent-review-schema-v2.json --proposal-output ../../data/historical-real-v12-2008-2025/challengers/e14-post2005-policy-redesign-proposal-v1.json --dossier-output-dir ../../data/historical-real-v12-2008-2025/challengers/e14-post2005-policy-redesign-dossiers-v1 --queue-output ../../data/historical-real-v12-2008-2025/challengers/e14-post2005-policy-redesign-review-queue-v1.json --audit-output ../../data/historical-real-v12-2008-2025/challengers/e14-post2005-policy-redesign-proposal-audit-v1.json
+```
+
+La proposta sostituisce H.10 con l'archivio mensile G.5 soltanto come candidato
+provider-primary: 88/88 mesi pre-taper e componenti Broad/OITP contemporanei.
+Il break del 2019-02-04 separa il regime legacy Broad/OITP dal nuovo
+Broad/AFE/EME; splice, backcast event-time e storia percentile condivisa sono
+vietati. FDIC richiede una data di pubblicazione corroborata per ogni trimestre;
+quarter-end e lag convenzionale non costituiscono prova. La queue contiene zero
+receipt: policy, request catalog, acquisizione e trasformazione restano chiusi.
+
+E14.7o verifica la reale ingeribilita' della review prima di pubblicare il bundle:
+
+```text
+python -m regime_eval e14-audit-post2005-policy-redesign-handoff --contract models/e14-post2005-policy-redesign-handoff-contract-v1.json --proposal ../../data/historical-real-v12-2008-2025/challengers/e14-post2005-policy-redesign-proposal-v1.json --review-queue ../../data/historical-real-v12-2008-2025/challengers/e14-post2005-policy-redesign-review-queue-v1.json --proposal-audit ../../data/historical-real-v12-2008-2025/challengers/e14-post2005-policy-redesign-proposal-audit-v1.json --review-schema models/e14-independent-review-schema-v2.json --dossier-dir ../../data/historical-real-v12-2008-2025/challengers/e14-post2005-policy-redesign-dossiers-v1 --handoff-evidence models/e14-post2005-policy-redesign-handoff-evidence-v1.json --handoff-plan models/e14-post2005-policy-redesign-handoff-plan-v1.json --handoff-schema models/e14-post2005-policy-redesign-handoff-schema-v1.json --output ../../data/historical-real-v12-2008-2025/challengers/e14-post2005-policy-redesign-handoff-audit-v1.json
+```
+
+Il gate fallisce chiuso: lo schema v2 accetta soltanto ID `e14-dossier-*`,
+mentre entrambi gli ID immutabili E14.7n iniziano con
+`e14-post2005-policy-redesign-dossier-`. Inoltre lo schema richiede
+counterevidence che i dossier redesign non materializzano. Nessun bundle,
+worksheet o template e' pubblicato. Il prossimo passo deve versionare lo schema
+e il contratto evidenziale, oppure versionare proposta e dossier con ID
+canonici, senza mutare gli output E14.7n.
+
+E14.7p versiona il contratto di review senza modificare proposta o dossier:
+
+```text
+python -m regime_eval e14-remediate-post2005-policy-redesign-review --contract models/e14-post2005-policy-redesign-review-remediation-contract-v1.json --proposal ../../data/historical-real-v12-2008-2025/challengers/e14-post2005-policy-redesign-proposal-v1.json --review-queue-v1 ../../data/historical-real-v12-2008-2025/challengers/e14-post2005-policy-redesign-review-queue-v1.json --proposal-audit ../../data/historical-real-v12-2008-2025/challengers/e14-post2005-policy-redesign-proposal-audit-v1.json --blocked-handoff-audit ../../data/historical-real-v12-2008-2025/challengers/e14-post2005-policy-redesign-handoff-audit-v1.json --legacy-review-schema models/e14-independent-review-schema-v2.json --dedicated-review-schema models/e14-policy-redesign-independent-review-schema-v1.json --dossier-dir ../../data/historical-real-v12-2008-2025/challengers/e14-post2005-policy-redesign-dossiers-v1 --remediation-evidence models/e14-post2005-policy-redesign-review-remediation-evidence-v1.json --remediation-plan models/e14-post2005-policy-redesign-review-remediation-plan-v1.json --remediation-audit-schema models/e14-post2005-policy-redesign-review-remediation-schema-v1.json --queue-output ../../data/historical-real-v12-2008-2025/challengers/e14-post2005-policy-redesign-review-queue-v2.json --audit-output ../../data/historical-real-v12-2008-2025/challengers/e14-post2005-policy-redesign-review-remediation-audit-v1.json
+```
+
+La queue v2 preserva i due manifest dossier E14.7n byte-identici e supersede la
+queue v1 per hash. Il nuovo schema receipt accetta gli ID esatti e vincola
+dossier, queue v2, evidence contract e schema. Sette locator provider-primary,
+otto finding e due counterevidence sono congelati; tra questi la nota Fed sul
+break 2019-02-04 e la statement FDIC che colloca Q4 2025 al 2026-02-24. Nessun
+bundle, template o receipt e' creato: e' autorizzato soltanto il nuovo handoff.
+
+E14.7q pubblica il bundle immutabile per il reviewer esterno:
+
+```text
+python -m regime_eval e14-build-post2005-policy-redesign-review-handoff --contract models/e14-post2005-policy-redesign-review-handoff-contract-v1.json --proposal ../../data/historical-real-v12-2008-2025/challengers/e14-post2005-policy-redesign-proposal-v1.json --review-queue-v2 ../../data/historical-real-v12-2008-2025/challengers/e14-post2005-policy-redesign-review-queue-v2.json --remediation-audit ../../data/historical-real-v12-2008-2025/challengers/e14-post2005-policy-redesign-review-remediation-audit-v1.json --dossier-dir ../../data/historical-real-v12-2008-2025/challengers/e14-post2005-policy-redesign-dossiers-v1 --evidence-contract models/e14-post2005-policy-redesign-review-remediation-evidence-v1.json --dedicated-review-schema models/e14-policy-redesign-independent-review-schema-v1.json --remediation-plan models/e14-post2005-policy-redesign-review-remediation-plan-v1.json --handoff-plan models/e14-post2005-policy-redesign-review-handoff-plan-v1.json --handoff-audit-schema models/e14-post2005-policy-redesign-review-handoff-schema-v1.json --bundle-dir ../../data/historical-real-v12-2008-2025/challengers/e14-post2005-policy-redesign-review-handoff-v1 --audit-output ../../data/historical-real-v12-2008-2025/challengers/e14-post2005-policy-redesign-review-handoff-audit-v1.json
+```
+
+Il bundle contiene 12 file: README, proposta, queue v2, remediation audit,
+evidence contract, schema dedicato, due dossier, due worksheet e due template.
+Le sei copie di provenienza sono byte-identiche. I template legano tutti gli
+hash e tutti gli assessment, ma restano intenzionalmente invalidi finche' un
+reviewer indipendente li copia fuori dal bundle e sostituisce placeholder e
+null. Nessuna receipt o decisione di review e' inclusa; ingestion e attivazione
+restano gate separati.
+
+E14.7r ingerisce esattamente due receipt autentiche e hash-bound:
+
+```text
+python -m regime_eval e14-ingest-post2005-policy-redesign-reviews --contract models/e14-post2005-policy-redesign-review-ingestion-contract-v1.json --proposal ../../data/historical-real-v12-2008-2025/challengers/e14-post2005-policy-redesign-proposal-v1.json --review-queue-v2 ../../data/historical-real-v12-2008-2025/challengers/e14-post2005-policy-redesign-review-queue-v2.json --remediation-audit ../../data/historical-real-v12-2008-2025/challengers/e14-post2005-policy-redesign-review-remediation-audit-v1.json --handoff-audit ../../data/historical-real-v12-2008-2025/challengers/e14-post2005-policy-redesign-review-handoff-audit-v1.json --dossier-dir ../../data/historical-real-v12-2008-2025/challengers/e14-post2005-policy-redesign-dossiers-v1 --evidence-contract models/e14-post2005-policy-redesign-review-remediation-evidence-v1.json --dedicated-review-schema models/e14-policy-redesign-independent-review-schema-v1.json --remediation-plan models/e14-post2005-policy-redesign-review-remediation-plan-v1.json --ingestion-plan models/e14-post2005-policy-redesign-review-ingestion-plan-v1.json --ingestion-audit-schema models/e14-post2005-policy-redesign-review-ingestion-schema-v1.json --receipt-dir ../../data/historical-real-v12-2008-2025/challengers/completed-policy-redesign-receipts-v1 --reviewed-queue-output ../../data/historical-real-v12-2008-2025/challengers/e14-post2005-policy-redesign-reviewed-queue-v3.json --audit-output ../../data/historical-real-v12-2008-2025/challengers/e14-post2005-policy-redesign-review-ingestion-audit-v1.json
+```
+
+Un subagent indipendente ha aperto i sette locator provider-primary e ha
+accettato entrambi i dossier: otto finding supportati e due counterevidence
+considerate. L'ingestion verifica roster, hash, indipendenza, assessment,
+directory e output protetti, poi pubblica atomicamente la queue v3 e l'audit.
+La review e' completa, ma la policy non e' attiva: e' autorizzato soltanto un
+gate di attivazione separato e versionato.
+
+E14.7s attiva l'overlay source-vintage policy v2 separatamente revisionato:
+
+```text
+python -m regime_eval e14-activate-post2005-policy-redesign --contract models/e14-post2005-policy-redesign-activation-contract-v1.json --proposal ../../data/historical-real-v12-2008-2025/challengers/e14-post2005-policy-redesign-proposal-v1.json --proposal-audit ../../data/historical-real-v12-2008-2025/challengers/e14-post2005-policy-redesign-proposal-audit-v1.json --reviewed-queue ../../data/historical-real-v12-2008-2025/challengers/e14-post2005-policy-redesign-reviewed-queue-v3.json --review-ingestion-audit ../../data/historical-real-v12-2008-2025/challengers/e14-post2005-policy-redesign-review-ingestion-audit-v1.json --base-active-taxonomy ../../data/historical-real-v12-2008-2025/challengers/us-financial-stress-post2005-v1.json --scope-activation-audit ../../data/historical-real-v12-2008-2025/challengers/e14-post2005-scope-activation-audit-v1.json --policy-redesign-plan models/e14-post2005-policy-redesign-plan-v1.json --activation-plan models/e14-post2005-policy-redesign-activation-plan-v1.json --activation-audit-schema models/e14-post2005-policy-redesign-activation-schema-v1.json --active-policy-output ../../data/historical-real-v12-2008-2025/challengers/e14-post2005-active-source-vintage-policy-v2.json --audit-output ../../data/historical-real-v12-2008-2025/challengers/e14-post2005-policy-redesign-activation-audit-v1.json
+```
+
+La taxonomy e le label gia' attive restano byte-identiche. La nuova policy
+ritira H.10 soltanto per la famiglia cross-border ridisegnata, adotta G.5 con
+regimi metodologici separati e impone disponibilita' FDIC basata sulla
+pubblicazione effettiva. Il vecchio manifest/snapshot H.10 non puo' essere
+reinterpretato. E' autorizzata solo la preregistrazione versionata del nuovo
+manifest e request catalog; nessuna richiesta o acquisizione e' eseguita qui.
+
+E14.7t congela manifest v2 e request catalog v2 senza eseguire rete:
+
+```text
+python -m regime_eval e14-preregister-post2005-source-acquisition-v2 --contract models/e14-post2005-source-acquisition-contract-v2.json --active-policy ../../data/historical-real-v12-2008-2025/challengers/e14-post2005-active-source-vintage-policy-v2.json --policy-activation-audit ../../data/historical-real-v12-2008-2025/challengers/e14-post2005-policy-redesign-activation-audit-v1.json --base-taxonomy ../../data/historical-real-v12-2008-2025/challengers/us-financial-stress-post2005-v1.json --scope-activation-audit ../../data/historical-real-v12-2008-2025/challengers/e14-post2005-scope-activation-audit-v1.json --legacy-manifest ../../data/historical-real-v12-2008-2025/challengers/e14-post2005-source-acquisition-manifest-v1.json --evidence models/e14-post2005-source-acquisition-evidence-v2.json --plan models/e14-post2005-source-acquisition-plan-v2.json --manifest-schema models/e14-post2005-source-acquisition-manifest-schema-v2.json --request-schema models/e14-post2005-source-acquisition-requests-schema-v2.json --audit-schema models/e14-post2005-source-acquisition-preregistration-schema-v2.json --manifest-output ../../data/historical-real-v12-2008-2025/challengers/e14-post2005-source-acquisition-manifest-v2.json --request-catalog-output ../../data/historical-real-v12-2008-2025/challengers/e14-post2005-source-acquisition-requests-v2.json --audit-output ../../data/historical-real-v12-2008-2025/challengers/e14-post2005-source-acquisition-preregistration-audit-v2.json
+```
+
+Il roster resta di sette sorgenti ma G.5 sostituisce completamente H.10. Il
+catalogo contiene 11 template: discovery/espansione H.8 e FDIC, quattro
+richieste ALFRED, calendario/release/metodologia G.5. Sono congelati 240 mesi
+G.5 unici con adjudication delle correzioni e 79 trimestri FDIC eleggibili fino
+al 2025Q3. E' autorizzato soltanto un gate metadata separato; nessuna richiesta
+e' stata inviata.
+
+E14.7u esegue il gate metadata fail-closed contro manifest e catalogo v2:
+
+```text
+python -m regime_eval e14-gate-post2005-source-execution-v2 --contract models/e14-post2005-source-execution-gate-contract-v3.json --manifest ../../data/historical-real-v12-2008-2025/challengers/e14-post2005-source-acquisition-manifest-v2.json --request-catalog ../../data/historical-real-v12-2008-2025/challengers/e14-post2005-source-acquisition-requests-v2.json --preregistration-audit ../../data/historical-real-v12-2008-2025/challengers/e14-post2005-source-acquisition-preregistration-audit-v2.json --gate-plan models/e14-post2005-source-execution-gate-plan-v3.json --gate-schema models/e14-post2005-source-execution-gate-schema-v2.json --output ../../data/historical-real-v12-2008-2025/challengers/e14-post2005-source-execution-gate-audit-v3.json
+```
+
+Il primo audit v2 resta immutabile e bloccato per un marker G.5 non conforme
+alla struttura JSON provider-primary. Il retry v3 lega quel fallimento e
+corregge soltanto il marker in `MonthValue`: tutti i sette probe metadata
+passano. Nessuno degli 11 template viene eseguito e nessun raw artifact o
+osservazione viene scritto. E' autorizzata solo l'acquisizione atomica separata.
+
+E14.7v applica un preflight discovery-first prima di qualsiasi download bulk:
+
+```text
+python -m regime_eval e14-preflight-post2005-source-acquisition-v2 --contract models/e14-post2005-source-acquisition-execution-contract-v2.json --manifest ../../data/historical-real-v12-2008-2025/challengers/e14-post2005-source-acquisition-manifest-v2.json --request-catalog ../../data/historical-real-v12-2008-2025/challengers/e14-post2005-source-acquisition-requests-v2.json --gate-audit ../../data/historical-real-v12-2008-2025/challengers/e14-post2005-source-execution-gate-audit-v3.json --execution-plan models/e14-post2005-source-acquisition-execution-plan-v2.json --audit-schema models/e14-post2005-source-acquisition-execution-preflight-schema-v2.json --repository-root ../.. --output ../../data/historical-real-v12-2008-2025/challengers/e14-post2005-source-acquisition-execution-preflight-audit-v2.json
+```
+
+I tre discovery request confermano che il catalogo v2 non e' autosufficiente:
+H.8 richiede il calendario JSON separato, FDIC richiede archivio storico e
+prove reali di pubblicazione, mentre G.5 presenta duplicati in 2024-08 e
+2024-10. Il preflight fallisce chiuso, elimina lo staging e non avvia richieste
+event-time o FRED. Lo snapshot v2 non viene creato.
+
+E14.7w preregistra un docket di remediation review-first. Il calendario H.8
+dimostra 1.042 release, correggendo esplicitamente il requisito derivato 1.043;
+l'archivio FDIC copre 79 trimestri ma non risolve alcuna data effettiva di
+pubblicazione. Il dossier G.5 conserva originali e correzioni, con efficacia
+delle correzioni soltanto dal 2024-08-07 e 2024-10-03.
+
+Proposta, dossier e queue sono materializzati senza rete. Catalogo v3 e
+snapshot v2 sono verificati assenti. E' autorizzata soltanto una review
+indipendente hash-bound; acquisizione e trasformazioni restano chiuse.
+
+E14.7x completa la review indipendente con decisione `accept`. La receipt
+conferma H.8 a 1.042 release, il roster FDIC 79/79 mantenendo bloccante il gap
+di pubblicazione `0/79`, e le due catene G.5 senza applicazione retroattiva.
+L'accettazione riguarda soltanto il docket: catalogo v3, snapshot v2, rete,
+acquisizione e downstream restano non autorizzati. Il passo successivo deve
+preregistrare separatamente la raccolta metadata-only delle 79 prove FDIC.
+
+E14.7y preregistra quella raccolta senza eseguirla:
+
+```text
+python -m regime_eval e14-preregister-fdic-publication-metadata --contract models/e14-fdic-publication-metadata-preregistration-contract-v1.json --remediation-proposal ../../data/historical-real-v12-2008-2025/challengers/e14-post2005-acquisition-remediation-proposal-v1.json --remediation-audit ../../data/historical-real-v12-2008-2025/challengers/e14-post2005-acquisition-remediation-audit-v1.json --independent-review ../../data/historical-real-v12-2008-2025/challengers/e14-post2005-acquisition-remediation-independent-review-v1.json --independent-review-schema models/e14-acquisition-remediation-independent-review-schema-v1.json --collection-plan models/e14-fdic-publication-metadata-preregistration-plan-v1.json --audit-schema models/e14-fdic-publication-metadata-preregistration-audit-schema-v1.json --repository-root ../.. --output ../../data/historical-real-v12-2008-2025/challengers/e14-fdic-publication-metadata-preregistration-audit-v1.json
+```
+
+Il roster contiene esattamente 79 quarter da 2006Q1 a 2025Q3. La
+preregistrazione non raccoglie righe e non autorizza rete: congela soltanto i
+campi richiesti, il pinning a `www.fdic.gov` e il divieto di usare quarter-end,
+Last-Modified, lag stimati o fonti secondarie. Il prossimo gate e' una review
+indipendente del disegno di esecuzione metadata-only.
+
+E14.7z completa quella review con decisione `accept`. La receipt hash-bound
+conferma roster, campi probatori, provider pinning, zero rete e guard
+fail-closed. L'accettazione non autorizza direttamente la raccolta: apre
+soltanto un gate separato che deve congelare budget richieste, redirect,
+content-type, limiti byte, retry e pubblicazione atomica prima della rete.
+Catalogo v3, snapshot v2 e downstream restano chiusi.
+
+E14.7aa materializza il gate operativo senza effettuare rete:
+
+```text
+python -m regime_eval e14-gate-fdic-publication-metadata-execution --contract models/e14-fdic-publication-metadata-execution-gate-contract-v1.json --preregistration-contract models/e14-fdic-publication-metadata-preregistration-contract-v1.json --preregistration-audit ../../data/historical-real-v12-2008-2025/challengers/e14-fdic-publication-metadata-preregistration-audit-v1.json --independent-review ../../data/historical-real-v12-2008-2025/challengers/e14-fdic-publication-metadata-independent-review-v1.json --independent-review-schema models/e14-fdic-publication-metadata-independent-review-schema-v1.json --execution-plan models/e14-fdic-publication-metadata-execution-plan-v1.json --gate-schema models/e14-fdic-publication-metadata-execution-gate-schema-v1.json --repository-root ../.. --output ../../data/historical-real-v12-2008-2025/challengers/e14-fdic-publication-metadata-execution-gate-audit-v1.json
+```
+
+Il gate autorizza soltanto il collector metadata separato: massimo 158
+richieste logiche/316 tentativi fisici, host FDIC, HTML/PDF fino a 8 MiB e
+pubblicazione atomica solo a 79/79. Il gate stesso registra zero rete. Catalogo
+v3, snapshot v2, payload event-time e downstream restano vietati.
+
+E14.7ab applica un ultimo preflight prima del collector:
+
+```text
+python -m regime_eval e14-preflight-fdic-publication-metadata-collection --contract models/e14-fdic-publication-metadata-collection-preflight-contract-v1.json --execution-gate-contract models/e14-fdic-publication-metadata-execution-gate-contract-v1.json --execution-gate-audit ../../data/historical-real-v12-2008-2025/challengers/e14-fdic-publication-metadata-execution-gate-audit-v1.json --execution-plan models/e14-fdic-publication-metadata-execution-plan-v1.json --preflight-schema models/e14-fdic-publication-metadata-collection-preflight-schema-v1.json --repository-root ../.. --output ../../data/historical-real-v12-2008-2025/challengers/e14-fdic-publication-metadata-collection-preflight-audit-v1.json
+```
+
+Il preflight fallisce chiuso perche' il piano congela i limiti di rete ma non
+gli URL seed esatti ne' template di richiesta legati per hash. Registra zero
+rete e non pubblica ledger o cataloghi. Il solo passo ammesso e' una
+preregistrazione metadata-only degli URL e dei template, seguita da review
+indipendente di un gate nuovamente versionato prima del collector.

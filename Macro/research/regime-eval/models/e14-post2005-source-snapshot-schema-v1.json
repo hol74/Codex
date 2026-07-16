@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://macro-regime.local/schemas/e14-post2005-source-snapshot-index-v1.json",
+  "title": "E14 post-2005 atomic source snapshot index",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "artifactType", "snapshotId", "status", "retrievedAtUtc", "inputs", "inventory", "artifacts", "checks", "authorizationPolicy"],
+  "properties": {
+    "schemaVersion": {"const": 1},
+    "artifactType": {"const": "E14Post2005AtomicSourceSnapshotIndex"},
+    "snapshotId": {"const": "e14-post2005-source-snapshot-v1"},
+    "status": {"const": "POST_2005_RAW_SOURCE_SNAPSHOT_ACQUIRED_TRANSFORMATION_GATE_REQUIRED"},
+    "retrievedAtUtc": {"type": "string", "minLength": 20},
+    "inputs": {"type": "object"},
+    "inventory": {"type": "object"},
+    "artifacts": {"type": "array", "minItems": 23, "maxItems": 23},
+    "checks": {"type": "object"},
+    "authorizationPolicy": {"type": "object"}
+  }
+}

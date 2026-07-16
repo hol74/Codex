@@ -1,0 +1,33 @@
+{
+  "schemaVersion": 1,
+  "contractId": "e14-post2005-policy-redesign-contract-v1",
+  "inputHashes": {
+    "vintageFitnessAuditSha256": "8dc95ac6f6155f09fa25b713cee893bf5e065c93745d019c717cc230d8db1ecb",
+    "vintageRemediationAuditSha256": "bf64490b65527077b829190224e0af5144268283e36a052b5bec40963ac2cdd4",
+    "scopePlanSha256": "177bce224260ba9559ddc153edab80ceabf3d9cfbf156aed271047272ba42a70",
+    "fitnessPlanSha256": "041c8113f0377a8020ad7e7cc7f0f739c02d0ac26b4e1134e4f3a5d9176c07e2",
+    "redesignEvidenceSha256": "3b04cb926987d9ca4c7a56873430b3702804566334926576a48baf7d460bf8dc",
+    "redesignPlanSha256": "232b64e624e2514bbd1bc810b7bb332a94afbed65724911686a0a2f1b027ffaa",
+    "redesignSchemaSha256": "d0d06ac155272831bbb0d30321b0e72407fe04e339e7e39e2cf6670c88a9d96b",
+    "independentReviewSchemaSha256": "77310369e3ba33a6a5dbde84ce6cc445a6a87c7e9e03ba3842718a684822dd58"
+  },
+  "expectedProposalItemIds": ["cross-g5-monthly-release-replacement-v1", "bank-fdic-publication-vintage-policy-v1"],
+  "expectedPreservedReadyMechanisms": ["broad-market-repricing", "funding-liquidity"],
+  "expectedRetiredSourceIds": ["federal-reserve-h10-release-archive"],
+  "expectedReplacementSourceIds": ["federal-reserve-g5-release-archive"],
+  "expectedG5PreTaperMonthCount": 88,
+  "expectedMethodologyBoundary": "2019-02-04",
+  "authorizationPolicy": {
+    "proposalMaterializationAuthorized": true,
+    "independentReviewHandoffAuthorized": true,
+    "policyActivationAuthorized": false,
+    "requestCatalogGenerationAuthorized": false,
+    "sourceAcquisitionAuthorized": false,
+    "featureTransformationAuthorized": false,
+    "candidateGenerationAuthorized": false,
+    "evaluationAuthorized": false,
+    "outerOosAuthorized": false
+  },
+  "expectedStatus": "POST_2005_POLICY_REDESIGN_PROPOSAL_AWAITING_INDEPENDENT_REVIEW",
+  "nextAllowedAction": "Build an immutable handoff bundle and ingest only authentic independent review receipts matching both redesign dossier hashes; do not activate policy, generate requests, acquire sources, or transform features"
+}

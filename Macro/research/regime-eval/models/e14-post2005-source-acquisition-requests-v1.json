@@ -1,0 +1,126 @@
+{
+  "schemaVersion": 1,
+  "requestCatalogId": "e14-post2005-source-acquisition-requests-v1",
+  "frozenAt": "2026-07-16",
+  "manifestId": "e14-post2005-source-acquisition-manifest-v1",
+  "requests": [
+    {
+      "requestId": "h8-bulk-sdmx-zip",
+      "sourceId": "federal-reserve-h8-release-archive",
+      "urlTemplate": "https://www.federalreserve.gov/datadownload/Output.aspx?filetype=zip&rel=h8",
+      "outputRelativePath": "federal-reserve/h8/releases/h8-bulk-sdmx.zip",
+      "contentValidation": "zip-magic",
+      "maximumBytes": 120000000,
+      "usageBoundary": "raw-only-current-bulk-may-contain-revisions"
+    },
+    {
+      "requestId": "h8-release-index",
+      "sourceId": "federal-reserve-h8-release-archive",
+      "urlTemplate": "https://www.federalreserve.gov/releases/h8/default.htm",
+      "outputRelativePath": "federal-reserve/h8/releases/release-index.html",
+      "contentValidation": "html-h8-marker",
+      "maximumBytes": 2000000,
+      "usageBoundary": "release-date-and-benchmark-metadata"
+    },
+    {
+      "requestId": "fdic-archived-balance-sheet",
+      "sourceId": "fdic-qbp-archive",
+      "urlTemplate": "https://www.fdic.gov/analysis/quarterly-banking-profile/qbp/timeseries/archived-balance-sheet.xlsx",
+      "outputRelativePath": "fdic/qbp/archived-balance-sheet.xlsx",
+      "contentValidation": "xlsx-magic",
+      "maximumBytes": 30000000,
+      "usageBoundary": "raw-only-archived-qbp-series"
+    },
+    {
+      "requestId": "fdic-archived-loan-performance",
+      "sourceId": "fdic-qbp-archive",
+      "urlTemplate": "https://www.fdic.gov/analysis/quarterly-banking-profile/qbp/timeseries/archived-loan-performance.xlsx",
+      "outputRelativePath": "fdic/qbp/archived-loan-performance.xlsx",
+      "contentValidation": "xlsx-magic",
+      "maximumBytes": 30000000,
+      "usageBoundary": "raw-only-archived-qbp-series"
+    },
+    {
+      "requestId": "fdic-qbp-index",
+      "sourceId": "fdic-qbp-archive",
+      "urlTemplate": "https://www.fdic.gov/analysis/quarterly-banking-profile/qbp/",
+      "outputRelativePath": "fdic/qbp/past-qbp-index.html",
+      "contentValidation": "html-qbp-marker",
+      "maximumBytes": 3000000,
+      "usageBoundary": "quarter-publication-metadata"
+    },
+    {
+      "requestId": "fred-dgs2-initial-release",
+      "sourceId": "fred-dgs2",
+      "urlTemplate": "https://api.stlouisfed.org/fred/series/observations?series_id=DGS2&api_key={FRED_API_KEY}&file_type=json&observation_start=2006-01-01&observation_end=2025-12-31&realtime_start={REALTIME_START}&realtime_end={REALTIME_END}&output_type=4&limit=100000",
+      "outputRelativePath": "fred/dgs2/initial-release-{REALTIME_START}-{REALTIME_END}.json",
+      "contentValidation": "fred-initial-release-json",
+      "maximumBytes": 15000000,
+      "usageBoundary": "event-time-initial-release",
+      "realtimeChunks": [["2006-01-01", "2011-12-31"], ["2012-01-01", "2017-12-31"], ["2018-01-01", "2023-12-31"], ["2024-01-01", "2025-12-31"]]
+    },
+    {
+      "requestId": "fred-dgs10-initial-release",
+      "sourceId": "fred-dgs10",
+      "urlTemplate": "https://api.stlouisfed.org/fred/series/observations?series_id=DGS10&api_key={FRED_API_KEY}&file_type=json&observation_start=2006-01-01&observation_end=2025-12-31&realtime_start={REALTIME_START}&realtime_end={REALTIME_END}&output_type=4&limit=100000",
+      "outputRelativePath": "fred/dgs10/initial-release-{REALTIME_START}-{REALTIME_END}.json",
+      "contentValidation": "fred-initial-release-json",
+      "maximumBytes": 15000000,
+      "usageBoundary": "event-time-initial-release",
+      "realtimeChunks": [["2006-01-01", "2011-12-31"], ["2012-01-01", "2017-12-31"], ["2018-01-01", "2023-12-31"], ["2024-01-01", "2025-12-31"]]
+    },
+    {
+      "requestId": "h10-bulk-sdmx-zip",
+      "sourceId": "federal-reserve-h10-release-archive",
+      "urlTemplate": "https://www.federalreserve.gov/datadownload/Output.aspx?filetype=zip&rel=h10",
+      "outputRelativePath": "federal-reserve/h10/releases/h10-bulk-sdmx.zip",
+      "contentValidation": "zip-magic",
+      "maximumBytes": 60000000,
+      "usageBoundary": "raw-only-current-bulk-may-contain-corrections"
+    },
+    {
+      "requestId": "h10-methodology",
+      "sourceId": "federal-reserve-h10-release-archive",
+      "urlTemplate": "https://www.federalreserve.gov/releases/H10/About.HTM",
+      "outputRelativePath": "federal-reserve/h10/releases/about.html",
+      "contentValidation": "html-h10-marker",
+      "maximumBytes": 2000000,
+      "usageBoundary": "release-and-methodology-metadata"
+    },
+    {
+      "requestId": "fred-dcpf3m-initial-release",
+      "sourceId": "fred-dcpf3m",
+      "urlTemplate": "https://api.stlouisfed.org/fred/series/observations?series_id=DCPF3M&api_key={FRED_API_KEY}&file_type=json&observation_start=2006-01-01&observation_end=2025-12-31&realtime_start={REALTIME_START}&realtime_end={REALTIME_END}&output_type=4&limit=100000",
+      "outputRelativePath": "fred/dcpf3m/initial-release-{REALTIME_START}-{REALTIME_END}.json",
+      "contentValidation": "fred-initial-release-json",
+      "maximumBytes": 15000000,
+      "usageBoundary": "event-time-initial-release-with-cp-regime-boundary",
+      "realtimeChunks": [["2006-01-01", "2011-12-31"], ["2012-01-01", "2017-12-31"], ["2018-01-01", "2023-12-31"], ["2024-01-01", "2025-12-31"]]
+    },
+    {
+      "requestId": "fred-dtb3-initial-release",
+      "sourceId": "fred-dtb3",
+      "urlTemplate": "https://api.stlouisfed.org/fred/series/observations?series_id=DTB3&api_key={FRED_API_KEY}&file_type=json&observation_start=2006-01-01&observation_end=2025-12-31&realtime_start={REALTIME_START}&realtime_end={REALTIME_END}&output_type=4&limit=100000",
+      "outputRelativePath": "fred/dtb3/initial-release-{REALTIME_START}-{REALTIME_END}.json",
+      "contentValidation": "fred-initial-release-json",
+      "maximumBytes": 15000000,
+      "usageBoundary": "event-time-initial-release-discount-basis",
+      "realtimeChunks": [["2006-01-01", "2011-12-31"], ["2012-01-01", "2017-12-31"], ["2018-01-01", "2023-12-31"], ["2024-01-01", "2025-12-31"]]
+    }
+  ],
+  "atomicityPolicy": {
+    "downloadToSiblingStagingDirectory": true,
+    "validateBeforePublish": true,
+    "publishBySingleDirectoryRename": true,
+    "deleteStagingOnFailure": true,
+    "existingSnapshotFailsClosed": true,
+    "secretValuesExcludedFromFilesAndMetadata": true
+  },
+  "authorizationPolicy": {
+    "rawSourceAcquisitionAuthorized": true,
+    "featureTransformationAuthorized": false,
+    "candidateGenerationAuthorized": false,
+    "evaluationAuthorized": false,
+    "outerOosAuthorized": false
+  }
+}

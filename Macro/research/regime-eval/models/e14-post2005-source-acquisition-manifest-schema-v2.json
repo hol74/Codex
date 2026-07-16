@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://macro-regime.local/schemas/e14-post2005-source-acquisition-manifest-v2.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "artifactType", "manifestId", "activePolicy", "activationAudit", "baseTaxonomy", "supersedesManifest", "window", "snapshotRoot", "sources", "featureFamilies", "integrityPolicy", "authorizationPolicy", "status"],
+  "properties": {
+    "schemaVersion": {"const": 2},
+    "artifactType": {"const": "E14Post2005SourceAcquisitionManifest"},
+    "manifestId": {"const": "e14-post2005-source-acquisition-manifest-v2"},
+    "activePolicy": {"$ref": "#/$defs/artifact"},
+    "activationAudit": {"$ref": "#/$defs/artifact"},
+    "baseTaxonomy": {"$ref": "#/$defs/artifact"},
+    "supersedesManifest": {"$ref": "#/$defs/artifact"},
+    "window": {"type": "object", "additionalProperties": false, "required": ["startInclusive", "endInclusive"], "properties": {"startInclusive": {"const": "2006-01-01"}, "endInclusive": {"const": "2025-12-31"}}},
+    "snapshotRoot": {"const": "data/historical-real-v12-2008-2025/post2005-source-snapshots-v2"},
+    "sources": {"type": "array", "minItems": 7, "maxItems": 7, "items": {"$ref": "#/$defs/source"}},
+    "featureFamilies": {"type": "array", "minItems": 4, "maxItems": 4, "items": {"$ref": "#/$defs/family"}},
+    "integrityPolicy": {"type": "object", "additionalProperties": false, "required": ["providerPrimaryLocatorRequired", "rawBytesPreserved", "sha256Required", "retrievedAtUtcRequired", "releaseOrVintageMetadataRequired", "providerDiscoveredExpansionOnly", "partialAcquisitionFailsClosed", "unexpectedMethodologyBreakFailsClosed", "legacySnapshotReuseForbidden"], "properties": {"providerPrimaryLocatorRequired": {"const": true}, "rawBytesPreserved": {"const": true}, "sha256Required": {"const": true}, "retrievedAtUtcRequired": {"const": true}, "releaseOrVintageMetadataRequired": {"const": true}, "providerDiscoveredExpansionOnly": {"const": true}, "partialAcquisitionFailsClosed": {"const": true}, "unexpectedMethodologyBreakFailsClosed": {"const": true}, "legacySnapshotReuseForbidden": {"const": true}}},
+    "authorizationPolicy": {"type": "object", "additionalProperties": false, "required": ["manifestAndRequestCatalogMaterializationAuthorized", "networkRequestsAuthorized", "sourceAcquisitionExecutionAuthorized", "featureTransformationAuthorized", "candidateGenerationAuthorized", "evaluationAuthorized", "outerOosAuthorized"], "properties": {"manifestAndRequestCatalogMaterializationAuthorized": {"const": true}, "networkRequestsAuthorized": {"const": false}, "sourceAcquisitionExecutionAuthorized": {"const": false}, "featureTransformationAuthorized": {"const": false}, "candidateGenerationAuthorized": {"const": false}, "evaluationAuthorized": {"const": false}, "outerOosAuthorized": {"const": false}}},
+    "status": {"const": "POST_2005_SOURCE_MANIFEST_V2_AND_REQUEST_CATALOG_V2_PREREGISTERED_EXECUTION_GATE_REQUIRED"}
+  },
+  "$defs": {
+    "artifact": {"type": "object", "additionalProperties": false, "required": ["fileName", "sha256", "sizeBytes"], "properties": {"fileName": {"type": "string", "minLength": 1}, "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}, "sizeBytes": {"type": "integer", "minimum": 1}}},
+    "source": {"type": "object", "additionalProperties": false, "required": ["sourceId", "provider", "frequency", "retrievalMode", "seriesOrTables", "rawArtifactPath", "asOfPolicy", "methodologyRegimes", "providerPrimaryLocators", "coverageFrom", "readinessEvidence"], "properties": {"sourceId": {"type": "string"}, "provider": {"type": "string"}, "frequency": {"type": "string"}, "retrievalMode": {"type": "string"}, "seriesOrTables": {"type": "array", "minItems": 1, "items": {"type": "string"}}, "rawArtifactPath": {"type": "string"}, "asOfPolicy": {"type": "string"}, "methodologyRegimes": {"type": "array", "minItems": 1, "items": {"type": "string"}}, "providerPrimaryLocators": {"type": "array", "minItems": 1, "items": {"type": "string", "format": "uri"}}, "coverageFrom": {"type": "string", "format": "date"}, "readinessEvidence": {"type": "object", "additionalProperties": false, "required": ["providerPrimaryPageReachable", "licensingCleared", "componentCoverageVerified", "releaseProofComplete", "vintageProofComplete", "methodologyManifestFeasible"], "properties": {"providerPrimaryPageReachable": {"const": true}, "licensingCleared": {"const": true}, "componentCoverageVerified": {"const": true}, "releaseProofComplete": {"const": true}, "vintageProofComplete": {"const": true}, "methodologyManifestFeasible": {"const": true}}}}},
+    "family": {"type": "object", "additionalProperties": false, "required": ["familyId", "mechanism", "sourceIds", "components", "minimumHistoryMonths"], "properties": {"familyId": {"type": "string"}, "mechanism": {"enum": ["banking-credit", "broad-market-repricing", "cross-border-growth", "funding-liquidity"]}, "sourceIds": {"type": "array", "minItems": 1}, "components": {"type": "array", "minItems": 1}, "minimumHistoryMonths": {"const": 60}}}
+  }
+}

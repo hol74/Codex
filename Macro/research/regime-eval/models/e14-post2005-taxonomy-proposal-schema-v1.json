@@ -1,0 +1,82 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://macro-regime.local/schemas/e14-post2005-taxonomy-proposal-v1.json",
+  "title": "E14 separately versioned post-2005 taxonomy proposal",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "artifactType",
+    "proposalId",
+    "proposedTaxonomyId",
+    "scopeId",
+    "cutoffInclusive",
+    "status",
+    "legacyTaxonomyV5",
+    "positiveEpisodeReferences",
+    "inheritedHardNegativeReferences",
+    "proposedBankingHardNegativeControls",
+    "activation"
+  ],
+  "properties": {
+    "schemaVersion": {"const": 1},
+    "artifactType": {"const": "E14Post2005FinancialStressTaxonomyProposal"},
+    "proposalId": {"const": "e14-post2005-financial-stress-taxonomy-proposal-v1"},
+    "proposedTaxonomyId": {"const": "us-financial-stress-post2005-v1"},
+    "scopeId": {"const": "e14-post-2005-research-scope-proposal-v1"},
+    "cutoffInclusive": {"const": "2006-01-01"},
+    "status": {"const": "POST_2005_TAXONOMY_PROPOSAL_AWAITING_INDEPENDENT_REVIEW"},
+    "legacyTaxonomyV5": {"$ref": "#/$defs/artifact"},
+    "positiveEpisodeReferences": {
+      "type": "array",
+      "minItems": 6,
+      "items": {"$ref": "#/$defs/inheritedEntry"}
+    },
+    "inheritedHardNegativeReferences": {
+      "type": "array",
+      "minItems": 4,
+      "items": {"$ref": "#/$defs/inheritedEntry"}
+    },
+    "proposedBankingHardNegativeControls": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 2,
+      "items": {"$ref": "#/$defs/proposedControl"}
+    },
+    "activation": {
+      "type": "object",
+      "properties": {
+        "active": {"const": false},
+        "labelsAccepted": {"const": false},
+        "independentReviewComplete": {"const": false},
+        "sourceAcquisitionAuthorized": {"const": false},
+        "featureFoundationAuthorized": {"const": false},
+        "candidateGenerationAuthorized": {"const": false},
+        "evaluationAuthorized": {"const": false},
+        "outerOosAuthorized": {"const": false}
+      },
+      "required": ["active", "labelsAccepted", "independentReviewComplete", "sourceAcquisitionAuthorized", "featureFoundationAuthorized", "candidateGenerationAuthorized", "evaluationAuthorized", "outerOosAuthorized"],
+      "additionalProperties": false
+    }
+  },
+  "$defs": {
+    "artifact": {
+      "type": "object",
+      "required": ["fileName", "sha256", "sizeBytes"],
+      "properties": {
+        "fileName": {"type": "string", "minLength": 1},
+        "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+        "sizeBytes": {"type": "integer", "minimum": 1}
+      },
+      "additionalProperties": false
+    },
+    "inheritedEntry": {
+      "type": "object",
+      "required": ["proposalEntryId", "legacyIndependentEventId", "mechanisms", "financialState", "firstMonth", "lastMonth", "referenceStatus"]
+    },
+    "proposedControl": {
+      "type": "object",
+      "required": ["proposalEntryId", "independentEventId", "mechanism", "financialState", "firstMonth", "lastMonth", "dossier", "reviewStatus"]
+    }
+  }
+}

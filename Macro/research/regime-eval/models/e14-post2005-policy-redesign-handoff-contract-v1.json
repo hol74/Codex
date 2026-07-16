@@ -1,0 +1,37 @@
+{
+  "schemaVersion": 1,
+  "contractId": "e14-post2005-policy-redesign-handoff-contract-v1",
+  "inputHashes": {
+    "proposalSha256": "d88716b411e22332545422086521d2987232e293dc92c78b9a426bbeb10a019a",
+    "reviewQueueSha256": "6f60c9e7c224a4840ff9d1545028ef5a044362614fc676f73dec2f7bafea9ab0",
+    "proposalAuditSha256": "a477ffe7ed6731bf92ab260740baada0e1976fffb525dbb0416669d900fb4fe0",
+    "crossG5DossierSha256": "0bcdfa3891fe880775cf2f64b5967e0c165e76ee43c0b7672147dd2f9eaeb12c",
+    "bankFdicDossierSha256": "fdd2f345b23c0e3f1a3919fb2e8b5f7ba868906f7b8ce9e8050f39c06b818ff0",
+    "reviewSchemaV2Sha256": "77310369e3ba33a6a5dbde84ce6cc445a6a87c7e9e03ba3842718a684822dd58",
+    "handoffEvidenceSha256": "c3e4526b9f476bea779189eb21292a8dad190e94ba7e3b9762d399c2a6d808f9",
+    "handoffPlanSha256": "b66006ba02f1d8524469fcdc9c5211f21eaaf9ab1915fee9a56c125968853a60",
+    "handoffSchemaSha256": "f97d43ae263e11808aa26f80acadf6b56ed22bc83998736c091a9712cc1fc603"
+  },
+  "expectedQueuedDossierIds": [
+    "e14-post2005-policy-redesign-dossier-cross-g5-monthly-release-replacement-v1",
+    "e14-post2005-policy-redesign-dossier-bank-fdic-publication-vintage-policy-v1"
+  ],
+  "expectedReviewSchemaDossierIdPattern": "^e14-dossier-[a-z0-9-]+$",
+  "expectedCompatibleDossierCount": 0,
+  "expectedIncompatibleDossierCount": 2,
+  "authorizationPolicy": {
+    "handoffReadinessAuditAuthorized": true,
+    "bundlePublicationAuthorized": false,
+    "receiptTemplatePublicationAuthorized": false,
+    "receiptIngestionAuthorized": false,
+    "policyActivationAuthorized": false,
+    "requestCatalogGenerationAuthorized": false,
+    "sourceAcquisitionAuthorized": false,
+    "featureTransformationAuthorized": false,
+    "candidateGenerationAuthorized": false,
+    "evaluationAuthorized": false,
+    "outerOosAuthorized": false
+  },
+  "expectedStatus": "POST_2005_POLICY_REDESIGN_HANDOFF_BLOCKED_SCHEMA_ID_INCOMPATIBILITY",
+  "nextAllowedAction": "Version a dedicated independent-review schema that accepts the exact immutable policy-redesign dossier IDs and matches their evidence semantics, or version the proposal and dossiers with schema-compatible canonical IDs; then repeat this handoff gate without mutating E14.7n"
+}

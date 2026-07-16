@@ -1,0 +1,100 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://macro-regime.local/schemas/e14-post2005-vintage-fitness-audit-v1.json",
+  "title": "E14 post-2005 raw snapshot vintage fitness audit",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "artifactType", "status", "inputs", "inventory", "sourceAssessments", "familyAssessments", "checks", "protocol", "decision", "implementation"],
+  "properties": {
+    "schemaVersion": {"const": 1},
+    "artifactType": {"const": "E14Post2005VintageFitnessAudit"},
+    "status": {"enum": ["POST_2005_ALL_FAMILIES_VINTAGE_FIT_TRANSFORMATION_GATE_AUTHORIZED", "POST_2005_PARTIAL_VINTAGE_FITNESS_REMEDIATION_REQUIRED"]},
+    "inputs": {
+      "type": "object", "additionalProperties": false,
+      "required": ["fitnessContract", "snapshotIndex", "acquisitionAudit", "scopeFeasibilityPlan", "fitnessPlan", "fitnessSchema"],
+      "properties": {
+        "fitnessContract": {"$ref": "#/$defs/artifact"}, "snapshotIndex": {"$ref": "#/$defs/artifact"},
+        "acquisitionAudit": {"$ref": "#/$defs/artifact"}, "scopeFeasibilityPlan": {"$ref": "#/$defs/artifact"},
+        "fitnessPlan": {"$ref": "#/$defs/artifact"}, "fitnessSchema": {"$ref": "#/$defs/artifact"}
+      }
+    },
+    "inventory": {
+      "type": "object", "additionalProperties": false,
+      "required": ["sourceCount", "familyCount", "vintageFitFamilyCount", "blockedFamilyCount", "artifactCount", "fredObservationCount"],
+      "properties": {
+        "sourceCount": {"type": "integer"}, "familyCount": {"type": "integer"},
+        "vintageFitFamilyCount": {"type": "integer"}, "blockedFamilyCount": {"type": "integer"},
+        "artifactCount": {"type": "integer"}, "fredObservationCount": {"type": "integer"}
+      }
+    },
+    "sourceAssessments": {
+      "type": "array", "minItems": 7, "maxItems": 7,
+      "items": {
+        "type": "object", "additionalProperties": false,
+        "required": ["sourceId", "artifactCount", "rawOnlyArtifactCount", "containerIntegrity", "coverageStart", "coverageEnd", "eventTimeFit", "blockingReasons"],
+        "properties": {
+          "sourceId": {"type": "string"}, "artifactCount": {"type": "integer"}, "rawOnlyArtifactCount": {"type": "integer"},
+          "containerIntegrity": {"type": "boolean"}, "coverageStart": {"type": "string"}, "coverageEnd": {"type": "string"},
+          "vintageStart": {"type": "string"}, "vintageEnd": {"type": "string"}, "observationCount": {"type": "integer"},
+          "duplicateObservationDateCount": {"type": "integer"}, "maximumReleaseLagDays": {"type": "integer"},
+          "indexMetadataReconciled": {"type": "boolean"}, "realtimeChunksValid": {"type": "boolean"}, "releaseLagsValid": {"type": "boolean"},
+          "seriesCount": {"type": "integer"}, "quarterCount": {"type": "integer"},
+          "eventTimeFit": {"type": "boolean"}, "blockingReasons": {"type": "array", "items": {"type": "string"}}
+        }
+      }
+    },
+    "familyAssessments": {
+      "type": "array", "minItems": 4, "maxItems": 4,
+      "items": {
+        "type": "object", "additionalProperties": false,
+        "required": ["familyId", "mechanism", "sourceIds", "coverageComplete", "eventTimeFit", "historySpanMonths", "minimumPreEpisodeLookbackMonths", "minimumHistoryMonths", "historyComplete", "vintageFit", "coverageFailures", "eventTimeFailures", "status"],
+        "properties": {
+          "familyId": {"type": "string"}, "mechanism": {"type": "string"}, "sourceIds": {"type": "array", "items": {"type": "string"}},
+          "coverageComplete": {"type": "boolean"}, "eventTimeFit": {"type": "boolean"}, "historySpanMonths": {"type": "integer"},
+          "minimumPreEpisodeLookbackMonths": {"type": "integer"},
+          "minimumHistoryMonths": {"type": "integer"}, "historyComplete": {"type": "boolean"}, "vintageFit": {"type": "boolean"},
+          "coverageFailures": {"type": "array", "items": {"type": "string"}}, "eventTimeFailures": {"type": "array", "items": {"type": "string"}},
+          "status": {"enum": ["VINTAGE_FIT", "VINTAGE_REMEDIATION_REQUIRED"]}
+        }
+      }
+    },
+    "checks": {
+      "type": "object", "additionalProperties": false,
+      "required": ["allInputHashesExact", "allArtifactHashesVerified", "allContainersIntegrityChecked", "fredDatesUniquePerSeries", "fredIndexMetadataReconciled", "fredRealtimeChunksValid", "fredReleaseLagsValid", "rawOnlyNeverTreatedAsEventTimeFit", "allMinimumHistoryRequirementsMetForReadyFamilies", "globalTransformationRequiresAllFamilies"],
+      "properties": {
+        "allInputHashesExact": {"const": true}, "allArtifactHashesVerified": {"const": true}, "allContainersIntegrityChecked": {"const": true},
+        "fredDatesUniquePerSeries": {"const": true}, "fredIndexMetadataReconciled": {"const": true}, "fredRealtimeChunksValid": {"const": true},
+        "fredReleaseLagsValid": {"const": true}, "rawOnlyNeverTreatedAsEventTimeFit": {"const": true},
+        "allMinimumHistoryRequirementsMetForReadyFamilies": {"const": true}, "globalTransformationRequiresAllFamilies": {"const": true}
+      }
+    },
+    "protocol": {
+      "type": "object", "additionalProperties": false,
+      "required": ["observationValuesUsedForFeatures", "featuresTransformed", "candidatesGenerated", "evaluationPerformed", "outerOosRead"],
+      "properties": {
+        "observationValuesUsedForFeatures": {"const": 0}, "featuresTransformed": {"const": 0}, "candidatesGenerated": {"const": 0},
+        "evaluationPerformed": {"const": false}, "outerOosRead": {"const": false}
+      }
+    },
+    "decision": {
+      "type": "object", "additionalProperties": false,
+      "required": ["allFamiliesVintageFit", "readyMechanisms", "blockedMechanisms", "featureTransformationAuthorized", "candidateGenerationAuthorized", "evaluationAuthorized", "outerOosAuthorized", "nextAllowedAction"],
+      "properties": {
+        "allFamiliesVintageFit": {"type": "boolean"}, "readyMechanisms": {"type": "array", "items": {"type": "string"}},
+        "blockedMechanisms": {"type": "array", "items": {"type": "string"}}, "featureTransformationAuthorized": {"type": "boolean"},
+        "candidateGenerationAuthorized": {"const": false}, "evaluationAuthorized": {"const": false}, "outerOosAuthorized": {"const": false},
+        "nextAllowedAction": {"type": "string"}
+      }
+    },
+    "implementation": {
+      "type": "object", "additionalProperties": false, "required": ["module", "sourceSha256"],
+      "properties": {"module": {"const": "regime_eval.e14_post2005_vintage_fitness"}, "sourceSha256": {"type": "string"}}
+    }
+  },
+  "$defs": {
+    "artifact": {
+      "type": "object", "additionalProperties": false, "required": ["fileName", "sha256", "sizeBytes"],
+      "properties": {"fileName": {"type": "string"}, "sha256": {"type": "string"}, "sizeBytes": {"type": "integer"}}
+    }
+  }
+}

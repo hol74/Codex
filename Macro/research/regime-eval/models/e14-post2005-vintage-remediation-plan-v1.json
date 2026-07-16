@@ -1,0 +1,52 @@
+{
+  "schemaVersion": 1,
+  "planId": "e14-post2005-vintage-remediation-plan-v1",
+  "frozenAt": "2026-07-16",
+  "researchBoundary": "Metadata-only remediation feasibility. Preserve both vintage-fit families, test the exact three blocked sources against unchanged E14.7l history and cutoff policies, and do not acquire observations or transform features.",
+  "preservedReadyMechanisms": ["broad-market-repricing", "funding-liquidity"],
+  "remediationRoster": [
+    {
+      "sourceId": "federal-reserve-h8-release-archive",
+      "mechanism": "banking-credit",
+      "requiredAction": "freeze every dated release locator required by the unchanged coverage policy",
+      "minimumHistoryMonths": 60
+    },
+    {
+      "sourceId": "fdic-qbp-archive",
+      "mechanism": "banking-credit",
+      "requiredAction": "freeze every eligible quarter-specific QBP publication and its actual publication date",
+      "minimumHistoryMonths": 60
+    },
+    {
+      "sourceId": "federal-reserve-h10-release-archive",
+      "mechanism": "cross-border-growth",
+      "requiredAction": "prove continuous dated-release coverage before taper-tantrum-2013 without substituting current DDP history",
+      "minimumHistoryMonths": 60
+    }
+  ],
+  "unchangedPolicies": {
+    "researchCutoff": "2025-12-31",
+    "coverageStartRequired": "2006-01-01",
+    "coverageEndRequired": "2025-12-31",
+    "minimumPreEpisodeLookbackMonths": 60,
+    "allSourcesInFamilyMustPass": true,
+    "globalTransformationRequiresAllFourFamilies": true
+  },
+  "decisionPolicy": {
+    "h10StructuralGapBlocksCrossBorderAcquisition": true,
+    "fdicPostCutoffPublicationBlocksFrozenCoverageEnd": true,
+    "partialBankingLocatorFeasibilityDoesNotAuthorizeAcquisition": true,
+    "replacementSourceRequiresSeparatePreregistration": true,
+    "policyChangeRequiresSeparateReviewedProposal": true,
+    "currentBulkCannotFillReleaseArchiveGaps": true
+  },
+  "authorizationPolicy": {
+    "remediationFeasibilityAuditAuthorized": true,
+    "requestCatalogGenerationAuthorized": false,
+    "sourceAcquisitionAuthorized": false,
+    "featureTransformationAuthorized": false,
+    "candidateGenerationAuthorized": false,
+    "evaluationAuthorized": false,
+    "outerOosAuthorized": false
+  }
+}

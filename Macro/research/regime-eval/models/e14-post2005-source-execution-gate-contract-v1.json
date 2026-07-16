@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 1,
+  "contractId": "e14-post2005-source-execution-gate-contract-v1",
+  "inputHashes": {
+    "sourceAcquisitionManifestSha256": "2203aba40264054476a28b6c162e5eecc7346563bfb8a26f1339e65033881b90",
+    "sourceAcquisitionPreregistrationAuditSha256": "2a9f7d4f0cd9e833c96054dca263f646082a6ab0ddf28959e91001f89f7bb991",
+    "executionGatePlanSha256": "531d4d5a48df3b1a0e238a0317a2c25bde22f4511f3cd7c8c2447659a6400358",
+    "executionGateSchemaSha256": "fa125bc8c82ec363277a5ad903c2a7c2196da4fd09d3ee11e241dc6659b47cb4"
+  },
+  "expectedSourceIds": [
+    "federal-reserve-h8-release-archive",
+    "fdic-qbp-archive",
+    "fred-dgs2",
+    "fred-dgs10",
+    "federal-reserve-h10-release-archive",
+    "fred-dcpf3m",
+    "fred-dtb3"
+  ],
+  "decisionPolicy": {
+    "manifestHashMustMatchExactly": true,
+    "preregistrationMustForbidExecution": true,
+    "requiredCredentialsMustBePresent": true,
+    "allMetadataProbesMustPass": true,
+    "secretsMustNotBePersisted": true,
+    "gateCannotWriteObservations": true,
+    "gateCannotTransformFeatures": true,
+    "failureBlocksAllAcquisition": true
+  },
+  "nextActionIfReady": "Execute the seven-source acquisition atomically against the frozen manifest; preserve raw bytes and release/vintage metadata; do not transform features",
+  "nextActionIfBlocked": "Remediate only failed credential or provider metadata probes and rerun a newly versioned execution gate; do not acquire any source"
+}

@@ -1,0 +1,106 @@
+{
+  "schemaVersion": 1,
+  "planId": "e14-post2005-taxonomy-proposal-plan-v1",
+  "frozenAt": "2026-07-16",
+  "proposalId": "e14-post2005-financial-stress-taxonomy-proposal-v1",
+  "proposedTaxonomyId": "us-financial-stress-post2005-v1",
+  "scopeId": "e14-post-2005-research-scope-proposal-v1",
+  "cutoffInclusive": "2006-01-01",
+  "reviewQueueId": "e14-post2005-banking-control-review-queue-v1",
+  "dossierAuthor": "codex-primary-source-curation-2026-07-16",
+  "researchBoundary": "Proposal-only governance step. Taxonomy v5 remains byte-identical; the post-2005 scope is inactive and no observations, feature rows, candidates, scores or outer OOS are read or produced.",
+  "independentReviewPolicy": {
+    "selfAcceptanceForbidden": true,
+    "minimumIndependentReviewers": 1,
+    "reviewerMustOpenSourceLocators": true,
+    "dossierSha256MustMatch": true,
+    "acceptanceRequiresBothDossiersAccepted": true,
+    "partialAcceptanceDoesNotActivateScope": true
+  },
+  "evidenceAssertions": [
+    {
+      "id": "london-whale-fdic-orderly-narrative",
+      "sourceId": "fdic-qbp-2012q2-archive",
+      "provider": "Federal Deposit Insurance Corporation",
+      "independenceGroup": "fdic",
+      "publishedAt": "2012-08-28",
+      "role": "official-narrative",
+      "locator": "https://archive.fdic.gov/view/fdic/9095",
+      "summary": "The contemporaneous Q2 2012 banking profile documents aggregate industry earnings, capital and asset-quality conditions independently of the JPMorgan event investigation and supports a system-level containment review."
+    },
+    {
+      "id": "london-whale-fed-h8-quantitative",
+      "sourceId": "federal-reserve-h8-release-archive",
+      "provider": "Board of Governors of the Federal Reserve System",
+      "independenceGroup": "federal-reserve",
+      "publishedAt": "2012-09-21",
+      "role": "quantitative-observation",
+      "locator": "https://www.federalreserve.gov/releases/h8/20120921/",
+      "summary": "The dated H.8 release provides contemporaneous aggregate bank credit and deposit tables for testing whether the firm-specific loss coincided with banking-system contraction; no observation is opened in this proposal step."
+    },
+    {
+      "id": "london-whale-senate-counter",
+      "sourceId": "us-senate-london-whale-report",
+      "provider": "United States Senate Permanent Subcommittee on Investigations",
+      "independenceGroup": "us-senate",
+      "publishedAt": "2013-03-15",
+      "role": "counterevidence",
+      "locator": "https://www.hsgac.senate.gov/wp-content/uploads/imo/media/doc/REPORT%20-%20JPMorgan%20Chase%20Whale%20Trades%20%283-26-13%29.pdf",
+      "summary": "The investigation documents severe synthetic-credit losses, risk-control failures and supervisory shortcomings at JPMorgan, preventing firm-level calm from being confused with system-level containment."
+    },
+    {
+      "id": "archegos-fed-orderly-narrative",
+      "sourceId": "federal-reserve-archegos-supervisory-assessment",
+      "provider": "Board of Governors of the Federal Reserve System",
+      "independenceGroup": "federal-reserve",
+      "publishedAt": "2021-11-01",
+      "role": "official-narrative",
+      "locator": "https://www.federalreserve.gov/publications/2021-november-supervision-and-regulation-report-supervisory-developments.htm",
+      "summary": "The supervisory assessment dates the counterparty default, places most reported bank losses outside the United States and separately describes stable, well-capitalized United States banking organizations."
+    },
+    {
+      "id": "archegos-fdic-qbp-quantitative",
+      "sourceId": "fdic-qbp-2021q2-archive",
+      "provider": "Federal Deposit Insurance Corporation",
+      "independenceGroup": "fdic",
+      "publishedAt": "2021-09-08",
+      "role": "quantitative-observation",
+      "locator": "https://www.fdic.gov/analysis/quarterly-banking-profile/qbp/2021jun/",
+      "summary": "The independently published Q2 2021 banking profile supplies contemporaneous aggregate capital, profitability and asset-quality evidence for a later reviewer; observations remain unopened here."
+    },
+    {
+      "id": "archegos-fed-loss-counter",
+      "sourceId": "federal-reserve-archegos-supervisory-assessment",
+      "provider": "Board of Governors of the Federal Reserve System",
+      "independenceGroup": "federal-reserve",
+      "publishedAt": "2021-11-01",
+      "role": "counterevidence",
+      "locator": "https://www.federalreserve.gov/publications/2021-november-supervision-and-regulation-report-supervisory-developments.htm",
+      "summary": "The same assessment records a rapid counterparty default and more than ten billion dollars of losses across several banks, which must be weighed against the proposed United States system-containment label."
+    }
+  ],
+  "bankingHardNegativeBlueprints": [
+    {
+      "dossierId": "e14-dossier-post2005-london-whale-contained-2012-banking-credit",
+      "hypothesisId": "london-whale-contained-2012",
+      "mechanism": "banking-credit",
+      "proposedState": "hard-negative",
+      "firstMonth": "2012-04-01",
+      "lastMonth": "2012-07-01",
+      "boundaryRationale": "The interval starts with public disclosure of the synthetic-credit loss and ends after the immediate loss escalation and management response. The label is limited to aggregate United States banking-credit containment and does not deny material firm-level losses or control failures.",
+      "evidenceIds": ["london-whale-fdic-orderly-narrative", "london-whale-fed-h8-quantitative"],
+      "counterEvidenceIds": ["london-whale-senate-counter"]
+    },
+    {
+      "dossierId": "e14-dossier-post2005-archegos-contained-2021-banking-credit",
+      "hypothesisId": "archegos-contained-2021",
+      "mechanism": "banking-credit",
+      "proposedState": "hard-negative",
+      "firstMonth": "2021-03-01",
+      "lastMonth": "2021-05-01",
+      "boundaryRationale": "The interval covers the March counterparty default through the immediate disclosure and supervisory assessment window. The proposed state concerns containment in the aggregate United States banking-credit mechanism, while preserving the documented losses and risk-management failures as counterevidence.",
+      "evidenceIds": ["archegos-fed-orderly-narrative", "archegos-fdic-qbp-quantitative"],
+      "counterEvidenceIds": ["archegos-fed-loss-counter"]
+    }
+  ]
+}

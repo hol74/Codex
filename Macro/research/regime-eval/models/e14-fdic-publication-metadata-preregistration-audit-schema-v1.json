@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://macro-regime.local/schemas/e14-fdic-publication-metadata-preregistration-audit-v1.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "artifactType", "status", "inputs", "inventory", "quarterIds", "checks", "protocol", "decision", "implementation"],
+  "properties": {
+    "schemaVersion": {"const": 1},
+    "artifactType": {"const": "E14FdicPublicationMetadataPreregistrationAudit"},
+    "status": {"const": "FDIC_PUBLICATION_METADATA_COLLECTION_PREREGISTERED_EXECUTION_REVIEW_REQUIRED"},
+    "inputs": {"$ref": "#/$defs/inputs"},
+    "inventory": {"$ref": "#/$defs/inventory"},
+    "quarterIds": {"type": "array", "minItems": 79, "maxItems": 79, "uniqueItems": true, "items": {"type": "string", "pattern": "^20(0[6-9]|1[0-9]|2[0-5])Q[1-4]$"}},
+    "checks": {"$ref": "#/$defs/checks"},
+    "protocol": {"$ref": "#/$defs/protocol"},
+    "decision": {"$ref": "#/$defs/decision"},
+    "implementation": {"$ref": "#/$defs/implementation"}
+  },
+  "$defs": {
+    "artifact": {"type": "object", "additionalProperties": false, "required": ["fileName", "sha256", "sizeBytes"], "properties": {"fileName": {"type": "string", "minLength": 1}, "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}, "sizeBytes": {"type": "integer", "minimum": 1}}},
+    "inputs": {"type": "object", "additionalProperties": false, "required": ["contract", "remediationProposal", "remediationAudit", "independentReview", "reviewSchema", "collectionPlan", "auditSchema"], "properties": {"contract": {"$ref": "#/$defs/artifact"}, "remediationProposal": {"$ref": "#/$defs/artifact"}, "remediationAudit": {"$ref": "#/$defs/artifact"}, "independentReview": {"$ref": "#/$defs/artifact"}, "reviewSchema": {"$ref": "#/$defs/artifact"}, "collectionPlan": {"$ref": "#/$defs/artifact"}, "auditSchema": {"$ref": "#/$defs/artifact"}}},
+    "inventory": {"type": "object", "additionalProperties": false, "required": ["requiredQuarterCount", "resolvedPublicationProofCount", "pendingPublicationProofCount", "firstQuarter", "lastQuarter"], "properties": {"requiredQuarterCount": {"const": 79}, "resolvedPublicationProofCount": {"const": 0}, "pendingPublicationProofCount": {"const": 79}, "firstQuarter": {"const": "2006Q1"}, "lastQuarter": {"const": "2025Q3"}}},
+    "checks": {"type": "object", "additionalProperties": false, "required": ["allInputHashesExact", "independentReviewAccepted", "quarterRosterExact", "publicationProofGapPreserved", "providerPrimaryEvidenceRequired", "forbiddenSubstitutesExplicit", "catalogV3Absent", "snapshotV2Absent"], "properties": {"allInputHashesExact": {"const": true}, "independentReviewAccepted": {"const": true}, "quarterRosterExact": {"const": true}, "publicationProofGapPreserved": {"const": true}, "providerPrimaryEvidenceRequired": {"const": true}, "forbiddenSubstitutesExplicit": {"const": true}, "catalogV3Absent": {"const": true}, "snapshotV2Absent": {"const": true}}},
+    "protocol": {"type": "object", "additionalProperties": false, "required": ["networkRequestsMade", "metadataRowsCollected", "rawArtifactsWritten", "requestCatalogsMaterialized", "eventTimePayloadsDownloaded", "featuresTransformed", "candidatesGenerated", "evaluationPerformed", "outerOosRead"], "properties": {"networkRequestsMade": {"const": 0}, "metadataRowsCollected": {"const": 0}, "rawArtifactsWritten": {"const": 0}, "requestCatalogsMaterialized": {"const": 0}, "eventTimePayloadsDownloaded": {"const": 0}, "featuresTransformed": {"const": 0}, "candidatesGenerated": {"const": 0}, "evaluationPerformed": {"const": false}, "outerOosRead": {"const": false}}},
+    "decision": {"type": "object", "additionalProperties": false, "required": ["metadataCollectionPreregistered", "metadataOnlyExecutionReviewAuthorized", "metadataNetworkCollectionAuthorized", "requestCatalogV3MaterializationAuthorized", "sourceAcquisitionAuthorized", "featureTransformationAuthorized", "candidateGenerationAuthorized", "evaluationAuthorized", "outerOosAuthorized", "nextAllowedAction"], "properties": {"metadataCollectionPreregistered": {"const": true}, "metadataOnlyExecutionReviewAuthorized": {"const": true}, "metadataNetworkCollectionAuthorized": {"const": false}, "requestCatalogV3MaterializationAuthorized": {"const": false}, "sourceAcquisitionAuthorized": {"const": false}, "featureTransformationAuthorized": {"const": false}, "candidateGenerationAuthorized": {"const": false}, "evaluationAuthorized": {"const": false}, "outerOosAuthorized": {"const": false}, "nextAllowedAction": {"type": "string", "minLength": 20}}},
+    "implementation": {"type": "object", "additionalProperties": false, "required": ["module", "sourceSha256"], "properties": {"module": {"const": "regime_eval.e14_fdic_publication_metadata_preregistration"}, "sourceSha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}}}
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "contractId": "e14-post2005-scope-activation-contract-v1",
+  "inputHashes": {
+    "finalReviewedQueueSha256": "6a2e9228e346adcfcaa961b457efa2f9bda311a333d6798d6864a8a7f4d1c2c6",
+    "reviewIngestionAuditSha256": "24ef12abe4ed05f8bee448970889e79071b0a542579e9807d92f09f09576c3e7",
+    "taxonomyProposalSha256": "73bc241078d7fb32196bdff3adec45932a1cf1f1cf3846721909a27af4aa814f"
+  },
+  "policy": {
+    "allDossiersMustBeIndependentlyAccepted": true,
+    "candidateGenerationRemainsForbidden": true,
+    "dataAcquisitionNotPerformedByGate": true,
+    "legacyTaxonomyRemainsUnchanged": true,
+    "outerOosRemainsClosed": true,
+    "sourceAcquisitionRequiresSeparatePreregistration": true
+  },
+  "readinessDecision": "READY_TO_ACTIVATE_SEPARATELY_VERSIONED_POST_2005_SCOPE"
+}

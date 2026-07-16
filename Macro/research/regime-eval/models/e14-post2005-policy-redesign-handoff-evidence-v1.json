@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "evidenceId": "e14-post2005-policy-redesign-handoff-evidence-v1",
+  "reviewSchemaId": "https://macro-regime.local/schemas/e14-independent-review-v2.json",
+  "reviewSchemaDossierIdPattern": "^e14-dossier-[a-z0-9-]+$",
+  "queuedDossierIds": [
+    "e14-post2005-policy-redesign-dossier-cross-g5-monthly-release-replacement-v1",
+    "e14-post2005-policy-redesign-dossier-bank-fdic-publication-vintage-policy-v1"
+  ],
+  "schemaCompatibleQueuedDossierIds": [],
+  "schemaIncompatibleQueuedDossierIds": [
+    "e14-post2005-policy-redesign-dossier-cross-g5-monthly-release-replacement-v1",
+    "e14-post2005-policy-redesign-dossier-bank-fdic-publication-vintage-policy-v1"
+  ],
+  "semanticCompatibility": {
+    "queuedDossiersContainEvidenceItems": false,
+    "queuedDossiersContainCounterEvidence": false,
+    "reviewSchemaRequiresCounterEvidenceConsideredTrue": true,
+    "g5MethodologyBoundaryHasDedicatedHashBoundLocator": false,
+    "fdicQ4CutoffExclusionHasDedicatedHashBoundLocator": false
+  },
+  "aliasingPolicy": {
+    "aliasDossierIdsAuthorized": false,
+    "reason": "A schema-compatible alias would no longer equal the immutable dossierId in the review queue and therefore could not bind an authentic receipt to the queued dossier."
+  },
+  "requiredDisposition": "BLOCK_HANDOFF_AND_VERSION_THE_REVIEW_SCHEMA_EVIDENCE_CONTRACT_OR_THE_PROPOSAL_DOSSIERS"
+}

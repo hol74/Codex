@@ -1,0 +1,38 @@
+{
+  "schemaVersion": 1,
+  "planId": "e14-post2005-policy-redesign-review-handoff-plan-v1",
+  "objective": "Build an immutable, self-contained handoff bundle for authentic independent review of the two policy-redesign dossiers without creating or ingesting receipts.",
+  "bundleRules": {
+    "proposalCopiedByteIdentically": true,
+    "queueV2CopiedByteIdentically": true,
+    "dossiersCopiedByteIdentically": true,
+    "evidenceContractCopiedByteIdentically": true,
+    "dedicatedReviewSchemaCopiedByteIdentically": true,
+    "remediationAuditCopiedByteIdentically": true,
+    "oneWorksheetPerDossier": true,
+    "oneNonIngestibleTemplatePerDossier": true,
+    "templatesBindExactQueueEvidenceSchemaAndDossierHashes": true,
+    "templatesEnumerateAllRequiredFindingsAndCounterEvidence": true,
+    "completedReceiptsStoredOutsideBundle": true,
+    "bundleGeneratorCannotReview": true
+  },
+  "expectedBundleArtifactCount": 12,
+  "expectedDossierCount": 2,
+  "expectedWorksheetCount": 2,
+  "expectedTemplateCount": 2,
+  "authorizationPolicy": {
+    "handoffBundlePublicationAuthorized": true,
+    "independentReviewExecutionAuthorized": true,
+    "reviewPerformedByBundleGenerator": false,
+    "receiptIngestionAuthorized": false,
+    "policyActivationAuthorized": false,
+    "requestCatalogGenerationAuthorized": false,
+    "sourceAcquisitionAuthorized": false,
+    "featureTransformationAuthorized": false,
+    "candidateGenerationAuthorized": false,
+    "evaluationAuthorized": false,
+    "outerOosAuthorized": false
+  },
+  "expectedStatus": "POST_2005_POLICY_REDESIGN_EXTERNAL_REVIEW_HANDOFF_READY",
+  "nextAllowedAction": "A genuinely independent reviewer copies each template outside the immutable bundle, opens every provider-primary locator, completes every finding and counterevidence assessment, and returns two authentic receipts; ingestion and policy activation remain separate gates"
+}

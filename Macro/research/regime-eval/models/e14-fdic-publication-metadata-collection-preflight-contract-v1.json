@@ -1,0 +1,18 @@
+{
+  "schemaVersion": 1,
+  "contractId": "e14-fdic-publication-metadata-collection-preflight-contract-v1",
+  "inputHashes": {
+    "executionGateContractV1Sha256": "fcdf1bdf709b2019552219a3c1f080bfb1c66133be183a2475c70addd14060f7",
+    "executionGateAuditV1Sha256": "e75ed90a4e9b3a04af2ad8606662d26d1724b67e09277ee666f130e935605410",
+    "executionPlanV1Sha256": "54a6974d7e9d89dfae3649e5298dddec3248b4f35df249eeda901a3af5de514b",
+    "preflightSchemaV1Sha256": "a33ccc59c6765b49c8379b8f0345de7bf584f53e01f1ecfac03914a2961740d9"
+  },
+  "requiredExecutionInputs": ["exactSeedUrls", "hashBoundRequestTemplates"],
+  "failurePolicy": {
+    "missingExecutionInputBlocksBeforeNetwork": true,
+    "partialLedgerPublicationForbidden": true,
+    "requestCatalogV3MaterializationForbidden": true,
+    "sourceAcquisitionForbidden": true
+  },
+  "nextAllowedAction": "Preregister a metadata-only request catalog with exact provider-primary seed URLs and hash-bound request templates, then independently review a newly versioned execution gate before any network request"
+}

@@ -1,0 +1,55 @@
+{
+  "schemaVersion": 1,
+  "planId": "e14-fdic-publication-metadata-execution-plan-v1",
+  "frozenAt": "2026-07-16",
+  "expectedQuarterCount": 79,
+  "networkPolicy": {
+    "allowedHosts": ["www.fdic.gov"],
+    "httpsOnly": true,
+    "metadataOnly": true,
+    "maximumLogicalRequests": 158,
+    "maximumPhysicalRequests": 316,
+    "maximumRedirectsPerRequest": 3,
+    "redirectsMustRemainOnAllowedHost": true,
+    "timeoutSeconds": 30,
+    "maximumResponseBytes": 8388608,
+    "acceptedContentTypePrefixes": ["text/html", "application/pdf"],
+    "userAgent": "MacroRegimeResearchMetadataCollector/1.0"
+  },
+  "retryPolicy": {
+    "maximumAttemptsPerLogicalRequest": 2,
+    "retryableStatusCodes": [408, 429, 500, 502, 503, 504],
+    "deterministicBackoffSeconds": [1],
+    "retryOnContentTypeFailure": false,
+    "retryOnOffProviderRedirect": false,
+    "retryOnOversizeResponse": false
+  },
+  "evidencePolicy": {
+    "requiredRowFields": ["quarterId", "actualPublicationDate", "providerPrimaryUrl", "evidenceKind", "responseSha256", "capturedAtUtc"],
+    "allowedEvidenceKinds": ["provider-primary-release-page", "provider-primary-publication-statement"],
+    "forbiddenSubstitutes": ["quarter-end-date", "http-last-modified", "estimated-publication-lag", "non-provider-secondary-source"],
+    "all79RowsRequired": true,
+    "duplicateQuarterIdsForbidden": true
+  },
+  "publicationPolicy": {
+    "stagingDirectoryName": ".e14-fdic-publication-metadata-v1.staging",
+    "ledgerFileName": "e14-fdic-publication-date-ledger-v1.json",
+    "auditFileName": "e14-fdic-publication-metadata-collection-audit-v1.json",
+    "publishOnlyWhenAll79RowsValidate": true,
+    "singleAtomicDirectoryRenameRequired": true,
+    "removeStagingOnFailure": true,
+    "partialLedgerPublicationForbidden": true,
+    "overwriteForbidden": true
+  },
+  "authorizationPolicy": {
+    "gateMakesNetworkRequests": false,
+    "successfulGateAuthorizesMetadataNetworkCollection": true,
+    "eventTimePayloadDownloadAuthorized": false,
+    "requestCatalogV3MaterializationAuthorized": false,
+    "sourceAcquisitionAuthorized": false,
+    "featureTransformationAuthorized": false,
+    "candidateGenerationAuthorized": false,
+    "evaluationAuthorized": false,
+    "outerOosAuthorized": false
+  }
+}

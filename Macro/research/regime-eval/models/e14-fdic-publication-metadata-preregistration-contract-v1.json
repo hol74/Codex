@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 1,
+  "contractId": "e14-fdic-publication-metadata-preregistration-contract-v1",
+  "inputHashes": {
+    "remediationProposalV1Sha256": "184a4bfe22cb9774777299d2f1c24301d5ee5d45595b355c91727111bc637cef",
+    "remediationAuditV1Sha256": "1a2bb20b6ef40a563fdc316ba8adee0ea214d5dda3d3faa3faf3ae4d30c62105",
+    "independentReviewV1Sha256": "ca8a46f2143c7a5668fdee396fb468f607cd5d2cde29162f58f51ba530bd6bc5",
+    "independentReviewSchemaV1Sha256": "5a1ad516a327c01fd49fed691d5ab8c191238ef0cb18ba9f4c32d40e0fbed07b",
+    "collectionPlanV1Sha256": "c323fe4be79c82126308525527f873362b59b0b3bf18e17214608276f33fb712",
+    "auditSchemaV1Sha256": "7eeb881efd13dae68d007728a8086c126c3447fb77c246a0868b367af2197f59"
+  },
+  "expectedQuarterCount": 79,
+  "expectedResolvedPublicationProofCount": 0,
+  "authorizationPolicy": {
+    "metadataCollectionPreregistrationAuthorized": true,
+    "metadataOnlyExecutionReviewAuthorized": true,
+    "metadataNetworkCollectionAuthorized": false,
+    "requestCatalogV3MaterializationAuthorized": false,
+    "sourceAcquisitionAuthorized": false,
+    "featureTransformationAuthorized": false,
+    "candidateGenerationAuthorized": false,
+    "evaluationAuthorized": false,
+    "outerOosAuthorized": false
+  },
+  "nextAllowedAction": "Independently review and authorize a separate metadata-only FDIC publication-proof collection execution; do not materialize request catalog v3 or download event-time payloads"
+}

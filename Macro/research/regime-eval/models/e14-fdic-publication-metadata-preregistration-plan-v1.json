@@ -1,0 +1,49 @@
+{
+  "schemaVersion": 1,
+  "planId": "e14-fdic-publication-metadata-preregistration-plan-v1",
+  "frozenAt": "2026-07-16",
+  "scope": {
+    "provider": "FDIC",
+    "providerHost": "www.fdic.gov",
+    "firstQuarter": "2006Q1",
+    "lastQuarter": "2025Q3",
+    "requiredRowCount": 79,
+    "evidenceKindsAllowed": [
+      "provider-primary-release-page",
+      "provider-primary-publication-statement"
+    ]
+  },
+  "requiredRowFields": [
+    "quarterId",
+    "actualPublicationDate",
+    "providerPrimaryUrl",
+    "evidenceKind",
+    "responseSha256",
+    "capturedAtUtc"
+  ],
+  "forbiddenSubstitutes": [
+    "quarter-end-date",
+    "http-last-modified",
+    "estimated-publication-lag",
+    "non-provider-secondary-source"
+  ],
+  "executionPolicy": {
+    "thisStepMayUseNetwork": false,
+    "thisStepMayWriteEvidenceRows": false,
+    "subsequentMetadataOnlyCollectionMayBeProposed": true,
+    "eventTimePayloadDownloadAuthorized": false,
+    "requestCatalogV3MaterializationAuthorized": false,
+    "sourceAcquisitionAuthorized": false,
+    "featureTransformationAuthorized": false,
+    "candidateGenerationAuthorized": false,
+    "evaluationAuthorized": false,
+    "outerOosAuthorized": false
+  },
+  "completionPolicy": {
+    "all79RowsRequired": true,
+    "duplicateQuarterIdsForbidden": true,
+    "missingPublicationDateForbidden": true,
+    "offProviderRedirectForbidden": true,
+    "independentReviewRequiredBeforeCatalogV3": true
+  }
+}

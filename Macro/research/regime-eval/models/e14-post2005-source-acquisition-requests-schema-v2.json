@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://macro-regime.local/schemas/e14-post2005-source-acquisition-requests-v2.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "artifactType", "requestCatalogId", "manifestId", "activePolicy", "snapshotRoot", "requests", "atomicityPolicy", "authorizationPolicy", "status"],
+  "properties": {
+    "schemaVersion": {"const": 2},
+    "artifactType": {"const": "E14Post2005SourceAcquisitionRequestCatalog"},
+    "requestCatalogId": {"const": "e14-post2005-source-acquisition-requests-v2"},
+    "manifestId": {"const": "e14-post2005-source-acquisition-manifest-v2"},
+    "activePolicy": {"$ref": "#/$defs/artifact"},
+    "snapshotRoot": {"const": "data/historical-real-v12-2008-2025/post2005-source-snapshots-v2"},
+    "requests": {"type": "array", "minItems": 11, "maxItems": 11, "items": {"$ref": "#/$defs/request"}},
+    "atomicityPolicy": {"type": "object", "additionalProperties": false, "required": ["downloadToSiblingStagingDirectory", "validateBeforePublish", "publishBySingleDirectoryRename", "deleteStagingOnFailure", "existingSnapshotFailsClosed", "secretValuesExcludedFromFilesAndMetadata"], "properties": {"downloadToSiblingStagingDirectory": {"const": true}, "validateBeforePublish": {"const": true}, "publishBySingleDirectoryRename": {"const": true}, "deleteStagingOnFailure": {"const": true}, "existingSnapshotFailsClosed": {"const": true}, "secretValuesExcludedFromFilesAndMetadata": {"const": true}}},
+    "authorizationPolicy": {"type": "object", "additionalProperties": false, "required": ["requestCatalogPreregistered", "networkRequestsAuthorized", "rawSourceAcquisitionAuthorized", "featureTransformationAuthorized", "candidateGenerationAuthorized", "evaluationAuthorized", "outerOosAuthorized"], "properties": {"requestCatalogPreregistered": {"const": true}, "networkRequestsAuthorized": {"const": false}, "rawSourceAcquisitionAuthorized": {"const": false}, "featureTransformationAuthorized": {"const": false}, "candidateGenerationAuthorized": {"const": false}, "evaluationAuthorized": {"const": false}, "outerOosAuthorized": {"const": false}}},
+    "status": {"const": "POST_2005_SOURCE_MANIFEST_V2_AND_REQUEST_CATALOG_V2_PREREGISTERED_EXECUTION_GATE_REQUIRED"}
+  },
+  "$defs": {
+    "artifact": {"type": "object", "additionalProperties": false, "required": ["fileName", "sha256", "sizeBytes"], "properties": {"fileName": {"type": "string"}, "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}, "sizeBytes": {"type": "integer", "minimum": 1}}},
+    "request": {"type": "object", "additionalProperties": false, "required": ["requestId", "sourceId", "urlTemplate", "outputRelativePath", "contentValidation", "maximumBytes", "usageBoundary", "expansionPolicy", "realtimeChunks"], "properties": {"requestId": {"type": "string"}, "sourceId": {"type": "string"}, "urlTemplate": {"type": "string"}, "outputRelativePath": {"type": "string"}, "contentValidation": {"type": "string"}, "maximumBytes": {"type": "integer", "minimum": 1}, "usageBoundary": {"type": "string"}, "expansionPolicy": {"oneOf": [{"type": "null"}, {"$ref": "#/$defs/basicExpansion"}, {"$ref": "#/$defs/fdicExpansion"}, {"$ref": "#/$defs/g5Expansion"}]}, "realtimeChunks": {"oneOf": [{"type": "null"}, {"type": "array", "minItems": 4, "maxItems": 4, "items": {"type": "array", "minItems": 2, "maxItems": 2, "items": {"type": "string", "format": "date"}}}]}}},
+    "basicExpansion": {"type": "object", "additionalProperties": false, "required": ["discoveryRequestId", "placeholder", "allowOnlyProviderDiscoveredValues"], "properties": {"discoveryRequestId": {"type": "string"}, "placeholder": {"type": "string"}, "allowOnlyProviderDiscoveredValues": {"const": true}}},
+    "fdicExpansion": {"type": "object", "additionalProperties": false, "required": ["discoveryRequestId", "placeholder", "allowOnlyProviderDiscoveredValues", "expectedEligibleQuarterCount", "firstEligibleQuarter", "lastEligibleQuarter", "excludedQuarter", "quarterEndCannotSubstituteForPublicationDate"], "properties": {"discoveryRequestId": {"const": "fdic-qbp-publication-index-v2"}, "placeholder": {"const": "PROVIDER_PRIMARY_PUBLICATION_URL,PUBLICATION_DATE,DOCUMENT_SLUG"}, "allowOnlyProviderDiscoveredValues": {"const": true}, "expectedEligibleQuarterCount": {"const": 79}, "firstEligibleQuarter": {"const": "2006Q1"}, "lastEligibleQuarter": {"const": "2025Q3"}, "excludedQuarter": {"const": "2025Q4"}, "quarterEndCannotSubstituteForPublicationDate": {"const": true}}},
+    "g5Expansion": {"type": "object", "additionalProperties": false, "required": ["discoveryRequestId", "placeholder", "allowOnlyProviderDiscoveredValues", "expectedUniqueMonthCount", "firstMonth", "lastMonth", "duplicateOrCorrectionReleaseRequiresAdjudication"], "properties": {"discoveryRequestId": {"const": "g5-release-calendar-v2"}, "placeholder": {"const": "RELEASE_DATE"}, "allowOnlyProviderDiscoveredValues": {"const": true}, "expectedUniqueMonthCount": {"const": 240}, "firstMonth": {"const": "2006-01"}, "lastMonth": {"const": "2025-12"}, "duplicateOrCorrectionReleaseRequiresAdjudication": {"const": true}}}
+  }
+}

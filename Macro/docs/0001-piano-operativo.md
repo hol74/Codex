@@ -85,8 +85,15 @@ Le regole di dipendenza complete sono in `docs/adr/0002-dipendenze-layer.md`.
 25. Fase E9 - Shadow Operations, secondo incremento implementato il 2026-07-14:
     orchestratore mensile, layout standard, `prepare-only/full`, stato
     recuperabile, log/hash dei processi C# e recovery dai fallimenti parziali.
+26. Fase E14.7f chiusa il 2026-07-16: proposta taxonomy post-2005 con nuovi
+    identificatori, due dossier banking hash-bound e queue write-once per
+    review indipendente; scope, dati e modellazione restano chiusi.
+27. Fasi E14.7g-E14.7l chiuse il 2026-07-16: review indipendente e remediation,
+    attivazione scope separato, preregistrazione e acquisizione raw atomica,
+    quindi audit vintage. Passano 2 famiglie su 4; H.8/H.10/FDIC richiedono
+    artifact datati di release e la trasformazione resta chiusa.
 
-Il dettaglio per ogni step e' in `docs/checkpoints/` (progressivi 0001-0045).
+Il dettaglio per ogni step e' in `docs/checkpoints/` (progressivi 0001-0105).
 
 ## Piano operativo da seguire
 
@@ -1014,13 +1021,33 @@ copertura degli episodi.
    - lo scope non e' attivo: e' autorizzata soltanto la preregistrazione di una
      proposta taxonomy separata e della relativa review indipendente.
 21. E14.7f - post-2005 taxonomy proposal and independent-review queue
-    (PROSSIMO PASSO):
-   - materializzare una proposta con identificatori nuovi senza mutare
-     `us-financial-stress-v5.json`;
-   - creare dossier hash-bound per i due controlli banking e una queue
-     write-once per revisori indipendenti;
-   - mantenere acquisizione osservazioni, foundation, candidati, evaluation e
-     outer OOS chiusi fino all'accettazione esplicita della proposta.
+    (COMPLETATO):
+    - materializzare una proposta con identificatori nuovi senza mutare
+      `us-financial-stress-v5.json`;
+    - creare dossier hash-bound per i due controlli banking e una queue
+      write-once per revisori indipendenti;
+    - mantenere acquisizione osservazioni, foundation, candidati, evaluation e
+      outer OOS chiusi fino all'accettazione esplicita della proposta.
+    - esito: proposta `us-financial-stress-post2005-v1` inattiva con 6 positivi
+      referenziati, 6 hard negative legacy e 2 nuovi controlli banking;
+    - queue con 2 dossier, 0 receipt e self-acceptance vietata;
+    - taxonomy v5 byte-identica e tutti gli output hash-bound/write-once.
+22. E14.7g - independent-review handoff and receipt ingestion
+    (IN CORSO - HANDOFF COMPLETATO, RECEIPT ESTERNE PENDENTI):
+    - consegnare queue, proposta e dossier byte-identici a un reviewer
+      indipendente dal curatore;
+    - accettare soltanto receipt conformi allo schema v2 e con SHA-256 dossier
+      esatto, senza auto-accettazione o sostituzione degli artefatti;
+    - lasciare lo scope inattivo in caso di reject, needs-revision, receipt
+      mancante o hash mismatch; nessuna acquisizione dati e' autorizzata.
+    - E14.7g1 completato: bundle con proposta e queue byte-identiche, 2 dossier,
+      2 worksheet e 2 template schema v2 intenzionalmente non ingeribili;
+    - audit handoff SHA-256
+      `0bf1cbcc51ca8cbf9c7eee7e3bae228a1b0cf1dfad0464b8c6aebf856beb8243`;
+    - readiness ingestion con 0 receipt: stato fail-closed
+      `POST_2005_INDEPENDENT_REVIEW_INCOMPLETE`, scope inattivo;
+    - prossimo passo esterno: un reviewer realmente indipendente deve aprire
+      tutti i locator e restituire le 2 receipt v2 fuori dal bundle immutabile.
 
 Analisi E14:
 `docs/e14-riesame-problema-informativo.md`.
@@ -1135,6 +1162,75 @@ Checkpoint E14.7d:
 
 Checkpoint E14.7e:
 `docs/checkpoints/0096-fase-e14-7e-post2005-scope-feasible.md`.
+
+Checkpoint E14.7f:
+`docs/checkpoints/0097-fase-e14-7f-post2005-taxonomy-proposal-ready.md`.
+
+Checkpoint E14.7g1:
+`docs/checkpoints/0098-fase-e14-7g1-review-handoff-ready.md`.
+
+Checkpoint E14.7g-E14.7h:
+`docs/checkpoints/0099-fase-e14-7g-review-revision-and-scope-activation.md`.
+
+Checkpoint E14.7i:
+`docs/checkpoints/0100-fase-e14-7i-source-acquisition-manifest-frozen.md`.
+
+Checkpoint E14.7j:
+`docs/checkpoints/0101-fase-e14-7j-source-execution-gate-authorized.md`.
+
+Checkpoint E14.7k:
+`docs/checkpoints/0102-fase-e14-7k-atomic-source-snapshot-acquired.md`.
+
+Checkpoint E14.7l:
+`docs/checkpoints/0103-fase-e14-7l-vintage-fitness-partial.md`.
+
+Checkpoint E14.7m:
+`docs/checkpoints/0104-fase-e14-7m-vintage-remediation-blocked.md`.
+
+Checkpoint E14.7n:
+`docs/checkpoints/0105-fase-e14-7n-policy-redesign-awaiting-review.md`.
+
+Checkpoint E14.7o:
+`docs/checkpoints/0106-fase-e14-7o-policy-redesign-handoff-blocked.md`.
+
+Checkpoint E14.7p:
+`docs/checkpoints/0107-fase-e14-7p-policy-redesign-review-remediated.md`.
+
+Checkpoint E14.7q:
+`docs/checkpoints/0108-fase-e14-7q-policy-redesign-review-handoff-ready.md`.
+
+Checkpoint E14.7r:
+`docs/checkpoints/0109-fase-e14-7r-policy-redesign-review-ingested.md`.
+
+Checkpoint E14.7s:
+`docs/checkpoints/0110-fase-e14-7s-policy-redesign-activated.md`.
+
+Checkpoint E14.7t:
+`docs/checkpoints/0111-fase-e14-7t-source-manifest-request-catalog-v2.md`.
+
+Checkpoint E14.7u:
+`docs/checkpoints/0112-fase-e14-7u-metadata-execution-gate-v2.md`.
+
+Checkpoint E14.7v:
+`docs/checkpoints/0113-fase-e14-7v-acquisition-discovery-preflight.md`.
+
+Checkpoint E14.7w:
+`docs/checkpoints/0114-fase-e14-7w-acquisition-remediation-docket.md`.
+
+Checkpoint E14.7x:
+`docs/checkpoints/0115-fase-e14-7x-acquisition-remediation-reviewed.md`.
+
+Checkpoint E14.7y:
+`docs/checkpoints/0116-fase-e14-7y-fdic-metadata-collection-preregistered.md`.
+
+Checkpoint E14.7z:
+`docs/checkpoints/0117-fase-e14-7z-fdic-metadata-design-reviewed.md`.
+
+Checkpoint E14.7aa:
+`docs/checkpoints/0118-fase-e14-7aa-fdic-metadata-execution-gate.md`.
+
+Checkpoint E14.7ab:
+`docs/checkpoints/0119-fase-e14-7ab-fdic-metadata-collection-preflight-blocked.md`.
 
 
 

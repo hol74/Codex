@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://macro-regime.local/schemas/e14-post2005-source-acquisition-manifest-v1.json",
+  "title": "E14 post-2005 source acquisition manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "artifactType", "manifestId", "taxonomy", "activationAudit", "window", "snapshotRoot", "sources", "featureFamilies", "integrityPolicy", "authorizationPolicy", "status"],
+  "properties": {
+    "schemaVersion": {"const": 1},
+    "artifactType": {"const": "E14Post2005SourceAcquisitionManifest"},
+    "manifestId": {"const": "e14-post2005-source-acquisition-manifest-v1"},
+    "taxonomy": {"$ref": "#/$defs/artifact"},
+    "activationAudit": {"$ref": "#/$defs/artifact"},
+    "window": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["startInclusive", "endInclusive"],
+      "properties": {
+        "startInclusive": {"const": "2006-01-01"},
+        "endInclusive": {"const": "2025-12-31"}
+      }
+    },
+    "snapshotRoot": {"const": "data/historical-real-v12-2008-2025/post2005-source-snapshots-v1"},
+    "sources": {"type": "array", "minItems": 7, "maxItems": 7, "items": {"$ref": "#/$defs/source"}},
+    "featureFamilies": {"type": "array", "minItems": 4, "maxItems": 4},
+    "integrityPolicy": {"type": "object"},
+    "authorizationPolicy": {"type": "object"},
+    "status": {"const": "POST_2005_SOURCE_ACQUISITION_MANIFEST_FROZEN_EXECUTION_REQUIRES_SEPARATE_GATE"}
+  },
+  "$defs": {
+    "artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["fileName", "sha256", "sizeBytes"],
+      "properties": {
+        "fileName": {"type": "string", "minLength": 1},
+        "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+        "sizeBytes": {"type": "integer", "minimum": 1}
+      }
+    },
+    "source": {
+      "type": "object",
+      "required": ["sourceId", "provider", "providerPrimaryLocators", "frequency", "retrievalMode", "seriesOrTables", "rawArtifactPath", "asOfPolicy", "methodologyRegimes", "coverageFrom", "readinessEvidence"]
+    }
+  }
+}

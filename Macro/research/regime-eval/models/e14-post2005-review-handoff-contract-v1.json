@@ -1,0 +1,25 @@
+{
+  "schemaVersion": 1,
+  "contractId": "e14-post2005-review-handoff-contract-v1",
+  "frozenAt": "2026-07-16",
+  "inputHashes": {
+    "taxonomyProposalSha256": "73bc241078d7fb32196bdff3adec45932a1cf1f1cf3846721909a27af4aa814f",
+    "reviewQueueSha256": "c5839d76422e3dd22bcf478a46bb6ca73da9bda32aec2aa15614fa40d9fa27da",
+    "proposalAuditSha256": "7b9cf376728820c794a9324447eae3e2675c5a3ccd8adb31b516faca6c0d381b",
+    "reviewSchemaV2Sha256": "77310369e3ba33a6a5dbde84ce6cc445a6a87c7e9e03ba3842718a684822dd58"
+  },
+  "bundleRules": {
+    "proposalAndQueueCopiedByteIdentically": true,
+    "dossiersCopiedByteIdentically": true,
+    "oneWorksheetAndTemplatePerDossier": true,
+    "templatesMustRemainNonIngestible": true,
+    "completedReceiptsStoredOutsideBundle": true,
+    "bundleGeneratorCannotReview": true
+  },
+  "receiptOutputConvention": {
+    "directory": "completed-receipts/",
+    "fileName": "e14-review-<dossier-slug>-<reviewer-id>.json"
+  },
+  "expectedStatus": "POST_2005_EXTERNAL_REVIEW_HANDOFF_READY",
+  "nextAllowedAction": "An independent reviewer opens every cited locator and returns two completed schema-v2 receipts outside the immutable bundle; no scope activation or data acquisition is authorized"
+}

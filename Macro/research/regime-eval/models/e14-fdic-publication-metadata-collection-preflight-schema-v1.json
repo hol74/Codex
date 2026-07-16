@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://macro-regime.local/schemas/e14-fdic-publication-metadata-collection-preflight-audit-v1.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "artifactType", "status", "inputs", "blockers", "checks", "protocol", "decision", "implementation"],
+  "properties": {
+    "schemaVersion": {"const": 1},
+    "artifactType": {"const": "E14FdicPublicationMetadataCollectionPreflightAudit"},
+    "status": {"const": "FDIC_PUBLICATION_METADATA_COLLECTION_PREFLIGHT_BLOCKED_REQUEST_CATALOG_REQUIRED"},
+    "inputs": {"$ref": "#/$defs/inputs"},
+    "blockers": {"type": "array", "minItems": 2, "maxItems": 2, "items": {"enum": ["EXACT_SEED_URLS_NOT_FROZEN", "REQUEST_TEMPLATES_NOT_HASH_BOUND"]}},
+    "checks": {"$ref": "#/$defs/checks"},
+    "protocol": {"$ref": "#/$defs/protocol"},
+    "decision": {"$ref": "#/$defs/decision"},
+    "implementation": {"$ref": "#/$defs/implementation"}
+  },
+  "$defs": {
+    "artifact": {"type": "object", "additionalProperties": false, "required": ["fileName", "sha256", "sizeBytes"], "properties": {"fileName": {"type": "string", "minLength": 1}, "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}, "sizeBytes": {"type": "integer", "minimum": 1}}},
+    "inputs": {"type": "object", "additionalProperties": false, "required": ["contract", "executionGateContract", "executionGateAudit", "executionPlan", "preflightSchema"], "properties": {"contract": {"$ref": "#/$defs/artifact"}, "executionGateContract": {"$ref": "#/$defs/artifact"}, "executionGateAudit": {"$ref": "#/$defs/artifact"}, "executionPlan": {"$ref": "#/$defs/artifact"}, "preflightSchema": {"$ref": "#/$defs/artifact"}}},
+    "checks": {"type": "object", "additionalProperties": false, "required": ["allInputHashesExact", "executionGatePassed", "networkBoundsFrozen", "exactSeedUrlsFrozen", "requestTemplatesHashBound", "catalogV3Absent", "snapshotV2Absent"], "properties": {"allInputHashesExact": {"const": true}, "executionGatePassed": {"const": true}, "networkBoundsFrozen": {"const": true}, "exactSeedUrlsFrozen": {"const": false}, "requestTemplatesHashBound": {"const": false}, "catalogV3Absent": {"const": true}, "snapshotV2Absent": {"const": true}}},
+    "protocol": {"type": "object", "additionalProperties": false, "required": ["networkRequestsMade", "metadataRowsCollected", "rawArtifactsWritten", "ledgersPublished", "requestCatalogsMaterialized"], "properties": {"networkRequestsMade": {"const": 0}, "metadataRowsCollected": {"const": 0}, "rawArtifactsWritten": {"const": 0}, "ledgersPublished": {"const": 0}, "requestCatalogsMaterialized": {"const": 0}}},
+    "decision": {"type": "object", "additionalProperties": false, "required": ["metadataNetworkCollectionAuthorized", "requestCatalogRemediationAuthorized", "requestCatalogV3MaterializationAuthorized", "sourceAcquisitionAuthorized", "nextAllowedAction"], "properties": {"metadataNetworkCollectionAuthorized": {"const": false}, "requestCatalogRemediationAuthorized": {"const": true}, "requestCatalogV3MaterializationAuthorized": {"const": false}, "sourceAcquisitionAuthorized": {"const": false}, "nextAllowedAction": {"type": "string", "minLength": 20}}},
+    "implementation": {"type": "object", "additionalProperties": false, "required": ["module", "sourceSha256"], "properties": {"module": {"const": "regime_eval.e14_fdic_publication_metadata_collection_preflight"}, "sourceSha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}}}
+  }
+}

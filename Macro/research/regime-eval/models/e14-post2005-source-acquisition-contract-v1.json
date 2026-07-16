@@ -1,0 +1,37 @@
+{
+  "schemaVersion": 1,
+  "contractId": "e14-post2005-source-acquisition-contract-v1",
+  "inputHashes": {
+    "activeTaxonomySha256": "3f69670e43315904e47a9bcae1957c62d780665b047355230198bb7a129e9d58",
+    "scopeActivationAuditSha256": "77b38fe8be5c6fa235d4d68437ae0c184fa70eab7ea23d5839def575c112e9db",
+    "scopeFeasibilityPlanSha256": "177bce224260ba9559ddc153edab80ceabf3d9cfbf156aed271047272ba42a70",
+    "sourceFeasibilityEvidenceSha256": "888eb21b45f2de76e4460135c2a828b81602b262017b56e3b5d44d7e2316cc2c",
+    "sourceAcquisitionPlanSha256": "6899a6f0a7275914ef6b48629574102c27307d4083fbb8eff1369685fb39238b",
+    "sourceAcquisitionSchemaSha256": "e8d9fcd87b92cbc7edbdbab2229025ee98a93447fe04b38c375518b907e1f0a3"
+  },
+  "expectedSourceIds": [
+    "federal-reserve-h8-release-archive",
+    "fdic-qbp-archive",
+    "fred-dgs2",
+    "fred-dgs10",
+    "federal-reserve-h10-release-archive",
+    "fred-dcpf3m",
+    "fred-dtb3"
+  ],
+  "expectedFeatureFamilyCountByMechanism": {
+    "banking-credit": 1,
+    "broad-market-repricing": 1,
+    "cross-border-growth": 1,
+    "funding-liquidity": 1
+  },
+  "decisionPolicy": {
+    "activePost2005ScopeRequired": true,
+    "allSourcesMustRemainMetadataReady": true,
+    "allSourceIdsMustResolveToFeatureFamilies": true,
+    "asOfAndMethodologyPoliciesMustBeFrozen": true,
+    "manifestCannotAcquireObservations": true,
+    "executionRequiresSeparateGate": true
+  },
+  "expectedStatus": "POST_2005_SOURCE_ACQUISITION_MANIFEST_FROZEN_EXECUTION_REQUIRES_SEPARATE_GATE",
+  "nextAllowedAction": "Run a separate fail-closed source acquisition execution gate against this exact manifest; do not transform features or generate candidates"
+}
