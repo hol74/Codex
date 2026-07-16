@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "contractId": "e14-fdic-publication-metadata-request-catalog-contract-v1",
+  "inputHashes": {
+    "collectionPreflightAuditV1Sha256": "07cffc539c4e3bd02f1994beb26dc15230ec52160a93376e20b0ff4007b107c9",
+    "metadataPreregistrationAuditV1Sha256": "22c537fe81603169035b37bbc9635e8d390191a476fa0de51bd3ad3121a739f4",
+    "pastQbpIndexHtmlSha256": "bf543bfad42d6b9bb156066ade09cd3d083bacb15cc4767210874f43322ee916",
+    "requestCatalogPlanV1Sha256": "b491bd25a439a3f36f35b363a1a9c90769c156f6ea9ca29c7befaef4a633ecf4",
+    "requestCatalogSchemaV1Sha256": "9b7ef0f04b7614f6049a07a7bfc3bc8b475a5e35f1ba4504856e38dac0b544d5",
+    "auditSchemaV1Sha256": "f03dd5832ef2ce6d28451106c9e89fa31aa0c42ae25e0084dd4b61a3726cc94a"
+  },
+  "requiredOutputs": [
+    "e14-fdic-publication-metadata-requests-v1.json",
+    "e14-fdic-publication-metadata-request-catalog-audit-v1.json"
+  ],
+  "failurePolicy": {
+    "quarterRosterMustEqual79": true,
+    "duplicateQuarterIdsForbidden": true,
+    "offProviderQuarterUrlsForbidden": true,
+    "networkForbidden": true,
+    "overwriteForbidden": true
+  },
+  "nextAllowedAction": "Independently review the exact FDIC metadata seed URLs, all 79 quarter URLs, the proposed archive.fdic.gov host extension, and the hash-bound request templates before versioning a replacement execution gate"
+}

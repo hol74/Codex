@@ -1279,3 +1279,23 @@ gli URL seed esatti ne' template di richiesta legati per hash. Registra zero
 rete e non pubblica ledger o cataloghi. Il solo passo ammesso e' una
 preregistrazione metadata-only degli URL e dei template, seguita da review
 indipendente di un gate nuovamente versionato prima del collector.
+
+E14.7ac preregistra il catalogo metadata-only corretto:
+
+```text
+python -m regime_eval e14-preregister-fdic-publication-metadata-request-catalog --contract models/e14-fdic-publication-metadata-request-catalog-contract-v1.json --collection-preflight-audit ../../data/historical-real-v12-2008-2025/challengers/e14-fdic-publication-metadata-collection-preflight-audit-v1.json --metadata-preregistration-audit ../../data/historical-real-v12-2008-2025/challengers/e14-fdic-publication-metadata-preregistration-audit-v1.json --past-qbp-index-html ../../data/historical-real-v12-2008-2025/post2005-source-snapshots-v1/fdic/qbp/past-qbp-index.html --request-catalog-plan models/e14-fdic-publication-metadata-request-catalog-plan-v1.json --request-catalog-schema models/e14-fdic-publication-metadata-request-catalog-schema-v1.json --audit-schema models/e14-fdic-publication-metadata-request-catalog-audit-schema-v1.json --repository-root ../.. --request-catalog-output ../../data/historical-real-v12-2008-2025/challengers/e14-fdic-publication-metadata-requests-v1.json --audit-output ../../data/historical-real-v12-2008-2025/challengers/e14-fdic-publication-metadata-request-catalog-audit-v1.json
+```
+
+Il catalogo contiene due seed URL esatti, tre template hash-bound e 79 URL
+trimestrali provider-primary. `archive.fdic.gov` e' proposto ma non autorizzato;
+zero richieste e zero righe sono eseguite. Il passo successivo e' soltanto la
+review indipendente prima di sostituire il gate E14.7aa.
+
+E14.7ad completa quella review con decisione `needs_changes`. Il receipt
+conferma hash, roster 79/79, URL trimestrali, template e zero rete, ma rileva
+che nessun `ARCHIVE_RECORD_ID` e' congelato. Il template archivio lascia quindi
+al collector la scelta di come trovare e associare i record ai quarter.
+
+Un gate sostitutivo non e' autorizzato. Il solo passo ammesso e' una
+remediation separata che produca una mappa immutabile quarter-to-archive con 79
+entry, incluse entry esplicitamente irrisolte, seguita da nuova review.

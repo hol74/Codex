@@ -808,3 +808,27 @@ audit bloccato con zero richieste, zero righe, zero raw artifact, zero ledger e
 zero cataloghi. E' ammessa soltanto la preregistrazione versionata del request
 catalog metadata-only; ogni variazione degli host ammessi richiede un nuovo
 gate e review indipendente prima della raccolta.
+
+### E14.7ac - Preregistrazione request catalog metadata FDIC
+
+Il catalogo deve essere derivato esclusivamente dall'indice QBP locale legato
+per hash e contenere il roster ordinato 2006Q1-2025Q3. Ogni trimestre ha un URL
+HTTPS esatto su `www.fdic.gov`; 2025Q4 e' escluso. Seed e template sono
+espliciti e ogni template riceve un hash canonico.
+
+`archive.fdic.gov` e' una proposta di estensione, non un'autorizzazione. La
+preregistrazione esegue zero rete e lascia irrisolte tutte le date di
+pubblicazione. Una review indipendente deve verificare catalogo, template e
+host prima che un gate operativo sostitutivo possa essere versionato.
+
+### E14.7ad - Review indipendente del request catalog FDIC
+
+La review deve ricalcolare gli hash e verificare separatamente roster, URL,
+template, host e assenza di rete. Un template con placeholder non rende
+hash-bound le sue espansioni: gli identificativi archivio devono essere
+materializzati o marcati esplicitamente irrisolti per ogni quarter.
+
+La review E14.7ad restituisce `needs_changes` perche' i 79 record archivio non
+sono congelati e i seed non specificano una traversal deterministica. Nessun
+gate operativo puo' essere versionato. E' autorizzata soltanto una remediation
+quarter-to-archive separata, immutabile e nuovamente reviewable.

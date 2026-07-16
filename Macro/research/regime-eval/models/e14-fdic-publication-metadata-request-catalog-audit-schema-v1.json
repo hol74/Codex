@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://macro-regime.local/schemas/e14-fdic-publication-metadata-request-catalog-audit-v1.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "artifactType", "status", "inputs", "outputs", "checks", "inventory", "protocol", "decision", "implementation"],
+  "properties": {
+    "schemaVersion": {"const": 1},
+    "artifactType": {"const": "E14FdicPublicationMetadataRequestCatalogAudit"},
+    "status": {"const": "FDIC_PUBLICATION_METADATA_REQUEST_CATALOG_PREREGISTERED_REVIEW_REQUIRED"},
+    "inputs": {"type": "object", "minProperties": 1},
+    "outputs": {"type": "object", "minProperties": 1},
+    "checks": {"type": "object", "minProperties": 1},
+    "inventory": {"type": "object", "minProperties": 1},
+    "protocol": {"type": "object", "minProperties": 1},
+    "decision": {"type": "object", "minProperties": 1},
+    "implementation": {"type": "object", "minProperties": 1}
+  }
+}

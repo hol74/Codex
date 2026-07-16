@@ -1,0 +1,53 @@
+{
+  "schemaVersion": 1,
+  "planId": "e14-fdic-publication-metadata-request-catalog-plan-v1",
+  "frozenAt": "2026-07-16",
+  "quarterScope": {
+    "firstQuarter": "2006Q1",
+    "lastQuarter": "2025Q3",
+    "requiredQuarterCount": 79,
+    "excludedQuarter": "2025Q4"
+  },
+  "exactSeedUrls": [
+    "https://www.fdic.gov/quarterly-banking-profile/past-quarterly-banking-profiles",
+    "https://archive.fdic.gov/view/fdic/9120"
+  ],
+  "allowedHostsProposed": [
+    "www.fdic.gov",
+    "archive.fdic.gov"
+  ],
+  "requestTemplates": [
+    {
+      "requestTemplateId": "fdic-qbp-past-profile-index-v1",
+      "urlTemplate": "https://www.fdic.gov/quarterly-banking-profile/past-quarterly-banking-profiles",
+      "expansionSource": "none",
+      "usageBoundary": "quarter-url-roster-validation-only"
+    },
+    {
+      "requestTemplateId": "fdic-qbp-quarter-primary-url-v1",
+      "urlTemplate": "{QUARTER_PRIMARY_URL}",
+      "expansionSource": "hash-bound-past-qbp-index-html",
+      "usageBoundary": "metadata-publication-proof-discovery-only"
+    },
+    {
+      "requestTemplateId": "fdic-archive-release-record-v1",
+      "urlTemplate": "https://archive.fdic.gov/view/fdic/{ARCHIVE_RECORD_ID}",
+      "expansionSource": "provider-primary-links-discovered-from-exact-seeds-only",
+      "usageBoundary": "explicit-release-date-evidence-only"
+    }
+  ],
+  "evidencePolicy": {
+    "quarterEndCannotSubstituteForPublicationDate": true,
+    "lastModifiedCannotSubstituteForPublicationDate": true,
+    "secondarySourcesForbidden": true,
+    "archiveRecordIdsMustBeProviderDiscovered": true
+  },
+  "authorizationPolicy": {
+    "thisStepMayUseNetwork": false,
+    "requestCatalogPreregistrationAuthorized": true,
+    "metadataNetworkCollectionAuthorized": false,
+    "requestCatalogV3MaterializationAuthorized": false,
+    "sourceAcquisitionAuthorized": false,
+    "independentReviewRequired": true
+  }
+}

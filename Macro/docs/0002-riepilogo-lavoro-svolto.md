@@ -978,6 +978,17 @@ Checkpoint in corso: `docs/checkpoints/0034-fase-e-slice6-feature-baseline-redes
   non ammesso dal gate corrente. E' autorizzata soltanto la preregistrazione
   versionata del request catalog e una nuova review del gate. Regressione
   complessiva a 278/278 test Python.
+- Fase E14.7ac - preregistrato senza rete il catalogo metadata FDIC: due seed
+  esatti, tre template hash-bound e 79 URL trimestrali provider-primary da
+  2006Q1 a 2025Q3. `archive.fdic.gov` e' soltanto proposto e tutte le 79 date
+  restano irrisolte. E' autorizzata esclusivamente la review indipendente prima
+  di un nuovo gate operativo. Regressione complessiva a 283/283 test Python.
+- Fase E14.7ad - review indipendente conclusa con `needs_changes`: hash, roster
+  79/79, URL, template e zero rete sono confermati, ma il catalogo non congela
+  i 79 `ARCHIVE_RECORD_ID` e la discovery archivio conserva discrezionalita' a
+  runtime. Il gate sostitutivo resta chiuso; e' ammessa solo una remediation
+  hash-bound della mappa quarter-to-archive. Regressione complessiva a 286/286
+  test Python.
 
 ## Deviazione documentata dal piano originario
 

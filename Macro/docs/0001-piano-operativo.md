@@ -1232,6 +1232,12 @@ Checkpoint E14.7aa:
 Checkpoint E14.7ab:
 `docs/checkpoints/0119-fase-e14-7ab-fdic-metadata-collection-preflight-blocked.md`.
 
+Checkpoint E14.7ac:
+`docs/checkpoints/0120-fase-e14-7ac-fdic-metadata-request-catalog-preregistered.md`.
+
+Checkpoint E14.7ad:
+`docs/checkpoints/0121-fase-e14-7ad-fdic-metadata-request-catalog-review-blocked.md`.
+
 
 
 ### Fase F - Ottimizzazione vincolata e stress test

@@ -69,6 +69,9 @@ from .e14_fdic_publication_metadata_execution_gate import (
 from .e14_fdic_publication_metadata_collection_preflight import (
     write_e14_fdic_publication_metadata_collection_preflight,
 )
+from .e14_fdic_publication_metadata_request_catalog import (
+    write_e14_fdic_publication_metadata_request_catalog,
+)
 from .e14_post2005_source_acquisition_execution import write_e14_post2005_atomic_source_snapshot
 from .e14_post2005_vintage_fitness import write_e14_post2005_vintage_fitness_audit
 from .e14_post2005_vintage_remediation import write_e14_post2005_vintage_remediation_audit
@@ -129,6 +132,16 @@ def main(argv: list[str] | None = None) -> int:
     parser = _parser()
     args = parser.parse_args(argv)
     try:
+        if args.command == "e14-preregister-fdic-publication-metadata-request-catalog":
+            outputs = write_e14_fdic_publication_metadata_request_catalog(
+                args.contract, args.collection_preflight_audit,
+                args.metadata_preregistration_audit, args.past_qbp_index_html,
+                args.request_catalog_plan, args.request_catalog_schema,
+                args.audit_schema, args.repository_root,
+                args.request_catalog_output, args.audit_output,
+            )
+            print("\n".join(str(output) for output in outputs))
+            return 0
         if args.command == "e14-preflight-fdic-publication-metadata-collection":
             output = write_e14_fdic_publication_metadata_collection_preflight(
                 args.contract, args.execution_gate_contract,
@@ -1735,6 +1748,12 @@ def _parser() -> argparse.ArgumentParser:
     )
     for argument in ("contract", "execution-gate-contract", "execution-gate-audit", "execution-plan", "preflight-schema", "repository-root", "output"):
         e14_fdic_metadata_collection_preflight.add_argument("--" + argument, required=True)
+    e14_fdic_metadata_request_catalog = subparsers.add_parser(
+        "e14-preregister-fdic-publication-metadata-request-catalog",
+        help="preregister E14.7ac exact FDIC metadata URLs and hash-bound request templates without network",
+    )
+    for argument in ("contract", "collection-preflight-audit", "metadata-preregistration-audit", "past-qbp-index-html", "request-catalog-plan", "request-catalog-schema", "audit-schema", "repository-root", "request-catalog-output", "audit-output"):
+        e14_fdic_metadata_request_catalog.add_argument("--" + argument, required=True)
     e14_taxonomy_v4 = subparsers.add_parser(
         "e14-materialize-taxonomy-v4",
         help="version the accepted E14 foundation proposal into an immutable mechanism-aware taxonomy v4",

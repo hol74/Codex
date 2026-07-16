@@ -1,0 +1,54 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://macro-regime.local/schemas/e14-fdic-publication-metadata-request-catalog-v1.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "artifactType", "requestCatalogId", "status", "exactSeedUrls", "allowedHostsProposed", "requestTemplates", "quarterRequests", "authorizationPolicy"],
+  "properties": {
+    "schemaVersion": {"const": 1},
+    "artifactType": {"const": "E14FdicPublicationMetadataRequestCatalog"},
+    "requestCatalogId": {"const": "e14-fdic-publication-metadata-requests-v1"},
+    "status": {"const": "FDIC_PUBLICATION_METADATA_REQUEST_CATALOG_PREREGISTERED_REVIEW_REQUIRED"},
+    "exactSeedUrls": {"type": "array", "minItems": 2, "maxItems": 2, "items": {"type": "string", "minLength": 12}},
+    "allowedHostsProposed": {"type": "array", "minItems": 2, "maxItems": 2, "items": {"type": "string", "minLength": 3}},
+    "requestTemplates": {"type": "array", "minItems": 3, "maxItems": 3, "items": {"$ref": "#/$defs/template"}},
+    "quarterRequests": {"type": "array", "minItems": 79, "maxItems": 79, "items": {"$ref": "#/$defs/quarterRequest"}},
+    "authorizationPolicy": {"$ref": "#/$defs/authorization"}
+  },
+  "$defs": {
+    "template": {
+      "type": "object", "additionalProperties": false,
+      "required": ["requestTemplateId", "urlTemplate", "expansionSource", "usageBoundary", "templateSha256"],
+      "properties": {
+        "requestTemplateId": {"type": "string", "minLength": 3},
+        "urlTemplate": {"type": "string", "minLength": 3},
+        "expansionSource": {"type": "string", "minLength": 3},
+        "usageBoundary": {"type": "string", "minLength": 3},
+        "templateSha256": {"type": "string", "pattern": "[0-9a-f]{64}"}
+      }
+    },
+    "quarterRequest": {
+      "type": "object", "additionalProperties": false,
+      "required": ["quarterId", "requestId", "providerPrimaryUrl", "providerHost", "evidenceState", "usageBoundary"],
+      "properties": {
+        "quarterId": {"type": "string", "pattern": "20(0[6-9]|1[0-9]|2[0-5])Q[1-4]"},
+        "requestId": {"type": "string", "minLength": 3},
+        "providerPrimaryUrl": {"type": "string", "pattern": "https://www\\.fdic\\.gov/.+"},
+        "providerHost": {"const": "www.fdic.gov"},
+        "evidenceState": {"const": "publication-date-unresolved"},
+        "usageBoundary": {"const": "metadata-publication-proof-discovery-only"}
+      }
+    },
+    "authorization": {
+      "type": "object", "additionalProperties": false,
+      "required": ["networkRequestsAuthorized", "requestCatalogPreregistered", "independentReviewRequired", "requestCatalogV3MaterializationAuthorized", "sourceAcquisitionAuthorized"],
+      "properties": {
+        "networkRequestsAuthorized": {"const": false},
+        "requestCatalogPreregistered": {"const": true},
+        "independentReviewRequired": {"const": true},
+        "requestCatalogV3MaterializationAuthorized": {"const": false},
+        "sourceAcquisitionAuthorized": {"const": false}
+      }
+    }
+  }
+}

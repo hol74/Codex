@@ -1,0 +1,57 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://macro-regime.local/schemas/e14-fdic-publication-metadata-request-catalog-independent-review-v1.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion", "artifactType", "reviewId", "reviewerId",
+    "reviewedAtUtc", "independenceDeclared", "contractSha256",
+    "planSha256", "requestCatalogSha256", "auditSha256",
+    "catalogSchemaSha256", "implementationSha256", "reviewSchemaSha256",
+    "assessments", "decision", "blockingFindings", "rationale",
+    "nextAllowedAction"
+  ],
+  "properties": {
+    "schemaVersion": {"const": 1},
+    "artifactType": {"const": "E14FdicPublicationMetadataRequestCatalogIndependentReview"},
+    "reviewId": {"const": "e14-fdic-publication-metadata-request-catalog-independent-review-v1"},
+    "reviewerId": {"type": "string", "minLength": 3},
+    "reviewedAtUtc": {"type": "string", "minLength": 20},
+    "independenceDeclared": {"const": true},
+    "contractSha256": {"type": "string", "pattern": "[0-9a-f]{64}"},
+    "planSha256": {"type": "string", "pattern": "[0-9a-f]{64}"},
+    "requestCatalogSha256": {"type": "string", "pattern": "[0-9a-f]{64}"},
+    "auditSha256": {"type": "string", "pattern": "[0-9a-f]{64}"},
+    "catalogSchemaSha256": {"type": "string", "pattern": "[0-9a-f]{64}"},
+    "implementationSha256": {"type": "string", "pattern": "[0-9a-f]{64}"},
+    "reviewSchemaSha256": {"type": "string", "pattern": "[0-9a-f]{64}"},
+    "assessments": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "hashBindingsExact", "quarterRosterExact", "quarterUrlsExact",
+        "requestTemplatesHashBound", "archiveExpansionValuesFrozen",
+        "archiveDiscoveryDeterministic", "archiveHostExtensionSupported",
+        "zeroNetworkConfirmed", "replacementExecutionGateAuthorized",
+        "catalogV3StillBlocked", "failClosedGuardsSupported"
+      ],
+      "properties": {
+        "hashBindingsExact": {"type": "boolean"},
+        "quarterRosterExact": {"type": "boolean"},
+        "quarterUrlsExact": {"type": "boolean"},
+        "requestTemplatesHashBound": {"type": "boolean"},
+        "archiveExpansionValuesFrozen": {"type": "boolean"},
+        "archiveDiscoveryDeterministic": {"type": "boolean"},
+        "archiveHostExtensionSupported": {"type": "boolean"},
+        "zeroNetworkConfirmed": {"type": "boolean"},
+        "replacementExecutionGateAuthorized": {"type": "boolean"},
+        "catalogV3StillBlocked": {"type": "boolean"},
+        "failClosedGuardsSupported": {"type": "boolean"}
+      }
+    },
+    "decision": {"enum": ["accept", "needs_changes", "reject"]},
+    "blockingFindings": {"type": "array", "items": {"type": "string", "minLength": 3}},
+    "rationale": {"type": "string", "minLength": 20},
+    "nextAllowedAction": {"type": "string", "minLength": 20}
+  }
+}
