@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://macro-regime.local/schemas/e14-fdic-archive-evidence-preregistration-audit-v1.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "artifactType", "status", "inputs", "inventory", "checks", "protocol", "decision", "implementation"],
+  "properties": {
+    "schemaVersion": {"const": 1},
+    "artifactType": {"const": "E14FdicArchiveEvidencePreregistrationAudit"},
+    "status": {"const": "FDIC_ARCHIVE_PROVIDER_EVIDENCE_COLLECTION_PREREGISTERED_REVIEW_REQUIRED"},
+    "inputs": {"$ref": "#/$defs/inputs"},
+    "inventory": {"$ref": "#/$defs/inventory"},
+    "checks": {"$ref": "#/$defs/checks"},
+    "protocol": {"$ref": "#/$defs/protocol"},
+    "decision": {"$ref": "#/$defs/decision"},
+    "implementation": {"$ref": "#/$defs/implementation"}
+  },
+  "$defs": {
+    "artifact": {"type": "object", "additionalProperties": false, "required": ["fileName", "sha256", "sizeBytes"], "properties": {"fileName": {"type": "string", "minLength": 1}, "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}, "sizeBytes": {"type": "integer", "minimum": 1}}},
+    "inputs": {"type": "object", "additionalProperties": false, "required": ["contract", "blockedReview", "mapV1", "mapAuditV1", "collectionPlan", "mapSchemaV2", "mapAuditSchemaV2", "preregistrationAuditSchema"], "properties": {"contract": {"$ref": "#/$defs/artifact"}, "blockedReview": {"$ref": "#/$defs/artifact"}, "mapV1": {"$ref": "#/$defs/artifact"}, "mapAuditV1": {"$ref": "#/$defs/artifact"}, "collectionPlan": {"$ref": "#/$defs/artifact"}, "mapSchemaV2": {"$ref": "#/$defs/artifact"}, "mapAuditSchemaV2": {"$ref": "#/$defs/artifact"}, "preregistrationAuditSchema": {"$ref": "#/$defs/artifact"}}},
+    "inventory": {"type": "object", "additionalProperties": false, "required": ["requiredQuarterCount", "currentlyResolvedCount", "currentlyConfirmedAbsentCount", "pendingProviderEvidenceCount", "firstQuarter", "lastQuarter"], "properties": {"requiredQuarterCount": {"const": 79}, "currentlyResolvedCount": {"const": 0}, "currentlyConfirmedAbsentCount": {"const": 0}, "pendingProviderEvidenceCount": {"const": 79}, "firstQuarter": {"const": "2006Q1"}, "lastQuarter": {"const": "2025Q3"}}},
+    "checks": {"type": "object", "additionalProperties": false, "required": ["allInputHashesExact", "blockedReviewRequiresProviderEvidence", "quarterRosterExact", "twoOutcomeModelDefined", "resolvedOutcomeRepresentable", "confirmedAbsentOutcomeRepresentable", "auditSchemaClosed", "partialPublicationForbidden", "catalogV3Absent", "snapshotV2Absent"], "properties": {"allInputHashesExact": {"const": true}, "blockedReviewRequiresProviderEvidence": {"const": true}, "quarterRosterExact": {"const": true}, "twoOutcomeModelDefined": {"const": true}, "resolvedOutcomeRepresentable": {"const": true}, "confirmedAbsentOutcomeRepresentable": {"const": true}, "auditSchemaClosed": {"const": true}, "partialPublicationForbidden": {"const": true}, "catalogV3Absent": {"const": true}, "snapshotV2Absent": {"const": true}}},
+    "protocol": {"type": "object", "additionalProperties": false, "required": ["networkRequestsMade", "evidenceRowsCollected", "rawArtifactsWritten", "mapV2Materialized", "requestCatalogsMaterialized", "featuresTransformed", "evaluationPerformed", "outerOosRead"], "properties": {"networkRequestsMade": {"const": 0}, "evidenceRowsCollected": {"const": 0}, "rawArtifactsWritten": {"const": 0}, "mapV2Materialized": {"const": false}, "requestCatalogsMaterialized": {"const": 0}, "featuresTransformed": {"const": 0}, "evaluationPerformed": {"const": false}, "outerOosRead": {"const": false}}},
+    "decision": {"type": "object", "additionalProperties": false, "required": ["providerEvidenceCollectionPreregistered", "independentDesignReviewAuthorized", "networkCollectionAuthorized", "providerDiscoveryRequestCatalogAuthorized", "replacementExecutionGateAuthorized", "requestCatalogV3MaterializationAuthorized", "sourceAcquisitionAuthorized", "featureTransformationAuthorized", "candidateGenerationAuthorized", "evaluationAuthorized", "outerOosAuthorized", "nextAllowedAction"], "properties": {"providerEvidenceCollectionPreregistered": {"const": true}, "independentDesignReviewAuthorized": {"const": true}, "networkCollectionAuthorized": {"const": false}, "providerDiscoveryRequestCatalogAuthorized": {"const": false}, "replacementExecutionGateAuthorized": {"const": false}, "requestCatalogV3MaterializationAuthorized": {"const": false}, "sourceAcquisitionAuthorized": {"const": false}, "featureTransformationAuthorized": {"const": false}, "candidateGenerationAuthorized": {"const": false}, "evaluationAuthorized": {"const": false}, "outerOosAuthorized": {"const": false}, "nextAllowedAction": {"type": "string", "minLength": 20}}},
+    "implementation": {"type": "object", "additionalProperties": false, "required": ["module", "sourceSha256"], "properties": {"module": {"const": "regime_eval.e14_fdic_archive_evidence_preregistration"}, "sourceSha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}}}
+  }
+}

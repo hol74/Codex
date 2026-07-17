@@ -1,0 +1,25 @@
+{
+  "schemaVersion": 1,
+  "planId": "e14-fdic-archive-atomic-producer-v2-plan-v1",
+  "frozenAt": "2026-07-17",
+  "remediatesReview": "e14-fdic-archive-atomic-producer-independent-review-v1",
+  "controls": [
+    "parse-and-validate-the-same-authenticated-source-catalog-bytes",
+    "unique-raw-file-hash-and-resolved-archive-id-per-quarter",
+    "quarter-bound-raw-content-and-explicit-negative-provider-marker",
+    "reject-unsubstantiated-intermediate-redirect-hops",
+    "hash-exact-schema-and-validated-execution-gate-bytes",
+    "copy-all-79-raw-files-into-the-sibling-staging-bundle",
+    "single-directory-rename-after-revalidation"
+  ],
+  "executionPolicy": {
+    "networkRequestsMade": 0,
+    "realEvidenceRowsCollected": 0,
+    "realBundlesPublished": 0,
+    "independentReviewRequired": true,
+    "discoveryCatalogAuthorized": false,
+    "executionGateAuthorized": false,
+    "sourceAcquisitionAuthorized": false
+  },
+  "nextAllowedAction": "Independently review producer v2 and its executed adversarial tests before discovery-catalog design"
+}

@@ -1,0 +1,54 @@
+{
+  "schemaVersion": 1,
+  "planId": "e14-fdic-archive-evidence-collection-plan-v1",
+  "frozenAt": "2026-07-17",
+  "scope": {
+    "provider": "FDIC",
+    "allowedHosts": ["www.fdic.gov", "archive.fdic.gov"],
+    "firstQuarter": "2006Q1",
+    "lastQuarter": "2025Q3",
+    "requiredQuarterCount": 79
+  },
+  "admissibleOutcomes": [
+    "resolved-provider-archive-record",
+    "confirmed-absent-provider-primary"
+  ],
+  "resolvedEvidenceFields": [
+    "quarterId", "providerPrimaryUrl", "archiveRecordId", "archiveUrl",
+    "evidenceFileName", "evidenceSha256", "evidenceSizeBytes"
+  ],
+  "absenceEvidenceFields": [
+    "quarterId", "providerPrimaryUrl", "absenceBasis",
+    "evidenceFileName", "evidenceSha256", "evidenceSizeBytes"
+  ],
+  "forbiddenDispositions": [
+    "unresolved-no-local-evidence",
+    "quarter-end-inference",
+    "http-last-modified-inference",
+    "estimated-record-id",
+    "secondary-source-only"
+  ],
+  "completionPolicy": {
+    "all79QuartersMustHaveExactlyOneOutcome": true,
+    "duplicateQuarterIdsForbidden": true,
+    "resolvedEntriesRequireExactArchiveUrl": true,
+    "confirmedAbsentEntriesRequireProviderPrimaryEvidence": true,
+    "partialPublicationForbidden": true,
+    "independentReviewRequiredBeforeExecutionGate": true
+  },
+  "executionPolicy": {
+    "thisStepMayUseNetwork": false,
+    "thisStepMayCollectEvidence": false,
+    "thisStepMayMaterializeMapV2": false,
+    "providerDiscoveryRequestCatalogStillRequired": true,
+    "subsequentExecutionGateMayBeProposedAfterIndependentReview": true,
+    "replacementExecutionGateAuthorized": false,
+    "requestCatalogV3MaterializationAuthorized": false,
+    "sourceAcquisitionAuthorized": false,
+    "featureTransformationAuthorized": false,
+    "candidateGenerationAuthorized": false,
+    "evaluationAuthorized": false,
+    "outerOosAuthorized": false
+  },
+  "nextAllowedAction": "Independently review the provider-primary evidence protocol and the closed map/audit v2 schemas before materializing any discovery request catalog or execution gate"
+}

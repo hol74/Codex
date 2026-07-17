@@ -3,8 +3,7 @@ name = "macro-regime-eval"
 version = "0.1.0"
 description = "Isolated research lab for Macro Regime challenger evaluation"
 requires-python = ">=3.12"
-dependencies = []
+dependencies = ["cryptography>=45,<50"]
 
 [tool.unittest]
 start-directory = "tests"
-

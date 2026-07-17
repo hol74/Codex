@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "contractId": "e14-fdic-archive-quarter-map-contract-v1",
+  "inputHashes": {
+    "requestCatalogV1Sha256": "9498ed5bc1fa399aeb54aa1409aad5384416d1b1dd71bbaa8e608407def280f1",
+    "blockedReviewV1Sha256": "a9b3564c3bdafec43e02dd2154e3ca532a4173aad7b8e7f0c18fdeb878819b6e",
+    "mapPlanV1Sha256": "3228a255458194412cded784bb28c3c5fcb2b855a66d2d235a2d82d6ab3d3b49",
+    "mapSchemaV1Sha256": "92dc52d3ad47f3f300f9df274924ddde1d34989668f0e544f2be430a7496bf92",
+    "auditSchemaV1Sha256": "bc8d577381cb0795d233e9bd4714369defa4d6e388f1da39f6d507167e35002e"
+  },
+  "requiredOutputs": [
+    "e14-fdic-archive-quarter-map-v1.json",
+    "e14-fdic-archive-quarter-map-audit-v1.json"
+  ],
+  "failurePolicy": {
+    "quarterRosterMustEqual79": true,
+    "sourceCatalogRosterMustRemainUnchanged": true,
+    "resolvedRecordRequiresHashBoundLocalEvidence": true,
+    "runtimeArchiveDiscoveryForbidden": true,
+    "networkForbidden": true,
+    "overwriteForbidden": true
+  },
+  "nextAllowedAction": "Independently review the immutable 79-entry quarter-to-archive map and its unresolved dispositions before versioning any replacement execution gate; metadata network collection remains unauthorized"
+}

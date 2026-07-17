@@ -1,0 +1,6 @@
+{
+  "schemaVersion": 1, "planId": "e14-fdic-archive-atomic-producer-v4-plan-v1", "frozenAt": "2026-07-17", "remediatesReview": "e14-fdic-archive-atomic-producer-v3-independent-review-v1",
+  "controls": ["deployment-compiled-contract-registry", "signed-contract-catalog-run-context", "signed-append-only-collector-receipt", "synthetic-versus-network-attestation-separation", "descriptor-based-no-follow-read", "complete-staging-reread-and-hash-check", "signed-test-receipt-with-retained-transcript-and-derived-module-file"],
+  "executionPolicy": {"networkRequestsMade": 0, "realEvidenceRowsCollected": 0, "realBundlesPublished": 0, "productionContractsPinned": 0, "independentReviewRequired": true, "discoveryCatalogAuthorized": false, "executionGateAuthorized": false, "sourceAcquisitionAuthorized": false},
+  "nextAllowedAction": "Independently review producer v4 trust registry, context-bound receipts, descriptor reads, complete staging verification and signed test receipt"
+}

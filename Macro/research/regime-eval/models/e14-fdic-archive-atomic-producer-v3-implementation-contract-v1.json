@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "contractId": "e14-fdic-archive-atomic-producer-v3-implementation-contract-v1",
+  "inputHashes": {
+    "blockedReviewSha256": "d00412d75d175f785e9867f7fc859407b8af6ff00bb859c16ea99c1bf6f647bf",
+    "planSha256": "29bc207fb9797a0f3caf4fa3e5065ab508e0573f430e65179d548cf50cbd6be3",
+    "envelopeSchemaSha256": "ba24222c33895ca149e20b97bd865e0d82169d632be50e5ed1515775ed95f1b1",
+    "bundleAuditSchemaSha256": "6dacd04a5b38c84430e698774a5eefd57538d10cf693c670da37b18b7270fed5",
+    "projectConfigurationSha256": "6ab676919a02e8fefbeae07287e4b7abccb65437ef65cae4040d5ea8825857e8"
+  },
+  "runtimeTrustPolicy": {
+    "trustedContractSha256MustBeExternallyPinned": true,
+    "everyRuntimeInputHashMustMatchContract": true,
+    "collectorPublicKeyMustBeContractBound": true,
+    "unsignedResponseEnvelopesForbidden": true,
+    "realRuntimeContractMaterializationAuthorized": false
+  },
+  "authorizationPolicy": {"producerV3ImplementationAuthorized": true, "independentReviewAuthorized": true, "networkAuthorized": false, "discoveryCatalogAuthorized": false, "executionGateAuthorized": false, "sourceAcquisitionAuthorized": false},
+  "nextAllowedAction": "Independently review producer v3, its cryptographic trust boundary and hash-bound test receipt before discovery-catalog design"
+}

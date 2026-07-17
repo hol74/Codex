@@ -1,0 +1,22 @@
+{
+  "schemaVersion": 1,
+  "contractId": "e14-fdic-archive-atomic-producer-v2-contract-v1",
+  "inputHashes": {
+    "blockedReviewSha256": "e2a48acc8a616e21ca0863baf25eb93428fed4d437c167bcae636814e4ccadff",
+    "planSha256": "c6966be2bea5ca31797edda7c2dac3882d00a3f7769c96823cb1e8a857dbb76f",
+    "sourceCatalogSha256": "9498ed5bc1fa399aeb54aa1409aad5384416d1b1dd71bbaa8e608407def280f1",
+    "sourceCatalogSchemaSha256": "9b7ef0f04b7614f6049a07a7bfc3bc8b475a5e35f1ba4504856e38dac0b544d5",
+    "evidenceManifestSchemaSha256": "96d5d842dd96f51695d88dc435c8743dbb46579fb052ccb6550231bcf26d6637",
+    "mapSchemaV3Sha256": "2338c64d6b014d8966e297d4d2da5f3a8eb05b069ad5dca008295c0035acbb18",
+    "mapAuditSchemaV3Sha256": "f979a87556523fcf4d9cedd67f9545b053742021755d9a26f5daf9804c7a24ad"
+  },
+  "authorizationPolicy": {
+    "producerV2ImplementationAuthorized": true,
+    "independentReviewAuthorized": true,
+    "networkAuthorized": false,
+    "discoveryCatalogAuthorized": false,
+    "executionGateAuthorized": false,
+    "sourceAcquisitionAuthorized": false
+  },
+  "nextAllowedAction": "Independently review producer v2 and its executed adversarial tests before discovery-catalog design"
+}

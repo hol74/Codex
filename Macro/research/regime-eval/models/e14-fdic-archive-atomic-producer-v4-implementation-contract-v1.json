@@ -1,0 +1,6 @@
+{
+  "schemaVersion": 1, "contractId": "e14-fdic-archive-atomic-producer-v4-implementation-contract-v1",
+  "inputHashes": {"blockedReviewSha256": "34c761646f8fd1672e5804990bf4c35b90b5f6205500d0af6f190cf3729d7c75", "envelopeSchemaV2Sha256": "957424c8c87af90015ee8da91e866491b48bc3a4ee7be289d622b28effff825a", "collectorReceiptSchemaV1Sha256": "b906303289cb613592f4708a4b6ec94c0a0c85e2bcbb5844bc911e446f57df2e", "bundleAuditSchemaV4Sha256": "d8fb1cd92034be51c95757f98a217e4383503a1e3fbe83fe58f4b9abd89db52b", "runtimeTestContractSha256": "6ac6850f7009816161dc000182674b60fc5aba68dc2aec3b7712874c9bb3935c"},
+  "authorizationPolicy": {"producerV4ImplementationAuthorized": true, "independentReviewAuthorized": true, "networkAuthorized": false, "productionContractPinningAuthorized": false, "discoveryCatalogAuthorized": false, "executionGateAuthorized": false, "sourceAcquisitionAuthorized": false},
+  "nextAllowedAction": "Independently review producer v4 trust registry, context-bound receipts, descriptor reads, complete staging verification and signed test receipt"
+}

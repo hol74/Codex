@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://macro-regime.local/schemas/e14-fdic-archive-atomic-producer-v3-audit-v1.json",
+  "type": "object", "additionalProperties": false,
+  "required": ["schemaVersion", "artifactType", "status", "inputs", "implementation", "checks", "testReceipt", "protocol", "decision"],
+  "properties": {
+    "schemaVersion": {"const": 1}, "artifactType": {"const": "E14FdicArchiveAtomicProducerV3Audit"}, "status": {"const": "FDIC_ARCHIVE_ATOMIC_PRODUCER_V3_IMPLEMENTED_INDEPENDENT_REVIEW_REQUIRED"},
+    "inputs": {"type": "object", "additionalProperties": false, "required": ["contractSha256", "blockedReviewSha256", "planSha256", "envelopeSchemaSha256", "bundleAuditSchemaSha256"], "properties": {"contractSha256": {"$ref": "#/$defs/sha"}, "blockedReviewSha256": {"$ref": "#/$defs/sha"}, "planSha256": {"$ref": "#/$defs/sha"}, "envelopeSchemaSha256": {"$ref": "#/$defs/sha"}, "bundleAuditSchemaSha256": {"$ref": "#/$defs/sha"}}},
+    "implementation": {"type": "object", "additionalProperties": false, "required": ["moduleSha256", "testRunnerSha256", "testsSha256"], "properties": {"moduleSha256": {"$ref": "#/$defs/sha"}, "testRunnerSha256": {"$ref": "#/$defs/sha"}, "testsSha256": {"$ref": "#/$defs/sha"}}},
+    "checks": {"type": "object", "additionalProperties": false, "required": ["contractTrustAnchorRequired", "allRuntimeInputsContractBound", "signedEnvelopeRequired", "requestResponseRedirectBodyBound", "pathConfinementRepeated", "postWriteRevalidationRequired", "atomicPublicationImplemented", "testReceiptExecutionDerived"], "properties": {"contractTrustAnchorRequired": {"const": true}, "allRuntimeInputsContractBound": {"const": true}, "signedEnvelopeRequired": {"const": true}, "requestResponseRedirectBodyBound": {"const": true}, "pathConfinementRepeated": {"const": true}, "postWriteRevalidationRequired": {"const": true}, "atomicPublicationImplemented": {"const": true}, "testReceiptExecutionDerived": {"const": true}}},
+    "testReceipt": {"type": "object", "additionalProperties": false, "required": ["sha256", "passed", "testCount"], "properties": {"sha256": {"$ref": "#/$defs/sha"}, "passed": {"const": true}, "testCount": {"const": 6}}},
+    "protocol": {"type": "object", "additionalProperties": false, "required": ["networkRequestsMade", "realEvidenceRowsCollected", "realBundlesPublished", "runtimeContractsMaterialized"], "properties": {"networkRequestsMade": {"const": 0}, "realEvidenceRowsCollected": {"const": 0}, "realBundlesPublished": {"const": 0}, "runtimeContractsMaterialized": {"const": 0}}},
+    "decision": {"type": "object", "additionalProperties": false, "required": ["independentReviewAuthorized", "discoveryCatalogAuthorized", "executionGateAuthorized", "sourceAcquisitionAuthorized", "nextAllowedAction"], "properties": {"independentReviewAuthorized": {"const": true}, "discoveryCatalogAuthorized": {"const": false}, "executionGateAuthorized": {"const": false}, "sourceAcquisitionAuthorized": {"const": false}, "nextAllowedAction": {"type": "string", "minLength": 20}}}
+  }, "$defs": {"sha": {"type": "string", "pattern": "^[0-9a-f]{64}$"}}
+}

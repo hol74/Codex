@@ -92,8 +92,17 @@ Le regole di dipendenza complete sono in `docs/adr/0002-dipendenze-layer.md`.
     attivazione scope separato, preregistrazione e acquisizione raw atomica,
     quindi audit vintage. Passano 2 famiglie su 4; H.8/H.10/FDIC richiedono
     artifact datati di release e la trasformazione resta chiusa.
+28. Fase E14.7 chiusa il 2026-07-17 come `safely blocked`: la review finale
+    E14.7ax accetta il boundary v7 fail-closed. Nessuna authority e' provisionata
+    e pubblicazione, rete e downstream restano non autorizzati.
+29. Fase E14.8 chiusa il 2026-07-17 `design-complete` e `safely blocked`:
+    E14.8a ha richiesto remediation, E14.8b ha congelato protocollo operativo e
+    roster non omissibile, E14.8c ha accettato. Nessuna capability autorizzata.
+30. E14.7-E14.8 consolidate tecnicamente il 2026-07-17: checkpoint 0122-0145,
+    contratti, modelli ed evidenze verificati; 653 test verdi e confini
+    fail-closed invariati. Il commit tecnico resta da creare.
 
-Il dettaglio per ogni step e' in `docs/checkpoints/` (progressivi 0001-0105).
+Il dettaglio per ogni step e' in `docs/checkpoints/` (progressivi 0001-0146).
 
 ## Piano operativo da seguire
 
@@ -1048,6 +1057,26 @@ copertura degli episodi.
       `POST_2005_INDEPENDENT_REVIEW_INCOMPLETE`, scope inattivo;
     - prossimo passo esterno: un reviewer realmente indipendente deve aprire
       tutti i locator e restituire le 2 receipt v2 fuori dal bundle immutabile.
+
+23. E14.7g-E14.7ax - catena post-2005 e boundary v7 (COMPLETATA, SAFELY BLOCKED):
+    - completate review, activation, acquisition metadata, remediation e review
+      del producer fino al boundary v7 accettato;
+    - registry production vuoto, nessun fallback locale e pubblicazione
+      incondizionatamente bloccata;
+    - E14.7 chiusa senza provisioning, rete o downstream.
+24. E14.8 - external authority provisioning design (COMPLETATA, ACCEPT):
+    - E14.8a ha respinto il roster omissibile e l'assenza di protocollo operativo;
+    - E14.8b ha reso obbligatorie tutte le dieci evidenze e congelato state
+      machine, CAS, identity, retry, recovery, durability e 14 conformance test;
+    - E14.8c ha accettato la remediation e chiuso il design safely blocked;
+    - provider selection, provisioning, rete, adapter, pubblicazione e
+      downstream restano chiusi e richiedono una fase futura separata.
+25. Consolidamento E14.7-E14.8 (COMPLETATO, READY FOR COMMIT):
+    - inventario, JSON, contratti, hash e vincoli fail-closed verificati;
+    - 240 test C# e 413 test Python superati senza fallimenti;
+    - evidenze locali identificate da hash aggregato, senza cambiare la policy
+      che mantiene `data/` fuori da Git;
+    - checkpoint: `docs/checkpoints/0146-consolidamento-e14-7-e14-8.md`.
 
 Analisi E14:
 `docs/e14-riesame-problema-informativo.md`.

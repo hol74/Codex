@@ -1,0 +1,28 @@
+{
+  "schemaVersion": 1,
+  "planId": "e14-fdic-archive-atomic-producer-v5-plan-v1",
+  "phase": "E14.7as",
+  "objective": "Remediate E14.7ar with externally pinned test-runner trust, durable receipt-chain replay prevention, strict nested hash schemas and explicit platform qualification.",
+  "controls": {
+    "preserveReviewedV4Artifacts": true,
+    "separateV5ContractVerifier": true,
+    "testRunnerPublicKeyDeploymentPinned": true,
+    "receiptPublicKeySelfAssertionForbidden": true,
+    "appendOnlyLedgerRequired": true,
+    "trustedHeadContinuationRequired": true,
+    "acquisitionRunAndNonceConsumedBeforePublication": true,
+    "exactEnvelopeHashRosterRequired": true,
+    "exactInputHashRosterRequired": true,
+    "providerNetworkCaptureUnsupported": true,
+    "windowsNoFollowQualificationRequired": true
+  },
+  "authorizationPolicy": {
+    "syntheticTestPublicationAuthorized": true,
+    "providerNetworkCaptureAuthorized": false,
+    "discoveryCatalogAuthorized": false,
+    "executionGateAuthorized": false,
+    "sourceAcquisitionAuthorized": false,
+    "independentReviewAuthorized": true
+  },
+  "nextAllowedAction": "Implement and test producer v5, freeze a hash-bound audit, then perform an independent review before any downstream use."
+}

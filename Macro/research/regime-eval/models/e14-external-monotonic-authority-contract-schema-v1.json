@@ -1,0 +1,10 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema", "$id": "https://macro-regime.local/schemas/e14-external-monotonic-authority-contract-v1.json",
+  "type": "object", "additionalProperties": false,
+  "required": ["schemaVersion", "authorityId", "deploymentId", "endpointIdentity", "capabilities", "authorizationPolicy"],
+  "properties": {
+    "schemaVersion": {"const": 1}, "authorityId": {"type": "string", "minLength": 16}, "deploymentId": {"type": "string", "minLength": 16}, "endpointIdentity": {"type": "string", "minLength": 16},
+    "capabilities": {"type": "object", "additionalProperties": false, "required": ["externalToCopyableWorkspace", "authenticatedCompareAndSwap", "monotonicAcrossDeployments", "coordinatedRollbackPrevented", "pendingCommittedRecovery", "postRenameRecovery", "crossVolumePreflight", "directoryDurability", "descriptorNoFollowStateReads", "processStartLockIdentity"], "properties": {"externalToCopyableWorkspace": {"const": true}, "authenticatedCompareAndSwap": {"const": true}, "monotonicAcrossDeployments": {"const": true}, "coordinatedRollbackPrevented": {"const": true}, "pendingCommittedRecovery": {"const": true}, "postRenameRecovery": {"const": true}, "crossVolumePreflight": {"const": true}, "directoryDurability": {"const": true}, "descriptorNoFollowStateReads": {"const": true}, "processStartLockIdentity": {"const": true}}},
+    "authorizationPolicy": {"type": "object", "additionalProperties": false, "required": ["productionPublicationAuthorized", "providerNetworkCaptureAuthorized", "discoveryCatalogAuthorized", "executionGateAuthorized", "sourceAcquisitionAuthorized"], "properties": {"productionPublicationAuthorized": {"const": false}, "providerNetworkCaptureAuthorized": {"const": false}, "discoveryCatalogAuthorized": {"const": false}, "executionGateAuthorized": {"const": false}, "sourceAcquisitionAuthorized": {"const": false}}}
+  }
+}

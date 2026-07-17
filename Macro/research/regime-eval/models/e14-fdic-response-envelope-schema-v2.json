@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema", "$id": "https://macro-regime.local/schemas/e14-fdic-response-envelope-v2.json",
+  "type": "object", "additionalProperties": false,
+  "required": ["schemaVersion", "envelopeId", "collectorId", "collectorReceiptId", "contractSha256", "catalogSha256", "acquisitionRunId", "runNonce", "requestId", "quarterId", "requestedUrl", "finalUrl", "redirects", "retrievedAtUtc", "statusCode", "contentType", "outcome", "responseBodyBase64", "responseSha256", "responseSizeBytes", "signatureBase64"],
+  "properties": {
+    "schemaVersion": {"const": 2}, "envelopeId": {"type": "string", "minLength": 3}, "collectorId": {"type": "string", "minLength": 3}, "collectorReceiptId": {"type": "string", "minLength": 3},
+    "contractSha256": {"$ref": "#/$defs/sha"}, "catalogSha256": {"$ref": "#/$defs/sha"}, "acquisitionRunId": {"type": "string", "minLength": 12}, "runNonce": {"type": "string", "minLength": 16},
+    "requestId": {"type": "string", "minLength": 3}, "quarterId": {"type": "string", "pattern": "^20[0-9]{2}Q[1-4]$"}, "requestedUrl": {"type": "string"}, "finalUrl": {"type": "string"},
+    "redirects": {"type": "array", "maxItems": 8, "items": {"type": "object", "additionalProperties": false, "required": ["statusCode", "fromUrl", "location", "toUrl"], "properties": {"statusCode": {"type": "integer", "minimum": 300, "maximum": 399}, "fromUrl": {"type": "string"}, "location": {"type": "string"}, "toUrl": {"type": "string"}}}},
+    "retrievedAtUtc": {"type": "string", "minLength": 20}, "statusCode": {"type": "integer", "minimum": 200, "maximum": 499}, "contentType": {"type": "string", "minLength": 3},
+    "outcome": {"enum": ["resolved-provider-archive-record", "confirmed-absent-provider-primary"]}, "responseBodyBase64": {"type": "string", "minLength": 4}, "responseSha256": {"$ref": "#/$defs/sha"}, "responseSizeBytes": {"type": "integer", "minimum": 1}, "signatureBase64": {"type": "string", "minLength": 80}
+  }, "$defs": {"sha": {"type": "string", "pattern": "^[0-9a-f]{64}$"}}
+}

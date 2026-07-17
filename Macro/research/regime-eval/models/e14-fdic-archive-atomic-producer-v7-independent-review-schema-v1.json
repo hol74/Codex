@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://macro-regime.local/schemas/e14-fdic-archive-atomic-producer-v7-independent-review-v1.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "artifactType", "reviewId", "reviewerId", "reviewedAtUtc", "independenceDeclared", "hashes", "assessments", "decision", "blockingFindings", "observations", "positiveControls", "closureAssessment", "nextAllowedAction"],
+  "properties": {
+    "schemaVersion": {"const": 1},
+    "artifactType": {"const": "E14FdicArchiveAtomicProducerV7IndependentReview"},
+    "reviewId": {"const": "e14-fdic-archive-atomic-producer-v7-independent-review-v1"},
+    "reviewerId": {"type": "string", "minLength": 3},
+    "reviewedAtUtc": {"type": "string", "minLength": 20},
+    "independenceDeclared": {"const": true},
+    "hashes": {
+      "type": "object", "additionalProperties": false,
+      "required": ["blockedReview", "authoritySchema", "plan", "auditSchema", "audit", "authorityVerifier", "producer", "producerTests", "auditTests", "projectConfiguration", "reviewSchema"],
+      "properties": {
+        "blockedReview": {"$ref": "#/$defs/sha"}, "authoritySchema": {"$ref": "#/$defs/sha"}, "plan": {"$ref": "#/$defs/sha"},
+        "auditSchema": {"$ref": "#/$defs/sha"}, "audit": {"$ref": "#/$defs/sha"}, "authorityVerifier": {"$ref": "#/$defs/sha"},
+        "producer": {"$ref": "#/$defs/sha"}, "producerTests": {"$ref": "#/$defs/sha"}, "auditTests": {"$ref": "#/$defs/sha"},
+        "projectConfiguration": {"$ref": "#/$defs/sha"}, "reviewSchema": {"$ref": "#/$defs/sha"}
+      }
+    },
+    "assessments": {
+      "type": "object", "additionalProperties": false,
+      "required": ["hashBindingsExact", "productionAuthorityRegistryEmpty", "registryNotCallerParameterized", "callerSelfPinRejected", "fakeAuthorityRejected", "rejectionOccursBeforeTargetCreation", "rejectionOccursBeforeTargetWrite", "localV6LedgerFallbackAbsent", "localV6AnchorFallbackAbsent", "authoritySchemaClosed", "authoritySchemaRequiresExternalWorkspaceBoundary", "authoritySchemaRequiresAuthenticatedCompareAndSwap", "authoritySchemaRequiresCrossDeploymentMonotonicity", "authoritySchemaRequiresRollbackPrevention", "authoritySchemaRequiresCrashRecoveryGuarantees", "authoritySchemaRequiresCrossVolumePreflight", "authoritySchemaRequiresDirectoryDurability", "authoritySchemaRequiresDescriptorNoFollowReads", "authoritySchemaRequiresProcessStartLockIdentity", "publishRemainsBlockedAfterAuthorityVerification", "externalProvisioningAuthorized", "providerNetworkCaptureAuthorized", "discoveryCatalogAuthorized", "executionGateAuthorized", "sourceAcquisitionAuthorized", "downstreamAuthorized", "safeBlockedClosureSupported"],
+      "properties": {
+        "hashBindingsExact": {"const": true}, "productionAuthorityRegistryEmpty": {"const": true}, "registryNotCallerParameterized": {"const": true},
+        "callerSelfPinRejected": {"const": true}, "fakeAuthorityRejected": {"const": true}, "rejectionOccursBeforeTargetCreation": {"const": true},
+        "rejectionOccursBeforeTargetWrite": {"const": true}, "localV6LedgerFallbackAbsent": {"const": true}, "localV6AnchorFallbackAbsent": {"const": true},
+        "authoritySchemaClosed": {"const": true}, "authoritySchemaRequiresExternalWorkspaceBoundary": {"const": true},
+        "authoritySchemaRequiresAuthenticatedCompareAndSwap": {"const": true}, "authoritySchemaRequiresCrossDeploymentMonotonicity": {"const": true},
+        "authoritySchemaRequiresRollbackPrevention": {"const": true}, "authoritySchemaRequiresCrashRecoveryGuarantees": {"const": true},
+        "authoritySchemaRequiresCrossVolumePreflight": {"const": true}, "authoritySchemaRequiresDirectoryDurability": {"const": true},
+        "authoritySchemaRequiresDescriptorNoFollowReads": {"const": true}, "authoritySchemaRequiresProcessStartLockIdentity": {"const": true},
+        "publishRemainsBlockedAfterAuthorityVerification": {"const": true}, "externalProvisioningAuthorized": {"const": false},
+        "providerNetworkCaptureAuthorized": {"const": false}, "discoveryCatalogAuthorized": {"const": false}, "executionGateAuthorized": {"const": false},
+        "sourceAcquisitionAuthorized": {"const": false}, "downstreamAuthorized": {"const": false}, "safeBlockedClosureSupported": {"const": true}
+      }
+    },
+    "decision": {"const": "accept"},
+    "blockingFindings": {"type": "array", "maxItems": 0},
+    "observations": {"type": "array", "minItems": 1, "items": {"type": "object", "additionalProperties": false, "required": ["severity", "code", "evidence"], "properties": {"severity": {"enum": ["low", "medium", "high", "critical"]}, "code": {"type": "string", "minLength": 3}, "evidence": {"type": "string", "minLength": 20}}}},
+    "positiveControls": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 10}},
+    "closureAssessment": {"type": "string", "minLength": 20},
+    "nextAllowedAction": {"type": "string", "minLength": 20}
+  },
+  "$defs": {"sha": {"type": "string", "pattern": "^[0-9a-f]{64}$"}}
+}

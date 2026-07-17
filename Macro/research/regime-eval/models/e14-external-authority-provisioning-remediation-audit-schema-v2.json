@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://macro-regime.local/schemas/e14-external-authority-provisioning-remediation-audit-v2.json",
+  "type": "object", "additionalProperties": false,
+  "required": ["schemaVersion", "artifactType", "phaseId", "status", "hashes", "checks", "protocol", "decision"],
+  "properties": {
+    "schemaVersion": {"const": 2}, "artifactType": {"const": "E14ExternalAuthorityProvisioningRemediationAudit"}, "phaseId": {"const": "E14.8b"},
+    "status": {"const": "REMEDIATED_OPERATIONAL_PROTOCOL_FROZEN_REVIEW_REQUIRED"},
+    "hashes": {"type": "object", "additionalProperties": false, "required": ["acceptedBoundaryReview", "blockedDesignReview", "remediationSchema", "remediationPlan", "operationalProtocolSchema", "operationalProtocol", "authorityVerifier", "producerV7", "projectConfiguration"], "properties": {
+      "acceptedBoundaryReview":{"$ref":"#/$defs/sha"}, "blockedDesignReview":{"$ref":"#/$defs/sha"}, "remediationSchema":{"$ref":"#/$defs/sha"},
+      "remediationPlan":{"$ref":"#/$defs/sha"}, "operationalProtocolSchema":{"$ref":"#/$defs/sha"}, "operationalProtocol":{"$ref":"#/$defs/sha"},
+      "authorityVerifier":{"$ref":"#/$defs/sha"}, "producerV7":{"$ref":"#/$defs/sha"}, "projectConfiguration":{"$ref":"#/$defs/sha"}
+    }},
+    "checks": {"const": {"blockedFindingsAddressed":true,"allTenEvidenceClassesNonOmissible":true,"protocolSchemaExact":true,"stateMachineAndOperationsFrozen":true,"identityIdempotencyErrorsAndRetryFrozen":true,"recoveryRollbackAndDurabilityFrozen":true,"conformanceMatrixFrozen":true,"productionRegistryStillEmpty":true,"producerV7StillUnconditionallyBlocked":true}},
+    "protocol": {"const": {"networkRequestsMade":0,"providersSelected":0,"remoteResourcesCreated":0,"credentialsCreated":0,"runtimeFilesChanged":0,"targetsPublished":0,"authoritiesProvisioned":0}},
+    "decision": {"const": {"independentRemediationReviewAuthorized":true,"providerSelectionAuthorized":false,"externalProvisioningAuthorized":false,"providerNetworkAuthorized":false,"credentialCreationAuthorized":false,"adapterImplementationAuthorized":false,"productionPublicationAuthorized":false,"downstreamAuthorized":false,"nextAllowedAction":"E14.8c independent review of remediation v2; no operational capability is authorized."}}
+  },
+  "$defs": {"sha": {"type": "string", "pattern": "^[0-9a-f]{64}$"}}
+}

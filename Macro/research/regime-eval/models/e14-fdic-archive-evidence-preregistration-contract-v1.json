@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "contractId": "e14-fdic-archive-evidence-preregistration-contract-v1",
+  "inputHashes": {
+    "blockedReviewV1Sha256": "5241e4b3f3a1eff1ba408c50d4ef4d7d9cded1093a949df6ff0fe534f9873051",
+    "mapV1Sha256": "d63eee9ab7436f3ca161ca1b67a42235407cbf73d292d8ba9f126df97da30b2f",
+    "mapAuditV1Sha256": "2b24ed6fe52667a37ecf6cc4855c664b8e47b5543f4480a3fe606700ceafe5e9",
+    "collectionPlanV1Sha256": "ce6861edd5ff63f69ab0a82cb57271e68d6d4fed30311fba3440b08b956b21ab",
+    "mapSchemaV2Sha256": "dc79cdb77debff972d469d0095824ede6d3d000bfe56fe23872a82ef7ea7c700",
+    "mapAuditSchemaV2Sha256": "ab8dd2ce3460e12c5ee4c473b42c4840d33e655f50efde217e2560b47ca68cd9",
+    "preregistrationAuditSchemaV1Sha256": "e9cddb9c77c89e643850c2f67cda850c0476d789e3696441273306b5bad0c58a"
+  },
+  "expectedQuarterCount": 79,
+  "expectedCurrentResolvedCount": 0,
+  "expectedCurrentConfirmedAbsentCount": 0,
+  "authorizationPolicy": {
+    "providerEvidenceCollectionPreregistrationAuthorized": true,
+    "independentDesignReviewAuthorized": true,
+    "networkCollectionAuthorized": false,
+    "providerDiscoveryRequestCatalogAuthorized": false,
+    "replacementExecutionGateAuthorized": false,
+    "requestCatalogV3MaterializationAuthorized": false,
+    "sourceAcquisitionAuthorized": false,
+    "featureTransformationAuthorized": false,
+    "candidateGenerationAuthorized": false,
+    "evaluationAuthorized": false,
+    "outerOosAuthorized": false
+  },
+  "nextAllowedAction": "Independently review the provider-primary evidence protocol and the closed map/audit v2 schemas before materializing any discovery request catalog or execution gate"
+}

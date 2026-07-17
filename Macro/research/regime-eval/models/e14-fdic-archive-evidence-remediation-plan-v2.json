@@ -1,0 +1,44 @@
+{
+  "schemaVersion": 2,
+  "planId": "e14-fdic-archive-evidence-remediation-plan-v2",
+  "frozenAt": "2026-07-17",
+  "evidenceProvenancePolicy": {
+    "requiredFields": ["evidenceId", "quarterId", "outcome", "requestId", "requestedUrl", "finalUrl", "redirectChain", "retrievedAtUtc", "statusCode", "contentType", "responseSha256", "sizeBytes", "fileName", "evidenceMarker"],
+    "requestedAndFinalHostMustBeProviderPrimary": true,
+    "requestIdentityRequired": true,
+    "responseBytesHashBound": true,
+    "redirectChainFrozen": true
+  },
+  "partitionPolicy": {
+    "requiredQuarterCount": 79,
+    "firstQuarter": "2006Q1",
+    "lastQuarter": "2025Q3",
+    "singleOrderedEntriesArray": true,
+    "exactRosterRequired": true,
+    "duplicateQuarterIdsForbidden": true,
+    "exactlyOneEvidenceRecordPerQuarter": true,
+    "mapEvidenceOutcomeMustMatch": true
+  },
+  "validatorPolicy": {
+    "semanticValidatorRequired": true,
+    "schemaValidationAloneInsufficient": true,
+    "mapAndManifestMustValidateTogether": true,
+    "auditCountsMustMatchValidatedMap": true,
+    "anyFailureBlocksPublication": true
+  },
+  "executionPolicy": {
+    "thisStepMayUseNetwork": false,
+    "thisStepMayMaterializeDiscoveryCatalog": false,
+    "thisStepMayCollectEvidence": false,
+    "thisStepMayMaterializeMapV3": false,
+    "independentReviewRequired": true,
+    "executionGateAuthorized": false,
+    "requestCatalogV3MaterializationAuthorized": false,
+    "sourceAcquisitionAuthorized": false,
+    "featureTransformationAuthorized": false,
+    "candidateGenerationAuthorized": false,
+    "evaluationAuthorized": false,
+    "outerOosAuthorized": false
+  },
+  "nextAllowedAction": "Independently review the URL-bound evidence manifest, map/audit v3 schemas, and semantic fail-closed validator before designing any discovery request catalog"
+}

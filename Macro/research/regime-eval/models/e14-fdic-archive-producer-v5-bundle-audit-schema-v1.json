@@ -1,0 +1,465 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://macro-regime.local/schemas/e14-fdic-archive-producer-v5-bundle-audit-v1.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "artifactType",
+    "status",
+    "contractSha256",
+    "catalogSha256",
+    "acquisitionRunId",
+    "runNonce",
+    "collectorReceiptSha256",
+    "previousReceiptSha256",
+    "ledgerHeadAfterCommit",
+    "inputHashes",
+    "manifestSha256",
+    "mapSha256",
+    "envelopeHashes",
+    "envelopeCount",
+    "allStagedArtifactsRevalidated",
+    "networkCaptureAccepted",
+    "nextAllowedAction"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": 1
+    },
+    "artifactType": {
+      "const": "E14FdicArchiveProducerV5BundleAudit"
+    },
+    "status": {
+      "const": "FDIC_ARCHIVE_LEDGER_BOUND_SYNTHETIC_BUNDLE_COMPLETE"
+    },
+    "contractSha256": {
+      "$ref": "#/$defs/sha"
+    },
+    "catalogSha256": {
+      "$ref": "#/$defs/sha"
+    },
+    "acquisitionRunId": {
+      "type": "string",
+      "minLength": 16
+    },
+    "runNonce": {
+      "type": "string",
+      "minLength": 24
+    },
+    "collectorReceiptSha256": {
+      "$ref": "#/$defs/sha"
+    },
+    "previousReceiptSha256": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "ledgerHeadAfterCommit": {
+      "$ref": "#/$defs/sha"
+    },
+    "inputHashes": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "sourceCatalog",
+        "sourceCatalogSchema",
+        "evidenceManifestSchema",
+        "mapSchema",
+        "bundleAuditSchema",
+        "executionGate",
+        "executionGateSchema",
+        "envelopeSchema",
+        "collectorReceiptSchema",
+        "collectorPublicKey",
+        "ledgerSchema"
+      ],
+      "properties": {
+        "sourceCatalog": {
+          "$ref": "#/$defs/sha"
+        },
+        "sourceCatalogSchema": {
+          "$ref": "#/$defs/sha"
+        },
+        "evidenceManifestSchema": {
+          "$ref": "#/$defs/sha"
+        },
+        "mapSchema": {
+          "$ref": "#/$defs/sha"
+        },
+        "bundleAuditSchema": {
+          "$ref": "#/$defs/sha"
+        },
+        "executionGate": {
+          "$ref": "#/$defs/sha"
+        },
+        "executionGateSchema": {
+          "$ref": "#/$defs/sha"
+        },
+        "envelopeSchema": {
+          "$ref": "#/$defs/sha"
+        },
+        "collectorReceiptSchema": {
+          "$ref": "#/$defs/sha"
+        },
+        "collectorPublicKey": {
+          "$ref": "#/$defs/sha"
+        },
+        "ledgerSchema": {
+          "$ref": "#/$defs/sha"
+        }
+      }
+    },
+    "manifestSha256": {
+      "$ref": "#/$defs/sha"
+    },
+    "mapSha256": {
+      "$ref": "#/$defs/sha"
+    },
+    "envelopeHashes": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "2006q1.html",
+        "2006q2.html",
+        "2006q3.html",
+        "2006q4.html",
+        "2007q1.html",
+        "2007q2.html",
+        "2007q3.html",
+        "2007q4.html",
+        "2008q1.html",
+        "2008q2.html",
+        "2008q3.html",
+        "2008q4.html",
+        "2009q1.html",
+        "2009q2.html",
+        "2009q3.html",
+        "2009q4.html",
+        "2010q1.html",
+        "2010q2.html",
+        "2010q3.html",
+        "2010q4.html",
+        "2011q1.html",
+        "2011q2.html",
+        "2011q3.html",
+        "2011q4.html",
+        "2012q1.html",
+        "2012q2.html",
+        "2012q3.html",
+        "2012q4.html",
+        "2013q1.html",
+        "2013q2.html",
+        "2013q3.html",
+        "2013q4.html",
+        "2014q1.html",
+        "2014q2.html",
+        "2014q3.html",
+        "2014q4.html",
+        "2015q1.html",
+        "2015q2.html",
+        "2015q3.html",
+        "2015q4.html",
+        "2016q1.html",
+        "2016q2.html",
+        "2016q3.html",
+        "2016q4.html",
+        "2017q1.html",
+        "2017q2.html",
+        "2017q3.html",
+        "2017q4.html",
+        "2018q1.html",
+        "2018q2.html",
+        "2018q3.html",
+        "2018q4.html",
+        "2019q1.html",
+        "2019q2.html",
+        "2019q3.html",
+        "2019q4.html",
+        "2020q1.html",
+        "2020q2.html",
+        "2020q3.html",
+        "2020q4.html",
+        "2021q1.html",
+        "2021q2.html",
+        "2021q3.html",
+        "2021q4.html",
+        "2022q1.html",
+        "2022q2.html",
+        "2022q3.html",
+        "2022q4.html",
+        "2023q1.html",
+        "2023q2.html",
+        "2023q3.html",
+        "2023q4.html",
+        "2024q1.html",
+        "2024q2.html",
+        "2024q3.html",
+        "2024q4.html",
+        "2025q1.html",
+        "2025q2.html",
+        "2025q3.html"
+      ],
+      "properties": {
+        "2006q1.html": {
+          "$ref": "#/$defs/sha"
+        },
+        "2006q2.html": {
+          "$ref": "#/$defs/sha"
+        },
+        "2006q3.html": {
+          "$ref": "#/$defs/sha"
+        },
+        "2006q4.html": {
+          "$ref": "#/$defs/sha"
+        },
+        "2007q1.html": {
+          "$ref": "#/$defs/sha"
+        },
+        "2007q2.html": {
+          "$ref": "#/$defs/sha"
+        },
+        "2007q3.html": {
+          "$ref": "#/$defs/sha"
+        },
+        "2007q4.html": {
+          "$ref": "#/$defs/sha"
+        },
+        "2008q1.html": {
+          "$ref": "#/$defs/sha"
+        },
+        "2008q2.html": {
+          "$ref": "#/$defs/sha"
+        },
+        "2008q3.html": {
+          "$ref": "#/$defs/sha"
+        },
+        "2008q4.html": {
+          "$ref": "#/$defs/sha"
+        },
+        "2009q1.html": {
+          "$ref": "#/$defs/sha"
+        },
+        "2009q2.html": {
+          "$ref": "#/$defs/sha"
+        },
+        "2009q3.html": {
+          "$ref": "#/$defs/sha"
+        },
+        "2009q4.html": {
+          "$ref": "#/$defs/sha"
+        },
+        "2010q1.html": {
+          "$ref": "#/$defs/sha"
+        },
+        "2010q2.html": {
+          "$ref": "#/$defs/sha"
+        },
+        "2010q3.html": {
+          "$ref": "#/$defs/sha"
+        },
+        "2010q4.html": {
+          "$ref": "#/$defs/sha"
+        },
+        "2011q1.html": {
+          "$ref": "#/$defs/sha"
+        },
+        "2011q2.html": {
+          "$ref": "#/$defs/sha"
+        },
+        "2011q3.html": {
+          "$ref": "#/$defs/sha"
+        },
+        "2011q4.html": {
+          "$ref": "#/$defs/sha"
+        },
+        "2012q1.html": {
+          "$ref": "#/$defs/sha"
+        },
+        "2012q2.html": {
+          "$ref": "#/$defs/sha"
+        },
+        "2012q3.html": {
+          "$ref": "#/$defs/sha"
+        },
+        "2012q4.html": {
+          "$ref": "#/$defs/sha"
+        },
+        "2013q1.html": {
+          "$ref": "#/$defs/sha"
+        },
+        "2013q2.html": {
+          "$ref": "#/$defs/sha"
+        },
+        "2013q3.html": {
+          "$ref": "#/$defs/sha"
+        },
+        "2013q4.html": {
+          "$ref": "#/$defs/sha"
+        },
+        "2014q1.html": {
+          "$ref": "#/$defs/sha"
+        },
+        "2014q2.html": {
+          "$ref": "#/$defs/sha"
+        },
+        "2014q3.html": {
+          "$ref": "#/$defs/sha"
+        },
+        "2014q4.html": {
+          "$ref": "#/$defs/sha"
+        },
+        "2015q1.html": {
+          "$ref": "#/$defs/sha"
+        },
+        "2015q2.html": {
+          "$ref": "#/$defs/sha"
+        },
+        "2015q3.html": {
+          "$ref": "#/$defs/sha"
+        },
+        "2015q4.html": {
+          "$ref": "#/$defs/sha"
+        },
+        "2016q1.html": {
+          "$ref": "#/$defs/sha"
+        },
+        "2016q2.html": {
+          "$ref": "#/$defs/sha"
+        },
+        "2016q3.html": {
+          "$ref": "#/$defs/sha"
+        },
+        "2016q4.html": {
+          "$ref": "#/$defs/sha"
+        },
+        "2017q1.html": {
+          "$ref": "#/$defs/sha"
+        },
+        "2017q2.html": {
+          "$ref": "#/$defs/sha"
+        },
+        "2017q3.html": {
+          "$ref": "#/$defs/sha"
+        },
+        "2017q4.html": {
+          "$ref": "#/$defs/sha"
+        },
+        "2018q1.html": {
+          "$ref": "#/$defs/sha"
+        },
+        "2018q2.html": {
+          "$ref": "#/$defs/sha"
+        },
+        "2018q3.html": {
+          "$ref": "#/$defs/sha"
+        },
+        "2018q4.html": {
+          "$ref": "#/$defs/sha"
+        },
+        "2019q1.html": {
+          "$ref": "#/$defs/sha"
+        },
+        "2019q2.html": {
+          "$ref": "#/$defs/sha"
+        },
+        "2019q3.html": {
+          "$ref": "#/$defs/sha"
+        },
+        "2019q4.html": {
+          "$ref": "#/$defs/sha"
+        },
+        "2020q1.html": {
+          "$ref": "#/$defs/sha"
+        },
+        "2020q2.html": {
+          "$ref": "#/$defs/sha"
+        },
+        "2020q3.html": {
+          "$ref": "#/$defs/sha"
+        },
+        "2020q4.html": {
+          "$ref": "#/$defs/sha"
+        },
+        "2021q1.html": {
+          "$ref": "#/$defs/sha"
+        },
+        "2021q2.html": {
+          "$ref": "#/$defs/sha"
+        },
+        "2021q3.html": {
+          "$ref": "#/$defs/sha"
+        },
+        "2021q4.html": {
+          "$ref": "#/$defs/sha"
+        },
+        "2022q1.html": {
+          "$ref": "#/$defs/sha"
+        },
+        "2022q2.html": {
+          "$ref": "#/$defs/sha"
+        },
+        "2022q3.html": {
+          "$ref": "#/$defs/sha"
+        },
+        "2022q4.html": {
+          "$ref": "#/$defs/sha"
+        },
+        "2023q1.html": {
+          "$ref": "#/$defs/sha"
+        },
+        "2023q2.html": {
+          "$ref": "#/$defs/sha"
+        },
+        "2023q3.html": {
+          "$ref": "#/$defs/sha"
+        },
+        "2023q4.html": {
+          "$ref": "#/$defs/sha"
+        },
+        "2024q1.html": {
+          "$ref": "#/$defs/sha"
+        },
+        "2024q2.html": {
+          "$ref": "#/$defs/sha"
+        },
+        "2024q3.html": {
+          "$ref": "#/$defs/sha"
+        },
+        "2024q4.html": {
+          "$ref": "#/$defs/sha"
+        },
+        "2025q1.html": {
+          "$ref": "#/$defs/sha"
+        },
+        "2025q2.html": {
+          "$ref": "#/$defs/sha"
+        },
+        "2025q3.html": {
+          "$ref": "#/$defs/sha"
+        }
+      }
+    },
+    "envelopeCount": {
+      "const": 79
+    },
+    "allStagedArtifactsRevalidated": {
+      "const": true
+    },
+    "networkCaptureAccepted": {
+      "const": false
+    },
+    "nextAllowedAction": {
+      "type": "string",
+      "minLength": 20
+    }
+  },
+  "$defs": {
+    "sha": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    }
+  }
+}

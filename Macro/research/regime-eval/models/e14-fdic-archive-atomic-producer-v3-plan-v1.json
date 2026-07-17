@@ -1,0 +1,18 @@
+{
+  "schemaVersion": 1,
+  "planId": "e14-fdic-archive-atomic-producer-v3-plan-v1",
+  "frozenAt": "2026-07-17",
+  "remediatesReview": "e14-fdic-archive-atomic-producer-v2-independent-review-v1",
+  "controls": [
+    "externally-pinned-contract-sha256-trust-anchor",
+    "contract-hash-verification-for-every-payload-schema-gate-and-public-key",
+    "ed25519-signed-request-response-envelopes",
+    "signed-request-quarter-url-redirect-and-body-binding",
+    "confinement-and-regular-file-check-on-every-read",
+    "post-write-envelope-reread-and-hash-verification",
+    "single-directory-atomic-publication",
+    "execution-derived-hash-bound-test-receipt"
+  ],
+  "executionPolicy": {"networkRequestsMade": 0, "realEvidenceRowsCollected": 0, "realBundlesPublished": 0, "independentReviewRequired": true, "discoveryCatalogAuthorized": false, "executionGateAuthorized": false, "sourceAcquisitionAuthorized": false},
+  "nextAllowedAction": "Independently review producer v3, its cryptographic trust boundary and hash-bound test receipt before discovery-catalog design"
+}

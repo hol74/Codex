@@ -1,0 +1,7 @@
+{
+  "schemaVersion": 1, "planId": "e14-fdic-archive-atomic-producer-v7-plan-v1", "phase": "E14.7aw",
+  "objective": "Replace local-anchor claims with an explicit external monotonic authority boundary and fail closed until a real authority is provisioned and independently reviewed.",
+  "controls": {"preserveReviewedV6Artifacts": true, "localFilesystemAuthorityForbidden": true, "callerSelfPinForbidden": true, "emptyProductionAuthorityRegistryRequired": true, "publicationWithoutProvisionedAuthorityForbidden": true, "networkFallbackForbidden": true},
+  "authorizationPolicy": {"producerV7FailClosedImplementationAuthorized": true, "externalAuthorityProvisioningAuthorized": false, "productionPublicationAuthorized": false, "providerNetworkCaptureAuthorized": false, "discoveryCatalogAuthorized": false, "executionGateAuthorized": false, "sourceAcquisitionAuthorized": false, "independentReviewAuthorized": true},
+  "nextAllowedAction": "Independently review the v7 external-authority boundary before separately provisioning any monotonic state service."
+}

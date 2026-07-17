@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://macro-regime.local/schemas/e14-fdic-archive-quarter-map-audit-v1.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "artifactType", "status", "inputs", "outputs", "checks", "inventory", "protocol", "decision", "implementation"],
+  "properties": {
+    "schemaVersion": {"const": 1},
+    "artifactType": {"const": "E14FdicArchiveQuarterMapAudit"},
+    "status": {"const": "FDIC_ARCHIVE_QUARTER_MAP_MATERIALIZED_INDEPENDENT_REVIEW_REQUIRED"},
+    "inputs": {"type": "object"},
+    "outputs": {"type": "object"},
+    "checks": {"type": "object"},
+    "inventory": {"type": "object"},
+    "protocol": {"type": "object"},
+    "decision": {"type": "object"},
+    "implementation": {"type": "object"}
+  }
+}

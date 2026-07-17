@@ -1,0 +1,62 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "E14ExternalAuthorityProvisioningPreregistration",
+  "phaseId": "E14.8",
+  "boundaryReviewSha256": "2c561b61fb84722310e61ee9a3ff08a948cd81cf7d1edcc5e4c1818dbb7c9662",
+  "scope": {
+    "designOnly": true,
+    "providerSelected": false,
+    "remoteResourcesCreated": false,
+    "credentialsCreated": false,
+    "runtimeCodeChanged": false,
+    "networkRequestsMade": 0
+  },
+  "requiredCapabilities": {
+    "externalToCopyableWorkspace": true,
+    "deploymentIdentityBound": true,
+    "immutableDeploymentPin": true,
+    "closedContractValidation": true,
+    "mutualAuthentication": true,
+    "leastPrivilege": true,
+    "authenticatedCompareAndSwap": true,
+    "crossDeploymentMonotonicity": true,
+    "coordinatedRollbackPrevention": true,
+    "idempotentOperations": true,
+    "readAfterWriteVerification": true,
+    "pendingCommittedRecovery": true,
+    "postRenameRecovery": true,
+    "crossVolumePreflight": true,
+    "directoryDurability": true,
+    "descriptorNoFollowReads": true,
+    "processStartLockIdentity": true,
+    "tamperEvidentReceipts": true
+  },
+  "requiredProvisioningEvidence": [
+    "provider-identity",
+    "endpoint-identity",
+    "certificate-or-key-fingerprints",
+    "tenant-and-deployment-binding",
+    "access-policy",
+    "retention-and-rollback-policy",
+    "failure-injection-report",
+    "operations-owner",
+    "incident-runbook",
+    "deprovisioning-plan"
+  ],
+  "gates": {
+    "independentDesignReviewPassed": false,
+    "providerSelected": false,
+    "credentialsProvisioned": false,
+    "endpointReachable": false,
+    "adapterImplemented": false,
+    "failureModesPassed": false,
+    "externalProvisioningAuthorized": false,
+    "providerNetworkAuthorized": false,
+    "productionPublicationAuthorized": false,
+    "discoveryCatalogAuthorized": false,
+    "executionGateAuthorized": false,
+    "sourceAcquisitionAuthorized": false,
+    "downstreamAuthorized": false
+  },
+  "nextAllowedAction": "E14.8a independent review of this design-only provisioning preregistration; no provider selection, provisioning, network access, adapter implementation or publication is authorized."
+}

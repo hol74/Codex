@@ -1,0 +1,28 @@
+{
+  "schemaVersion": 1,
+  "planId": "e14-fdic-archive-atomic-producer-v6-plan-v1",
+  "phase": "E14.7au",
+  "objective": "Remediate E14.7at with one code-pinned deployment state root, a separate append-only monotonic anchor, recoverable publication transactions and owner-aware stale-lock recovery.",
+  "controls": {
+    "preserveReviewedV5Artifacts": true,
+    "stateRootIndependentOfTarget": true,
+    "stateRootDerivedFromImmutableModuleLocation": true,
+    "separateMonotonicAnchorRoot": true,
+    "anchorAppendUsesExclusiveCreate": true,
+    "ledgerDeletionDetected": true,
+    "validPrefixRollbackDetected": true,
+    "pendingCommittedTransactionStates": true,
+    "postLedgerCrashRecovery": true,
+    "deadOwnerLockRecovery": true,
+    "providerNetworkCaptureUnsupported": true
+  },
+  "authorizationPolicy": {
+    "syntheticTestPublicationAuthorized": true,
+    "providerNetworkCaptureAuthorized": false,
+    "discoveryCatalogAuthorized": false,
+    "executionGateAuthorized": false,
+    "sourceAcquisitionAuthorized": false,
+    "independentReviewAuthorized": true
+  },
+  "nextAllowedAction": "Implement and test the v6 state layer, freeze a hash-bound audit, then perform independent review before any downstream use."
+}

@@ -1,0 +1,37 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://macro-regime.local/schemas/e14-fdic-archive-evidence-manifest-v1.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "artifactType", "manifestId", "status", "records"],
+  "properties": {
+    "schemaVersion": {"const": 1},
+    "artifactType": {"const": "E14FdicArchiveEvidenceManifest"},
+    "manifestId": {"const": "e14-fdic-archive-evidence-manifest-v1"},
+    "status": {"const": "FDIC_ARCHIVE_PROVIDER_EVIDENCE_COMPLETE"},
+    "records": {"type": "array", "minItems": 79, "maxItems": 79, "items": {"$ref": "#/$defs/record"}}
+  },
+  "$defs": {
+    "record": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["evidenceId", "quarterId", "outcome", "requestId", "requestedUrl", "finalUrl", "redirectChain", "retrievedAtUtc", "statusCode", "contentType", "responseSha256", "sizeBytes", "fileName", "evidenceMarker"],
+      "properties": {
+        "evidenceId": {"type": "string", "minLength": 3},
+        "quarterId": {"type": "string", "pattern": "^20[0-9]{2}Q[1-4]$"},
+        "outcome": {"enum": ["resolved-provider-archive-record", "confirmed-absent-provider-primary"]},
+        "requestId": {"type": "string", "minLength": 3},
+        "requestedUrl": {"type": "string", "pattern": "^https://archive\\.fdic\\.gov/.*$"},
+        "finalUrl": {"type": "string", "pattern": "^https://archive\\.fdic\\.gov/.*$"},
+        "redirectChain": {"type": "array", "maxItems": 8, "items": {"type": "string", "pattern": "^https://(www|archive)\\.fdic\\.gov/.*$"}},
+        "retrievedAtUtc": {"type": "string", "minLength": 20},
+        "statusCode": {"type": "integer", "minimum": 200, "maximum": 499},
+        "contentType": {"type": "string", "minLength": 3},
+        "responseSha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "sizeBytes": {"type": "integer", "minimum": 1},
+        "fileName": {"type": "string", "minLength": 1},
+        "evidenceMarker": {"type": "string", "minLength": 3}
+      }
+    }
+  }
+}

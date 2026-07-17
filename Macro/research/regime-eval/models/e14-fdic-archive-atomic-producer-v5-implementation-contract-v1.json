@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 1,
+  "contractId": "e14-fdic-archive-atomic-producer-v5-implementation-contract-v1",
+  "inputHashes": {
+    "blockedReviewSha256": "4a344dd1835499aeab68dd57d8850d31fe0d0b5f71fe1f40261d571b56763f69",
+    "planSha256": "fbaa3e8ad24392f98e18a62bb565c7b7dd9c283ae5e47abe252110607d8d6e4a",
+    "collectorReceiptSchemaV2Sha256": "fb1bd4cee717e8748fee5d430ab549521bf62ee8194defb59c704111da68559a",
+    "ledgerSchemaV1Sha256": "d0bd4785d14bd52d02ea80d7823e43077eb6ae2242e92dc7345dfb80e164062c",
+    "bundleAuditSchemaV5Sha256": "280b2cd8e8eb6cbe882ed80df27ce5cc6c89b7ce403d8fcadb755d0ceed1fd87",
+    "runtimeTestContractSha256": "1483ee68f3d9af0cc5a086897ec53eb3e89950ead7a77dac6abdbdf1207e67fe"
+  },
+  "requiredGuarantees": {
+    "callerCannotSupplyTrustedContractHash": true,
+    "testRunnerKeyExternallyPinned": true,
+    "receiptChainHeadVerified": true,
+    "runAndNonceAtomicallyConsumed": true,
+    "ledgerCommittedBeforeBundlePublication": true,
+    "nestedHashRostersClosed": true,
+    "providerNetworkModeRejected": true,
+    "platformNoFollowQualificationRecorded": true
+  },
+  "authorizationPolicy": {
+    "producerV5ImplementationAuthorized": true,
+    "independentReviewAuthorized": true,
+    "providerNetworkCaptureAuthorized": false,
+    "discoveryCatalogAuthorized": false,
+    "executionGateAuthorized": false,
+    "sourceAcquisitionAuthorized": false
+  },
+  "nextAllowedAction": "Independently review producer v5 trust anchors, durable ledger semantics, strict schemas, platform qualification and pinned test receipt."
+}

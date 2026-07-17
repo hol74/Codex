@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://macro-regime.local/schemas/e14-external-authority-provisioning-preregistration-audit-v1.json",
+  "type": "object", "additionalProperties": false,
+  "required": ["schemaVersion", "artifactType", "phaseId", "status", "hashes", "checks", "protocol", "decision"],
+  "properties": {
+    "schemaVersion": {"const": 1},
+    "artifactType": {"const": "E14ExternalAuthorityProvisioningPreregistrationAudit"},
+    "phaseId": {"const": "E14.8"},
+    "status": {"const": "DESIGN_PREREGISTERED_REVIEW_REQUIRED_PROVISIONING_BLOCKED"},
+    "hashes": {
+      "type": "object", "additionalProperties": false,
+      "required": ["acceptedBoundaryReview", "authorityContractSchema", "preregistrationSchema", "provisioningPlan", "authorityVerifier", "producerV7", "projectConfiguration"],
+      "properties": {
+        "acceptedBoundaryReview": {"$ref": "#/$defs/sha"}, "authorityContractSchema": {"$ref": "#/$defs/sha"},
+        "preregistrationSchema": {"$ref": "#/$defs/sha"}, "provisioningPlan": {"$ref": "#/$defs/sha"},
+        "authorityVerifier": {"$ref": "#/$defs/sha"}, "producerV7": {"$ref": "#/$defs/sha"},
+        "projectConfiguration": {"$ref": "#/$defs/sha"}
+      }
+    },
+    "checks": {
+      "type": "object", "additionalProperties": false,
+      "required": ["acceptedBoundaryReviewBound", "planSchemaClosed", "allMissingV6GuaranteesRequired", "futureEvidenceRosterFrozen", "providerNeutral", "productionRegistryStillEmpty", "publicationStillUnconditionallyBlocked"],
+      "properties": {
+        "acceptedBoundaryReviewBound": {"const": true}, "planSchemaClosed": {"const": true}, "allMissingV6GuaranteesRequired": {"const": true},
+        "futureEvidenceRosterFrozen": {"const": true}, "providerNeutral": {"const": true}, "productionRegistryStillEmpty": {"const": true},
+        "publicationStillUnconditionallyBlocked": {"const": true}
+      }
+    },
+    "protocol": {
+      "type": "object", "additionalProperties": false,
+      "required": ["networkRequestsMade", "providersSelected", "remoteResourcesCreated", "credentialsCreated", "runtimeFilesChanged", "targetsPublished", "authoritiesProvisioned"],
+      "properties": {
+        "networkRequestsMade": {"const": 0}, "providersSelected": {"const": 0}, "remoteResourcesCreated": {"const": 0},
+        "credentialsCreated": {"const": 0}, "runtimeFilesChanged": {"const": 0}, "targetsPublished": {"const": 0}, "authoritiesProvisioned": {"const": 0}
+      }
+    },
+    "decision": {
+      "type": "object", "additionalProperties": false,
+      "required": ["independentReviewAuthorized", "externalProvisioningAuthorized", "providerNetworkAuthorized", "adapterImplementationAuthorized", "productionPublicationAuthorized", "downstreamAuthorized", "nextAllowedAction"],
+      "properties": {
+        "independentReviewAuthorized": {"const": true}, "externalProvisioningAuthorized": {"const": false}, "providerNetworkAuthorized": {"const": false},
+        "adapterImplementationAuthorized": {"const": false}, "productionPublicationAuthorized": {"const": false}, "downstreamAuthorized": {"const": false},
+        "nextAllowedAction": {"const": "E14.8a independent review of the E14.8 design-only preregistration; all provisioning and execution capabilities remain closed."}
+      }
+    }
+  },
+  "$defs": {"sha": {"type": "string", "pattern": "^[0-9a-f]{64}$"}}
+}

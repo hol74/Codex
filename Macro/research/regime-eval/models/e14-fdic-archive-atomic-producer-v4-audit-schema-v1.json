@@ -1,0 +1,12 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema", "$id": "https://macro-regime.local/schemas/e14-fdic-archive-atomic-producer-v4-audit-v1.json", "type": "object", "additionalProperties": false,
+  "required": ["schemaVersion", "artifactType", "status", "hashes", "checks", "testExecution", "protocol", "decision"],
+  "properties": {
+    "schemaVersion": {"const": 1}, "artifactType": {"const": "E14FdicArchiveAtomicProducerV4Audit"}, "status": {"const": "FDIC_ARCHIVE_ATOMIC_PRODUCER_V4_IMPLEMENTED_INDEPENDENT_REVIEW_REQUIRED"},
+    "hashes": {"type": "object", "minProperties": 12, "maxProperties": 12},
+    "checks": {"type": "object", "additionalProperties": false, "required": ["callerCannotSupplyTrustedHash", "contextReplayBlocked", "collectorReceiptSigned", "networkAttestationSeparated", "descriptorNoFollowReads", "allStagedArtifactsRevalidated", "testReceiptSignedAndTranscriptRetained"], "properties": {"callerCannotSupplyTrustedHash": {"const": true}, "contextReplayBlocked": {"const": true}, "collectorReceiptSigned": {"const": true}, "networkAttestationSeparated": {"const": true}, "descriptorNoFollowReads": {"const": true}, "allStagedArtifactsRevalidated": {"const": true}, "testReceiptSignedAndTranscriptRetained": {"const": true}}},
+    "testExecution": {"type": "object", "additionalProperties": false, "required": ["receiptSha256", "transcriptSha256", "passed", "testsRun"], "properties": {"receiptSha256": {"$ref": "#/$defs/sha"}, "transcriptSha256": {"$ref": "#/$defs/sha"}, "passed": {"const": true}, "testsRun": {"const": 6}}},
+    "protocol": {"type": "object", "additionalProperties": false, "required": ["networkRequestsMade", "realEvidenceRowsCollected", "realBundlesPublished", "productionContractsPinned"], "properties": {"networkRequestsMade": {"const": 0}, "realEvidenceRowsCollected": {"const": 0}, "realBundlesPublished": {"const": 0}, "productionContractsPinned": {"const": 0}}},
+    "decision": {"type": "object", "additionalProperties": false, "required": ["independentReviewAuthorized", "discoveryCatalogAuthorized", "executionGateAuthorized", "sourceAcquisitionAuthorized", "nextAllowedAction"], "properties": {"independentReviewAuthorized": {"const": true}, "discoveryCatalogAuthorized": {"const": false}, "executionGateAuthorized": {"const": false}, "sourceAcquisitionAuthorized": {"const": false}, "nextAllowedAction": {"type": "string", "minLength": 20}}}
+  }, "$defs": {"sha": {"type": "string", "pattern": "^[0-9a-f]{64}$"}}
+}

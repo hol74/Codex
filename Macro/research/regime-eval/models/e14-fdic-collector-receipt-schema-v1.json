@@ -1,0 +1,10 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema", "$id": "https://macro-regime.local/schemas/e14-fdic-collector-receipt-v1.json",
+  "type": "object", "additionalProperties": false,
+  "required": ["schemaVersion", "receiptId", "collectorId", "contractSha256", "catalogSha256", "acquisitionRunId", "runNonce", "attestationType", "networkRequestsMade", "envelopeHashes", "previousReceiptSha256", "signatureBase64"],
+  "properties": {
+    "schemaVersion": {"const": 1}, "receiptId": {"type": "string", "minLength": 3}, "collectorId": {"type": "string", "minLength": 3}, "contractSha256": {"$ref": "#/$defs/sha"}, "catalogSha256": {"$ref": "#/$defs/sha"},
+    "acquisitionRunId": {"type": "string", "minLength": 12}, "runNonce": {"type": "string", "minLength": 16}, "attestationType": {"enum": ["synthetic-test", "provider-network-capture"]}, "networkRequestsMade": {"type": "integer", "minimum": 0},
+    "envelopeHashes": {"type": "object", "minProperties": 79, "maxProperties": 79, "additionalProperties": {"$ref": "#/$defs/sha"}}, "previousReceiptSha256": {"type": ["string", "null"]}, "signatureBase64": {"type": "string", "minLength": 80}
+  }, "$defs": {"sha": {"type": "string", "pattern": "^[0-9a-f]{64}$"}}
+}

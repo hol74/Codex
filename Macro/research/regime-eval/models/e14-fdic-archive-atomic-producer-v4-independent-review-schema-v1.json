@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://macro-regime.local/schemas/e14-fdic-archive-atomic-producer-v4-independent-review-v1.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "artifactType", "reviewId", "reviewerId", "reviewedAtUtc", "independenceDeclared", "hashes", "assessments", "decision", "blockingFindings", "rationale", "nextAllowedAction"],
+  "properties": {
+    "schemaVersion": {"const": 1},
+    "artifactType": {"const": "E14FdicArchiveAtomicProducerV4IndependentReview"},
+    "reviewId": {"const": "e14-fdic-archive-atomic-producer-v4-independent-review-v1"},
+    "reviewerId": {"type": "string", "minLength": 3},
+    "reviewedAtUtc": {"type": "string", "minLength": 20},
+    "independenceDeclared": {"const": true},
+    "hashes": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["implementationContract", "plan", "auditSchema", "audit", "contractVerifier", "producer", "testRunner", "producerTests", "auditTests", "envelopeSchema", "collectorReceiptSchema", "bundleAuditSchema", "runtimeTestContract", "testReceipt", "testTranscript", "projectConfiguration", "reviewSchema"],
+      "properties": {
+        "implementationContract": {"$ref": "#/$defs/sha"}, "plan": {"$ref": "#/$defs/sha"}, "auditSchema": {"$ref": "#/$defs/sha"}, "audit": {"$ref": "#/$defs/sha"},
+        "contractVerifier": {"$ref": "#/$defs/sha"}, "producer": {"$ref": "#/$defs/sha"}, "testRunner": {"$ref": "#/$defs/sha"}, "producerTests": {"$ref": "#/$defs/sha"}, "auditTests": {"$ref": "#/$defs/sha"},
+        "envelopeSchema": {"$ref": "#/$defs/sha"}, "collectorReceiptSchema": {"$ref": "#/$defs/sha"}, "bundleAuditSchema": {"$ref": "#/$defs/sha"}, "runtimeTestContract": {"$ref": "#/$defs/sha"},
+        "testReceipt": {"$ref": "#/$defs/sha"}, "testTranscript": {"$ref": "#/$defs/sha"}, "projectConfiguration": {"$ref": "#/$defs/sha"}, "reviewSchema": {"$ref": "#/$defs/sha"}
+      }
+    },
+    "assessments": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["hashesExact", "callerSelfPinPrevented", "runtimeInputsContractBound", "envelopeContextBound", "collectorReceiptRosterBound", "receiptChainEnforced", "runNonceConsumedAtomically", "networkActionIndependentlyProven", "bundleAuditNestedHashesStrict", "descriptorNoFollowStrong", "allStagedArtifactsRevalidated", "testTranscriptHashBound", "testRunnerKeyExternallyTrusted", "zeroNetworkConfirmed", "discoveryCatalogAuthorized", "executionGateAuthorized", "failClosedGuardsSupported"],
+      "properties": {
+        "hashesExact": {"type": "boolean"}, "callerSelfPinPrevented": {"type": "boolean"}, "runtimeInputsContractBound": {"type": "boolean"}, "envelopeContextBound": {"type": "boolean"}, "collectorReceiptRosterBound": {"type": "boolean"},
+        "receiptChainEnforced": {"type": "boolean"}, "runNonceConsumedAtomically": {"type": "boolean"}, "networkActionIndependentlyProven": {"type": "boolean"}, "bundleAuditNestedHashesStrict": {"type": "boolean"},
+        "descriptorNoFollowStrong": {"type": "boolean"}, "allStagedArtifactsRevalidated": {"type": "boolean"}, "testTranscriptHashBound": {"type": "boolean"}, "testRunnerKeyExternallyTrusted": {"type": "boolean"},
+        "zeroNetworkConfirmed": {"type": "boolean"}, "discoveryCatalogAuthorized": {"type": "boolean"}, "executionGateAuthorized": {"type": "boolean"}, "failClosedGuardsSupported": {"type": "boolean"}
+      }
+    },
+    "decision": {"enum": ["accept", "needs_changes", "reject"]},
+    "blockingFindings": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 3}},
+    "rationale": {"type": "string", "minLength": 20},
+    "nextAllowedAction": {"type": "string", "minLength": 20}
+  },
+  "$defs": {"sha": {"type": "string", "pattern": "^[0-9a-f]{64}$"}}
+}

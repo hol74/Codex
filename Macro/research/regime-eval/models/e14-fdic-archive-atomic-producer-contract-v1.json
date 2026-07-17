@@ -1,0 +1,25 @@
+{
+  "schemaVersion": 1,
+  "contractId": "e14-fdic-archive-atomic-producer-contract-v1",
+  "inputHashes": {
+    "blockedReviewV1Sha256": "3b1840e9b07ae7f2005487a3abcf60f8440624b357b70bde17a0e4780a000ac5",
+    "producerPlanV1Sha256": "47d00a6b08600230e89112af84fe8b27079ed7eeb69d51c7a2264ca76a05fcb1",
+    "sourceCatalogV1Sha256": "9498ed5bc1fa399aeb54aa1409aad5384416d1b1dd71bbaa8e608407def280f1",
+    "sourceCatalogSchemaV1Sha256": "9b7ef0f04b7614f6049a07a7bfc3bc8b475a5e35f1ba4504856e38dac0b544d5",
+    "evidenceManifestSchemaV1Sha256": "96d5d842dd96f51695d88dc435c8743dbb46579fb052ccb6550231bcf26d6637",
+    "mapSchemaV3Sha256": "2338c64d6b014d8966e297d4d2da5f3a8eb05b069ad5dca008295c0035acbb18",
+    "mapAuditSchemaV3Sha256": "f979a87556523fcf4d9cedd67f9545b053742021755d9a26f5daf9804c7a24ad",
+    "producerAuditSchemaV1Sha256": "c0d96e4d3c5dcb2adac067ecd528e071351827b3499c5b92261e3e2cffc3c304"
+  },
+  "authorizationPolicy": {
+    "integratedValidatorAuthorized": true,
+    "atomicProducerImplementationAuthorized": true,
+    "independentReviewAuthorized": true,
+    "networkAuthorized": false,
+    "discoveryCatalogAuthorized": false,
+    "executionGateAuthorized": false,
+    "requestCatalogV3MaterializationAuthorized": false,
+    "sourceAcquisitionAuthorized": false
+  },
+  "nextAllowedAction": "Independently review the integrated raw-evidence validator, source-catalog binding, atomic producer, and adversarial tests before designing a discovery request catalog"
+}

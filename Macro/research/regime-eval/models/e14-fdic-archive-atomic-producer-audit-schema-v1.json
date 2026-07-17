@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://macro-regime.local/schemas/e14-fdic-archive-atomic-producer-audit-v1.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "artifactType", "status", "inputs", "checks", "testMatrix", "protocol", "decision", "implementation"],
+  "properties": {
+    "schemaVersion": {"const": 1},
+    "artifactType": {"const": "E14FdicArchiveAtomicProducerAudit"},
+    "status": {"const": "FDIC_ARCHIVE_ATOMIC_PRODUCER_IMPLEMENTED_INDEPENDENT_REVIEW_REQUIRED"},
+    "inputs": {"$ref": "#/$defs/inputs"},
+    "checks": {"$ref": "#/$defs/checks"},
+    "testMatrix": {"$ref": "#/$defs/testMatrix"},
+    "protocol": {"$ref": "#/$defs/protocol"},
+    "decision": {"$ref": "#/$defs/decision"},
+    "implementation": {"$ref": "#/$defs/implementation"}
+  },
+  "$defs": {
+    "artifact": {"type": "object", "additionalProperties": false, "required": ["fileName", "sha256", "sizeBytes"], "properties": {"fileName": {"type": "string", "minLength": 1}, "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}, "sizeBytes": {"type": "integer", "minimum": 1}}},
+    "inputs": {"type": "object", "additionalProperties": false, "required": ["contract", "blockedReview", "producerPlan", "sourceCatalog", "sourceCatalogSchema", "evidenceManifestSchema", "mapSchemaV3", "mapAuditSchemaV3", "producerAuditSchema"], "properties": {"contract": {"$ref": "#/$defs/artifact"}, "blockedReview": {"$ref": "#/$defs/artifact"}, "producerPlan": {"$ref": "#/$defs/artifact"}, "sourceCatalog": {"$ref": "#/$defs/artifact"}, "sourceCatalogSchema": {"$ref": "#/$defs/artifact"}, "evidenceManifestSchema": {"$ref": "#/$defs/artifact"}, "mapSchemaV3": {"$ref": "#/$defs/artifact"}, "mapAuditSchemaV3": {"$ref": "#/$defs/artifact"}, "producerAuditSchema": {"$ref": "#/$defs/artifact"}}},
+    "checks": {"type": "object", "additionalProperties": false, "required": ["allInputHashesExact", "schemaSemanticIntegrated", "rawBytesVerified", "sourceCatalogBound", "requestIdsUnique", "redirectContinuityRequired", "confirmedAbsentContentBound", "atomicPublicationImplemented", "catalogV3Absent", "snapshotV2Absent"], "properties": {"allInputHashesExact": {"const": true}, "schemaSemanticIntegrated": {"const": true}, "rawBytesVerified": {"const": true}, "sourceCatalogBound": {"const": true}, "requestIdsUnique": {"const": true}, "redirectContinuityRequired": {"const": true}, "confirmedAbsentContentBound": {"const": true}, "atomicPublicationImplemented": {"const": true}, "catalogV3Absent": {"const": true}, "snapshotV2Absent": {"const": true}}},
+    "testMatrix": {"type": "object", "additionalProperties": false, "required": ["validBundlePublishedAtomically", "missingRawRejected", "rawHashMismatchRejected", "duplicateRequestRejected", "sourceCatalogMismatchRejected", "schemaInvalidRejected", "redirectDiscontinuityRejected", "confirmedAbsentAccepted", "failureLeavesNoTarget", "scenariosPassed"], "properties": {"validBundlePublishedAtomically": {"const": true}, "missingRawRejected": {"const": true}, "rawHashMismatchRejected": {"const": true}, "duplicateRequestRejected": {"const": true}, "sourceCatalogMismatchRejected": {"const": true}, "schemaInvalidRejected": {"const": true}, "redirectDiscontinuityRejected": {"const": true}, "confirmedAbsentAccepted": {"const": true}, "failureLeavesNoTarget": {"const": true}, "scenariosPassed": {"const": 9}}},
+    "protocol": {"type": "object", "additionalProperties": false, "required": ["networkRequestsMade", "realEvidenceRowsCollected", "realBundlesPublished", "discoveryCatalogsMaterialized"], "properties": {"networkRequestsMade": {"const": 0}, "realEvidenceRowsCollected": {"const": 0}, "realBundlesPublished": {"const": 0}, "discoveryCatalogsMaterialized": {"const": 0}}},
+    "decision": {"type": "object", "additionalProperties": false, "required": ["atomicProducerImplemented", "independentReviewAuthorized", "discoveryCatalogAuthorized", "executionGateAuthorized", "requestCatalogV3MaterializationAuthorized", "sourceAcquisitionAuthorized", "nextAllowedAction"], "properties": {"atomicProducerImplemented": {"const": true}, "independentReviewAuthorized": {"const": true}, "discoveryCatalogAuthorized": {"const": false}, "executionGateAuthorized": {"const": false}, "requestCatalogV3MaterializationAuthorized": {"const": false}, "sourceAcquisitionAuthorized": {"const": false}, "nextAllowedAction": {"type": "string", "minLength": 20}}},
+    "implementation": {"type": "object", "additionalProperties": false, "required": ["module", "sourceSha256"], "properties": {"module": {"const": "regime_eval.e14_fdic_archive_atomic_producer"}, "sourceSha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}}}
+  }
+}

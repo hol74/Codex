@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 1,
+  "contractId": "e14-fdic-archive-atomic-producer-v6-implementation-contract-v1",
+  "blockedReviewSha256": "6a17eb17137b107bb9b0cfe98bba1b8bc884f320cf6793cbabc34579da27d29f",
+  "runtimeValidationContractSha256": "1483ee68f3d9af0cc5a086897ec53eb3e89950ead7a77dac6abdbdf1207e67fe",
+  "requiredGuarantees": {
+    "allTargetsShareOneDeploymentState": true,
+    "crossParentReplayRejected": true,
+    "ledgerDeletionDetectedBySeparateAnchor": true,
+    "validPrefixRollbackDetected": true,
+    "pendingPublicationRecoverable": true,
+    "committedPublicationRecorded": true,
+    "deadOwnerLockRecoverable": true,
+    "liveOwnerLockPreserved": true,
+    "providerNetworkCaptureRejected": true
+  },
+  "authorizationPolicy": {
+    "producerV6ImplementationAuthorized": true,
+    "independentReviewAuthorized": true,
+    "providerNetworkCaptureAuthorized": false,
+    "discoveryCatalogAuthorized": false,
+    "executionGateAuthorized": false,
+    "sourceAcquisitionAuthorized": false
+  },
+  "nextAllowedAction": "Independently review producer v6 state-root pinning, anchor trust, transaction recovery and stale-lock semantics."
+}

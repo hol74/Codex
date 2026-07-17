@@ -1299,3 +1299,201 @@ al collector la scelta di come trovare e associare i record ai quarter.
 Un gate sostitutivo non e' autorizzato. Il solo passo ammesso e' una
 remediation separata che produca una mappa immutabile quarter-to-archive con 79
 entry, incluse entry esplicitamente irrisolte, seguita da nuova review.
+
+E14.7ae materializza la mappa offline:
+
+```text
+python -m regime_eval e14-materialize-fdic-archive-quarter-map --contract models/e14-fdic-archive-quarter-map-contract-v1.json --request-catalog ../../data/historical-real-v12-2008-2025/challengers/e14-fdic-publication-metadata-requests-v1.json --blocked-review ../../data/historical-real-v12-2008-2025/challengers/e14-fdic-publication-metadata-request-catalog-independent-review-v1.json --map-plan models/e14-fdic-archive-quarter-map-plan-v1.json --map-schema models/e14-fdic-archive-quarter-map-schema-v1.json --audit-schema models/e14-fdic-archive-quarter-map-audit-schema-v1.json --repository-root ../.. --map-output ../../data/historical-real-v12-2008-2025/challengers/e14-fdic-archive-quarter-map-v1.json --audit-output ../../data/historical-real-v12-2008-2025/challengers/e14-fdic-archive-quarter-map-audit-v1.json
+```
+
+Il roster 79/79 e gli URL trimestrali sono preservati dal catalogo E14.7ac.
+Poiche' il corpus locale non lega per hash alcun record archivio a un quarter,
+le 79 entry sono esplicitamente irrisolte e la discovery a runtime e' vietata.
+Zero rete e zero record ID inventati. Il solo passo successivo e' la review
+indipendente E14.7af; gate sostitutivo e downstream restano chiusi.
+
+E14.7af completa la review indipendente con decisione `needs_changes`. Hash,
+roster 79/79, URL, zero rete e assenza di record inventati sono confermati; la
+discovery discrezionale e' eliminata. Tuttavia le 79 entry dimostrano soltanto
+assenza di evidenza locale, non inesistenza dei record provider-primary, e la
+mappa contiene zero espansioni archivio risolte. Il reviewer rileva inoltre
+che lo schema non puo' rappresentare entry risolte e che l'audit schema non
+vincola l'affermazione `archiveExpansionsFrozen`.
+
+Il gate sostitutivo resta chiuso. Il prossimo passo deve preregistrare una
+raccolta provider-primary separata e versionare map/audit schema capaci di
+rappresentare, con evidenza hash-bound, sia record risolti sia record realmente
+inesistenti.
+
+E14.7ag preregistra offline il protocollo corretto:
+
+```text
+python -m regime_eval e14-preregister-fdic-archive-evidence-collection --contract models/e14-fdic-archive-evidence-preregistration-contract-v1.json --blocked-review ../../data/historical-real-v12-2008-2025/challengers/e14-fdic-archive-quarter-map-independent-review-v1.json --map-v1 ../../data/historical-real-v12-2008-2025/challengers/e14-fdic-archive-quarter-map-v1.json --map-audit-v1 ../../data/historical-real-v12-2008-2025/challengers/e14-fdic-archive-quarter-map-audit-v1.json --collection-plan models/e14-fdic-archive-evidence-collection-plan-v1.json --map-schema-v2 models/e14-fdic-archive-quarter-map-schema-v2.json --map-audit-schema-v2 models/e14-fdic-archive-quarter-map-audit-schema-v2.json --preregistration-audit-schema models/e14-fdic-archive-evidence-preregistration-audit-schema-v1.json --repository-root ../.. --output ../../data/historical-real-v12-2008-2025/challengers/e14-fdic-archive-evidence-preregistration-audit-v1.json
+```
+
+Map schema v2 distingue record archivio risolti e assenze provider-primary
+dimostrate; l'audit schema v2 chiude tutte le sezioni probatorie. Placeholder
+irrisolti e pubblicazione parziale sono vietati. Lo step esegue zero rete e non
+materializza request catalog o mappa v2. Il solo passo successivo e' la review
+indipendente E14.7ah.
+
+E14.7ah conclude la review indipendente con `needs_changes`. La separazione dei
+due esiti, gli hash, lo schema audit chiuso e zero rete sono confermati. Restano
+pero' quattro gap: l'evidence non e' legata a URL/request metadata esatti; map
+schema v2 non impone la partizione disgiunta 79/79; audit schema v2 non lega i
+conteggi a mappa e manifest; la pubblicazione atomica non e' applicata da un
+producer fail-closed revisionato.
+
+Discovery request catalog ed execution gate restano chiusi. Il prossimo passo
+deve versionare evidence provenance e validator semantico, poi ripetere la
+review indipendente.
+
+E14.7ai implementa la remediation offline:
+
+```text
+python -m regime_eval e14-remediate-fdic-archive-evidence-model --contract models/e14-fdic-archive-evidence-remediation-contract-v1.json --blocked-review ../../data/historical-real-v12-2008-2025/challengers/e14-fdic-archive-evidence-independent-review-v1.json --remediation-plan models/e14-fdic-archive-evidence-remediation-plan-v2.json --evidence-manifest-schema models/e14-fdic-archive-evidence-manifest-schema-v1.json --map-schema-v3 models/e14-fdic-archive-quarter-map-schema-v3.json --map-audit-schema-v3 models/e14-fdic-archive-quarter-map-audit-schema-v3.json --remediation-audit-schema models/e14-fdic-archive-evidence-remediation-audit-schema-v1.json --repository-root ../.. --output ../../data/historical-real-v12-2008-2025/challengers/e14-fdic-archive-evidence-remediation-audit-v1.json
+```
+
+Evidence manifest v1 lega bytes, requested/final URL, redirect chain, request
+identity e retrieval metadata. Map schema v3 usa un solo roster di 79 entry; il
+validator semantico applica completezza, unicita', outcome ed evidence binding
+e verifica i conteggi audit contro mappa e manifest. Gli self-test negativi
+bloccano roster parziali, duplicati e mismatch. Zero rete e nessun catalogo o
+mappa reale. Il solo passo successivo e' la review indipendente E14.7aj.
+
+E14.7aj conclude la review indipendente con `needs_changes`. Il reviewer
+conferma roster, unicita' e coerenza interna, ma dimostra con probe diretti che
+il validator accetta file raw inesistenti, request ID duplicati, source catalog
+inesistente e payload non conformi agli schemi. Schema e semantic validation
+non sono integrate e manca un producer atomico multi-artefatto; i test negativi
+non coprono questi bypass.
+
+Il discovery catalog resta chiuso. Il prossimo passo deve verificare bytes raw
+e source catalog, integrare i due livelli di validazione e implementare una
+pubblicazione atomica fail-closed prima di una nuova review.
+
+E14.7ak implementa il producer atomico offline:
+
+```text
+python -m regime_eval e14-implement-fdic-archive-atomic-producer --contract models/e14-fdic-archive-atomic-producer-contract-v1.json --blocked-review ../../data/historical-real-v12-2008-2025/challengers/e14-fdic-archive-evidence-remediation-independent-review-v1.json --producer-plan models/e14-fdic-archive-atomic-producer-plan-v1.json --source-catalog ../../data/historical-real-v12-2008-2025/challengers/e14-fdic-publication-metadata-requests-v1.json --source-catalog-schema models/e14-fdic-publication-metadata-request-catalog-schema-v1.json --evidence-manifest-schema models/e14-fdic-archive-evidence-manifest-schema-v1.json --map-schema-v3 models/e14-fdic-archive-quarter-map-schema-v3.json --map-audit-schema-v3 models/e14-fdic-archive-quarter-map-audit-schema-v3.json --producer-audit-schema models/e14-fdic-archive-atomic-producer-audit-schema-v1.json --repository-root ../.. --output ../../data/historical-real-v12-2008-2025/challengers/e14-fdic-archive-atomic-producer-audit-v1.json
+```
+
+Schema e semantic validation sono integrate; raw bytes, request ID, redirect e
+binding al source catalog sono verificati prima della pubblicazione con staging
+sibling e rename atomico. I test coprono anche confirmed-absent, manomissioni e
+rollback senza target parziali. Zero rete e zero bundle reali. Il solo passo
+successivo e' la review indipendente E14.7al.
+
+E14.7al conclude la review indipendente con `needs_changes`. L'atomicita' della
+directory e i controlli base su schema, raw hash e request ID superano le probe,
+ma il catalogo validato puo' divergere dai bytes hash-bound. Sono inoltre
+accettati evidence marker-only e riuso cross-quarter dello stesso raw/archive
+ID; audit e test matrix non sono legati agli esatti input/esecuzioni dichiarati,
+i raw restano fuori dal bundle e i redirect intermedi non sono sostanziati.
+
+Discovery catalog, rete ed execution gate restano chiusi. Il prossimo passo e'
+una remediation separata del producer seguita da nuova review indipendente.
+
+E14.7am implementa producer v2 come remediation separata. Catalogo, schemi e
+gate sono decodificati dagli stessi bytes autenticati; raw hash/file e archive
+ID sono univoci e quarter-bound, absence marker-only e redirect intermedi non
+sostanziati sono respinti. Tutti i 79 raw entrano nello staging e vengono
+pubblicati atomicamente con manifest, map e audit. Gli hash audit derivano dai
+bytes esatti reviewati e il gate e' obbligatorio e schema-validato.
+
+Zero rete e zero bundle reali. Il solo passo successivo e' la review
+indipendente E14.7an; discovery catalog ed execution gate restano chiusi.
+
+E14.7an conclude la review indipendente con `needs_changes`. Producer v2
+mantiene le garanzie di unicita', inclusione raw e rename atomico, ma non usa il
+contratto come trust anchor. Gate/catalog schema sono ancora caller-controlled,
+la provenance puo' essere simulata senza response receipt, i raw staging non
+sono riletti dopo la copia e redirect/test execution restano dichiarativi.
+
+Rete, discovery catalog ed execution gate restano chiusi. Il prossimo passo e'
+producer v3 come remediation separata, seguito da nuova review indipendente.
+
+E14.7ao implementa producer v3 con runtime contract hash esternamente pinned e
+verifica di ogni input. Le response sono envelope Ed25519 firmate che legano
+request, quarter, URL, redirect e body; confinement e regular-file check sono
+ripetuti e ogni envelope copiato viene riletto prima del rename. Il receipt dei
+test deriva dall'esecuzione e lega runner, transcript e file test.
+
+Zero rete e zero bundle reali. Il solo passo successivo e' la review
+indipendente E14.7ap; discovery catalog ed execution gate restano chiusi.
+
+E14.7ap conclude la review indipendente con `needs_changes`. Firma Ed25519 e
+binding request/quarter/URL/redirect/body sono corretti, ma contract e trusted
+hash sono ancora forniti dallo stesso caller. Mancano inoltre contesto anti-
+replay negli envelope, revalidation post-write di manifest/map/audit, receipt
+test autenticato e apertura no-follow.
+
+Rete, discovery catalog ed execution gate restano chiusi. Il prossimo passo e'
+una remediation separata della trust boundary, seguita da nuova review.
+
+E14.7aq implementa producer v4. Il contract pin risiede in un verifier separato
+e non e' piu' un parametro del caller; envelope e collector receipt firmano
+contract/catalog/run context. Il receipt distingue test sintetico da network
+capture. Tutti gli artefatti staging sono riletti, i file sono aperti con
+controlli descriptor/no-follow e il receipt test firmato conserva il transcript.
+
+Zero rete e zero production contract. Il solo passo successivo e' la review
+indipendente E14.7ar; discovery catalog ed execution gate restano chiusi.
+
+E14.7ar conclude la review indipendente con `needs_changes`. Registry statico,
+binding contestuale, descriptor/no-follow e revalidation completa sono
+confermati. Restano pero' self-trust della chiave nel test receipt, assenza di
+ledger/consumo nonce, attestazione rete non indipendente e schemi hash-map
+troppo permissivi.
+
+Rete, discovery catalog ed execution gate restano chiusi. Il prossimo passo e'
+una remediation v5 separata, seguita da nuova review indipendente.
+
+E14.7as implementa producer v5 con test-runner key esternamente pinned, receipt
+senza chiave auto-dichiarata, ledger append-only con chain head e consumo
+durevole del nonce prima della pubblicazione, roster hash esatti e modalita'
+provider-network non rappresentabile. La fallback no-follow Windows e'
+qualificata esplicitamente tramite descriptor identity.
+
+Zero rete, evidenze reali e production contract. Il solo passo successivo e'
+la review indipendente E14.7at; discovery catalog ed execution gate restano
+chiusi.
+
+E14.7at conclude la review indipendente con `needs_changes`. Trust anchor del
+test runner, blocco rete e schemi chiusi sono confermati, ma il ledger deriva
+dal parent scelto dal caller ed e' cancellabile o ripristinabile senza anchor
+esterno. Restano inoltre stato orfano post-crash e stale lock senza recovery.
+
+Rete e downstream restano chiusi. Il prossimo passo e' una remediation v6
+separata, seguita da nuova review indipendente.
+
+E14.7au implementa lo state layer v6 con root code-pinned indipendente dal
+target, anchor monotono separato, rilevazione di deletion/rollback, transazioni
+pending/committed recuperabili e stale-lock recovery basata sull'owner PID.
+Zero rete e production contract; il solo passo successivo e' E14.7av.
+
+E14.7av conclude la review indipendente con `needs_changes`: il root e'
+copiabile con il checkout, ledger e anchor locali sono rollbackabili insieme,
+la finestra crash dopo il rename finale non e' recuperabile e restano limiti
+cross-volume, durability, symlink e PID reuse. Rete e downstream restano chiusi.
+
+E14.7aw introduce il boundary v7 per un'autorita' monotona realmente esterna.
+Il registry production resta vuoto e ogni pubblicazione fallisce prima di
+creare il target. Nessun fallback locale, rete o downstream e' autorizzato.
+
+E14.7ax conclude la review indipendente con decisione `accept` e chiude E14.7
+come `safely blocked`. Il confine v7 non espone capacita' di pubblicazione:
+registry vuoto, nessun fallback v6 e blocco incondizionato anche dopo la
+verifica dell'authority. Provisioning, rete e downstream restano non
+autorizzati; un adapter esterno futuro richiede una fase separata e nuova review.
+
+E14.8 preregistra quella fase separata senza creare capacita'. Il piano
+provider-neutral congela 18 requisiti tecnici e 10 evidenze obbligatorie, ma
+non seleziona provider, non crea credenziali o risorse, non usa rete e non
+modifica il runtime. Il solo passo successivo e' la review indipendente E14.8a.
+
+E14.8a respinge il primo disegno: due evidenze erano omissibili e mancava un
+protocollo operativo. E14.8b corregge entrambi i finding con dieci campi
+individualmente obbligatori, state machine/CAS/recovery exact e 14 scenari di
+conformita'. E14.8c accetta la remediation e chiude E14.8 `design-complete` e
+`safely blocked`; provider selection e ogni capacita' operativa restano fuori.

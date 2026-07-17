@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "contractId": "e14-fdic-archive-evidence-remediation-contract-v1",
+  "inputHashes": {
+    "blockedReviewV1Sha256": "6a346c6db8069224038f6cd3f9024300116e6f89f9ee783450704a8a37d99eec",
+    "remediationPlanV2Sha256": "678f2e8e419273fd7053c542f313ec40a96ad309e38a241882596e5165ea3f40",
+    "evidenceManifestSchemaV1Sha256": "96d5d842dd96f51695d88dc435c8743dbb46579fb052ccb6550231bcf26d6637",
+    "mapSchemaV3Sha256": "2338c64d6b014d8966e297d4d2da5f3a8eb05b069ad5dca008295c0035acbb18",
+    "mapAuditSchemaV3Sha256": "f979a87556523fcf4d9cedd67f9545b053742021755d9a26f5daf9804c7a24ad",
+    "remediationAuditSchemaV1Sha256": "d43ea779cdead29b33c03a87ec5735a1cdfc800be0b5ac1c54c2293b11a235eb"
+  },
+  "authorizationPolicy": {
+    "evidenceModelRemediationAuthorized": true,
+    "semanticValidatorImplementationAuthorized": true,
+    "independentReviewAuthorized": true,
+    "networkAuthorized": false,
+    "discoveryCatalogAuthorized": false,
+    "executionGateAuthorized": false,
+    "requestCatalogV3MaterializationAuthorized": false,
+    "sourceAcquisitionAuthorized": false,
+    "featureTransformationAuthorized": false,
+    "candidateGenerationAuthorized": false,
+    "evaluationAuthorized": false,
+    "outerOosAuthorized": false
+  },
+  "nextAllowedAction": "Independently review the URL-bound evidence manifest, map/audit v3 schemas, and semantic fail-closed validator before designing any discovery request catalog"
+}

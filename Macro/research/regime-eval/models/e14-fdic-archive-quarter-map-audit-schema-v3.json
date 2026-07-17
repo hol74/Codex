@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://macro-regime.local/schemas/e14-fdic-archive-quarter-map-audit-v3.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "artifactType", "status", "inputs", "output", "validatorReport", "inventory", "protocol", "decision", "implementation"],
+  "properties": {
+    "schemaVersion": {"const": 3},
+    "artifactType": {"const": "E14FdicArchiveQuarterMapAudit"},
+    "status": {"const": "FDIC_ARCHIVE_QUARTER_MAP_PROVIDER_EVIDENCE_COMPLETE"},
+    "inputs": {"$ref": "#/$defs/inputs"},
+    "output": {"$ref": "#/$defs/artifact"},
+    "validatorReport": {"$ref": "#/$defs/validatorReport"},
+    "inventory": {"$ref": "#/$defs/inventory"},
+    "protocol": {"$ref": "#/$defs/protocol"},
+    "decision": {"$ref": "#/$defs/decision"},
+    "implementation": {"$ref": "#/$defs/implementation"}
+  },
+  "$defs": {
+    "artifact": {"type": "object", "additionalProperties": false, "required": ["fileName", "sha256", "sizeBytes"], "properties": {"fileName": {"type": "string", "minLength": 1}, "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}, "sizeBytes": {"type": "integer", "minimum": 1}}},
+    "inputs": {"type": "object", "additionalProperties": false, "required": ["executionGate", "requestCatalog", "evidenceManifest", "mapSchema", "evidenceSchema", "auditSchema"], "properties": {"executionGate": {"$ref": "#/$defs/artifact"}, "requestCatalog": {"$ref": "#/$defs/artifact"}, "evidenceManifest": {"$ref": "#/$defs/artifact"}, "mapSchema": {"$ref": "#/$defs/artifact"}, "evidenceSchema": {"$ref": "#/$defs/artifact"}, "auditSchema": {"$ref": "#/$defs/artifact"}}},
+    "validatorReport": {"type": "object", "additionalProperties": false, "required": ["semanticValidationPassed", "exactRosterPassed", "uniqueQuarterIdsPassed", "evidenceProvenancePassed", "outcomeConsistencyPassed", "validatedQuarterCount", "validatorSourceSha256"], "properties": {"semanticValidationPassed": {"const": true}, "exactRosterPassed": {"const": true}, "uniqueQuarterIdsPassed": {"const": true}, "evidenceProvenancePassed": {"const": true}, "outcomeConsistencyPassed": {"const": true}, "validatedQuarterCount": {"const": 79}, "validatorSourceSha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}}},
+    "inventory": {"type": "object", "additionalProperties": false, "required": ["quarterCount", "resolvedCount", "confirmedAbsentCount", "unresolvedCount", "firstQuarter", "lastQuarter"], "properties": {"quarterCount": {"const": 79}, "resolvedCount": {"type": "integer", "minimum": 0, "maximum": 79}, "confirmedAbsentCount": {"type": "integer", "minimum": 0, "maximum": 79}, "unresolvedCount": {"const": 0}, "firstQuarter": {"const": "2006Q1"}, "lastQuarter": {"const": "2025Q3"}}},
+    "protocol": {"type": "object", "additionalProperties": false, "required": ["networkRequestsMade", "rawEvidenceArtifactsWritten", "partialOutputsPublished"], "properties": {"networkRequestsMade": {"type": "integer", "minimum": 0}, "rawEvidenceArtifactsWritten": {"const": 79}, "partialOutputsPublished": {"const": 0}}},
+    "decision": {"type": "object", "additionalProperties": false, "required": ["mapV3Materialized", "independentReviewAuthorized", "executionGateAuthorized", "requestCatalogV3MaterializationAuthorized", "sourceAcquisitionAuthorized", "nextAllowedAction"], "properties": {"mapV3Materialized": {"const": true}, "independentReviewAuthorized": {"const": true}, "executionGateAuthorized": {"const": false}, "requestCatalogV3MaterializationAuthorized": {"const": false}, "sourceAcquisitionAuthorized": {"const": false}, "nextAllowedAction": {"type": "string", "minLength": 20}}},
+    "implementation": {"type": "object", "additionalProperties": false, "required": ["module", "sourceSha256"], "properties": {"module": {"type": "string", "minLength": 3}, "sourceSha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}}}
+  }
+}

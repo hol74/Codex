@@ -1,0 +1,93 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://macro-regime.local/schemas/e14-fdic-archive-atomic-producer-independent-review-v1.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion", "artifactType", "reviewId", "reviewerId",
+    "reviewedAtUtc", "independenceDeclared", "contractSha256",
+    "blockedReviewSha256", "producerPlanSha256", "sourceCatalogSha256",
+    "sourceCatalogSchemaSha256", "evidenceManifestSchemaSha256",
+    "mapSchemaV3Sha256", "mapAuditSchemaV3Sha256",
+    "producerAuditSchemaSha256", "producerAuditSha256",
+    "implementationSha256", "cliSha256", "testsSha256",
+    "reviewSchemaSha256", "assessments", "probeResults", "decision",
+    "blockingFindings", "rationale", "nextAllowedAction"
+  ],
+  "properties": {
+    "schemaVersion": {"const": 1},
+    "artifactType": {"const": "E14FdicArchiveAtomicProducerIndependentReview"},
+    "reviewId": {"const": "e14-fdic-archive-atomic-producer-independent-review-v1"},
+    "reviewerId": {"type": "string", "minLength": 3},
+    "reviewedAtUtc": {"type": "string", "minLength": 20},
+    "independenceDeclared": {"const": true},
+    "contractSha256": {"$ref": "#/$defs/sha256"},
+    "blockedReviewSha256": {"$ref": "#/$defs/sha256"},
+    "producerPlanSha256": {"$ref": "#/$defs/sha256"},
+    "sourceCatalogSha256": {"$ref": "#/$defs/sha256"},
+    "sourceCatalogSchemaSha256": {"$ref": "#/$defs/sha256"},
+    "evidenceManifestSchemaSha256": {"$ref": "#/$defs/sha256"},
+    "mapSchemaV3Sha256": {"$ref": "#/$defs/sha256"},
+    "mapAuditSchemaV3Sha256": {"$ref": "#/$defs/sha256"},
+    "producerAuditSchemaSha256": {"$ref": "#/$defs/sha256"},
+    "producerAuditSha256": {"$ref": "#/$defs/sha256"},
+    "implementationSha256": {"$ref": "#/$defs/sha256"},
+    "cliSha256": {"$ref": "#/$defs/sha256"},
+    "testsSha256": {"$ref": "#/$defs/sha256"},
+    "reviewSchemaSha256": {"$ref": "#/$defs/sha256"},
+    "assessments": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "hashBindingsExact", "priorFindingsAddressed",
+        "schemaAndSemanticValidationIntegrated", "rawBytesVerified",
+        "sourceCatalogObjectAndRawBytesBound", "sourceCatalogUrlsBound",
+        "requestIdsUnique", "redirectContinuityEnforced",
+        "confirmedAbsenceSemanticsAdequate", "auditConsistencyBound",
+        "atomicPublicationFailClosed", "testMatrixExecutedHonestly",
+        "zeroNetworkConfirmed", "discoveryCatalogDesignAuthorized",
+        "executionGateAuthorized", "catalogV3StillBlocked",
+        "failClosedGuardsSupported"
+      ],
+      "properties": {
+        "hashBindingsExact": {"type": "boolean"},
+        "priorFindingsAddressed": {"type": "boolean"},
+        "schemaAndSemanticValidationIntegrated": {"type": "boolean"},
+        "rawBytesVerified": {"type": "boolean"},
+        "sourceCatalogObjectAndRawBytesBound": {"type": "boolean"},
+        "sourceCatalogUrlsBound": {"type": "boolean"},
+        "requestIdsUnique": {"type": "boolean"},
+        "redirectContinuityEnforced": {"type": "boolean"},
+        "confirmedAbsenceSemanticsAdequate": {"type": "boolean"},
+        "auditConsistencyBound": {"type": "boolean"},
+        "atomicPublicationFailClosed": {"type": "boolean"},
+        "testMatrixExecutedHonestly": {"type": "boolean"},
+        "zeroNetworkConfirmed": {"type": "boolean"},
+        "discoveryCatalogDesignAuthorized": {"type": "boolean"},
+        "executionGateAuthorized": {"type": "boolean"},
+        "catalogV3StillBlocked": {"type": "boolean"},
+        "failClosedGuardsSupported": {"type": "boolean"}
+      }
+    },
+    "probeResults": {
+      "type": "array", "minItems": 1,
+      "items": {
+        "type": "object", "additionalProperties": false,
+        "required": ["probeId", "expected", "observed", "passed"],
+        "properties": {
+          "probeId": {"type": "string", "minLength": 3},
+          "expected": {"type": "string", "minLength": 3},
+          "observed": {"type": "string", "minLength": 3},
+          "passed": {"type": "boolean"}
+        }
+      }
+    },
+    "decision": {"enum": ["accept", "needs_changes", "reject"]},
+    "blockingFindings": {"type": "array", "items": {"type": "string", "minLength": 3}},
+    "rationale": {"type": "string", "minLength": 20},
+    "nextAllowedAction": {"type": "string", "minLength": 20}
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+  }
+}

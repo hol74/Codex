@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "planId": "e14-fdic-archive-quarter-map-plan-v1",
+  "objective": "Remove runtime archive-discovery discretion by freezing one archive-resolution entry for every FDIC QBP quarter in the reviewed 2006Q1-2025Q3 roster.",
+  "derivationPolicy": {
+    "sourceRoster": "e14-fdic-publication-metadata-requests-v1",
+    "requiredQuarterCount": 79,
+    "firstQuarter": "2006Q1",
+    "lastQuarter": "2025Q3",
+    "resolvedArchiveRecordRequiresHashBoundLocalEvidence": true,
+    "inventedArchiveRecordIdsForbidden": true,
+    "runtimeArchiveDiscoveryForbidden": true,
+    "unresolvedReason": "archive-record-not-established-by-hash-bound-local-evidence"
+  },
+  "authorizationPolicy": {
+    "networkRequestsAuthorized": false,
+    "archiveTraversalAuthorized": false,
+    "independentReviewRequired": true,
+    "replacementExecutionGateAuthorized": false,
+    "requestCatalogV3MaterializationAuthorized": false,
+    "sourceAcquisitionAuthorized": false
+  },
+  "nextAllowedAction": "Independently review the immutable 79-entry quarter-to-archive map and its unresolved dispositions; do not authorize network collection or a replacement execution gate in this step"
+}

@@ -1,0 +1,49 @@
+{
+  "schemaVersion": 2,
+  "artifactType": "E14ExternalAuthorityProvisioningRemediation",
+  "phaseId": "E14.8b",
+  "blockedReviewSha256": "7b5a1a00b2e795fbb7a4d0e1789f42f8bcfd59a7e2938b5f431bcea2f2bbd177",
+  "protocolBindings": {
+    "operationalProtocolSchemaSha256": "6f242315e4e9e14d0b1f1a5df1960b3388e41f34db71137e7ac77547d0158688",
+    "operationalProtocolSha256": "1f6d9e3d1cad54a99db75c17d0c251c1dd22a42ef27ce9134746db977e6e06f6"
+  },
+  "scope": {
+    "designOnly": true,
+    "providerSelected": false,
+    "remoteResourcesCreated": false,
+    "credentialsCreated": false,
+    "runtimeCodeChanged": false,
+    "networkRequestsMade": 0
+  },
+  "evidenceRequirements": {
+    "providerIdentity": true,
+    "endpointIdentity": true,
+    "certificateOrKeyFingerprints": true,
+    "tenantAndDeploymentBinding": true,
+    "accessPolicy": true,
+    "retentionAndRollbackPolicy": true,
+    "failureInjectionReport": true,
+    "operationsOwner": true,
+    "incidentRunbook": true,
+    "deprovisioningPlan": true
+  },
+  "remediationChecks": {
+    "allTenEvidenceClassesIndividuallyMandatory": true,
+    "operationalStateMachineFrozen": true,
+    "casAndIdempotencySemanticsFrozen": true,
+    "identityErrorRetryAndRecoveryFrozen": true,
+    "durabilityAndLocalSafetyFrozen": true,
+    "mandatoryConformanceMatrixFrozen": true
+  },
+  "gates": {
+    "independentRemediationReviewAuthorized": true,
+    "providerSelectionAuthorized": false,
+    "externalProvisioningAuthorized": false,
+    "providerNetworkAuthorized": false,
+    "credentialCreationAuthorized": false,
+    "adapterImplementationAuthorized": false,
+    "productionPublicationAuthorized": false,
+    "downstreamAuthorized": false
+  },
+  "nextAllowedAction": "E14.8c independent review of the E14.8b remediation; provider selection, provisioning, network, credentials, adapter implementation, publication and downstream remain closed."
+}

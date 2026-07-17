@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "planId": "e14-fdic-archive-atomic-producer-plan-v1",
+  "frozenAt": "2026-07-17",
+  "validationPipeline": [
+    "closed-schema-validation",
+    "exact-source-catalog-binding",
+    "semantic-roster-and-outcome-validation",
+    "unique-request-and-evidence-validation",
+    "redirect-continuity-validation",
+    "raw-file-existence-size-and-sha256-validation",
+    "evidence-marker-content-validation",
+    "audit-map-manifest-consistency-validation"
+  ],
+  "atomicPublicationPolicy": {
+    "publishManifestMapAndAuditTogether": true,
+    "targetMustNotExist": true,
+    "stagingMustBeSiblingOfTarget": true,
+    "anyFailureRemovesStaging": true,
+    "partialOutputsForbidden": true
+  },
+  "executionPolicy": {
+    "thisStepMayUseNetwork": false,
+    "thisStepMayMaterializeRealEvidence": false,
+    "thisStepMayDesignDiscoveryCatalog": false,
+    "independentReviewRequired": true,
+    "executionGateAuthorized": false,
+    "requestCatalogV3MaterializationAuthorized": false,
+    "sourceAcquisitionAuthorized": false
+  },
+  "nextAllowedAction": "Independently review the integrated raw-evidence validator, source-catalog binding, atomic producer, and adversarial tests before designing a discovery request catalog"
+}

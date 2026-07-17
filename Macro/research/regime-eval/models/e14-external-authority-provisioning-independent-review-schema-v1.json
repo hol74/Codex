@@ -1,0 +1,34 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://macro-regime.local/schemas/e14-external-authority-provisioning-independent-review-v1.json",
+  "type": "object", "additionalProperties": false,
+  "required": ["schemaVersion", "artifactType", "reviewId", "reviewerId", "reviewedAtUtc", "independenceDeclared", "hashes", "assessments", "decision", "blockingFindings", "observations", "positiveControls", "nextAllowedAction"],
+  "properties": {
+    "schemaVersion": {"const": 1}, "artifactType": {"const": "E14ExternalAuthorityProvisioningIndependentReview"},
+    "reviewId": {"const": "e14-external-authority-provisioning-independent-review-v1"},
+    "reviewerId": {"type": "string", "minLength": 3}, "reviewedAtUtc": {"type": "string", "minLength": 20}, "independenceDeclared": {"const": true},
+    "hashes": {"type": "object", "additionalProperties": false, "required": ["acceptedBoundaryReview", "preregistrationSchema", "provisioningPlan", "preregistrationAuditSchema", "preregistrationAudit", "authorityContractSchema", "authorityVerifier", "producerV7", "tests", "projectConfiguration", "reviewSchema"], "properties": {
+      "acceptedBoundaryReview": {"$ref": "#/$defs/sha"}, "preregistrationSchema": {"$ref": "#/$defs/sha"}, "provisioningPlan": {"$ref": "#/$defs/sha"},
+      "preregistrationAuditSchema": {"$ref": "#/$defs/sha"}, "preregistrationAudit": {"$ref": "#/$defs/sha"}, "authorityContractSchema": {"$ref": "#/$defs/sha"},
+      "authorityVerifier": {"$ref": "#/$defs/sha"}, "producerV7": {"$ref": "#/$defs/sha"}, "tests": {"$ref": "#/$defs/sha"},
+      "projectConfiguration": {"$ref": "#/$defs/sha"}, "reviewSchema": {"$ref": "#/$defs/sha"}
+    }},
+    "assessments": {"type": "object", "additionalProperties": false, "required": ["hashBindingsExact", "topLevelSchemasClosed", "providerNeutral", "designOnlyScopeEnforced", "gateSeparationComplete", "requiredCapabilityNamesComplete", "requiredCapabilitiesOperationallySpecified", "provisioningEvidenceRosterComplete", "provisioningEvidenceRosterNonOmissible", "apiStateMachineDefined", "authenticatedCasProtocolDefined", "idempotencyProtocolDefined", "recoveryAndDurabilityProtocolDefined", "currentCapabilityCreated", "productionRegistryEmpty", "producerV7UnconditionallyBlocked", "networkAuthorized", "downstreamAuthorized"], "properties": {
+      "hashBindingsExact": {"type": "boolean"}, "topLevelSchemasClosed": {"type": "boolean"}, "providerNeutral": {"type": "boolean"},
+      "designOnlyScopeEnforced": {"type": "boolean"}, "gateSeparationComplete": {"type": "boolean"}, "requiredCapabilityNamesComplete": {"type": "boolean"},
+      "requiredCapabilitiesOperationallySpecified": {"type": "boolean"}, "provisioningEvidenceRosterComplete": {"type": "boolean"}, "provisioningEvidenceRosterNonOmissible": {"type": "boolean"},
+      "apiStateMachineDefined": {"type": "boolean"}, "authenticatedCasProtocolDefined": {"type": "boolean"}, "idempotencyProtocolDefined": {"type": "boolean"},
+      "recoveryAndDurabilityProtocolDefined": {"type": "boolean"}, "currentCapabilityCreated": {"type": "boolean"}, "productionRegistryEmpty": {"type": "boolean"},
+      "producerV7UnconditionallyBlocked": {"type": "boolean"}, "networkAuthorized": {"type": "boolean"}, "downstreamAuthorized": {"type": "boolean"}
+    }},
+    "decision": {"const": "needs_changes"},
+    "blockingFindings": {"type": "array", "minItems": 2, "items": {"$ref": "#/$defs/finding"}},
+    "observations": {"type": "array", "items": {"$ref": "#/$defs/finding"}},
+    "positiveControls": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 10}},
+    "nextAllowedAction": {"type": "string", "minLength": 20}
+  },
+  "$defs": {
+    "sha": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "finding": {"type": "object", "additionalProperties": false, "required": ["severity", "code", "evidence"], "properties": {"severity": {"enum": ["low", "medium", "high", "critical"]}, "code": {"type": "string", "minLength": 3}, "evidence": {"type": "string", "minLength": 20}, "remediation": {"type": "string", "minLength": 20}}}
+  }
+}

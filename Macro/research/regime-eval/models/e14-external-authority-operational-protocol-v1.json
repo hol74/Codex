@@ -1,0 +1,110 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "E14ExternalAuthorityOperationalProtocol",
+  "phaseId": "E14.8b",
+  "protocol": {
+    "stateModel": {
+      "versionDomain": "unsigned-64-bit-monotonic-per-authority-deployment-stream",
+      "initialState": "ABSENT",
+      "absentInvariant": "version=0 and no pending or committed transaction exists",
+      "pendingInvariant": "version=expectedVersion+1, transactionId and payloadDigest are immutable, committed=false",
+      "committedInvariant": "version is immutable, committed=true, receipt chains previousReceiptHash and payloadDigest",
+      "allowedTransitions": "ABSENT->PENDING, COMMITTED(n)->PENDING(n+1), PENDING(n)->COMMITTED(n); no decrement, overwrite or branch"
+    },
+    "operations": {
+      "read": {
+        "authorizedRole": "reader-or-writer",
+        "request": "authorityId,deploymentId,streamId,nonce",
+        "response": "state,version,transactionId,payloadDigest,committed,receipt,authoritySequence",
+        "invariant": "response is authenticated and receipt chain verifies to the deployment-pinned authority identity"
+      },
+      "compareAndSwapPending": {
+        "authorizedRole": "writer",
+        "request": "authorityId,deploymentId,streamId,expectedVersion,transactionId,idempotencyKey,payloadDigest,nonce",
+        "precondition": "currentVersion equals expectedVersion and no different transaction occupies expectedVersion+1",
+        "success": "durably create exactly one PENDING record at expectedVersion+1 and return authenticated receipt",
+        "conflict": "VERSION_CONFLICT with current authenticated state; no mutation",
+        "replay": "same idempotencyKey and request digest returns byte-identical logical result"
+      },
+      "commit": {
+        "authorizedRole": "writer",
+        "request": "authorityId,deploymentId,streamId,version,transactionId,idempotencyKey,payloadDigest,localPublicationReceipt,nonce",
+        "precondition": "matching PENDING exists and localPublicationReceipt proves durable final-target identity",
+        "success": "atomically transition matching PENDING to COMMITTED and return chained authenticated receipt",
+        "conflict": "TRANSACTION_MISMATCH or VERSION_CONFLICT; no mutation",
+        "replay": "same idempotencyKey and request digest returns byte-identical logical result"
+      },
+      "recover": {
+        "authorizedRole": "writer",
+        "request": "authorityId,deploymentId,streamId,version,transactionId,idempotencyKey,observedTargetIdentity,nonce",
+        "rule": "commit only when pending identity and durable final target match; otherwise retain pending and block new publication",
+        "postRenameRule": "a matching durable final target completes the pending transaction without republishing bytes",
+        "missingTargetRule": "retain consumed version and require operator-reviewed abort policy; never decrement or reuse version"
+      }
+    },
+    "identityAndAuthorization": {
+      "serverIdentity": "deployment-pinned certificate-or-public-key fingerprint outside copyable workspace",
+      "clientIdentity": "deployment-bound workload identity with non-exportable credential",
+      "roles": "reader,writer,auditor with writer denied administrative rollback/delete",
+      "credentialStorage": "external secret or workload-identity control plane, never repository or caller payload",
+      "rotation": "dual-pin overlap with independently reviewed deployment change and receipt-chain continuity"
+    },
+    "idempotency": {
+      "keyScope": "authorityId,deploymentId,streamId,operation",
+      "sameKeySameDigest": "return original authenticated result without new state transition",
+      "sameKeyDifferentDigest": "IDEMPOTENCY_MISMATCH terminal error with no mutation",
+      "retention": "at least authority state retention period and never shorter than pending recovery window"
+    },
+    "errorAndRetryModel": {
+      "VERSION_CONFLICT": "read authenticated current state, then stop for caller reconciliation",
+      "TRANSACTION_MISMATCH": "terminal-no-publish",
+      "IDEMPOTENCY_MISMATCH": "terminal-no-publish",
+      "AUTHENTICATION_FAILED": "terminal-no-publish",
+      "AUTHORIZATION_FAILED": "terminal-no-publish",
+      "ROLLBACK_DETECTED": "terminal-no-publish-and-alert",
+      "CORRUPT_RECEIPT": "terminal-no-publish-and-alert",
+      "DURABILITY_UNCONFIRMED": "terminal-no-publish",
+      "UNAVAILABLE": "bounded exponential backoff with same idempotency key; exhaustion leaves publication blocked"
+    },
+    "recoveryAndRollback": {
+      "pendingBeforeLocalWrite": "authority PENDING receipt must be durable before staging publication",
+      "commitAfterLocalDurability": "COMMITTED request only after final target and parent directory durability are verified",
+      "postRenameCrash": "recovery recognizes matching final-target identity and commits without rewriting",
+      "coordinatedRollback": "authority sequence and receipt chain cannot be reset by workspace, deployment writer or target administrator",
+      "deletion": "state deletion is denied to runtime roles and any administrative deletion emits independent audit evidence",
+      "receiptChain": "each receipt includes previousReceiptHash, version, transactionId, payloadDigest and authoritySequence"
+    },
+    "localSafetyVerification": {
+      "crossVolume": "target volume identity is verified before authority CAS; unsupported cross-volume publication fails before state consumption",
+      "directoryDurability": "staging and target parent directories are fsynced or platform-equivalent durability is positively acknowledged",
+      "descriptorReads": "state, receipts and target identity use descriptor-based no-follow reads with identity revalidation",
+      "lockIdentity": "lock owner binds pid, process-start identity and boot identity; PID alone is insufficient",
+      "readAfterWrite": "every authority transition is read back and authenticated before the next local action"
+    },
+    "mandatoryConformanceTests": {
+      "casRaceSingleWinner": true,
+      "sameKeySameDigestIdempotent": true,
+      "sameKeyDifferentDigestRejected": true,
+      "staleVersionRejected": true,
+      "unauthenticatedAndUnauthorizedRejected": true,
+      "coordinatedWorkspaceRollbackRejected": true,
+      "pendingCrashRecovery": true,
+      "postRenameCrashRecovery": true,
+      "crossVolumeFailsBeforeCas": true,
+      "directoryDurabilityFailureBlocksCommit": true,
+      "symlinkSwapRejected": true,
+      "pidReuseDoesNotStealLock": true,
+      "receiptChainTamperRejected": true,
+      "networkTimeoutRetryReusesIdempotencyKey": true
+    }
+  },
+  "authorization": {
+    "providerSelectionAuthorized": false,
+    "externalProvisioningAuthorized": false,
+    "providerNetworkAuthorized": false,
+    "credentialCreationAuthorized": false,
+    "adapterImplementationAuthorized": false,
+    "productionPublicationAuthorized": false,
+    "downstreamAuthorized": false
+  }
+}

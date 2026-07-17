@@ -1,0 +1,67 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://macro-regime.local/schemas/e14-fdic-archive-evidence-independent-review-v1.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion", "artifactType", "reviewId", "reviewerId",
+    "reviewedAtUtc", "independenceDeclared", "contractSha256",
+    "blockedReviewSha256", "collectionPlanSha256", "mapSchemaV2Sha256",
+    "mapAuditSchemaV2Sha256", "preregistrationAuditSchemaSha256",
+    "preregistrationAuditSha256", "implementationSha256",
+    "reviewSchemaSha256", "assessments", "decision", "blockingFindings",
+    "rationale", "nextAllowedAction"
+  ],
+  "properties": {
+    "schemaVersion": {"const": 1},
+    "artifactType": {"const": "E14FdicArchiveEvidenceIndependentReview"},
+    "reviewId": {"const": "e14-fdic-archive-evidence-independent-review-v1"},
+    "reviewerId": {"type": "string", "minLength": 3},
+    "reviewedAtUtc": {"type": "string", "minLength": 20},
+    "independenceDeclared": {"const": true},
+    "contractSha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "blockedReviewSha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "collectionPlanSha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "mapSchemaV2Sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "mapAuditSchemaV2Sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "preregistrationAuditSchemaSha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "preregistrationAuditSha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "implementationSha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "reviewSchemaSha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "assessments": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "hashBindingsExact", "priorFindingsAddressed",
+        "twoOutcomeRepresentationComplete", "resolvedEvidenceHashBound",
+        "confirmedAbsenceEvidenceHashBound", "providerEvidenceUrlBound",
+        "complete79PartitionEnforceable", "crossOutcomeUniquenessEnforceable",
+        "auditSchemaClosed", "partialPublicationForbidden",
+        "zeroNetworkConfirmed", "discoveryCatalogDesignAuthorized",
+        "executionGateAuthorized", "catalogV3StillBlocked",
+        "failClosedGuardsSupported"
+      ],
+      "properties": {
+        "hashBindingsExact": {"type": "boolean"},
+        "priorFindingsAddressed": {"type": "boolean"},
+        "twoOutcomeRepresentationComplete": {"type": "boolean"},
+        "resolvedEvidenceHashBound": {"type": "boolean"},
+        "confirmedAbsenceEvidenceHashBound": {"type": "boolean"},
+        "providerEvidenceUrlBound": {"type": "boolean"},
+        "complete79PartitionEnforceable": {"type": "boolean"},
+        "crossOutcomeUniquenessEnforceable": {"type": "boolean"},
+        "auditSchemaClosed": {"type": "boolean"},
+        "partialPublicationForbidden": {"type": "boolean"},
+        "zeroNetworkConfirmed": {"type": "boolean"},
+        "discoveryCatalogDesignAuthorized": {"type": "boolean"},
+        "executionGateAuthorized": {"type": "boolean"},
+        "catalogV3StillBlocked": {"type": "boolean"},
+        "failClosedGuardsSupported": {"type": "boolean"}
+      }
+    },
+    "decision": {"enum": ["accept", "needs_changes", "reject"]},
+    "blockingFindings": {"type": "array", "items": {"type": "string", "minLength": 3}},
+    "rationale": {"type": "string", "minLength": 20},
+    "nextAllowedAction": {"type": "string", "minLength": 20}
+  }
+}

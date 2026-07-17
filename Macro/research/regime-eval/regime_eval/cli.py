@@ -72,6 +72,14 @@ from .e14_fdic_publication_metadata_collection_preflight import (
 from .e14_fdic_publication_metadata_request_catalog import (
     write_e14_fdic_publication_metadata_request_catalog,
 )
+from .e14_fdic_archive_quarter_map import write_e14_fdic_archive_quarter_map
+from .e14_fdic_archive_evidence_preregistration import (
+    write_e14_fdic_archive_evidence_preregistration,
+)
+from .e14_fdic_archive_evidence_remediation import (
+    write_e14_fdic_archive_evidence_remediation,
+)
+from .e14_fdic_archive_atomic_producer import write_e14_fdic_archive_atomic_producer_audit
 from .e14_post2005_source_acquisition_execution import write_e14_post2005_atomic_source_snapshot
 from .e14_post2005_vintage_fitness import write_e14_post2005_vintage_fitness_audit
 from .e14_post2005_vintage_remediation import write_e14_post2005_vintage_remediation_audit
@@ -132,6 +140,42 @@ def main(argv: list[str] | None = None) -> int:
     parser = _parser()
     args = parser.parse_args(argv)
     try:
+        if args.command == "e14-implement-fdic-archive-atomic-producer":
+            output = write_e14_fdic_archive_atomic_producer_audit(
+                args.contract, args.blocked_review, args.producer_plan,
+                args.source_catalog, args.source_catalog_schema,
+                args.evidence_manifest_schema, args.map_schema_v3,
+                args.map_audit_schema_v3, args.producer_audit_schema,
+                args.repository_root, args.output,
+            )
+            print(output)
+            return 0
+        if args.command == "e14-remediate-fdic-archive-evidence-model":
+            output = write_e14_fdic_archive_evidence_remediation(
+                args.contract, args.blocked_review, args.remediation_plan,
+                args.evidence_manifest_schema, args.map_schema_v3,
+                args.map_audit_schema_v3, args.remediation_audit_schema,
+                args.repository_root, args.output,
+            )
+            print(output)
+            return 0
+        if args.command == "e14-preregister-fdic-archive-evidence-collection":
+            output = write_e14_fdic_archive_evidence_preregistration(
+                args.contract, args.blocked_review, args.map_v1,
+                args.map_audit_v1, args.collection_plan, args.map_schema_v2,
+                args.map_audit_schema_v2, args.preregistration_audit_schema,
+                args.repository_root, args.output,
+            )
+            print(output)
+            return 0
+        if args.command == "e14-materialize-fdic-archive-quarter-map":
+            outputs = write_e14_fdic_archive_quarter_map(
+                args.contract, args.request_catalog, args.blocked_review,
+                args.map_plan, args.map_schema, args.audit_schema,
+                args.repository_root, args.map_output, args.audit_output,
+            )
+            print("\n".join(str(output) for output in outputs))
+            return 0
         if args.command == "e14-preregister-fdic-publication-metadata-request-catalog":
             outputs = write_e14_fdic_publication_metadata_request_catalog(
                 args.contract, args.collection_preflight_audit,
@@ -1754,6 +1798,30 @@ def _parser() -> argparse.ArgumentParser:
     )
     for argument in ("contract", "collection-preflight-audit", "metadata-preregistration-audit", "past-qbp-index-html", "request-catalog-plan", "request-catalog-schema", "audit-schema", "repository-root", "request-catalog-output", "audit-output"):
         e14_fdic_metadata_request_catalog.add_argument("--" + argument, required=True)
+    e14_fdic_archive_quarter_map = subparsers.add_parser(
+        "e14-materialize-fdic-archive-quarter-map",
+        help="materialize the offline E14.7ae 79-entry quarter-to-archive map without runtime discovery",
+    )
+    for argument in ("contract", "request-catalog", "blocked-review", "map-plan", "map-schema", "audit-schema", "repository-root", "map-output", "audit-output"):
+        e14_fdic_archive_quarter_map.add_argument("--" + argument, required=True)
+    e14_fdic_archive_evidence = subparsers.add_parser(
+        "e14-preregister-fdic-archive-evidence-collection",
+        help="preregister the offline E14.7ag provider-primary archive evidence protocol and closed v2 schemas",
+    )
+    for argument in ("contract", "blocked-review", "map-v1", "map-audit-v1", "collection-plan", "map-schema-v2", "map-audit-schema-v2", "preregistration-audit-schema", "repository-root", "output"):
+        e14_fdic_archive_evidence.add_argument("--" + argument, required=True)
+    e14_fdic_archive_evidence_remediation = subparsers.add_parser(
+        "e14-remediate-fdic-archive-evidence-model",
+        help="version E14.7ai URL-bound evidence schemas and semantic fail-closed validator without network",
+    )
+    for argument in ("contract", "blocked-review", "remediation-plan", "evidence-manifest-schema", "map-schema-v3", "map-audit-schema-v3", "remediation-audit-schema", "repository-root", "output"):
+        e14_fdic_archive_evidence_remediation.add_argument("--" + argument, required=True)
+    e14_fdic_archive_atomic_producer = subparsers.add_parser(
+        "e14-implement-fdic-archive-atomic-producer",
+        help="implement E14.7ak integrated raw validation and atomic bundle publication without network",
+    )
+    for argument in ("contract", "blocked-review", "producer-plan", "source-catalog", "source-catalog-schema", "evidence-manifest-schema", "map-schema-v3", "map-audit-schema-v3", "producer-audit-schema", "repository-root", "output"):
+        e14_fdic_archive_atomic_producer.add_argument("--" + argument, required=True)
     e14_taxonomy_v4 = subparsers.add_parser(
         "e14-materialize-taxonomy-v4",
         help="version the accepted E14 foundation proposal into an immutable mechanism-aware taxonomy v4",

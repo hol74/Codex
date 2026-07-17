@@ -1,0 +1,58 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://macro-regime.local/schemas/e14-fdic-archive-quarter-map-v1.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "artifactType", "mapId", "status", "sourceCatalog", "entries", "authorizationPolicy"],
+  "properties": {
+    "schemaVersion": {"const": 1},
+    "artifactType": {"const": "E14FdicArchiveQuarterMap"},
+    "mapId": {"const": "e14-fdic-archive-quarter-map-v1"},
+    "status": {"const": "FDIC_ARCHIVE_QUARTER_MAP_MATERIALIZED_INDEPENDENT_REVIEW_REQUIRED"},
+    "sourceCatalog": {"$ref": "#/$defs/artifact"},
+    "entries": {
+      "type": "array",
+      "minItems": 79,
+      "maxItems": 79,
+      "items": {"$ref": "#/$defs/entry"}
+    },
+    "authorizationPolicy": {"$ref": "#/$defs/authorization"}
+  },
+  "$defs": {
+    "artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["fileName", "sha256", "sizeBytes"],
+      "properties": {
+        "fileName": {"type": "string", "minLength": 3},
+        "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "sizeBytes": {"type": "integer", "minimum": 1}
+      }
+    },
+    "entry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["quarterId", "providerPrimaryUrl", "resolutionState", "unresolvedReason", "runtimeDiscoveryAuthorized"],
+      "properties": {
+        "quarterId": {"type": "string", "pattern": "^20[0-9]{2}Q[1-4]$"},
+        "providerPrimaryUrl": {"type": "string", "pattern": "^https://www\\.fdic\\.gov/.*$"},
+        "resolutionState": {"const": "unresolved-no-hash-bound-local-evidence"},
+        "unresolvedReason": {"const": "archive-record-not-established-by-hash-bound-local-evidence"},
+        "runtimeDiscoveryAuthorized": {"const": false}
+      }
+    },
+    "authorization": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["networkRequestsAuthorized", "archiveTraversalAuthorized", "independentReviewRequired", "replacementExecutionGateAuthorized", "requestCatalogV3MaterializationAuthorized", "sourceAcquisitionAuthorized"],
+      "properties": {
+        "networkRequestsAuthorized": {"const": false},
+        "archiveTraversalAuthorized": {"const": false},
+        "independentReviewRequired": {"const": true},
+        "replacementExecutionGateAuthorized": {"const": false},
+        "requestCatalogV3MaterializationAuthorized": {"const": false},
+        "sourceAcquisitionAuthorized": {"const": false}
+      }
+    }
+  }
+}

@@ -989,6 +989,113 @@ Checkpoint in corso: `docs/checkpoints/0034-fase-e-slice6-feature-baseline-redes
   runtime. Il gate sostitutivo resta chiuso; e' ammessa solo una remediation
   hash-bound della mappa quarter-to-archive. Regressione complessiva a 286/286
   test Python.
+- Fase E14.7ae - materializzata offline la mappa quarter-to-archive 79/79. Il
+  corpus locale non contiene associazioni archivio hash-bound, quindi tutte le
+  entry sono esplicitamente irrisolte e la discovery a runtime e' vietata.
+  Zero rete e zero record ID inventati; e' autorizzata soltanto la review
+  indipendente E14.7af. Regressione complessiva a 291/291 test Python.
+- Fase E14.7af - review indipendente conclusa con `needs_changes`: confermati
+  hash, roster, URL, zero rete e rimozione della discovery discrezionale, ma
+  l'assenza di evidenza locale non dimostra inesistenza dei record FDIC. La
+  mappa e' 0/79 risolta; schema mappa e audit richiedono una nuova versione.
+  Il gate sostitutivo resta chiuso. Regressione complessiva a 294/294 test
+  Python.
+- Fase E14.7ag - preregistrato offline il protocollo provider-primary con due
+  soli esiti: record archivio esatto con evidenza hash-bound oppure inesistenza
+  dimostrata dal provider. Versionati map schema v2 e audit schema v2 chiuso;
+  zero rete, request catalog e map v2. E' autorizzata soltanto la review
+  indipendente E14.7ah. Regressione complessiva a 299/299 test Python.
+- Fase E14.7ah - review indipendente conclusa con `needs_changes`: evidenza non
+  legata a URL/request provenance, partizione 79/79 non enforceable tra i due
+  esiti, conteggi audit non legati a mappa/manifest e atomicita' solo
+  dichiarativa. Discovery catalog ed execution gate restano chiusi. Regressione
+  complessiva a 302/302 test Python.
+- Fase E14.7ai - versionati evidence manifest URL/request-bound, map schema v3
+  a roster singolo, audit schema v3 e validator semantico fail-closed. Il
+  validator impone roster 79/79, unicita', outcome/hash provenance e coerenza
+  dei conteggi audit. Zero rete e nessun catalogo o map v3; e' autorizzata solo
+  la review indipendente E14.7aj. Regressione complessiva a 310/310 test Python.
+- Fase E14.7aj - review indipendente conclusa con `needs_changes`: il validator
+  accetta file raw inesistenti, request ID duplicati, source catalog inesistente
+  e payload schema-invalid; manca inoltre un producer atomico e la copertura
+  negativa dei bypass. Discovery catalog ed execution restano chiusi.
+  Regressione complessiva a 313/313 test Python.
+- Fase E14.7ak - implementati validator integrato e producer atomico fail-closed:
+  verifica dei raw bytes, request ID univoci, redirect continui, binding degli
+  URL al source catalog e pubblicazione con staging sibling/rename. La matrice
+  negativa include confirmed-absent, tampering e rollback senza output parziali.
+  Zero rete e zero bundle reali; e' autorizzata soltanto la review indipendente
+  E14.7al. Regressione complessiva a 321/321 test Python.
+- Fase E14.7al - review indipendente conclusa con `needs_changes`: atomicita'
+  locale confermata, ma riprodotti bypass tra source catalog object/raw bytes,
+  evidence marker-only e riuso cross-quarter, hash audit non legati ai bytes
+  reviewati, raw esterni al bundle e test matrix non execution-derived. Rete,
+  discovery ed execution gate restano chiusi; e' ammessa soltanto una nuova
+  remediation seguita da review indipendente.
+- Fase E14.7am - implementato producer v2 separato: parsing dei bytes
+  autenticati, raw/record ID univoci e quarter-bound, absence proof rafforzata,
+  gate obbligatorio validato, hash degli esatti bytes reviewati e inclusione dei
+  79 raw nel bundle pubblicato con un solo rename. Zero rete e bundle reali;
+  e' autorizzata soltanto la review indipendente E14.7an.
+- Fase E14.7an - review indipendente conclusa con `needs_changes`: producer v2
+  non verifica gli input contro il contratto, accetta schemi gate/catalogo
+  caller-controlled e provenance sintetica senza response receipt; mancano
+  inoltre revalidation post-write, redirect evidence, confinement ripetuto e
+  receipt test hash-bound. Discovery, rete ed execution gate restano chiusi.
+- Fase E14.7ao - implementato producer v3 con contract hash trust anchor,
+  verifica contrattuale di tutti gli input, response envelope Ed25519 firmati,
+  binding request/quarter/URL/redirect/body, confinement ripetuto, revalidation
+  post-write e receipt test execution-derived. Zero rete e bundle reali; e'
+  autorizzata soltanto la review indipendente E14.7ap.
+- Fase E14.7ap - review indipendente conclusa con `needs_changes`: crittografia
+  e binding interni confermati, ma il caller controlla contract e trusted hash;
+  restano replay cross-run, revalidation incompleta dei JSON staging, receipt
+  test non autenticato e finestra check/use. Downstream e rete restano chiusi.
+- Fase E14.7aq - implementato producer v4 con registry contract separato,
+  envelope anti-replay, collector receipt firmato e attestation mode esplicito,
+  descriptor/no-follow reads, revalidation completa dello staging e receipt
+  test firmato con transcript. Zero rete e production contract; e' autorizzata
+  soltanto la review indipendente E14.7ar.
+- Fase E14.7ar - review indipendente conclusa con `needs_changes`: le garanzie
+  strutturali v4 sono confermate, ma la chiave del test receipt e' self-trusted,
+  la receipt chain e il consumo nonce non sono applicati, la network
+  attestation non e' prova indipendente e le hash-map audit sono permissive.
+  Discovery, rete, source acquisition ed execution gate restano chiusi.
+- Fase E14.7as - implementato producer v5 con signer test esternamente pinned,
+  ledger append-only e consumo nonce prima del rename, receipt/bundle schema a
+  roster hash chiuso, rifiuto totale della modalita' network e qualifica
+  descriptor-identity Windows. Zero rete e production contract; e' autorizzata
+  soltanto la review indipendente E14.7at.
+- Fase E14.7at - review indipendente conclusa con `needs_changes`: cross-parent
+  replay riprodotto perche' il ledger deriva dal target, rollback/cancellazione
+  del ledger non sono ancorati esternamente, crash recovery e stale-lock
+  recovery sono incomplete. Trust runner, blocco rete e schemi sono confermati;
+  discovery, rete ed execution gate restano chiusi.
+- Fase E14.7au - implementato state layer producer v6 con root code-pinned,
+  anchor monotono separato, detection di deletion/rollback, recovery
+  pending/committed e stale-lock owner-aware. Zero rete e production contract;
+  e' autorizzata soltanto la review indipendente E14.7av.
+- Fase E14.7av - review indipendente conclusa con `needs_changes`: root
+  copiabile, rollback coordinato ledger-anchor, crash post-rename, target
+  cross-volume, marker unsigned/symlink, directory durability e PID reuse
+  restano aperti. Rete e downstream restano chiusi.
+- Fase E14.7aw - introdotto boundary v7 fail-closed per authority monotona
+  esterna; registry production vuoto, self-pin e fallback locale respinti,
+  zero provisioning, target e rete. E' autorizzata soltanto E14.7ax review.
+- Fase E14.7ax - review indipendente `accept`: E14.7 chiusa come `safely
+  blocked`. Nessuna capacita' di pubblicazione, provisioning, rete o downstream;
+  un authority adapter futuro richiede autorizzazione e review separate.
+- Fase E14.8 - preregistrato il provisioning dell'authority esterna in modalita'
+  design-only e provider-neutral: 18 capacita' e 10 evidenze obbligatorie,
+  zero rete, risorse, credenziali o runtime mutation. Aperta soltanto E14.8a.
+- Fasi E14.8a-E14.8c - la prima review ha richiesto roster non omissibile e
+  protocollo operativo; E14.8b ha congelato state machine, CAS, recovery e 14
+  test futuri, quindi E14.8c ha accettato e chiuso E14.8 safely blocked.
+- Consolidamento E14.7-E14.8 - inventariati e verificati checkpoint 0122-0145,
+  contratti, modelli ed evidenze; 240 test C# e 413 test Python verdi. Gli hash
+  aggregati fissano il payload versionabile e le 32 evidenze locali, mentre
+  provider, rete, pubblicazione e downstream restano chiusi. Dettaglio nel
+  checkpoint `docs/checkpoints/0146-consolidamento-e14-7-e14-8.md`.
 
 ## Deviazione documentata dal piano originario
 

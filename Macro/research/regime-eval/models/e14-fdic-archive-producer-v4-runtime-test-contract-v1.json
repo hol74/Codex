@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "contractId": "e14-fdic-archive-producer-v4-runtime-test-contract-v1",
+  "executionMode": "synthetic-test",
+  "acquisitionRunId": "e14-v4-synthetic-run-001",
+  "runNonce": "e14-v4-test-nonce-0000000001",
+  "collectorReceiptId": "e14-v4-synthetic-collector-receipt-001",
+  "inputHashes": {
+    "sourceCatalog": "9498ed5bc1fa399aeb54aa1409aad5384416d1b1dd71bbaa8e608407def280f1",
+    "sourceCatalogSchema": "9b7ef0f04b7614f6049a07a7bfc3bc8b475a5e35f1ba4504856e38dac0b544d5",
+    "evidenceManifestSchema": "96d5d842dd96f51695d88dc435c8743dbb46579fb052ccb6550231bcf26d6637",
+    "mapSchema": "2338c64d6b014d8966e297d4d2da5f3a8eb05b069ad5dca008295c0035acbb18",
+    "bundleAuditSchema": "d8fb1cd92034be51c95757f98a217e4383503a1e3fbe83fe58f4b9abd89db52b",
+    "executionGate": "ff6f2004361f4986989400d172857f202089b52caef19d6f3960b5f9fdf1c22d",
+    "executionGateSchema": "a4ec76e3986e06cc0d4491ac25d796e4b7b23b18cb380044bdde6f012439d9f5",
+    "envelopeSchema": "957424c8c87af90015ee8da91e866491b48bc3a4ee7be289d622b28effff825a",
+    "collectorReceiptSchema": "b906303289cb613592f4708a4b6ec94c0a0c85e2bcbb5844bc911e446f57df2e",
+    "collectorPublicKey": "c68e5f059d86d2dc59ae7a0bab2d5cafc7875a808e879ced267546f885e87d60"
+  },
+  "authorizationPolicy": {
+    "syntheticTestPublicationAuthorized": true,
+    "providerNetworkCaptureAuthorized": false,
+    "discoveryCatalogAuthorized": false,
+    "executionGateAuthorized": false,
+    "sourceAcquisitionAuthorized": false
+  }
+}

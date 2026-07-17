@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://macro-regime.local/schemas/e14-fdic-archive-atomic-producer-v2-independent-review-v1.json",
+  "type": "object", "additionalProperties": false,
+  "required": ["schemaVersion", "artifactType", "reviewId", "reviewerId", "reviewedAtUtc", "independenceDeclared", "hashes", "assessments", "probeResults", "decision", "blockingFindings", "rationale", "nextAllowedAction"],
+  "properties": {
+    "schemaVersion": {"const": 1},
+    "artifactType": {"const": "E14FdicArchiveAtomicProducerV2IndependentReview"},
+    "reviewId": {"const": "e14-fdic-archive-atomic-producer-v2-independent-review-v1"},
+    "reviewerId": {"type": "string", "minLength": 3},
+    "reviewedAtUtc": {"type": "string", "minLength": 20},
+    "independenceDeclared": {"const": true},
+    "hashes": {"type": "object", "additionalProperties": false, "required": ["contract", "plan", "auditSchema", "audit", "implementation", "producerTests", "auditTests", "reviewSchema"], "properties": {"contract": {"$ref": "#/$defs/sha"}, "plan": {"$ref": "#/$defs/sha"}, "auditSchema": {"$ref": "#/$defs/sha"}, "audit": {"$ref": "#/$defs/sha"}, "implementation": {"$ref": "#/$defs/sha"}, "producerTests": {"$ref": "#/$defs/sha"}, "auditTests": {"$ref": "#/$defs/sha"}, "reviewSchema": {"$ref": "#/$defs/sha"}}},
+    "assessments": {"type": "object", "additionalProperties": false, "required": ["hashesExact", "catalogParsedFromSameBytes", "contractTrustAnchorEnforced", "providerProvenanceNonFabricable", "schemaAndGateBytesCompletelyAudited", "publishedRawRevalidated", "redirectResponseEvidenceBound", "pathConfinementRechecked", "atomicPublicationFailClosed", "testExecutionReceiptBound", "zeroNetworkConfirmed", "discoveryCatalogAuthorized", "executionGateAuthorized", "failClosedGuardsSupported"], "properties": {"hashesExact": {"type": "boolean"}, "catalogParsedFromSameBytes": {"type": "boolean"}, "contractTrustAnchorEnforced": {"type": "boolean"}, "providerProvenanceNonFabricable": {"type": "boolean"}, "schemaAndGateBytesCompletelyAudited": {"type": "boolean"}, "publishedRawRevalidated": {"type": "boolean"}, "redirectResponseEvidenceBound": {"type": "boolean"}, "pathConfinementRechecked": {"type": "boolean"}, "atomicPublicationFailClosed": {"type": "boolean"}, "testExecutionReceiptBound": {"type": "boolean"}, "zeroNetworkConfirmed": {"type": "boolean"}, "discoveryCatalogAuthorized": {"type": "boolean"}, "executionGateAuthorized": {"type": "boolean"}, "failClosedGuardsSupported": {"type": "boolean"}}},
+    "probeResults": {"type": "array", "minItems": 1, "items": {"type": "object", "additionalProperties": false, "required": ["probeId", "passed", "observed"], "properties": {"probeId": {"type": "string", "minLength": 3}, "passed": {"type": "boolean"}, "observed": {"type": "string", "minLength": 3}}}},
+    "decision": {"enum": ["accept", "needs_changes", "reject"]},
+    "blockingFindings": {"type": "array", "items": {"type": "string", "minLength": 3}},
+    "rationale": {"type": "string", "minLength": 20},
+    "nextAllowedAction": {"type": "string", "minLength": 20}
+  },
+  "$defs": {"sha": {"type": "string", "pattern": "^[0-9a-f]{64}$"}}
+}
